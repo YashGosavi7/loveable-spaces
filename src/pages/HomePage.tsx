@@ -35,7 +35,14 @@ const HomePage = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="font-playfair text-3xl md:text-4xl mb-6">Crafting Iconic Spaces Since 2012</h2>
+              <div className="flex items-center mb-6">
+                <h2 className="font-playfair text-3xl md:text-4xl">Crafting Iconic Spaces Since 2012</h2>
+                <img 
+                  src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
+                  alt="Balaji Design Studio Logo" 
+                  className="h-16 ml-4 hidden md:block"
+                />
+              </div>
               <p className="mb-6 text-lg">
                 At Balaji Design Studio, every space tells a story. Since 2012, we have been transforming over 600 homes, offices, and restaurants across Pune, Mumbai, Hyderabad, Bangalore, and beyond.
               </p>

@@ -16,7 +16,7 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   return (
     <section 
-      className="relative min-h-[80vh] flex items-center justify-center"
+      className="relative min-h-[85vh] flex items-center justify-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',

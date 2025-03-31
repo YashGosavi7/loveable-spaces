@@ -26,9 +26,9 @@ const Header = ({ isScrolled }: HeaderProps) => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center">
           <img 
-            src="/lovable-uploads/6dde63fb-0517-4909-8d4c-6edd870560e2.png" 
+            src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-12"
+            className="h-16 md:h-20" // Increased logo size
           />
         </Link>
         
