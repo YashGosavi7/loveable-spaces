@@ -8,9 +8,9 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-playfair text-xl mb-4">Loveable</h3>
+            <h3 className="font-playfair text-xl mb-4">Balaji Design Studio</h3>
             <p className="text-sm opacity-80 leading-relaxed">
-              Founded in 2012, Loveable has completed over 600 projects across all Tier 1 cities in India, blending cultural heritage with modern elegance.
+              Founded in 2012, Balaji Design Studio has completed over 600 projects across Pune, Mumbai, Latur, Solapur, Satara, Solpaur, Belgaum, Hyderabad, and Bangalore, blending cultural heritage with modern elegance.
             </p>
           </div>
           
@@ -34,7 +34,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail size={16} className="mr-2" />
-                <span>hello@loveable.com</span>
+                <span>hello@balajidesignstudio.com</span>
               </li>
               <li className="flex items-start">
                 <MapPin size={16} className="mr-2 mt-1" />
@@ -61,7 +61,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-8 border-t border-white/20 text-center">
           <p className="text-sm opacity-60">
-            &copy; {new Date().getFullYear()} Loveable. All rights reserved.
+            &copy; {new Date().getFullYear()} Balaji Design Studio. All rights reserved.
           </p>
         </div>
       </div>

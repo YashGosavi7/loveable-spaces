@@ -24,8 +24,12 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="font-playfair text-2xl font-bold text-darkGray">
-          Loveable
+        <Link to="/" className="flex items-center">
+          <img 
+            src="/lovable-uploads/6dde63fb-0517-4909-8d4c-6edd870560e2.png" 
+            alt="Balaji Design Studio Logo" 
+            className="h-12"
+          />
         </Link>
         
         {/* Desktop Navigation */}

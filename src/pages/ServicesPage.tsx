@@ -42,7 +42,7 @@ const ServicesPage = () => {
         <div className="container mx-auto">
           <SectionTitle 
             title="What We Offer" 
-            subtitle="Loveable provides a range of interior design services for both residential and commercial spaces" 
+            subtitle="Balaji Design Studio provides a range of interior design services for both residential and commercial spaces" 
             center 
           />
           
@@ -180,10 +180,10 @@ const ServicesPage = () => {
         <div className="container mx-auto text-center max-w-2xl">
           <h2 className="font-playfair text-3xl md:text-4xl mb-6">Ready to Begin Your Design Journey?</h2>
           <p className="text-lg mb-8">
-            Contact us today to schedule a consultation and discover how Loveable can transform your space.
+            Contact us today to schedule a consultation and discover how Balaji Design Studio can transform your space.
           </p>
           <Link to="/contact" className="btn-primary">
-            Schedule a Consultation
+            Let's Talk
           </Link>
         </div>
       </section>

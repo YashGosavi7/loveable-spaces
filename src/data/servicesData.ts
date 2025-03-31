@@ -10,19 +10,19 @@ const servicesData: Service[] = [
   {
     id: "residential",
     title: "Residential Design",
-    description: "Creating cozy, elegant homes that reflect your personality and lifestyle needs while emphasizing comfort, functionality, and timeless aesthetics.",
+    description: "Timeless homes, built around you. Personalized, elegant, and functional living spaces that reflect your unique lifestyle.",
     icon: "home"
   },
   {
     id: "commercial",
     title: "Commercial Interiors",
-    description: "Designing office spaces and workplaces that inspire productivity and creativity while ensuring efficient workflows and employee well-being.",
+    description: "Offices that redefine work. Smart, modern, and designed for success, enhancing productivity and employee well-being.",
     icon: "building"
   },
   {
     id: "restaurant",
     title: "Restaurant Design",
-    description: "Blending aesthetics with functionality for an unforgettable dining experience that enhances your culinary concept and delights guests.",
+    description: "Ambience meets appetite. Designs that make every meal an experience, enhancing your culinary concept and delighting guests.",
     icon: "utensils"
   },
   {

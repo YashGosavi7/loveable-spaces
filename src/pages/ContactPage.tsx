@@ -47,7 +47,7 @@ const ContactPage = () => {
         <div className="container mx-auto text-center">
           <h1 className="font-playfair text-4xl md:text-5xl mb-6">Contact Us</h1>
           <p className="text-lg max-w-2xl mx-auto">
-            We can't wait to bring your vision to life—let's chat about your project!
+            Your dream space is just a conversation away. Let's create something incredible together!
           </p>
         </div>
       </section>
@@ -77,7 +77,7 @@ const ContactPage = () => {
                 +91 98765 43210
               </p>
               <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center text-roseGold">
-                WhatsApp Us
+                Talk to Our Design Experts Now
               </a>
             </div>
             
@@ -86,8 +86,8 @@ const ContactPage = () => {
                 <Mail size={28} className="text-roseGold" />
               </div>
               <h3 className="font-playfair text-xl mb-2">Email Us</h3>
-              <a href="mailto:hello@loveable.com" className="text-darkGray/80">
-                hello@loveable.com
+              <a href="mailto:hello@balajidesignstudio.com" className="text-darkGray/80">
+                hello@balajidesignstudio.com
               </a>
             </div>
           </div>
@@ -181,7 +181,7 @@ const ContactPage = () => {
                 </div>
                 
                 <button type="submit" className="btn-primary w-full">
-                  Send Message
+                  Book a Free Consultation
                 </button>
               </form>
             </div>
@@ -195,7 +195,7 @@ const ContactPage = () => {
                 style={{ border: 0 }}
                 allowFullScreen={true}
                 loading="lazy"
-                title="Loveable Office Location"
+                title="Balaji Design Studio Office Location"
               ></iframe>
             </div>
           </div>

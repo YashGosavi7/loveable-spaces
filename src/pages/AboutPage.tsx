@@ -15,7 +15,7 @@ const AboutPage = () => {
       >
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
-            About Loveable
+            About Balaji Design Studio
           </h1>
           <p className="text-xl md:text-2xl text-white">
             Crafting spaces that inspire love and comfort since 2012
@@ -30,7 +30,7 @@ const AboutPage = () => {
             <div>
               <h2 className="font-playfair text-3xl mb-6">Our Story</h2>
               <p className="mb-4 text-lg">
-                Founded in 2012 by Dalaram Suthar, Loveable has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India.
+                Founded in 2012 by Dalaram Suthar, Balaji Design Studio has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India.
               </p>
               <p className="mb-4 text-lg">
                 Our approach blends cultural heritage with modern elegance, creating spaces that feel like home no matter the scale or purpose. We believe that thoughtful design has the power to transform not just spaces, but the lives of those who inhabit them.
@@ -42,7 +42,7 @@ const AboutPage = () => {
             <div className="aspect-square overflow-hidden rounded-lg">
               <img 
                 src="https://images.pexels.com/photos/1181403/pexels-photo-1181403.jpeg" 
-                alt="Loveable Design Team" 
+                alt="Balaji Design Studio Team" 
                 className="w-full h-full object-cover"
               />
             </div>
@@ -98,7 +98,7 @@ const AboutPage = () => {
         <div className="container mx-auto">
           <SectionTitle 
             title="Meet Our Team" 
-            subtitle="The creative minds behind Loveable's designs" 
+            subtitle="The creative minds behind Balaji Design Studio's designs" 
             center 
           />
           

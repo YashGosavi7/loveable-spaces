@@ -14,17 +14,17 @@ const HomePage = () => {
       <HeroSection backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
-            Balaji design studio
+            Designing Spaces That Inspire, Delight & Endure
           </h1>
           <p className="text-xl md:text-2xl text-white mb-10">
-            creative creation by creative people
+            Creative Creation by Creative People
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/portfolio" className="btn-primary">
-              Discover Our Designs
+              Explore Our Signature Spaces
             </Link>
             <Link to="/contact" className="bg-transparent border-2 border-white text-white hover:bg-white/10 transition-colors px-6 py-3 rounded font-medium">
-              Let's Talk
+              Start Your Dream Project Today
             </Link>
           </div>
         </div>
@@ -35,15 +35,36 @@ const HomePage = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="font-playfair text-3xl md:text-4xl mb-6">Creating Spaces That Inspire Love and Comfort</h2>
+              <h2 className="font-playfair text-3xl md:text-4xl mb-6">Crafting Iconic Spaces Since 2012</h2>
               <p className="mb-6 text-lg">
-                Founded in 2012, Loveable has become synonymous with warm, inviting spaces that blend cultural heritage with modern elegance across India's major cities.
+                At Balaji Design Studio, every space tells a story. Since 2012, we have been transforming over 600 homes, offices, and restaurants across Pune, Mumbai, Hyderabad, Bangalore, and beyond.
               </p>
-              <p className="mb-8 text-lg">
-                With over 600 completed projects, our team brings a personalized approach to every design, creating interiors that tell your unique story.
+              <p className="mb-6 text-lg">
+                From luxurious residences to high-impact commercial spaces, our designs blend aesthetic brilliance with everyday functionality. We believe that great design isn't just about how a space looks—it's about how it feels.
               </p>
-              <Link to="/about" className="btn-primary inline-block">
-                Learn More About Us
+              
+              <h3 className="font-playfair text-2xl mb-4">Why Choose Balaji Design Studio?</h3>
+              <ul className="mb-8 space-y-2">
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>Over 600+ successful projects delivered with excellence</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>Expertise in residential, commercial & hospitality interiors</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>A team of visionary designers who bring ideas to life</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>A seamless design process, tailored to your needs</span>
+                </li>
+              </ul>
+              
+              <Link to="/contact" className="btn-primary inline-block">
+                Let's Design Something Extraordinary Together
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -90,7 +111,7 @@ const HomePage = () => {
           
           <div className="text-center mt-12">
             <Link to="/portfolio" className="btn-primary">
-              View All Projects
+              View Our Projects
             </Link>
           </div>
         </div>
@@ -114,7 +135,7 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="font-playfair text-xl mb-2">Residential Design</h3>
-              <p>Creating cozy, elegant homes that reflect your personality.</p>
+              <p>Timeless homes, built around you. Personalized, elegant, and functional.</p>
             </div>
             
             <div className="text-center p-6">
@@ -134,7 +155,7 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="font-playfair text-xl mb-2">Commercial Interiors</h3>
-              <p>Designing office spaces that inspire productivity & creativity.</p>
+              <p>Offices that redefine work. Smart, modern, and designed for success.</p>
             </div>
             
             <div className="text-center p-6">
@@ -148,13 +169,13 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="font-playfair text-xl mb-2">Restaurant Design</h3>
-              <p>Blending aesthetics with functionality for unforgettable dining.</p>
+              <p>Ambience meets appetite. Designs that make every meal an experience.</p>
             </div>
           </div>
           
           <div className="text-center mt-12">
             <Link to="/services" className="btn-primary">
-              Explore All Services
+              Get a Space That Speaks to You
             </Link>
           </div>
         </div>
@@ -168,7 +189,7 @@ const HomePage = () => {
             Let's create something beautiful together that reflects your unique style and needs.
           </p>
           <Link to="/contact" className="btn-primary">
-            Contact Us Today
+            Start Your Consultation
           </Link>
         </div>
       </section>
