@@ -14,7 +14,7 @@ const HomePage = () => {
       <HeroSection backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
-            Designing Spaces That Inspire, Delight & Endure
+            Balaji Design Studio
           </h1>
           <p className="text-xl md:text-2xl text-white mb-10">
             Creative Creation by Creative People
