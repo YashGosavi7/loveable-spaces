@@ -1,8 +1,6 @@
 
 import HeroSection from "../components/HeroSection";
 import SectionTitle from "../components/SectionTitle";
-import TeamMember from "../components/TeamMember";
-import teamData from "../data/teamData";
 
 const AboutPage = () => {
   return (
@@ -28,14 +26,7 @@ const AboutPage = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="flex items-center mb-6">
-                <h2 className="font-playfair text-3xl mb-0 mr-4">Our Story</h2>
-                <img 
-                  src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
-                  alt="Balaji Design Studio Logo" 
-                  className="h-16 hidden md:block" 
-                />
-              </div>
+              <h2 className="font-playfair text-3xl mb-6">Our Story</h2>
               <p className="mb-4 text-lg">
                 Founded in 2012 by Dalaram Suthar, Balaji Design Studio has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India.
               </p>
@@ -96,29 +87,6 @@ const AboutPage = () => {
                 From concept to completion, we approach each project with meticulous attention to detail and craftsmanship.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Team Section */}
-      <section className="section-padding bg-warmWhite">
-        <div className="container mx-auto">
-          <SectionTitle 
-            title="Meet Our Team" 
-            subtitle="The creative minds behind Balaji Design Studio's designs" 
-            center 
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamData.map((member) => (
-              <TeamMember 
-                key={member.id}
-                name={member.name}
-                title={member.title}
-                bio={member.bio}
-                image={member.image}
-              />
-            ))}
           </div>
         </div>
       </section>

@@ -7,7 +7,6 @@ const ContactPage = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
     projectType: "",
     message: ""
@@ -33,7 +32,6 @@ const ContactPage = () => {
     
     setFormData({
       name: "",
-      email: "",
       phone: "",
       projectType: "",
       message: ""
@@ -52,46 +50,9 @@ const ContactPage = () => {
         </div>
       </section>
       
-      {/* Contact Information */}
+      {/* Contact Form and Information */}
       <section className="section-padding bg-warmWhite">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="w-16 h-16 bg-roseGold/10 rounded-full flex items-center justify-center mb-4">
-                <MapPin size={28} className="text-roseGold" />
-              </div>
-              <h3 className="font-playfair text-xl mb-2">Visit Us</h3>
-              <p className="text-darkGray/80">
-                123 Design Street<br />
-                Mumbai, Maharashtra<br />
-                India - 400001
-              </p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="w-16 h-16 bg-roseGold/10 rounded-full flex items-center justify-center mb-4">
-                <Phone size={28} className="text-roseGold" />
-              </div>
-              <h3 className="font-playfair text-xl mb-2">Call Us</h3>
-              <p className="text-darkGray/80">
-                +91 98765 43210
-              </p>
-              <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center text-roseGold">
-                Talk to Our Design Experts Now
-              </a>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="w-16 h-16 bg-roseGold/10 rounded-full flex items-center justify-center mb-4">
-                <Mail size={28} className="text-roseGold" />
-              </div>
-              <h3 className="font-playfair text-xl mb-2">Email Us</h3>
-              <a href="mailto:hello@balajidesignstudio.com" className="text-darkGray/80">
-                hello@balajidesignstudio.com
-              </a>
-            </div>
-          </div>
-          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-lg shadow-md">
@@ -115,23 +76,8 @@ const ContactPage = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-2">
-                      Email Address*
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full border border-lightGray rounded p-3"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
                     <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                      Phone Number
+                      Phone Number*
                     </label>
                     <input
                       type="tel"
@@ -140,10 +86,11 @@ const ContactPage = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full border border-lightGray rounded p-3"
+                      required
                     />
                   </div>
                   
-                  <div>
+                  <div className="md:col-span-2">
                     <label htmlFor="projectType" className="block text-sm font-medium mb-2">
                       Project Type*
                     </label>
@@ -186,17 +133,69 @@ const ContactPage = () => {
               </form>
             </div>
             
-            {/* Google Map */}
-            <div className="bg-lightGray rounded-lg overflow-hidden h-[400px] lg:h-auto">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.64332144568!2d72.74109995709657!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1622536505103!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                title="Balaji Design Studio Office Location"
-              ></iframe>
+            {/* Contact Information and Map */}
+            <div>
+              <div className="grid grid-cols-1 gap-8 mb-8">
+                <div className="bg-white p-8 rounded-lg shadow-md">
+                  <h2 className="font-playfair text-2xl mb-6">Contact Information</h2>
+                  
+                  <div className="flex flex-col space-y-6">
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
+                        <MapPin size={24} className="text-roseGold" />
+                      </div>
+                      <div>
+                        <h3 className="font-playfair text-lg mb-1">Visit Us</h3>
+                        <p className="text-darkGray/80">
+                          123 Design Street<br />
+                          Mumbai, Maharashtra<br />
+                          India - 400001
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
+                        <Phone size={24} className="text-roseGold" />
+                      </div>
+                      <div>
+                        <h3 className="font-playfair text-lg mb-1">Call Us</h3>
+                        <p className="text-darkGray/80">
+                          +91 9762000000
+                        </p>
+                        <a href="https://wa.me/919762000000" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center text-roseGold">
+                          Talk to Our Design Experts Now
+                        </a>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
+                        <Mail size={24} className="text-roseGold" />
+                      </div>
+                      <div>
+                        <h3 className="font-playfair text-lg mb-1">Email Us</h3>
+                        <a href="mailto:balajidesignstudio@hotmail.com" className="text-darkGray/80">
+                          balajidesignstudio@hotmail.com
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Google Map */}
+              <div className="bg-lightGray rounded-lg overflow-hidden h-[300px]">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.64332144568!2d72.74109995709657!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1622536505103!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  title="Balaji Design Studio Office Location"
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>
