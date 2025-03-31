@@ -66,11 +66,11 @@
   }
 
   .hover-project {
-    @apply relative overflow-hidden group;
+    @apply relative overflow-hidden;
   }
 
   .hover-project-info {
-    @apply absolute inset-0 bg-darkGray/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+    @apply absolute inset-0 bg-darkGray/70 flex items-center justify-center opacity-0 transition-opacity duration-300;
   }
 
   .header-link {
