@@ -20,72 +20,12 @@ const HomePage = () => {
             Creative Creation by Creative People
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/portfolio" className="btn-primary">
-              Explore Our Signature Spaces
-            </Link>
-            <Link to="/contact" className="bg-transparent border-2 border-white text-white hover:bg-white/10 transition-colors px-6 py-3 rounded font-medium">
-              Start Your Dream Project Today
+            <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+              Our Projects
             </Link>
           </div>
         </div>
       </HeroSection>
-      
-      {/* About Introduction */}
-      <section className="section-padding bg-warmWhite">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="font-playfair text-3xl md:text-4xl mb-6">Crafting Iconic Spaces Since 2012</h2>
-              <p className="mb-6 text-lg">
-                At Balaji Design Studio, every space tells a story. Since 2012, we have been transforming over 600 homes, offices, and restaurants across Pune, Mumbai, Hyderabad, Bangalore, and beyond.
-              </p>
-              <p className="mb-6 text-lg">
-                From luxurious residences to high-impact commercial spaces, our designs blend aesthetic brilliance with everyday functionality. We believe that great design isn't just about how a space looks—it's about how it feels.
-              </p>
-              
-              <h3 className="font-playfair text-2xl mb-4">Why Choose Balaji Design Studio?</h3>
-              <ul className="mb-8 space-y-2">
-                <li className="flex items-center">
-                  <span className="text-roseGold mr-2">✓</span>
-                  <span>Over 600+ successful projects delivered with excellence</span>
-                </li>
-                <li className="flex items-center">
-                  <span className="text-roseGold mr-2">✓</span>
-                  <span>Expertise in residential, commercial & hospitality interiors</span>
-                </li>
-                <li className="flex items-center">
-                  <span className="text-roseGold mr-2">✓</span>
-                  <span>A team of visionary designers who bring ideas to life</span>
-                </li>
-                <li className="flex items-center">
-                  <span className="text-roseGold mr-2">✓</span>
-                  <span>A seamless design process, tailored to your needs</span>
-                </li>
-              </ul>
-              
-              <Link to="/contact" className="btn-primary inline-block">
-                Let's Design Something Extraordinary Together
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="aspect-[3/4] overflow-hidden">
-                <img 
-                  src="https://images.pexels.com/photos/3946663/pexels-photo-3946663.jpeg" 
-                  alt="Interior design" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="aspect-[3/4] mt-8 overflow-hidden">
-                <img 
-                  src="https://images.pexels.com/photos/4050318/pexels-photo-4050318.jpeg" 
-                  alt="Interior design" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       
       {/* Featured Projects */}
       <section className="section-padding bg-lightGray">
@@ -110,8 +50,8 @@ const HomePage = () => {
           </div>
           
           <div className="text-center mt-12">
-            <Link to="/portfolio" className="btn-primary">
-              View Our Projects
+            <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+              Our Projects
             </Link>
           </div>
         </div>
@@ -168,14 +108,14 @@ const HomePage = () => {
                   <path d="M18 2v10"></path>
                 </svg>
               </div>
-              <h3 className="font-playfair text-xl mb-2">Restaurant Design</h3>
+              <h3 className="font-playfair text-xl mb-2">Hospitality Design</h3>
               <p>Ambience meets appetite. Designs that make every meal an experience.</p>
             </div>
           </div>
           
           <div className="text-center mt-12">
-            <Link to="/services" className="btn-primary">
-              Get a Space That Speaks to You
+            <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+              Our Projects
             </Link>
           </div>
         </div>
@@ -188,8 +128,8 @@ const HomePage = () => {
           <p className="text-lg mb-8">
             Let's create something beautiful together that reflects your unique style and needs.
           </p>
-          <Link to="/contact" className="btn-primary">
-            Start Your Consultation
+          <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+            Our Projects
           </Link>
         </div>
       </section>

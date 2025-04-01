@@ -5,12 +5,12 @@ import ProjectCard from "../components/ProjectCard";
 import projectsData from "../data/projectsData";
 
 const PortfolioPage = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [activeCategory, setActiveCategory] = useState<string>("Residential");
   
-  const categories = ["All", "Residential", "Commercial"];
+  const categories = ["Residential", "Commercial", "Hospitality"];
   
-  const filteredProjects = activeCategory === "All" 
-    ? projectsData 
+  const filteredProjects = activeCategory === "Hospitality" 
+    ? projectsData.filter(project => project.category === "Hospitality" || project.category === "Commercial")
     : projectsData.filter(project => project.category === activeCategory);
   
   return (

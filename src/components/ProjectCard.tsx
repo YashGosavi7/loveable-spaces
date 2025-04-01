@@ -21,8 +21,11 @@ const ProjectCard = ({ id, title, category, location, image }: ProjectCardProps)
       </div>
       <div className="hover-project-info group-hover:opacity-100">
         <div className="text-center p-4 animate-fade-in">
-          <h3 className="font-playfair text-xl text-white">{title}</h3>
-          <p className="text-white/80 mt-2">{category} | {location}</p>
+          <h3 className="font-playfair text-xl text-white mb-3">{title}</h3>
+          <p className="text-white/80 mb-4">{category} | {location}</p>
+          <button className="bg-roseGold text-white px-4 py-2 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+            Our Projects
+          </button>
         </div>
       </div>
     </Link>

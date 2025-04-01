@@ -54,7 +54,7 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				// Custom colors
-				warmWhite: "#FAF9F6",
+				warmWhite: "#FFFFF0", // Changed from #FAF9F6 to ivory
 				lightGray: "#E0E0E0",
 				darkGray: "#333333",
 				roseGold: "#D4A017",

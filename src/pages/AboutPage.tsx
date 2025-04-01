@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import HeroSection from "../components/HeroSection";
 import SectionTitle from "../components/SectionTitle";
 
@@ -47,9 +48,66 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Why Choose Us - Moved from HomePage */}
+      <section className="section-padding bg-lightGray">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-2 gap-4 order-2 lg:order-1">
+              <div className="aspect-[3/4] overflow-hidden">
+                <img 
+                  src="https://images.pexels.com/photos/3946663/pexels-photo-3946663.jpeg" 
+                  alt="Interior design" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-[3/4] mt-8 overflow-hidden">
+                <img 
+                  src="https://images.pexels.com/photos/4050318/pexels-photo-4050318.jpeg" 
+                  alt="Interior design" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="font-playfair text-3xl md:text-4xl mb-6">Crafting Iconic Spaces Since 2012</h2>
+              <p className="mb-6 text-lg">
+                At Balaji Design Studio, every space tells a story. Since 2012, we have been transforming over 600 homes, offices, and restaurants across Pune, Mumbai, Hyderabad, Bangalore, and beyond.
+              </p>
+              <p className="mb-6 text-lg">
+                From luxurious residences to high-impact commercial spaces, our designs blend aesthetic brilliance with everyday functionality. We believe that great design isn't just about how a space looks—it's about how it feels.
+              </p>
+              
+              <h3 className="font-playfair text-2xl mb-4">Why Choose Balaji Design Studio?</h3>
+              <ul className="mb-8 space-y-2">
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>Over 600+ successful projects delivered with excellence</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>Expertise in residential, commercial & hospitality interiors</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>A team of visionary designers who bring ideas to life</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="text-roseGold mr-2">✓</span>
+                  <span>A seamless design process, tailored to your needs</span>
+                </li>
+              </ul>
+              
+              <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors inline-block">
+                Our Projects
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* Our Values */}
-      <section className="section-padding bg-lightGray">
+      <section className="section-padding bg-warmWhite">
         <div className="container mx-auto">
           <SectionTitle 
             title="Our Values" 
@@ -118,10 +176,10 @@ const AboutPage = () => {
             </div>
           </div>
           
-          <div className="mt-12 max-w-2xl mx-auto text-center">
-            <p className="text-lg mb-8">
-              We've had the privilege of working with a diverse range of clients across Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Kolkata, and Pune, bringing their visions to life through our designs.
-            </p>
+          <div className="mt-12 text-center">
+            <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+              Our Projects
+            </Link>
           </div>
         </div>
       </section>
