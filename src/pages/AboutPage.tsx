@@ -29,13 +29,13 @@ const AboutPage = () => {
             <div>
               <h2 className="font-playfair text-3xl mb-6">Our Story</h2>
               <p className="mb-4 text-lg">
-                Founded in 2012 by Dalaram Suthar, Balaji Design Studio has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India.
+                Founded in 2012 by Dalpat Suthar, Balaji Design Studio has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India
               </p>
               <p className="mb-4 text-lg">
-                Our approach blends cultural heritage with modern elegance, creating spaces that feel like home no matter the scale or purpose. We believe that thoughtful design has the power to transform not just spaces, but the lives of those who inhabit them.
+                Our approach blends cultural heritage with modern elegance, creating spaces that feel like home no matter the scale or purpose We believe that thoughtful design has the power to transform not just spaces, but the lives of those who inhabit them
               </p>
               <p className="text-lg">
-                From Mumbai to Delhi, Bangalore to Chennai, our designs reflect the diverse influences and unique character of each region, while maintaining our signature warmth and attention to detail.
+                From Mumbai to Delhi, Bangalore to Chennai, our designs reflect the diverse influences and unique character of each region, while maintaining our signature warmth and attention to detail
               </p>
             </div>
             <div className="aspect-square overflow-hidden rounded-lg">
@@ -72,10 +72,10 @@ const AboutPage = () => {
             <div className="order-1 lg:order-2">
               <h2 className="font-playfair text-3xl md:text-4xl mb-6">Crafting Iconic Spaces Since 2012</h2>
               <p className="mb-6 text-lg">
-                At Balaji Design Studio, every space tells a story. Since 2012, we have been transforming over 600 homes, offices, and restaurants across Pune, Mumbai, Hyderabad, Bangalore, and beyond.
+                At Balaji Design Studio, every space tells a story Since 2012, we have been transforming over 600 homes, offices, and restaurants across Pune, Mumbai, Hyderabad, Bangalore, and beyond
               </p>
               <p className="mb-6 text-lg">
-                From luxurious residences to high-impact commercial spaces, our designs blend aesthetic brilliance with everyday functionality. We believe that great design isn't just about how a space looks—it's about how it feels.
+                From luxurious residences to high-impact commercial spaces, our designs blend aesthetic brilliance with everyday functionality We believe that great design isn't just about how a space looks—it's about how it feels
               </p>
               
               <h3 className="font-playfair text-2xl mb-4">Why Choose Balaji Design Studio?</h3>
@@ -122,7 +122,7 @@ const AboutPage = () => {
               </div>
               <h3 className="font-playfair text-xl mb-3">Personal Connection</h3>
               <p>
-                We believe each space should tell a personal story, reflecting the unique character and needs of its inhabitants.
+                We believe each space should tell a personal story, reflecting the unique character and needs of its inhabitants
               </p>
             </div>
             
@@ -132,7 +132,7 @@ const AboutPage = () => {
               </div>
               <h3 className="font-playfair text-xl mb-3">Timeless Elegance</h3>
               <p>
-                We create designs that endure beyond trends, combining classic elements with contemporary sensibilities.
+                We create designs that endure beyond trends, combining classic elements with contemporary sensibilities
               </p>
             </div>
             
@@ -142,7 +142,7 @@ const AboutPage = () => {
               </div>
               <h3 className="font-playfair text-xl mb-3">Thoughtful Execution</h3>
               <p>
-                From concept to completion, we approach each project with meticulous attention to detail and craftsmanship.
+                From concept to completion, we approach each project with meticulous attention to detail and craftsmanship
               </p>
             </div>
           </div>

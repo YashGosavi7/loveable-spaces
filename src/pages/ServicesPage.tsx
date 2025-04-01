@@ -76,95 +76,95 @@ const ServicesPage = () => {
               {/* Process steps */}
               <div className="space-y-12 md:space-y-0">
                 {/* Step 1 */}
-                <div className="md:grid md:grid-cols-2 md:gap-8 md:items-center relative">
+                <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
                   <div className="md:text-right mb-8 md:mb-24">
                     <div className="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2">
-                      <div className="w-8 h-8 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
+                      <div className="w-10 h-10 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
                         1
                       </div>
                     </div>
-                    <div className="md:hidden inline-flex items-center justify-center w-8 h-8 rounded-full bg-roseGold text-white font-bold mb-4">
+                    <div className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold text-white font-bold mb-4">
                       1
                     </div>
-                    <h3 className="font-playfair text-xl mb-2">Discovery</h3>
+                    <h3 className="font-playfair text-2xl mb-3">Discovery</h3>
                     <p>
-                      We begin with an in-depth consultation to understand your vision, requirements, lifestyle, and preferences.
+                      We begin with an in-depth consultation to understand your vision, requirements, lifestyle, and preferences
                     </p>
                   </div>
                   <div className="md:mt-24"></div>
                 </div>
                 
                 {/* Step 2 */}
-                <div className="md:grid md:grid-cols-2 md:gap-8 md:items-center relative">
+                <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
                   <div className="hidden md:block"></div>
                   <div className="md:mt-0 mb-8 md:mb-24">
                     <div className="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2">
-                      <div className="w-8 h-8 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
+                      <div className="w-10 h-10 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
                         2
                       </div>
                     </div>
-                    <div className="md:hidden inline-flex items-center justify-center w-8 h-8 rounded-full bg-roseGold text-white font-bold mb-4">
+                    <div className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold text-white font-bold mb-4">
                       2
                     </div>
-                    <h3 className="font-playfair text-xl mb-2">Concept Development</h3>
+                    <h3 className="font-playfair text-2xl mb-3">Concept Development</h3>
                     <p>
-                      We create detailed design concepts including space planning, color schemes, material selections, and 3D visualizations.
+                      We create detailed design concepts including space planning, color schemes, material selections, and 3D visualizations
                     </p>
                   </div>
                 </div>
                 
                 {/* Step 3 */}
-                <div className="md:grid md:grid-cols-2 md:gap-8 md:items-center relative">
+                <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
                   <div className="md:text-right mb-8 md:mb-24">
                     <div className="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2">
-                      <div className="w-8 h-8 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
+                      <div className="w-10 h-10 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
                         3
                       </div>
                     </div>
-                    <div className="md:hidden inline-flex items-center justify-center w-8 h-8 rounded-full bg-roseGold text-white font-bold mb-4">
+                    <div className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold text-white font-bold mb-4">
                       3
                     </div>
-                    <h3 className="font-playfair text-xl mb-2">Design Refinement</h3>
+                    <h3 className="font-playfair text-2xl mb-3">Design Refinement</h3>
                     <p>
-                      We collaborate with you to refine the design, incorporating your feedback until it perfectly aligns with your vision.
+                      We collaborate with you to refine the design, incorporating your feedback until it perfectly aligns with your vision
                     </p>
                   </div>
                   <div className="md:mt-24"></div>
                 </div>
                 
                 {/* Step 4 */}
-                <div className="md:grid md:grid-cols-2 md:gap-8 md:items-center relative">
+                <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
                   <div className="hidden md:block"></div>
                   <div className="md:mt-0 mb-8 md:mb-24">
                     <div className="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2">
-                      <div className="w-8 h-8 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
+                      <div className="w-10 h-10 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
                         4
                       </div>
                     </div>
-                    <div className="md:hidden inline-flex items-center justify-center w-8 h-8 rounded-full bg-roseGold text-white font-bold mb-4">
+                    <div className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold text-white font-bold mb-4">
                       4
                     </div>
-                    <h3 className="font-playfair text-xl mb-2">Implementation</h3>
+                    <h3 className="font-playfair text-2xl mb-3">Implementation</h3>
                     <p>
-                      Our team oversees the execution of the design, coordinating with contractors and vendors to ensure quality and accuracy.
+                      Our team oversees the execution of the design, coordinating with contractors and vendors to ensure quality and accuracy
                     </p>
                   </div>
                 </div>
                 
                 {/* Step 5 */}
-                <div className="md:grid md:grid-cols-2 md:gap-8 md:items-center relative">
+                <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
                   <div className="md:text-right">
                     <div className="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2">
-                      <div className="w-8 h-8 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
+                      <div className="w-10 h-10 rounded-full bg-roseGold text-white flex items-center justify-center font-bold">
                         5
                       </div>
                     </div>
-                    <div className="md:hidden inline-flex items-center justify-center w-8 h-8 rounded-full bg-roseGold text-white font-bold mb-4">
+                    <div className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold text-white font-bold mb-4">
                       5
                     </div>
-                    <h3 className="font-playfair text-xl mb-2">Completion & Reveal</h3>
+                    <h3 className="font-playfair text-2xl mb-3">Completion & Reveal</h3>
                     <p>
-                      We finalize all details and present you with a beautifully designed space that exceeds your expectations.
+                      We finalize all details and present you with a beautifully designed space that exceeds your expectations
                     </p>
                   </div>
                   <div></div>
@@ -180,7 +180,7 @@ const ServicesPage = () => {
         <div className="container mx-auto text-center max-w-2xl">
           <h2 className="font-playfair text-3xl md:text-4xl mb-6">Ready to Begin Your Design Journey?</h2>
           <p className="text-lg mb-8">
-            Contact us today to schedule a consultation and discover how Balaji Design Studio can transform your space.
+            Contact us today to schedule a consultation and discover how Balaji Design Studio can transform your space
           </p>
           <Link to="/contact" className="btn-primary">
             Let's Talk

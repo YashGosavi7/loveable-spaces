@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
           <div>
             <h3 className="font-playfair text-xl mb-4">Balaji Design Studio</h3>
             <p className="text-sm opacity-80 leading-relaxed">
-              Founded in 2012, Balaji Design Studio has completed over 600 projects across Pune, Mumbai, Latur, Solapur, Satara, Solpaur, Belgaum, Hyderabad, and Bangalore, blending cultural heritage with modern elegance.
+              Founded in 2012, Balaji Design Studio has completed over 600 projects across Pune, Mumbai, Latur, Solapur, Satara, Solpaur, Belgaum, Hyderabad, and Bangalore, blending cultural heritage with modern elegance
             </p>
           </div>
           
@@ -30,15 +30,11 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center">
                 <Phone size={16} className="mr-2" />
-                <span>+91 98765 43210</span>
+                <span>+91 9762000000</span>
               </li>
               <li className="flex items-center">
                 <Mail size={16} className="mr-2" />
-                <span>hello@balajidesignstudio.com</span>
-              </li>
-              <li className="flex items-start">
-                <MapPin size={16} className="mr-2 mt-1" />
-                <span>123 Design Street, Mumbai, Maharashtra, India - 400001</span>
+                <span>balajidesignstudio@hotmail.com</span>
               </li>
             </ul>
           </div>
@@ -46,14 +42,8 @@ const Footer = () => {
           <div>
             <h3 className="font-playfair text-xl mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-roseGold transition-colors">
+              <a href="https://www.instagram.com/balaji_design_studio_/" target="_blank" rel="noopener noreferrer" className="hover:text-roseGold transition-colors">
                 <Instagram size={24} />
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-roseGold transition-colors">
-                <Facebook size={24} />
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-roseGold transition-colors">
-                <Youtube size={24} />
               </a>
             </div>
           </div>
@@ -61,7 +51,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-8 border-t border-white/20 text-center">
           <p className="text-sm opacity-60">
-            &copy; {new Date().getFullYear()} Balaji Design Studio. All rights reserved.
+            &copy; {new Date().getFullYear()} Balaji Design Studio All rights reserved
           </p>
         </div>
       </div>

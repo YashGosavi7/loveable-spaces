@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 
 const ContactPage = () => {
@@ -45,7 +45,7 @@ const ContactPage = () => {
         <div className="container mx-auto text-center">
           <h1 className="font-playfair text-4xl md:text-5xl mb-6">Contact Us</h1>
           <p className="text-lg max-w-2xl mx-auto">
-            Your dream space is just a conversation away. Let's create something incredible together!
+            Your dream space is just a conversation away Let's create something incredible together
           </p>
         </div>
       </section>
@@ -133,68 +133,39 @@ const ContactPage = () => {
               </form>
             </div>
             
-            {/* Contact Information and Map */}
+            {/* Contact Information */}
             <div>
-              <div className="grid grid-cols-1 gap-8 mb-8">
-                <div className="bg-white p-8 rounded-lg shadow-md">
-                  <h2 className="font-playfair text-2xl mb-6">Contact Information</h2>
+              <div className="bg-white p-8 rounded-lg shadow-md h-full">
+                <h2 className="font-playfair text-2xl mb-6">Contact Information</h2>
+                
+                <div className="flex flex-col space-y-8">
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
+                      <Phone size={24} className="text-roseGold" />
+                    </div>
+                    <div>
+                      <h3 className="font-playfair text-lg mb-1">Call Us</h3>
+                      <p className="text-darkGray/80">
+                        +91 9762000000
+                      </p>
+                      <a href="https://wa.me/919762000000" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center text-roseGold">
+                        Talk to Our Design Experts Now
+                      </a>
+                    </div>
+                  </div>
                   
-                  <div className="flex flex-col space-y-6">
-                    <div className="flex items-start">
-                      <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
-                        <MapPin size={24} className="text-roseGold" />
-                      </div>
-                      <div>
-                        <h3 className="font-playfair text-lg mb-1">Visit Us</h3>
-                        <p className="text-darkGray/80">
-                          123 Design Street<br />
-                          Mumbai, Maharashtra<br />
-                          India - 400001
-                        </p>
-                      </div>
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
+                      <Mail size={24} className="text-roseGold" />
                     </div>
-                    
-                    <div className="flex items-start">
-                      <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
-                        <Phone size={24} className="text-roseGold" />
-                      </div>
-                      <div>
-                        <h3 className="font-playfair text-lg mb-1">Call Us</h3>
-                        <p className="text-darkGray/80">
-                          +91 9762000000
-                        </p>
-                        <a href="https://wa.me/919762000000" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center text-roseGold">
-                          Talk to Our Design Experts Now
-                        </a>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <div className="w-12 h-12 bg-roseGold/10 rounded-full flex items-center justify-center mr-4">
-                        <Mail size={24} className="text-roseGold" />
-                      </div>
-                      <div>
-                        <h3 className="font-playfair text-lg mb-1">Email Us</h3>
-                        <a href="mailto:balajidesignstudio@hotmail.com" className="text-darkGray/80">
-                          balajidesignstudio@hotmail.com
-                        </a>
-                      </div>
+                    <div>
+                      <h3 className="font-playfair text-lg mb-1">Email Us</h3>
+                      <a href="mailto:balajidesignstudio@hotmail.com" className="text-darkGray/80">
+                        balajidesignstudio@hotmail.com
+                      </a>
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              {/* Google Map */}
-              <div className="bg-lightGray rounded-lg overflow-hidden h-[300px]">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.64332144568!2d72.74109995709657!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1622536505103!5m2!1sen!2sin"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                  title="Balaji Design Studio Office Location"
-                ></iframe>
               </div>
             </div>
           </div>

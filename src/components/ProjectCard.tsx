@@ -20,9 +20,9 @@ const ProjectCard = ({ id, title, category, location, image }: ProjectCardProps)
         />
       </div>
       <div className="hover-project-info group-hover:opacity-100">
-        <div className="text-center p-6 animate-fade-in"> {/* Increased padding from p-4 to p-6 */}
-          <h3 className="font-playfair text-2xl text-white mb-4">{title}</h3> {/* Increased text size and margin */}
-          <p className="text-white/80 mb-5 text-lg">{category} | {location}</p> {/* Increased text size and margin */}
+        <div className="text-center p-6 animate-fade-in">
+          <h3 className="font-playfair text-2xl text-white mb-4">{title}</h3>
+          <p className="text-white/80 mb-5 text-lg">{category} | {location}</p>
           <button className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
             Our Projects
           </button>

@@ -36,7 +36,7 @@ const HomePage = () => {
             center 
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {featuredProjects.map((project) => (
               <ProjectCard
                 key={project.id}
@@ -75,7 +75,7 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="font-playfair text-xl mb-2">Residential Design</h3>
-              <p>Timeless homes, built around you. Personalized, elegant, and functional.</p>
+              <p>Timeless homes, built around you Personalized, elegant, and functional</p>
             </div>
             
             <div className="text-center p-6">
@@ -95,7 +95,7 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="font-playfair text-xl mb-2">Commercial Interiors</h3>
-              <p>Offices that redefine work. Smart, modern, and designed for success.</p>
+              <p>Offices that redefine work Smart, modern, and designed for success</p>
             </div>
             
             <div className="text-center p-6">
@@ -109,7 +109,7 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="font-playfair text-xl mb-2">Hospitality Design</h3>
-              <p>Ambience meets appetite. Designs that make every meal an experience.</p>
+              <p>Ambience meets appetite Designs that make every meal an experience</p>
             </div>
           </div>
           
@@ -126,7 +126,7 @@ const HomePage = () => {
         <div className="container mx-auto text-center max-w-2xl">
           <h2 className="font-playfair text-3xl md:text-4xl mb-6">Ready to Transform Your Space?</h2>
           <p className="text-lg mb-8">
-            Let's create something beautiful together that reflects your unique style and needs.
+            Let's create something beautiful together that reflects your unique style and needs
           </p>
           <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
             Our Projects
