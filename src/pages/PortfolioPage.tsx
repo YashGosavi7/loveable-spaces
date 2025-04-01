@@ -49,7 +49,7 @@ const PortfolioPage = () => {
       {/* Projects Grid */}
       <section className="section-padding bg-warmWhite">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10"> {/* Changed from 3 columns to 2 columns for larger images and increased gap */}
             {filteredProjects.map((project) => (
               <ProjectCard 
                 key={project.id}

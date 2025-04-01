@@ -57,7 +57,7 @@ export default {
 				warmWhite: "#FFFFF0", // Changed from #FAF9F6 to ivory
 				lightGray: "#E0E0E0",
 				darkGray: "#333333",
-				roseGold: "#D4A017",
+				roseGold: "#C9A86A", // Updated from #D4A017 to #C9A86A (champagne gold)
 				darkBrown: "#663300",
 			},
 			fontFamily: {

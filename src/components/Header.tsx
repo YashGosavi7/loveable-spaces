@@ -28,7 +28,7 @@ const Header = ({ isScrolled }: HeaderProps) => {
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-28 md:h-32" 
+            className="h-36 md:h-40" // Increased from h-28 md:h-32 to h-36 md:h-40
           />
         </Link>
         
