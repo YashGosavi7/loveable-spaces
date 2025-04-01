@@ -54,10 +54,10 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				// Custom colors
-				warmWhite: "#FFFFF0", // Changed from #FAF9F6 to ivory
+				warmWhite: "#F8F8F8", // Changed from #FFFFF0 (ivory) to #F8F8F8 (off-white)
 				lightGray: "#E0E0E0",
 				darkGray: "#333333",
-				roseGold: "#C9A86A", // Updated from #D4A017 to #C9A86A (champagne gold)
+				roseGold: "#C9A86A", // Champagne gold
 				darkBrown: "#663300",
 			},
 			fontFamily: {
