@@ -28,7 +28,7 @@ const Header = ({ isScrolled }: HeaderProps) => {
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-20 md:h-24" 
+            className="h-24 md:h-28" 
           />
         </Link>
         
@@ -62,8 +62,8 @@ const Header = ({ isScrolled }: HeaderProps) => {
       
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-lightGray absolute top-full left-0 w-full">
-          <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+        <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md">
+          <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
             <Link 
               to="/" 
               className={`header-link ${isActive("/") ? "header-link-active" : ""}`}
