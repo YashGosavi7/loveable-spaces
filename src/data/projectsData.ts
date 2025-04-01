@@ -2,7 +2,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: "Residential" | "Commercial";
+  category: "Residential" | "Commercial" | "Hospitality";
   location: string;
   size: string;
   completionYear: string;
