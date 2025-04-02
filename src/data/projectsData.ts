@@ -78,6 +78,27 @@ const projectsData: Project[] = [
     isFeatured: true
   },
   {
+    id: "goa-beach-resort",
+    title: "Contemporary Goa Beach Resort",
+    category: "Hospitality",
+    location: "Goa",
+    size: "7,800 sq ft",
+    completionYear: "2023",
+    description: "This stunning beachfront resort in Goa blends indoor and outdoor living with panoramic ocean views. The design incorporates local materials and traditional Goan architectural elements while providing all modern luxuries expected in a premier resort destination.",
+    features: [
+      "Infinity pool overlooking the ocean",
+      "Open-air restaurant and lounge areas",
+      "Private beach access",
+      "Locally sourced sustainable materials"
+    ],
+    images: [
+      "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg",
+      "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg",
+      "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg"
+    ],
+    isFeatured: true
+  },
+  {
     id: "chennai-restaurant",
     title: "Coastal Cuisine Restaurant",
     category: "Commercial",
@@ -95,6 +116,26 @@ const projectsData: Project[] = [
       "https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg",
       "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg",
       "https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg"
+    ]
+  },
+  {
+    id: "jaipur-heritage-hotel",
+    title: "Jaipur Heritage Hotel",
+    category: "Hospitality",
+    location: "Jaipur",
+    size: "12,000 sq ft",
+    completionYear: "2022",
+    description: "This boutique heritage hotel in Jaipur's old city combines Rajasthani royal aesthetics with contemporary luxury. The restoration preserved original architectural features while introducing modern comforts and amenities for an authentic yet luxurious experience.",
+    features: [
+      "Restored heritage facade with traditional jharokhas",
+      "Courtyard with traditional stepwell-inspired water feature",
+      "Rooftop restaurant with city views",
+      "Luxury spa featuring traditional Rajasthani treatments"
+    ],
+    images: [
+      "https://images.pexels.com/photos/161758/governor-s-mansion-montgomery-alabama-grand-staircase-161758.jpeg",
+      "https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg",
+      "https://images.pexels.com/photos/775219/pexels-photo-775219.jpeg"
     ]
   },
   {

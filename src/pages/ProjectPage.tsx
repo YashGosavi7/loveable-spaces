@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -65,7 +66,12 @@ const ProjectPage = () => {
   }, [activeImageIndex]);
   
   return (
-    <div className="min-h-screen">
+    <motion.div 
+      className="min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Full-width Hero Image */}
       <section className="w-full h-[100vh] relative">
         <div className="absolute inset-0">
@@ -74,7 +80,7 @@ const ProjectPage = () => {
             alt={project.title} 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 flex items-end">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex items-end">
             <div className="container mx-auto p-8 md:p-16 pb-32">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -121,7 +127,7 @@ const ProjectPage = () => {
             {project.images.map((image, index) => (
               <button
                 key={index}
-                className={`flex-shrink-0 w-28 md:w-36 h-20 overflow-hidden rounded thumbnail ${
+                className={`flex-shrink-0 w-28 md:w-36 h-20 overflow-hidden thumbnail ${
                   index === activeImageIndex ? "ring-2 ring-roseGold" : "ring-1 ring-white/20"
                 }`}
                 onClick={() => setActiveImageIndex(index)}
@@ -218,8 +224,6 @@ const ProjectPage = () => {
         </div>
       </section>
       
-      {/* Related Projects Section - Could be added here */}
-      
       {/* Back to Portfolio */}
       <section className="bg-warmWhite py-12 border-t border-lightGray/30">
         <div className="container mx-auto">
@@ -229,7 +233,7 @@ const ProjectPage = () => {
           </Link>
         </div>
       </section>
-    </div>
+    </motion.div>
   );
 };
 
