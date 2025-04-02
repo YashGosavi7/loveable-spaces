@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 interface HeaderProps {
   isScrolled: boolean;
@@ -24,15 +24,16 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
+        {/* Adjusted logo sizing and position */}
         <Link to="/" className="flex items-center">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-40 md:h-44"
+            className="h-16 md:h-24 lg:h-32 object-contain" 
           />
         </Link>
         
-        {/* Desktop Navigation - Enhanced with better contrast and visibility */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link to="/" className={`nav-link ${isActive("/") ? "nav-link-active" : ""}`}>
             Home
@@ -51,64 +52,55 @@ const Header = ({ isScrolled }: HeaderProps) => {
           </Link>
         </nav>
         
-        {/* Updated Mobile menu button */}
+        {/* Mobile menu button - improved positioning and styling */}
         <button 
-          className="md:hidden flex items-center gap-2 px-3 py-2 border border-darkGray/20 rounded transition-colors hover:bg-lightGray/50"
+          className="md:hidden flex items-center gap-2 p-2 rounded-md transition-all duration-300"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
-            <>
-              <X size={20} />
-              <span className="text-sm font-medium">Close</span>
-            </>
+            <X size={24} className="text-darkGray" />
           ) : (
-            <>
-              <div className="flex flex-col gap-1">
-                <div className="w-5 h-0.5 bg-darkGray"></div>
-                <div className="w-3 h-0.5 bg-darkGray ml-2"></div>
-                <div className="w-5 h-0.5 bg-darkGray"></div>
-              </div>
-              <span className="text-sm font-medium">Menu</span>
-            </>
+            <Menu size={24} className="text-darkGray" />
           )}
         </button>
       </div>
       
-      {/* Mobile Navigation - Enhanced with better contrast and visibility */}
+      {/* Mobile Navigation - improved full-width styling and padding */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md animate-fade-in">
-          <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
+          <div className="container mx-auto px-4 py-6 flex flex-col space-y-6">
             <Link 
               to="/" 
-              className={`nav-link ${isActive("/") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg ${isActive("/") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/portfolio" 
-              className={`nav-link ${isActive("/portfolio") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg ${isActive("/portfolio") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className={`nav-link ${isActive("/about") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg ${isActive("/about") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/services" 
-              className={`nav-link ${isActive("/services") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg ${isActive("/services") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/contact" 
-              className={`nav-link ${isActive("/contact") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg ${isActive("/contact") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
