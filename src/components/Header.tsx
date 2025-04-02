@@ -32,21 +32,21 @@ const Header = ({ isScrolled }: HeaderProps) => {
           />
         </Link>
         
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Enhanced with better contrast and visibility */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link to="/" className={`header-link ${isActive("/") ? "header-link-active" : ""}`}>
+          <Link to="/" className={`nav-link ${isActive("/") ? "nav-link-active" : ""}`}>
             Home
           </Link>
-          <Link to="/portfolio" className={`header-link ${isActive("/portfolio") ? "header-link-active" : ""}`}>
+          <Link to="/portfolio" className={`nav-link ${isActive("/portfolio") ? "nav-link-active" : ""}`}>
             Portfolio
           </Link>
-          <Link to="/about" className={`header-link ${isActive("/about") ? "header-link-active" : ""}`}>
+          <Link to="/about" className={`nav-link ${isActive("/about") ? "nav-link-active" : ""}`}>
             About
           </Link>
-          <Link to="/services" className={`header-link ${isActive("/services") ? "header-link-active" : ""}`}>
+          <Link to="/services" className={`nav-link ${isActive("/services") ? "nav-link-active" : ""}`}>
             Services
           </Link>
-          <Link to="/contact" className={`header-link ${isActive("/contact") ? "header-link-active" : ""}`}>
+          <Link to="/contact" className={`nav-link ${isActive("/contact") ? "nav-link-active" : ""}`}>
             Contact
           </Link>
         </nav>
@@ -74,41 +74,41 @@ const Header = ({ isScrolled }: HeaderProps) => {
         </button>
       </div>
       
-      {/* Mobile Navigation - Enhanced with smooth animation */}
+      {/* Mobile Navigation - Enhanced with better contrast and visibility */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md animate-fade-in">
           <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
             <Link 
               to="/" 
-              className={`header-link ${isActive("/") ? "header-link-active" : ""}`}
+              className={`nav-link ${isActive("/") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/portfolio" 
-              className={`header-link ${isActive("/portfolio") ? "header-link-active" : ""}`}
+              className={`nav-link ${isActive("/portfolio") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className={`header-link ${isActive("/about") ? "header-link-active" : ""}`}
+              className={`nav-link ${isActive("/about") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/services" 
-              className={`header-link ${isActive("/services") ? "header-link-active" : ""}`}
+              className={`nav-link ${isActive("/services") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/contact" 
-              className={`header-link ${isActive("/contact") ? "header-link-active" : ""}`}
+              className={`nav-link ${isActive("/contact") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact

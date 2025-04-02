@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
@@ -72,6 +73,46 @@
     @apply absolute inset-0 bg-darkGray/70 flex items-center justify-center opacity-0 transition-opacity duration-300;
   }
 
+  /* Enhanced navigation styles */
+  .nav-link {
+    @apply text-darkGray font-medium tracking-wide relative transition-colors duration-200 hover:text-roseGold;
+  }
+
+  .nav-link::after {
+    @apply content-[''] absolute left-0 bottom-[-4px] w-0 h-[2px] bg-roseGold transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .nav-link-active {
+    @apply text-roseGold font-semibold;
+  }
+
+  .nav-link-active::after {
+    @apply w-full;
+  }
+
+  /* Transparent header adjustments */
+  header.bg-transparent .nav-link {
+    @apply text-darkGray/90 hover:text-roseGold;
+  }
+
+  header.bg-transparent .nav-link-active {
+    @apply text-roseGold;
+  }
+
+  /* Scrolled header adjustments */
+  header.bg-lightGray .nav-link {
+    @apply text-darkGray hover:text-roseGold;
+  }
+
+  header.bg-lightGray .nav-link-active {
+    @apply text-roseGold;
+  }
+  
+  /* Continue with existing component styles */
   .header-link {
     @apply text-darkGray hover:text-roseGold transition-colors duration-200;
   }
