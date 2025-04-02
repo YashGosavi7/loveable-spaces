@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 
 interface HeaderProps {
   isScrolled: boolean;
@@ -28,7 +28,7 @@ const Header = ({ isScrolled }: HeaderProps) => {
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-40 md:h-44" // Increased from h-36 md:h-40 to h-40 md:h-44
+            className="h-40 md:h-44"
           />
         </Link>
         
@@ -51,18 +51,32 @@ const Header = ({ isScrolled }: HeaderProps) => {
           </Link>
         </nav>
         
-        {/* Mobile menu button */}
+        {/* Updated Mobile menu button */}
         <button 
-          className="md:hidden text-darkGray"
+          className="md:hidden flex items-center gap-2 px-3 py-2 border border-darkGray/20 rounded transition-colors hover:bg-lightGray/50"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileMenuOpen ? (
+            <>
+              <X size={20} />
+              <span className="text-sm font-medium">Close</span>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col gap-1">
+                <div className="w-5 h-0.5 bg-darkGray"></div>
+                <div className="w-3 h-0.5 bg-darkGray ml-2"></div>
+                <div className="w-5 h-0.5 bg-darkGray"></div>
+              </div>
+              <span className="text-sm font-medium">Menu</span>
+            </>
+          )}
         </button>
       </div>
       
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Enhanced with smooth animation */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md">
+        <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md animate-fade-in">
           <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
             <Link 
               to="/" 

@@ -11,7 +11,10 @@ const HomePage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <HeroSection backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg">
+      <HeroSection 
+        backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+        showCityScroll={true}
+      >
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
             Balaji Design Studio
