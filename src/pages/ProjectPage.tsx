@@ -1,21 +1,28 @@
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
+import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const project = projectsData.find(p => p.id === projectId);
   
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [projectId]);
+
   if (!project) {
     return (
       <div className="min-h-screen pt-24 section-padding">
         <div className="container mx-auto text-center">
           <h1 className="font-playfair text-3xl mb-6">Project Not Found</h1>
-          <p className="mb-8">Sorry, we couldn't find the project you're looking for.</p>
+          <p className="mb-8">Sorry, we couldn't find the project you're looking for</p>
           <Link to="/portfolio" className="btn-primary">
             Back to Portfolio
           </Link>
@@ -35,32 +42,57 @@ const ProjectPage = () => {
       prev === 0 ? project.images.length - 1 : prev - 1
     );
   };
+
+  const scrollToThumbnail = (index: number) => {
+    if (scrollContainerRef.current) {
+      const thumbnails = scrollContainerRef.current.querySelectorAll(".thumbnail");
+      if (thumbnails[index]) {
+        const container = scrollContainerRef.current;
+        const thumbnail = thumbnails[index];
+        const scrollLeft = thumbnail.offsetLeft - (container.clientWidth - thumbnail.clientWidth) / 2;
+        
+        container.scrollTo({
+          left: scrollLeft,
+          behavior: "smooth"
+        });
+      }
+    }
+  };
+  
+  useEffect(() => {
+    scrollToThumbnail(activeImageIndex);
+  }, [activeImageIndex]);
   
   return (
-    <div className="min-h-screen pt-24">
-      {/* Project Slideshow */}
-      <section className="bg-darkGray relative">
-        <div className="aspect-[16/9] max-h-[80vh] overflow-hidden relative">
+    <div className="min-h-screen">
+      {/* Full-width Hero Image */}
+      <section className="w-full h-[100vh] relative">
+        <div className="absolute inset-0">
           <img 
             src={project.images[activeImageIndex]} 
             alt={project.title} 
             className="w-full h-full object-cover"
           />
-          
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 flex items-end">
-            <div className="container mx-auto p-8">
-              <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl text-white mb-2">
-                {project.title}
-              </h1>
-              <p className="text-white/80 text-xl">
-                {project.category} | {project.location}
-              </p>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 flex items-end">
+            <div className="container mx-auto p-8 md:p-16 pb-32">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h1 className="font-playfair text-4xl md:text-6xl lg:text-7xl text-white mb-4">
+                  {project.title}
+                </h1>
+                <p className="text-white/80 text-xl md:text-2xl">
+                  {project.category} | {project.location}
+                </p>
+              </motion.div>
             </div>
           </div>
           
           {/* Navigation arrows */}
           <button 
-            className="absolute top-1/2 left-4 -translate-y-1/2 bg-darkGray/50 hover:bg-darkGray/80 transition-colors p-2 rounded-full text-white"
+            className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 bg-black/30 hover:bg-black/60 transition-colors p-3 md:p-4 rounded-full text-white"
             onClick={prevImage}
             aria-label="Previous image"
           >
@@ -68,22 +100,28 @@ const ProjectPage = () => {
           </button>
           
           <button 
-            className="absolute top-1/2 right-4 -translate-y-1/2 bg-darkGray/50 hover:bg-darkGray/80 transition-colors p-2 rounded-full text-white"
+            className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 bg-black/30 hover:bg-black/60 transition-colors p-3 md:p-4 rounded-full text-white"
             onClick={nextImage}
             aria-label="Next image"
           >
             <ArrowRight size={24} />
           </button>
         </div>
-        
-        {/* Thumbnail navigation */}
-        <div className="container mx-auto py-4">
-          <div className="flex gap-2 overflow-x-auto pb-2">
+      </section>
+      
+      {/* Thumbnail navigation */}
+      <section className="bg-darkGray/95 py-6">
+        <div className="container mx-auto">
+          <div 
+            className="flex gap-3 overflow-x-auto pb-2 hide-scrollbar" 
+            ref={scrollContainerRef}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
             {project.images.map((image, index) => (
               <button
                 key={index}
-                className={`flex-shrink-0 w-20 h-14 overflow-hidden ${
-                  index === activeImageIndex ? "ring-2 ring-roseGold" : ""
+                className={`flex-shrink-0 w-28 md:w-36 h-20 overflow-hidden rounded thumbnail ${
+                  index === activeImageIndex ? "ring-2 ring-roseGold" : "ring-1 ring-white/20"
                 }`}
                 onClick={() => setActiveImageIndex(index)}
               >
@@ -99,67 +137,94 @@ const ProjectPage = () => {
       </section>
       
       {/* Project Details */}
-      <section className="section-padding bg-warmWhite">
+      <section className="bg-warmWhite py-20 md:py-32 px-4">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
             <div className="lg:col-span-2">
-              <h2 className="font-playfair text-2xl mb-6">Project Overview</h2>
-              <p className="text-lg mb-8 leading-relaxed">
-                {project.description}
-              </p>
-              
-              <h3 className="font-playfair text-xl mb-4">Features</h3>
-              <ul className="space-y-2 mb-8">
-                {project.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-roseGold mr-2">•</span>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <h2 className="font-playfair text-3xl md:text-4xl mb-8">Project Overview</h2>
+                <p className="text-xl mb-12 leading-relaxed">
+                  {project.description}
+                </p>
+                
+                <h3 className="font-playfair text-2xl mb-6">Design Philosophy</h3>
+                <p className="text-lg mb-10 leading-relaxed">
+                  Our approach to this project focused on creating a harmonious balance between functionality and aesthetic excellence. 
+                  We embraced the natural elements of the space while introducing architectural elements that reflect the client's unique personality and lifestyle needs.
+                </p>
+                
+                <h3 className="font-playfair text-2xl mb-6">Features</h3>
+                <ul className="space-y-4 mb-12">
+                  {project.features.map((feature, index) => (
+                    <motion.li 
+                      key={index} 
+                      className="flex items-start text-lg"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 * index }}
+                    >
+                      <span className="text-roseGold mr-3 text-2xl">•</span>
+                      <span>{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
             </div>
             
-            <div className="lg:col-span-1 bg-lightGray p-6 rounded-lg h-fit">
-              <h3 className="font-playfair text-xl mb-4">Project Details</h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <p className="text-darkGray/60 text-sm">Category</p>
-                  <p className="font-medium">{project.category}</p>
+            <motion.div 
+              className="lg:col-span-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="bg-lightGray/30 p-8 rounded-xl sticky top-32">
+                <h3 className="font-playfair text-2xl mb-6">Project Details</h3>
+                
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-darkGray/60 text-sm">Category</p>
+                    <p className="font-medium text-lg">{project.category}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-darkGray/60 text-sm">Location</p>
+                    <p className="font-medium text-lg">{project.location}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-darkGray/60 text-sm">Size</p>
+                    <p className="font-medium text-lg">{project.size}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-darkGray/60 text-sm">Completed</p>
+                    <p className="font-medium text-lg">{project.completionYear}</p>
+                  </div>
                 </div>
                 
-                <div>
-                  <p className="text-darkGray/60 text-sm">Location</p>
-                  <p className="font-medium">{project.location}</p>
-                </div>
-                
-                <div>
-                  <p className="text-darkGray/60 text-sm">Size</p>
-                  <p className="font-medium">{project.size}</p>
-                </div>
-                
-                <div>
-                  <p className="text-darkGray/60 text-sm">Completed</p>
-                  <p className="font-medium">{project.completionYear}</p>
+                <div className="mt-10">
+                  <Link to="/contact" className="block w-full bg-roseGold text-white text-center px-6 py-4 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
+                    Start Your Project
+                  </Link>
                 </div>
               </div>
-              
-              <div className="mt-8">
-                <Link to="/contact" className="btn-primary w-full block text-center">
-                  Start Your Project
-                </Link>
-              </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
       
+      {/* Related Projects Section - Could be added here */}
+      
       {/* Back to Portfolio */}
-      <section className="bg-lightGray py-12">
-        <div className="container mx-auto text-center">
-          <Link to="/portfolio" className="inline-flex items-center text-darkGray hover:text-roseGold transition-colors">
-            <ArrowLeft size={20} className="mr-2" />
-            Back to Portfolio
+      <section className="bg-warmWhite py-12 border-t border-lightGray/30">
+        <div className="container mx-auto">
+          <Link to="/portfolio" className="inline-flex items-center group text-lg">
+            <ChevronLeft size={20} className="mr-2 transition-transform group-hover:-translate-x-1" />
+            <span>Back to Portfolio</span>
           </Link>
         </div>
       </section>
