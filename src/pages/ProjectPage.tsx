@@ -47,8 +47,9 @@ const ProjectPage = () => {
     if (scrollContainerRef.current) {
       const thumbnails = scrollContainerRef.current.querySelectorAll(".thumbnail");
       if (thumbnails[index]) {
+        // Cast the element to HTMLElement which has offsetLeft property
+        const thumbnail = thumbnails[index] as HTMLElement;
         const container = scrollContainerRef.current;
-        const thumbnail = thumbnails[index];
         const scrollLeft = thumbnail.offsetLeft - (container.clientWidth - thumbnail.clientWidth) / 2;
         
         container.scrollTo({
