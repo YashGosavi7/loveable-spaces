@@ -30,7 +30,6 @@ const CityScrollAnimation = ({
     // Set up the animation only after component mount
     if (containerRef.current) {
       const container = containerRef.current;
-      const scrollWidth = container.scrollWidth / 2;
       
       // Reset the animation when direction changes
       container.style.animation = "none";
