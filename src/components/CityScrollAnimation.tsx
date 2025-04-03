@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface CityScrollAnimationProps {
   pauseOnHover?: boolean;
@@ -13,6 +13,7 @@ const CityScrollAnimation = ({
   speed = "medium" 
 }: CityScrollAnimationProps) => {
   const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   const cities = [
     "Mumbai", "Pune", "Latur", "Solapur", "Hyderabad", 
@@ -24,27 +25,46 @@ const CityScrollAnimation = ({
     medium: "20s",
     fast: "10s"
   };
-  
-  const animationDuration = speedValue[speed];
-  const animationDirection = direction === "ltr" ? "normal" : "reverse";
+
+  useEffect(() => {
+    // Set up the animation only after component mount
+    if (containerRef.current) {
+      const container = containerRef.current;
+      const scrollWidth = container.scrollWidth / 2;
+      
+      // Reset the animation when direction changes
+      container.style.animation = "none";
+      container.offsetHeight; // Trigger reflow
+      container.style.animation = `scroll ${speedValue[speed]} linear infinite ${direction === "ltr" ? "normal" : "reverse"}`;
+      
+      if (isPaused) {
+        container.style.animationPlayState = "paused";
+      } else {
+        container.style.animationPlayState = "running";
+      }
+    }
+  }, [speed, direction, isPaused]);
   
   return (
     <div className="w-full overflow-hidden text-white bg-darkGray/70 py-4">
-      <div className="flex items-center justify-center">
+      <div className="relative flex items-center justify-center">
         <div 
+          ref={containerRef}
           className="inline-flex whitespace-nowrap"
           style={{
-            animation: `scroll ${animationDuration} linear infinite ${animationDirection}`,
+            animation: `scroll ${speedValue[speed]} linear infinite ${direction === "ltr" ? "normal" : "reverse"}`,
             animationPlayState: isPaused ? "paused" : "running"
           }}
           onMouseEnter={() => pauseOnHover && setIsPaused(true)}
           onMouseLeave={() => pauseOnHover && setIsPaused(false)}
         >
+          {/* First set of cities */}
           {cities.map((city, index) => (
             <span key={`city-1-${index}`} className="mx-8 text-xl md:text-2xl font-medium">
               {city}
             </span>
           ))}
+          {/* Second set of cities - needed for seamless infinite scroll */}
           {cities.map((city, index) => (
             <span key={`city-2-${index}`} className="mx-8 text-xl md:text-2xl font-medium">
               {city}

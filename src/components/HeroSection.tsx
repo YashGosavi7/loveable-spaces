@@ -40,7 +40,7 @@ const HeroSection = ({
         <div className="w-full relative z-10">
           {credibilityStatement && (
             <div className="text-center mb-1 bg-darkGray/70 py-3 px-4">
-              <p className="text-white font-playfair text-lg md:text-2xl whitespace-normal">
+              <p className="text-white font-playfair text-lg md:text-2xl max-w-full overflow-hidden text-ellipsis whitespace-normal">
                 {credibilityStatement}
               </p>
             </div>
