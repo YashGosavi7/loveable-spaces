@@ -39,13 +39,13 @@ const HeroSection = ({
       {showCityScroll && (
         <div className="w-full relative z-10">
           {credibilityStatement && (
-            <div className="text-center mb-1 bg-darkGray/60 py-2">
-              <p className="text-white font-playfair text-xl md:text-2xl">
+            <div className="text-center mb-1 bg-darkGray/70 py-3 px-4">
+              <p className="text-white font-playfair text-lg md:text-2xl whitespace-normal">
                 {credibilityStatement}
               </p>
             </div>
           )}
-          <CityScrollAnimation />
+          <CityScrollAnimation speed="medium" />
         </div>
       )}
     </section>

@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface CityScrollAnimationProps {
   pauseOnHover?: boolean;
@@ -29,11 +29,10 @@ const CityScrollAnimation = ({
   const animationDirection = direction === "ltr" ? "normal" : "reverse";
   
   return (
-    <div className="w-full overflow-hidden text-white bg-darkGray/40 py-3">
+    <div className="w-full overflow-hidden text-white bg-darkGray/70 py-4">
       <div className="flex items-center justify-center">
-        {/* We duplicate the cities to create seamless looping */}
         <div 
-          className={`inline-flex whitespace-nowrap`}
+          className="inline-flex whitespace-nowrap"
           style={{
             animation: `scroll ${animationDuration} linear infinite ${animationDirection}`,
             animationPlayState: isPaused ? "paused" : "running"
@@ -42,12 +41,12 @@ const CityScrollAnimation = ({
           onMouseLeave={() => pauseOnHover && setIsPaused(false)}
         >
           {cities.map((city, index) => (
-            <span key={`city-1-${index}`} className="mx-8 text-xl font-medium">
+            <span key={`city-1-${index}`} className="mx-8 text-xl md:text-2xl font-medium">
               {city}
             </span>
           ))}
           {cities.map((city, index) => (
-            <span key={`city-2-${index}`} className="mx-8 text-xl font-medium">
+            <span key={`city-2-${index}`} className="mx-8 text-xl md:text-2xl font-medium">
               {city}
             </span>
           ))}

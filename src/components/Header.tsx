@@ -24,16 +24,16 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Adjusted logo sizing and position */}
+        {/* Optimized logo sizing for better visibility across devices */}
         <Link to="/" className="flex items-center">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-16 md:h-24 lg:h-32 object-contain" 
+            className="h-14 md:h-20 lg:h-24 object-contain" 
           />
         </Link>
         
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation with improved contrast and visibility */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link to="/" className={`nav-link ${isActive("/") ? "nav-link-active" : ""}`}>
             Home
@@ -52,55 +52,55 @@ const Header = ({ isScrolled }: HeaderProps) => {
           </Link>
         </nav>
         
-        {/* Mobile menu button - improved positioning and styling */}
+        {/* Enhanced mobile menu button with better positioning */}
         <button 
-          className="md:hidden flex items-center gap-2 p-2 rounded-md transition-all duration-300"
+          className="md:hidden flex items-center justify-center p-2 rounded-md transition-all duration-300"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
-            <X size={24} className="text-darkGray" />
+            <X size={26} className="text-darkGray" />
           ) : (
-            <Menu size={24} className="text-darkGray" />
+            <Menu size={26} className="text-darkGray" />
           )}
         </button>
       </div>
       
-      {/* Mobile Navigation - improved full-width styling and padding */}
+      {/* Improved Mobile Navigation with better spacing and readability */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md animate-fade-in">
-          <div className="container mx-auto px-4 py-6 flex flex-col space-y-6">
+          <div className="container mx-auto px-6 py-8 flex flex-col space-y-7">
             <Link 
               to="/" 
-              className={`nav-link text-lg ${isActive("/") ? "nav-link-active" : ""}`}
+              className={`nav-link text-xl font-medium ${isActive("/") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/portfolio" 
-              className={`nav-link text-lg ${isActive("/portfolio") ? "nav-link-active" : ""}`}
+              className={`nav-link text-xl font-medium ${isActive("/portfolio") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className={`nav-link text-lg ${isActive("/about") ? "nav-link-active" : ""}`}
+              className={`nav-link text-xl font-medium ${isActive("/about") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/services" 
-              className={`nav-link text-lg ${isActive("/services") ? "nav-link-active" : ""}`}
+              className={`nav-link text-xl font-medium ${isActive("/services") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/contact" 
-              className={`nav-link text-lg ${isActive("/contact") ? "nav-link-active" : ""}`}
+              className={`nav-link text-xl font-medium ${isActive("/contact") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact

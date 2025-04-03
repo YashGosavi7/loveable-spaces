@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Phone, Mail } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
+import HeroSection from "@/components/HeroSection";
 
 const ContactPage = () => {
   const { toast } = useToast();
@@ -39,16 +40,22 @@ const ContactPage = () => {
   };
   
   return (
-    <div className="min-h-screen pt-24">
-      {/* Contact Header */}
-      <section className="bg-lightGray py-20 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="font-playfair text-4xl md:text-5xl mb-6">Contact Us</h1>
-          <p className="text-lg max-w-2xl mx-auto">
-            Your dream space is just a conversation away Let's create something incredible together
+    <div className="min-h-screen">
+      {/* Contact Hero with Background Image */}
+      <HeroSection 
+        backgroundImage="https://images.pexels.com/photos/1181403/pexels-photo-1181403.jpeg"
+        overlay={true}
+        overlayOpacity="bg-black/50"
+      >
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="font-playfair text-white font-semibold mb-4">
+            Contact Us
+          </h1>
+          <p className="text-xl text-white/90">
+            Your dream space is just a conversation away. Let's create something incredible together.
           </p>
         </div>
-      </section>
+      </HeroSection>
       
       {/* Contact Form and Information */}
       <section className="section-padding bg-warmWhite">
@@ -148,7 +155,7 @@ const ContactPage = () => {
                       <p className="text-darkGray/80">
                         +91 9762000000
                       </p>
-                      <a href="https://wa.me/919762000000" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center text-roseGold">
+                      <a href="https://wa.me/919762000000" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center text-roseGold/90">
                         Talk to Our Design Experts Now
                       </a>
                     </div>
