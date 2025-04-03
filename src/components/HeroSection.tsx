@@ -37,9 +37,9 @@ const HeroSection = ({
       </div>
       
       {showCityScroll && (
-        <div className="w-full relative z-10 mt-auto pb-4">
+        <div className="w-full relative z-10 mt-auto pb-6">
           {credibilityStatement && (
-            <div className="text-center py-5 bg-darkGray/70 px-4 mb-2">
+            <div className="text-center py-5 bg-darkGray/70 px-4 mb-3">
               <p className="text-white font-playfair text-lg md:text-2xl max-w-full overflow-hidden text-ellipsis whitespace-normal">
                 {credibilityStatement}
               </p>

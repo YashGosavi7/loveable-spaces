@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { useIsMobile } from "../hooks/use-mobile";
 
 interface HeaderProps {
   isScrolled: boolean;
@@ -10,6 +11,7 @@ interface HeaderProps {
 const Header = ({ isScrolled }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
   
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -20,16 +22,20 @@ const Header = ({ isScrolled }: HeaderProps) => {
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled 
           ? "bg-lightGray shadow-md py-2" 
-          : "bg-transparent py-4"
+          : "bg-transparent py-3 md:py-4"
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* Logo with proper sizing and alignment */}
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+        {/* Enhanced logo with improved sizing and alignment */}
         <Link to="/" className="flex items-center">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-12 md:h-16 object-contain" 
+            className={`transition-all duration-300 ${
+              isScrolled 
+                ? "h-10 sm:h-12 md:h-14 lg:h-16" 
+                : "h-11 sm:h-13 md:h-16 lg:h-18"
+            } object-contain`} 
           />
         </Link>
         
@@ -52,9 +58,9 @@ const Header = ({ isScrolled }: HeaderProps) => {
           </Link>
         </nav>
         
-        {/* Mobile menu button with improved positioning */}
+        {/* Mobile menu button with improved positioning and increased touch area */}
         <button 
-          className="md:hidden flex items-center justify-center p-2"
+          className="md:hidden flex items-center justify-center p-3"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
