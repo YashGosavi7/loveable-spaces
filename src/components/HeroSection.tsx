@@ -21,7 +21,7 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   return (
     <section 
-      className="relative min-h-[85vh] flex flex-col items-center justify-center"
+      className="relative h-screen flex flex-col items-center justify-center"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -37,9 +37,9 @@ const HeroSection = ({
       </div>
       
       {showCityScroll && (
-        <div className="w-full relative z-10 mt-auto">
+        <div className="w-full relative z-10 mt-auto pb-4">
           {credibilityStatement && (
-            <div className="text-center py-4 bg-darkGray/70 px-4">
+            <div className="text-center py-5 bg-darkGray/70 px-4 mb-2">
               <p className="text-white font-playfair text-lg md:text-2xl max-w-full overflow-hidden text-ellipsis whitespace-normal">
                 {credibilityStatement}
               </p>

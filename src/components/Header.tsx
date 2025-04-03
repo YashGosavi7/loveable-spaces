@@ -23,7 +23,7 @@ const Header = ({ isScrolled }: HeaderProps) => {
           : "bg-transparent py-4"
       }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo with proper sizing and alignment */}
         <Link to="/" className="flex items-center">
           <img 
