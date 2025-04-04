@@ -33,8 +33,8 @@ const Header = ({ isScrolled }: HeaderProps) => {
             alt="Balaji Design Studio Logo" 
             className={`transition-all duration-300 ${
               isScrolled 
-                ? "h-12 sm:h-14 md:h-16 lg:h-18" 
-                : "h-14 sm:h-16 md:h-18 lg:h-20"
+                ? "h-36 sm:h-42 md:h-48 lg:h-54" 
+                : "h-42 sm:h-48 md:h-54 lg:h-60"
             } object-contain`} 
           />
         </Link>
