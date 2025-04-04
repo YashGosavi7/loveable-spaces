@@ -26,15 +26,15 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-        {/* Enhanced logo with improved sizing and alignment */}
-        <Link to="/" className="flex items-center">
+        {/* Logo with adjusted sizing and explicit left alignment */}
+        <Link to="/" className="flex items-center justify-start">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
             className={`transition-all duration-300 ${
               isScrolled 
-                ? "h-36 sm:h-42 md:h-48 lg:h-54" 
-                : "h-42 sm:h-48 md:h-54 lg:h-60"
+                ? "h-12 sm:h-14 md:h-16 lg:h-18" 
+                : "h-14 sm:h-16 md:h-18 lg:h-20"
             } object-contain`} 
           />
         </Link>
