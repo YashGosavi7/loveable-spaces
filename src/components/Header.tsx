@@ -33,8 +33,8 @@ const Header = ({ isScrolled }: HeaderProps) => {
             alt="Balaji Design Studio Logo" 
             className={`transition-all duration-300 ${
               isScrolled 
-                ? "h-10 sm:h-12 md:h-14 lg:h-16" 
-                : "h-11 sm:h-13 md:h-16 lg:h-18"
+                ? "h-12 sm:h-14 md:h-16 lg:h-18" 
+                : "h-14 sm:h-16 md:h-18 lg:h-20"
             } object-contain`} 
           />
         </Link>
@@ -65,9 +65,9 @@ const Header = ({ isScrolled }: HeaderProps) => {
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
-            <X size={24} className="text-darkGray" />
+            <X size={28} className="text-darkGray" />
           ) : (
-            <Menu size={24} className="text-darkGray" />
+            <Menu size={28} className="text-darkGray" />
           )}
         </button>
       </div>
