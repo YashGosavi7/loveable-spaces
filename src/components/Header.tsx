@@ -26,15 +26,15 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-        {/* Logo with 1.5x size and left alignment */}
+        {/* Logo with proportional sizing and left alignment */}
         <Link to="/" className="flex items-center justify-start">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
             className={`transition-all duration-300 ${
               isScrolled 
-                ? "h-18 sm:h-21 md:h-24 lg:h-27" 
-                : "h-21 sm:h-24 md:h-27 lg:h-30"
+                ? "h-10 sm:h-12 md:h-14 lg:h-16" 
+                : "h-12 sm:h-14 md:h-16 lg:h-18"
             } object-contain`} 
           />
         </Link>
@@ -58,55 +58,56 @@ const Header = ({ isScrolled }: HeaderProps) => {
           </Link>
         </nav>
         
-        {/* Mobile menu button with improved positioning and increased touch area */}
+        {/* Mobile menu button with improved accessibility */}
         <button 
-          className="md:hidden flex items-center justify-center p-3"
+          className="md:hidden flex items-center justify-center p-2 focus:outline-none"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? (
-            <X size={28} className="text-darkGray" />
+            <X size={24} className="text-darkGray" />
           ) : (
-            <Menu size={28} className="text-darkGray" />
+            <Menu size={24} className="text-darkGray" />
           )}
         </button>
       </div>
       
-      {/* Mobile Navigation with improved spacing */}
+      {/* Mobile Navigation with smoother transition */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-lightGray absolute top-full left-0 w-full shadow-md animate-fade-in">
-          <div className="container mx-auto px-6 py-6 flex flex-col space-y-6">
+          <div className="container mx-auto px-4 py-5 flex flex-col space-y-4">
             <Link 
               to="/" 
-              className={`nav-link text-xl font-medium ${isActive("/") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg font-medium ${isActive("/") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/portfolio" 
-              className={`nav-link text-xl font-medium ${isActive("/portfolio") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg font-medium ${isActive("/portfolio") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className={`nav-link text-xl font-medium ${isActive("/about") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg font-medium ${isActive("/about") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/services" 
-              className={`nav-link text-xl font-medium ${isActive("/services") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg font-medium ${isActive("/services") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/contact" 
-              className={`nav-link text-xl font-medium ${isActive("/contact") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg font-medium ${isActive("/contact") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
