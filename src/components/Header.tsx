@@ -26,16 +26,12 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-        {/* Logo with proportional sizing and left alignment */}
+        {/* Logo with enhanced sizing and strict left alignment */}
         <Link to="/" className="flex items-center justify-start">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className={`transition-all duration-300 ${
-              isScrolled 
-                ? "h-10 sm:h-12 md:h-14 lg:h-16" 
-                : "h-12 sm:h-14 md:h-16 lg:h-18"
-            } object-contain`} 
+            className="h-14 sm:h-16 md:h-18 lg:h-20 object-contain"
           />
         </Link>
         
@@ -107,7 +103,7 @@ const Header = ({ isScrolled }: HeaderProps) => {
             </Link>
             <Link 
               to="/contact" 
-              className={`nav-link text-lg font-medium ${isActive("/contact") ? "nav-link-active" : ""}`}
+              className={`nav-link text-lg font-medium ${isActive("/portfolio") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact

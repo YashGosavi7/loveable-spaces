@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -31,31 +32,31 @@ const PortfolioPage = () => {
   }, []);
   
   return (
-    <div className="min-h-screen pt-24">
-      {/* Portfolio Header */}
+    <div className="min-h-screen pt-24 md:pt-28">
+      {/* Portfolio Header - Improved mobile spacing */}
       <motion.section 
-        className="bg-warmWhite py-20 md:py-32 px-4"
+        className="bg-warmWhite py-16 md:py-28 px-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
         <div className="container mx-auto max-w-5xl text-center">
-          <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl mb-6">Our Portfolio</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+          <h1 className="font-playfair mb-6">Our Portfolio</h1>
+          <p className="text-lg max-w-3xl mx-auto leading-relaxed">
             Explore our diverse collection of projects spanning residences, offices, 
             retail spaces, and restaurants across India's major cities
           </p>
         </div>
       </motion.section>
       
-      {/* Portfolio Categories */}
-      <section className="bg-warmWhite py-6 px-4 sticky top-20 z-10 border-b border-lightGray/50 backdrop-blur-sm">
+      {/* Portfolio Categories - Fixed position but with proper spacing for mobile */}
+      <section className="bg-warmWhite py-4 px-4 sticky top-[72px] z-10 border-b border-lightGray/50 backdrop-blur-sm">
         <div className="container mx-auto">
-          <div className="flex flex-wrap justify-center gap-3 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-6">
             {categories.map((category, index) => (
               <motion.button
                 key={category}
-                className={`px-8 py-3 min-w-[140px] text-lg transition-all ${
+                className={`px-5 py-3 min-w-[120px] text-base md:text-lg transition-all ${
                   activeCategory === category 
                     ? "bg-roseGold/90 text-white" 
                     : "bg-lightGray/30 hover:bg-lightGray/50 text-darkGray"
@@ -72,10 +73,10 @@ const PortfolioPage = () => {
         </div>
       </section>
       
-      {/* Projects Grid - Larger thumbnails with better spacing */}
-      <section className="py-16 md:py-20 px-4 sm:px-8 bg-warmWhite">
+      {/* Projects Grid - Mobile optimized spacing and sizing */}
+      <section className="py-12 md:py-20 px-4 sm:px-6 bg-warmWhite">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12"> 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"> 
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -94,16 +95,16 @@ const PortfolioPage = () => {
                       />
                     </AspectRatio>
                     <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-6">
-                      <h3 className="font-playfair text-white text-2xl md:text-3xl mb-3">{project.title}</h3>
-                      <p className="text-white/90 mb-4 text-lg">{project.category} | {project.location}</p>
-                      <span className="inline-flex items-center gap-2 text-roseGold/90 border border-roseGold/90 px-5 py-2 rounded">
-                        Our Projects <ArrowRightIcon size={16} className="transition-transform group-hover:translate-x-1" />
+                      <h3 className="font-playfair text-white text-xl md:text-2xl mb-2">{project.title}</h3>
+                      <p className="text-white/90 mb-3 text-sm md:text-base">{project.category} | {project.location}</p>
+                      <span className="inline-flex items-center gap-2 text-roseGold/90 border border-roseGold/90 px-4 py-2 rounded text-sm md:text-base">
+                        View Project <ArrowRightIcon size={16} className="transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
                   </div>
-                  <div className="mt-5 px-1">
-                    <h3 className="font-playfair text-xl md:text-2xl">{project.title}</h3>
-                    <p className="text-darkGray/80 text-lg">{project.category} | {project.location}</p>
+                  <div className="mt-4 px-1">
+                    <h3 className="font-playfair text-lg md:text-xl">{project.title}</h3>
+                    <p className="text-darkGray/80 text-base">{project.category} | {project.location}</p>
                   </div>
                 </Link>
               </motion.div>
