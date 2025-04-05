@@ -16,7 +16,7 @@ const HomePage = () => {
         showCityScroll={true}
       >
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4 pt-10 md:pt-6">
+          <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
             Balaji Design Studio
           </h1>
           <p className="text-xl md:text-2xl text-white mb-10">

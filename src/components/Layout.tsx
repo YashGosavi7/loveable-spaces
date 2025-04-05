@@ -10,8 +10,7 @@ const Layout = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Lower threshold to make header change sooner for better visibility
-      if (window.scrollY > 20) {
+      if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -28,11 +27,10 @@ const Layout = () => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // Reduce padding to ensure hero section is fully visible without scrolling
   return (
     <div className="min-h-screen flex flex-col">
       <Header isScrolled={isScrolled} />
-      <main className="flex-grow pt-16 md:pt-20">
+      <main className="flex-grow">
         <Outlet />
       </main>
       <Footer />
