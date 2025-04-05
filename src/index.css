@@ -118,7 +118,7 @@
     @apply w-full;
   }
 
-  /* Transparent header adjustments */
+  /* Transparent header adjustments with improved logo handling */
   header.bg-transparent .nav-link {
     @apply text-darkGray hover:text-roseGold;
   }

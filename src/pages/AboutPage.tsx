@@ -6,11 +6,11 @@ import SectionTitle from "../components/SectionTitle";
 const AboutPage = () => {
   return (
     <div className="min-h-screen">
-      {/* About Hero with Background Image */}
+      {/* About Hero with Background Image - Updated with elegant interior design image */}
       <HeroSection 
-        backgroundImage="https://images.pexels.com/photos/3048527/pexels-photo-3048527.jpeg"
+        backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
         overlay={true}
-        overlayOpacity="bg-black/50"
+        overlayOpacity="bg-black/60"
       >
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="font-playfair text-white font-semibold mb-4">
