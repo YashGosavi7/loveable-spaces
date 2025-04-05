@@ -10,7 +10,7 @@ const Layout = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Lower threshold to make header change sooner for better visibility with larger logo
+      // Lower threshold to make header change sooner for better visibility
       if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
@@ -28,11 +28,11 @@ const Layout = () => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // Add more padding to the top of the main content to prevent overlap with the larger logo
+  // Reduce padding to ensure hero section is fully visible without scrolling
   return (
     <div className="min-h-screen flex flex-col">
       <Header isScrolled={isScrolled} />
-      <main className="flex-grow pt-32 md:pt-48 lg:pt-64">
+      <main className="flex-grow pt-16 md:pt-20">
         <Outlet />
       </main>
       <Footer />
