@@ -26,30 +26,30 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-        {/* Logo with 2x size increase while maintaining proportions */}
+        {/* Logo with 4x size increase while maintaining proportions */}
         <Link to="/" className="flex items-center justify-start">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-28 sm:h-32 md:h-36 lg:h-40 object-contain" 
+            className="h-56 sm:h-64 md:h-72 lg:h-80 object-contain -ml-4" 
           />
         </Link>
         
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Enhanced visibility */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link to="/" className={`nav-link ${isActive("/") ? "nav-link-active" : ""}`}>
+          <Link to="/" className={`nav-link nav-link-enhanced ${isActive("/") ? "nav-link-active" : ""}`}>
             Home
           </Link>
-          <Link to="/portfolio" className={`nav-link ${isActive("/portfolio") ? "nav-link-active" : ""}`}>
+          <Link to="/portfolio" className={`nav-link nav-link-enhanced ${isActive("/portfolio") ? "nav-link-active" : ""}`}>
             Portfolio
           </Link>
-          <Link to="/about" className={`nav-link ${isActive("/about") ? "nav-link-active" : ""}`}>
+          <Link to="/about" className={`nav-link nav-link-enhanced ${isActive("/about") ? "nav-link-active" : ""}`}>
             About
           </Link>
-          <Link to="/services" className={`nav-link ${isActive("/services") ? "nav-link-active" : ""}`}>
+          <Link to="/services" className={`nav-link nav-link-enhanced ${isActive("/services") ? "nav-link-active" : ""}`}>
             Services
           </Link>
-          <Link to="/contact" className={`nav-link ${isActive("/contact") ? "nav-link-active" : ""}`}>
+          <Link to="/contact" className={`nav-link nav-link-enhanced ${isActive("/contact") ? "nav-link-active" : ""}`}>
             Contact
           </Link>
         </nav>
@@ -62,9 +62,9 @@ const Header = ({ isScrolled }: HeaderProps) => {
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? (
-            <X size={24} className="text-darkGray" />
+            <X size={32} className="text-darkGray" />
           ) : (
-            <Menu size={24} className="text-darkGray" />
+            <Menu size={32} className="text-darkGray" />
           )}
         </button>
       </div>
@@ -75,35 +75,35 @@ const Header = ({ isScrolled }: HeaderProps) => {
           <div className="container mx-auto px-4 py-5 flex flex-col space-y-4">
             <Link 
               to="/" 
-              className={`nav-link text-lg font-medium ${isActive("/") ? "nav-link-active" : ""}`}
+              className={`nav-link-mobile ${isActive("/") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/portfolio" 
-              className={`nav-link text-lg font-medium ${isActive("/portfolio") ? "nav-link-active" : ""}`}
+              className={`nav-link-mobile ${isActive("/portfolio") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className={`nav-link text-lg font-medium ${isActive("/about") ? "nav-link-active" : ""}`}
+              className={`nav-link-mobile ${isActive("/about") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/services" 
-              className={`nav-link text-lg font-medium ${isActive("/services") ? "nav-link-active" : ""}`}
+              className={`nav-link-mobile ${isActive("/services") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/contact" 
-              className={`nav-link text-lg font-medium ${isActive("/contact") ? "nav-link-active" : ""}`}
+              className={`nav-link-mobile ${isActive("/contact") ? "nav-link-active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
