@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -22,7 +21,7 @@ const projectsData: Project[] = [
     location: "Mumbai",
     size: "2,000 sq ft",
     completionYear: "2024",
-    description: "Designed by Ravi Kale, this Mumbai residence embodies our vision of creating spaces filled with love and elegance. With over 2,000 sq ft of living space, the project features warm wood finishes, plush textiles, and a nod to Indian craftsmanship, making it a perfect blend of modernity and tradition. The design philosophy centers around creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
+    description: "Designed by Shravan Suthar, this Mumbai residence embodies our vision of creating spaces filled with love and elegance. With over 2,000 sq ft of living space, the project features warm wood finishes, plush textiles, and a nod to Indian craftsmanship, making it a perfect blend of modernity and tradition. The design philosophy centers around creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
     features: [
       "Custom jali-inspired partitions",
       "Integrated temple space with traditional elements",
@@ -38,10 +37,12 @@ const projectsData: Project[] = [
       "/lovable-uploads/bfd2f8c4-957b-4ddb-9da4-8772ed7840f2.png",
       "/lovable-uploads/5225c2f7-57d9-4da8-8bf3-a9e4fe750f65.png",
       "/lovable-uploads/e81c7af2-7a0f-40c5-a281-932f2ac0007d.png",
-      "/lovable-uploads/54a11076-22e6-4005-8066-eb0070bfdc38.png"
+      "/lovable-uploads/54a11076-22e6-4005-8066-eb0070bfdc38.png",
+      "/lovable-uploads/24c6ec06-e41e-4621-9565-85f1d857a4c5.png",
+      "/lovable-uploads/a19eedb8-bc4e-4e31-837c-782e81c3f3d3.png"
     ],
     isFeatured: true,
-    designer: "Ravi Kale"
+    designer: "Shravan Suthar"
   },
   {
     id: "mumbai-apartment",
