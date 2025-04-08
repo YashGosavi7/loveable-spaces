@@ -12,8 +12,8 @@ const teamData: TeamMember[] = [
     id: "dalpat-suthar",
     name: "Dalpat Suthar",
     title: "Founder & Principal Designer",
-    bio: "Passionate about creating spaces that evoke warmth and connection, Dalpat founded Loveable in 2012 after working with leading design firms across Europe and Asia",
-    image: "https://images.pexels.com/photos/5792641/pexels-photo-5792641.jpeg"
+    bio: "Passionate about creating spaces that evoke warmth and connection, Dalpat founded Balaji Design Studio in 2012 after receiving recognition for his innovative approach to interior design.",
+    image: "/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png"
   },
   {
     id: "priya-sharma",

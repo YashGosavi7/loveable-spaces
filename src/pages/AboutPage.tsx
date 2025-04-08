@@ -2,11 +2,13 @@
 import { Link } from "react-router-dom";
 import HeroSection from "../components/HeroSection";
 import SectionTitle from "../components/SectionTitle";
+import TeamMember from "../components/TeamMember";
+import teamData from "../data/teamData";
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen">
-      {/* About Hero with Background Image - Updated with elegant interior design image */}
+      {/* About Hero with Background Image */}
       <HeroSection 
         backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
         overlay={true}
@@ -40,8 +42,8 @@ const AboutPage = () => {
             </div>
             <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
               <img 
-                src="https://images.pexels.com/photos/1181403/pexels-photo-1181403.jpeg" 
-                alt="Balaji Design Studio Team" 
+                src="/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png" 
+                alt="Dalpat Suthar in a modern living room design" 
                 className="w-full h-full object-cover"
               />
             </div>
@@ -49,8 +51,63 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Why Choose Us - Moved from HomePage */}
+      {/* Founder's Journey */}
       <section className="section-padding bg-lightGray">
+        <div className="container mx-auto">
+          <SectionTitle 
+            title="Founder's Journey" 
+            subtitle="The story of passion, perseverance and excellence" 
+            center 
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden">
+              <div className="aspect-[4/3] mb-4">
+                <img 
+                  src="/lovable-uploads/fdbdc025-28e1-45fd-a652-5b794cd8841d.png" 
+                  alt="Dalpat Suthar receiving an award" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="font-playfair text-xl mb-2">Early Recognition</h3>
+              <p className="text-darkGray/80">
+                Dalpat's talent was recognized early, receiving accolades for his innovative approach to spatial design and cultural integration.
+              </p>
+            </div>
+            
+            <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden">
+              <div className="aspect-[4/3] mb-4">
+                <img 
+                  src="/lovable-uploads/b6b202ac-c4a6-4486-b743-69cfe1242cb5.png" 
+                  alt="Dalpat Suthar with industry leaders" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="font-playfair text-xl mb-2">Industry Connections</h3>
+              <p className="text-darkGray/80">
+                Building relationships with key industry figures helped Dalpat expand the studio's reach and influence across India's design landscape.
+              </p>
+            </div>
+            
+            <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden">
+              <div className="aspect-[4/3] mb-4">
+                <img 
+                  src="/lovable-uploads/992b26d9-1aba-4ad4-b2a4-67c3e64f3510.png" 
+                  alt="Dalpat Suthar receiving an award from a woman in a red dress" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="font-playfair text-xl mb-2">Design Excellence</h3>
+              <p className="text-darkGray/80">
+                Throughout his career, Dalpat has been honored with numerous awards for design excellence and contribution to India's interior design community.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us - Moved from HomePage */}
+      <section className="section-padding bg-warmWhite">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="grid grid-cols-2 gap-4 order-2 lg:order-1">
@@ -102,6 +159,29 @@ const AboutPage = () => {
                 Our Projects
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Our Team */}
+      <section className="section-padding bg-lightGray">
+        <div className="container mx-auto">
+          <SectionTitle 
+            title="Meet Our Team" 
+            subtitle="The creative minds behind our beautiful spaces" 
+            center 
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {teamData.map((member) => (
+              <TeamMember 
+                key={member.id}
+                name={member.name}
+                title={member.title}
+                bio={member.bio}
+                image={member.image}
+              />
+            ))}
           </div>
         </div>
       </section>
