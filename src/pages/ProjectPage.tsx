@@ -6,6 +6,13 @@ import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
 
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -92,6 +99,7 @@ const ProjectPage = () => {
                 </h1>
                 <p className="text-white/80 text-xl md:text-2xl">
                   {project.category} | {project.location}
+                  {project.designer && ` | Designed by ${project.designer}`}
                 </p>
               </motion.div>
             </div>
@@ -143,6 +151,34 @@ const ProjectPage = () => {
         </div>
       </section>
       
+      {/* Image Carousel - New Addition */}
+      {project.id === "ravi-vazirani-celebrity-home" && (
+        <section className="bg-warmWhite py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
+            <div className="relative max-w-4xl mx-auto">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {project.images.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <AspectRatio ratio={4/3} className="bg-lightGray/10">
+                        <img 
+                          src={image} 
+                          alt={`${project.title} view ${index + 1}`} 
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      </AspectRatio>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute -left-4 md:-left-12 lg:-left-12 bg-roseGold/90 hover:bg-roseGold text-white border-none" />
+                <CarouselNext className="absolute -right-4 md:-right-12 lg:-right-12 bg-roseGold/90 hover:bg-roseGold text-white border-none" />
+              </Carousel>
+            </div>
+          </div>
+        </section>
+      )}
+      
       {/* Project Details */}
       <section className="bg-warmWhite py-20 md:py-32 px-4">
         <div className="container mx-auto">
@@ -192,6 +228,13 @@ const ProjectPage = () => {
                 <h3 className="font-playfair text-2xl mb-6">Project Details</h3>
                 
                 <div className="space-y-6">
+                  {project.designer && (
+                    <div>
+                      <p className="text-darkGray/60 text-sm">Designer</p>
+                      <p className="font-medium text-lg">{project.designer}</p>
+                    </div>
+                  )}
+                  
                   <div>
                     <p className="text-darkGray/60 text-sm">Category</p>
                     <p className="font-medium text-lg">{project.category}</p>

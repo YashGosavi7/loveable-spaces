@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -10,10 +9,35 @@ export interface Project {
   features: string[];
   images: string[];
   isFeatured?: boolean;
+  designer?: string;
 }
 
 // Placeholder images from public domain
 const projectsData: Project[] = [
+  {
+    id: "ravi-vazirani-celebrity-home",
+    title: "Ravi Vazirani's Celebrity Home",
+    category: "Residential",
+    location: "Mumbai",
+    size: "2,000 sq ft",
+    completionYear: "2024",
+    description: "Designed by Ravi Vazirani, this Mumbai residence embodies our vision of creating spaces filled with love and elegance. With over 2,000 sq ft of living space, the project features warm wood finishes, plush textiles, and a nod to Indian craftsmanship, making it a perfect blend of modernity and tradition. The design philosophy centers around creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
+    features: [
+      "Custom jali-inspired partitions",
+      "Integrated temple space with traditional elements",
+      "Designer dining area with pendant lighting",
+      "Modern kitchen with marble backsplash",
+      "Warm, neutral color palette throughout",
+      "Artisanal details and handcrafted accents"
+    ],
+    images: [
+      "/lovable-uploads/6f4bb809-788e-4c22-9a73-0fd24c6fbc61.png",
+      "/lovable-uploads/b420a207-198d-4084-bbb6-40fbd814de50.png",
+      "/lovable-uploads/c5141b3f-b0ee-4393-bb50-a0ae2402f071.png"
+    ],
+    isFeatured: true,
+    designer: "Ravi Vazirani"
+  },
   {
     id: "mumbai-apartment",
     title: "Modern Mumbai Apartment",

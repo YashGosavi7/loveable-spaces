@@ -73,11 +73,55 @@ const PortfolioPage = () => {
         </div>
       </section>
       
+      {/* Featured Project - Only shows when in Residential category and it exists */}
+      {activeCategory === "Residential" && (
+        <section className="py-12 px-4 bg-warmWhite">
+          <div className="container mx-auto">
+            <h2 className="font-playfair text-2xl md:text-3xl mb-8 text-center">Featured Project</h2>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="group max-w-5xl mx-auto"
+            >
+              {projectsData.filter(p => p.id === "ravi-vazirani-celebrity-home").map(project => (
+                <Link to={`/portfolio/${project.id}`} key={project.id} className="block">
+                  <div className="relative overflow-hidden rounded-lg shadow-xl">
+                    <AspectRatio ratio={16/9} className="bg-lightGray/30">
+                      <img 
+                        src={project.images[0]} 
+                        alt={project.title}
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </AspectRatio>
+                    <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-6">
+                      <span className="text-roseGold/90 uppercase tracking-wider text-sm mb-3">Featured Project</span>
+                      <h3 className="font-playfair text-white text-2xl md:text-3xl mb-2">{project.title}</h3>
+                      <p className="text-white/90 mb-4 text-base md:text-lg">{project.category} | {project.location} | Designed by {project.designer}</p>
+                      <span className="inline-flex items-center gap-2 text-roseGold/90 border border-roseGold/90 px-5 py-3 rounded text-base">
+                        View Project <ArrowRightIcon size={16} className="transition-transform group-hover:translate-x-1" />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-5 px-1 text-center">
+                    <h3 className="font-playfair text-xl md:text-2xl">{project.title}</h3>
+                    <p className="text-darkGray/80 text-base md:text-lg">{project.category} | {project.location} | Designed by {project.designer}</p>
+                  </div>
+                </Link>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
       {/* Projects Grid - Mobile optimized spacing and sizing */}
       <section className="py-12 md:py-20 px-4 sm:px-6 bg-warmWhite">
         <div className="container mx-auto">
+          <h2 className="font-playfair text-2xl md:text-3xl mb-10">All Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"> 
-            {filteredProjects.map((project, index) => (
+            {filteredProjects
+              .filter(p => p.id !== "ravi-vazirani-celebrity-home") // Exclude the featured project 
+              .map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 30 }}
