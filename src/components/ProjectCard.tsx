@@ -45,7 +45,7 @@ const ProjectCard = ({ id, title, category, location, image, designer }: Project
           <h3 className="font-playfair text-lg md:text-xl">{title}</h3>
           <p className="text-darkGray/80 text-base">
             {category} | {location}
-            {designer && ` | Design by ${designer}`}
+            {designer && ` | Designed by ${designer}`}
           </p>
         </div>
       </Link>

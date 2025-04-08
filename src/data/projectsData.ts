@@ -15,13 +15,13 @@ export interface Project {
 // Placeholder images from public domain
 const projectsData: Project[] = [
   {
-    id: "ravi-vazirani-celebrity-home",
-    title: "Ravi Vazirani's Celebrity Home",
+    id: "ravi-kale-celebrity-home",
+    title: "Ravi Kale's Celebrity Home",
     category: "Residential",
     location: "Mumbai",
     size: "2,000 sq ft",
     completionYear: "2024",
-    description: "Designed by Ravi Vazirani, this Mumbai residence embodies our vision of creating spaces filled with love and elegance. With over 2,000 sq ft of living space, the project features warm wood finishes, plush textiles, and a nod to Indian craftsmanship, making it a perfect blend of modernity and tradition. The design philosophy centers around creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
+    description: "Designed by Ravi Kale, this Mumbai residence embodies our vision of creating spaces filled with love and elegance. With over 2,000 sq ft of living space, the project features warm wood finishes, plush textiles, and a nod to Indian craftsmanship, making it a perfect blend of modernity and tradition. The design philosophy centers around creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
     features: [
       "Custom jali-inspired partitions",
       "Integrated temple space with traditional elements",
@@ -33,10 +33,12 @@ const projectsData: Project[] = [
     images: [
       "/lovable-uploads/6f4bb809-788e-4c22-9a73-0fd24c6fbc61.png",
       "/lovable-uploads/b420a207-198d-4084-bbb6-40fbd814de50.png",
-      "/lovable-uploads/c5141b3f-b0ee-4393-bb50-a0ae2402f071.png"
+      "/lovable-uploads/c5141b3f-b0ee-4393-bb50-a0ae2402f071.png",
+      "/lovable-uploads/bfd2f8c4-957b-4ddb-9da4-8772ed7840f2.png",
+      "/lovable-uploads/5225c2f7-57d9-4da8-8bf3-a9e4fe750f65.png"
     ],
     isFeatured: true,
-    designer: "Ravi Vazirani"
+    designer: "Ravi Kale"
   },
   {
     id: "mumbai-apartment",

@@ -152,7 +152,7 @@ const ProjectPage = () => {
       </section>
       
       {/* Image Carousel - New Addition */}
-      {project.id === "ravi-vazirani-celebrity-home" && (
+      {project.id === "ravi-kale-celebrity-home" && (
         <section className="bg-warmWhite py-16">
           <div className="container mx-auto px-4">
             <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>

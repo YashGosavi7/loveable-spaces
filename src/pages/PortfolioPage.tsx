@@ -84,7 +84,7 @@ const PortfolioPage = () => {
               transition={{ duration: 0.6 }}
               className="group max-w-5xl mx-auto"
             >
-              {projectsData.filter(p => p.id === "ravi-vazirani-celebrity-home").map(project => (
+              {projectsData.filter(p => p.id === "ravi-kale-celebrity-home").map(project => (
                 <Link to={`/portfolio/${project.id}`} key={project.id} className="block">
                   <div className="relative overflow-hidden rounded-lg shadow-xl">
                     <AspectRatio ratio={16/9} className="bg-lightGray/30">
@@ -120,7 +120,7 @@ const PortfolioPage = () => {
           <h2 className="font-playfair text-2xl md:text-3xl mb-10">All Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"> 
             {filteredProjects
-              .filter(p => p.id !== "ravi-vazirani-celebrity-home") // Exclude the featured project 
+              .filter(p => p.id !== "ravi-kale-celebrity-home") // Exclude the featured project 
               .map((project, index) => (
               <motion.div
                 key={project.id}
