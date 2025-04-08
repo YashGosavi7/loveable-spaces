@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -35,7 +36,9 @@ const projectsData: Project[] = [
       "/lovable-uploads/b420a207-198d-4084-bbb6-40fbd814de50.png",
       "/lovable-uploads/c5141b3f-b0ee-4393-bb50-a0ae2402f071.png",
       "/lovable-uploads/bfd2f8c4-957b-4ddb-9da4-8772ed7840f2.png",
-      "/lovable-uploads/5225c2f7-57d9-4da8-8bf3-a9e4fe750f65.png"
+      "/lovable-uploads/5225c2f7-57d9-4da8-8bf3-a9e4fe750f65.png",
+      "/lovable-uploads/e81c7af2-7a0f-40c5-a281-932f2ac0007d.png",
+      "/lovable-uploads/54a11076-22e6-4005-8066-eb0070bfdc38.png"
     ],
     isFeatured: true,
     designer: "Ravi Kale"
