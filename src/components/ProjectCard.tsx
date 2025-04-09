@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectCardProps {
   id: string;
@@ -14,19 +16,59 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ id, title, category, location, image, designer }: ProjectCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Check if element is in viewport using IntersectionObserver
+  useState(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
+  // Function to handle successful image load
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <motion.div
+      ref={cardRef}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
       <Link to={`/portfolio/${id}`} className="group block relative">
         <div className="overflow-hidden rounded-md shadow-md">
           <AspectRatio ratio={4/3} className="bg-lightGray/20">
-            <img 
-              src={image} 
-              alt={title} 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            {!imageLoaded && <Skeleton className="w-full h-full absolute inset-0" />}
+            {isInView && (
+              <img 
+                src={image} 
+                alt={title} 
+                className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                loading="lazy"
+                onLoad={handleImageLoad}
+                width={400}
+                height={300}
+              />
+            )}
           </AspectRatio>
         </div>
 

@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+
+import { useState, useRef, useEffect, memo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Carousel, 
   CarouselContent, 
@@ -13,9 +15,80 @@ import {
   CarouselPrevious 
 } from "@/components/ui/carousel";
 
+// Optimized Image component with lazy loading and transitions
+const OptimizedImage = memo(({ 
+  src, 
+  alt, 
+  priority = false,
+  className = "",
+  width = 800,
+  height = 600
+}: { 
+  src: string; 
+  alt: string; 
+  priority?: boolean;
+  className?: string;
+  width?: number;
+  height?: number;
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    // If priority is true, don't use intersection observer
+    if (priority) {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (imgRef.current) {
+            observer.unobserve(imgRef.current);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "200px" }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => {
+      if (imgRef.current) {
+        observer.unobserve(imgRef.current);
+      }
+    };
+  }, [priority]);
+
+  return (
+    <>
+      {!isLoaded && <Skeleton className="absolute inset-0 w-full h-full" />}
+      {(isInView || priority) && (
+        <img
+          ref={imgRef}
+          src={src}
+          alt={alt}
+          loading={priority ? "eager" : "lazy"}
+          onLoad={() => setIsLoaded(true)}
+          className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}
+          width={width}
+          height={height}
+        />
+      )}
+    </>
+  );
+});
+
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [imagesInView, setImagesInView] = useState<boolean[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const project = projectsData.find(p => p.id === projectId);
@@ -23,6 +96,13 @@ const ProjectPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [projectId]);
+
+  // Initialize the imagesInView array when project changes
+  useEffect(() => {
+    if (project) {
+      setImagesInView(new Array(project.images.length).fill(false));
+    }
+  }, [project]);
 
   if (!project) {
     return (
@@ -80,10 +160,13 @@ const ProjectPage = () => {
       {/* Full-width Hero Image */}
       <section className="w-full h-[100vh] relative">
         <div className="absolute inset-0">
-          <img 
+          <OptimizedImage 
             src={project.images[activeImageIndex]} 
-            alt={project.title} 
+            alt={`${project.title} - Featured view`} 
             className="w-full h-full object-cover"
+            priority={true}
+            width={1920}
+            height={1080}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex items-end">
             <div className="container mx-auto p-8 md:p-16 pb-32">
@@ -138,10 +221,14 @@ const ProjectPage = () => {
                 }`}
                 onClick={() => setActiveImageIndex(index)}
               >
-                <img 
+                <OptimizedImage 
                   src={image} 
                   alt={`${project.title} thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover" 
+                  className="w-full h-full object-cover"
+                  width={144}
+                  height={80}
+                  // Only prioritize the visible thumbnails
+                  priority={Math.abs(index - activeImageIndex) < 3}
                 />
               </button>
             ))}
@@ -159,11 +246,15 @@ const ProjectPage = () => {
                 <CarouselContent>
                   {project.images.map((image, index) => (
                     <CarouselItem key={index}>
-                      <AspectRatio ratio={4/3} className="bg-lightGray/10">
-                        <img 
-                          src={image} 
-                          alt={`${project.title} view ${index + 1}`} 
+                      <AspectRatio ratio={4/3} className="bg-lightGray/10 relative">
+                        <OptimizedImage
+                          src={image}
+                          alt={`${project.title} view ${index + 1}`}
                           className="w-full h-full object-cover rounded-md"
+                          width={800}
+                          height={600}
+                          // Only prioritize the first few images
+                          priority={index < 3}
                         />
                       </AspectRatio>
                     </CarouselItem>

@@ -1,10 +1,15 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import projectsData from "../data/projectsData";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { ArrowRightIcon } from "lucide-react";
+import ProjectCard from "@/components/ProjectCard";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Optimize expensive rendering with React.memo
+const MemoizedProjectCard = React.memo(ProjectCard);
 
 const PortfolioPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>("Residential");
@@ -28,7 +33,12 @@ const PortfolioPage = () => {
   }, [activeCategory]);
   
   useEffect(() => {
-    setIsLoaded(true);
+    // Mark page as loaded with a slight delay to allow for smooth transitions
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
   
   return (
@@ -88,10 +98,18 @@ const PortfolioPage = () => {
                 <Link to={`/portfolio/${project.id}`} key={project.id} className="block">
                   <div className="relative overflow-hidden rounded-lg shadow-xl">
                     <AspectRatio ratio={16/9} className="bg-lightGray/30">
+                      {!isLoaded && (
+                        <Skeleton className="w-full h-full absolute inset-0" />
+                      )}
                       <img 
                         src={project.images[0]} 
                         alt={project.title}
-                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                        className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 ${
+                          isLoaded ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        loading="eager" // Load the featured image immediately
+                        width={1200}
+                        height={675}
                       />
                     </AspectRatio>
                     <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-6">
@@ -126,31 +144,16 @@ const PortfolioPage = () => {
                 key={project.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group"
+                transition={{ duration: 0.6, delay: Math.min(index * 0.1, 0.8) }} // Cap delay at 0.8s for better performance
               >
-                <Link to={`/portfolio/${project.id}`} className="block">
-                  <div className="relative overflow-hidden rounded-md shadow-md">
-                    <AspectRatio ratio={4/3} className="bg-lightGray/30">
-                      <img 
-                        src={project.images[0]}
-                        alt={project.title}
-                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </AspectRatio>
-                    <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-6">
-                      <h3 className="font-playfair text-white text-xl md:text-2xl mb-2">{project.title}</h3>
-                      <p className="text-white/90 mb-3 text-sm md:text-base">{project.category} | {project.location}</p>
-                      <span className="inline-flex items-center gap-2 text-roseGold/90 border border-roseGold/90 px-4 py-2 rounded text-sm md:text-base">
-                        View Project <ArrowRightIcon size={16} className="transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-4 px-1">
-                    <h3 className="font-playfair text-lg md:text-xl">{project.title}</h3>
-                    <p className="text-darkGray/80 text-base">{project.category} | {project.location}</p>
-                  </div>
-                </Link>
+                <MemoizedProjectCard 
+                  id={project.id}
+                  title={project.title}
+                  category={project.category}
+                  location={project.location}
+                  image={project.images[0]}
+                  designer={project.designer}
+                />
               </motion.div>
             ))}
           </div>
