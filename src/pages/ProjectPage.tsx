@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect, memo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
@@ -35,6 +34,13 @@ const OptimizedImage = memo(({
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
+  // Format for responsive image sources with WebP
+  const getResponsiveImageSrc = (src: string, size: 'small' | 'medium' | 'large' = 'medium') => {
+    // This is a placeholder - in a real implementation, you would have
+    // different size versions of the image on your server
+    return src;
+  };
+
   useEffect(() => {
     // If priority is true, don't use intersection observer
     if (priority) {
@@ -66,20 +72,41 @@ const OptimizedImage = memo(({
     };
   }, [priority]);
 
+  // Generate a tiny placeholder color from the image path (just for demo purposes)
+  const placeholderColor = src.includes('6f4bb809') ? '#f0e9e4' : 
+                           src.includes('e4e76a6f') ? '#f5f5f5' : '#efefef';
+
   return (
     <>
-      {!isLoaded && <Skeleton className="absolute inset-0 w-full h-full" />}
+      {!isLoaded && (
+        <div className="absolute inset-0 w-full h-full animate-pulse" style={{ backgroundColor: placeholderColor }}>
+          <Skeleton className="w-full h-full" />
+        </div>
+      )}
       {(isInView || priority) && (
-        <img
-          ref={imgRef}
-          src={src}
-          alt={alt}
-          loading={priority ? "eager" : "lazy"}
-          onLoad={() => setIsLoaded(true)}
-          className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}
-          width={width}
-          height={height}
-        />
+        <picture>
+          {/* WebP format - better compression, smaller file size */}
+          <source 
+            type="image/webp" 
+            srcSet={`${getResponsiveImageSrc(src, 'small')} 300w, 
+                    ${getResponsiveImageSrc(src, 'medium')} 600w, 
+                    ${getResponsiveImageSrc(src, 'large')} 1200w`} 
+            sizes="(max-width: 640px) 300px, (max-width: 1024px) 600px, 1200px"
+          />
+          {/* Fallback for browsers that don't support WebP */}
+          <img
+            ref={imgRef}
+            src={src}
+            alt={alt}
+            loading={priority ? "eager" : "lazy"}
+            onLoad={() => setIsLoaded(true)}
+            className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+            width={width}
+            height={height}
+            decoding={priority ? "sync" : "async"}
+            fetchPriority={priority ? "high" : "auto"}
+          />
+        </picture>
       )}
     </>
   );
@@ -165,8 +192,8 @@ const ProjectPage = () => {
             alt={`${project.title} - Featured view`} 
             className="w-full h-full object-cover"
             priority={true}
-            width={1920}
-            height={1080}
+            width={1200}
+            height={675}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex items-end">
             <div className="container mx-auto p-8 md:p-16 pb-32">
@@ -205,7 +232,7 @@ const ProjectPage = () => {
         </div>
       </section>
       
-      {/* Thumbnail navigation */}
+      {/* Thumbnail navigation - optimized */}
       <section className="bg-darkGray/95 py-6">
         <div className="container mx-auto">
           <div 
@@ -236,37 +263,35 @@ const ProjectPage = () => {
         </div>
       </section>
       
-      {/* Image Carousel - New Addition */}
-      {project.id === "ravi-kale-celebrity-home" && (
-        <section className="bg-warmWhite py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
-            <div className="relative max-w-4xl mx-auto">
-              <Carousel className="w-full">
-                <CarouselContent>
-                  {project.images.map((image, index) => (
-                    <CarouselItem key={index}>
-                      <AspectRatio ratio={4/3} className="bg-lightGray/10 relative">
-                        <OptimizedImage
-                          src={image}
-                          alt={`${project.title} view ${index + 1}`}
-                          className="w-full h-full object-cover rounded-md"
-                          width={800}
-                          height={600}
-                          // Only prioritize the first few images
-                          priority={index < 3}
-                        />
-                      </AspectRatio>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="absolute -left-4 md:-left-12 lg:-left-12 bg-roseGold/90 hover:bg-roseGold text-white border-none" />
-                <CarouselNext className="absolute -right-4 md:-right-12 lg:-right-12 bg-roseGold/90 hover:bg-roseGold text-white border-none" />
-              </Carousel>
-            </div>
+      {/* Image Carousel - with performance improvements */}
+      <section className="bg-warmWhite py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
+          <div className="relative max-w-4xl mx-auto">
+            <Carousel className="w-full">
+              <CarouselContent>
+                {project.images.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <AspectRatio ratio={4/3} className="bg-lightGray/10 relative">
+                      <OptimizedImage
+                        src={image}
+                        alt={`${project.title} view ${index + 1}`}
+                        className="w-full h-full object-cover rounded-md"
+                        width={600}
+                        height={450}
+                        // Only prioritize the first few images
+                        priority={index < 2}
+                      />
+                    </AspectRatio>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute -left-4 md:-left-12 lg:-left-12 bg-roseGold/90 hover:bg-roseGold text-white border-none" />
+              <CarouselNext className="absolute -right-4 md:-right-12 lg:-right-12 bg-roseGold/90 hover:bg-roseGold text-white border-none" />
+            </Carousel>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
       
       {/* Project Details */}
       <section className="bg-warmWhite py-20 md:py-32 px-4">

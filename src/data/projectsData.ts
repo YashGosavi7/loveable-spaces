@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -16,17 +17,19 @@ export interface Project {
 const projectsData: Project[] = [
   {
     id: "ravi-kale-celebrity-home",
-    title: "Ravi Kale's Celebrity Home",
+    title: "Ravi Kale's Celebrity Home & Hadapsar Apartment",
     category: "Residential",
-    location: "Mumbai",
-    size: "2,000 sq ft",
+    location: "Mumbai & Pune",
+    size: "3,500 sq ft",
     completionYear: "2024",
-    description: "Designed by Shravan Suthar, this Mumbai residence embodies our vision of creating spaces filled with love and elegance. With over 2,000 sq ft of living space, the project features warm wood finishes, plush textiles, and a nod to Indian craftsmanship, making it a perfect blend of modernity and tradition. The design philosophy centers around creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
+    description: "Designed by Shravan Suthar, this project encompasses a Mumbai residence and a Hadapsar, Pune apartment that embodies our vision of creating spaces filled with love and elegance. The Mumbai property features over 2,000 sq ft of living space with warm wood finishes and plush textiles, while the Hadapsar apartment showcases a contemporary office space with vibrant orange accents and minimalist design. Both projects demonstrate our philosophy of creating a harmonious balance between functionality and aesthetic excellence, incorporating elements of traditional Indian architecture while maintaining a contemporary appeal.",
     features: [
       "Custom jali-inspired partitions",
       "Integrated temple space with traditional elements",
       "Designer dining area with pendant lighting",
       "Modern kitchen with marble backsplash",
+      "Contemporary office setup with vibrant color accents",
+      "Efficient space utilization for multi-purpose functionality",
       "Warm, neutral color palette throughout",
       "Artisanal details and handcrafted accents"
     ],
@@ -34,6 +37,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/6f4bb809-788e-4c22-9a73-0fd24c6fbc61.png",
       "/lovable-uploads/b420a207-198d-4084-bbb6-40fbd814de50.png",
       "/lovable-uploads/c5141b3f-b0ee-4393-bb50-a0ae2402f071.png",
+      "/lovable-uploads/e4e76a6f-d3c6-4791-8799-f931bd28a63a.png", // New Hadapsar apartment image
       "/lovable-uploads/bfd2f8c4-957b-4ddb-9da4-8772ed7840f2.png",
       "/lovable-uploads/5225c2f7-57d9-4da8-8bf3-a9e4fe750f65.png",
       "/lovable-uploads/e81c7af2-7a0f-40c5-a281-932f2ac0007d.png",

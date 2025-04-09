@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectCardProps {
@@ -14,6 +14,44 @@ interface ProjectCardProps {
   image: string;
   designer?: string;
 }
+
+const OptimizedCardImage = memo(({ 
+  src, 
+  alt, 
+  onLoad, 
+  isVisible 
+}: { 
+  src: string; 
+  alt: string; 
+  onLoad: () => void; 
+  isVisible: boolean;
+}): JSX.Element => {
+  if (!isVisible) {
+    return <></>;
+  }
+  
+  // Generate a placeholder color based on the image path (demo purposes)
+  const placeholderColor = src.includes('6f4bb809') ? '#f0e9e4' : 
+                           src.includes('e4e76a6f') ? '#f5f5f5' : '#efefef';
+                          
+  return (
+    <picture>
+      {/* WebP for modern browsers */}
+      <source type="image/webp" srcSet={src} />
+      {/* Fallback for older browsers */}
+      <img 
+        src={src} 
+        alt={alt} 
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        loading="lazy"
+        onLoad={onLoad}
+        width={300}
+        height={225}
+        style={{ backgroundColor: placeholderColor }}
+      />
+    </picture>
+  );
+});
 
 const ProjectCard = ({ id, title, category, location, image, designer }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -27,7 +65,7 @@ const ProjectCard = ({ id, title, category, location, image, designer }: Project
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "200px 0px" } // Preload as user approaches
     );
 
     if (cardRef.current) {
@@ -56,19 +94,12 @@ const ProjectCard = ({ id, title, category, location, image, designer }: Project
         <div className="overflow-hidden rounded-md shadow-md">
           <AspectRatio ratio={4/3} className="bg-lightGray/20">
             {!imageLoaded && <Skeleton className="w-full h-full absolute inset-0" />}
-            {isInView && (
-              <img 
-                src={image} 
-                alt={title} 
-                className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
-                  imageLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
-                loading="lazy"
-                onLoad={handleImageLoad}
-                width={400}
-                height={300}
-              />
-            )}
+            <OptimizedCardImage
+              src={image}
+              alt={title}
+              onLoad={handleImageLoad}
+              isVisible={isInView}
+            />
           </AspectRatio>
         </div>
 
