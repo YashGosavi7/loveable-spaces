@@ -1,5 +1,5 @@
 
-import { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import projectsData from "../data/projectsData";

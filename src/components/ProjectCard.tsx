@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectCardProps {
@@ -21,7 +21,7 @@ const ProjectCard = ({ id, title, category, location, image, designer }: Project
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Check if element is in viewport using IntersectionObserver
-  useState(() => {
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
