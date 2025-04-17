@@ -2,8 +2,8 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import OptimizedImage from "../OptimizedImage";
-import { Project } from "@/data/projectsData";
 import { Helmet } from "react-helmet";
+import { Project } from "@/data/projectsData";
 
 interface ProjectHeroProps {
   project: Project;
