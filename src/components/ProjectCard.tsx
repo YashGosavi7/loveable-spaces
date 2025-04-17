@@ -13,6 +13,7 @@ interface ProjectCardProps {
   location: string;
   image: string;
   designer?: string;
+  tagline?: string;
 }
 
 const OptimizedCardImage = memo(({ 
@@ -30,14 +31,26 @@ const OptimizedCardImage = memo(({
     return <></>;
   }
   
-  // Generate a placeholder color based on the image path (demo purposes)
-  const placeholderColor = src.includes('6f4bb809') ? '#f0e9e4' : 
+  // Generate a placeholder color based on the image path
+  const placeholderColor = src.includes('f5ee7e6c') ? '#f5f0e6' : 
+                           src.includes('09506ceb') ? '#f0e9e4' : 
+                           src.includes('cee99868') ? '#f5f5f0' :
+                           src.includes('b52db17b') ? '#f0f0e8' :
+                           src.includes('0ca6700f') ? '#f8f6f2' :
+                           src.includes('5bc6dc7e') ? '#f5f2ed' :
+                           src.includes('46f2b2ae') ? '#f2f0eb' :
+                           src.includes('6f4bb809') ? '#f0e9e4' : 
                            src.includes('e4e76a6f') ? '#f5f5f5' : '#efefef';
                           
   return (
     <picture>
-      {/* WebP for modern browsers */}
-      <source type="image/webp" srcSet={src} />
+      {/* WebP for modern browsers - in production, these would be actual WebP versions */}
+      <source 
+        type="image/webp" 
+        srcSet={`${src} 300w, ${src} 600w, ${src} 1200w`} 
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      />
+      
       {/* Fallback for older browsers */}
       <img 
         src={src} 
@@ -53,7 +66,7 @@ const OptimizedCardImage = memo(({
   );
 });
 
-const ProjectCard = ({ id, title, category, location, image, designer }: ProjectCardProps) => {
+const ProjectCard = ({ id, title, category, location, image, designer, tagline }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -65,7 +78,7 @@ const ProjectCard = ({ id, title, category, location, image, designer }: Project
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0.1, rootMargin: "200px 0px" } // Preload as user approaches
+      { threshold: 0.1, rootMargin: "300px 0px" } // Preload as user approaches (increased margin)
     );
 
     if (cardRef.current) {
@@ -109,6 +122,9 @@ const ProjectCard = ({ id, title, category, location, image, designer }: Project
             {category} | {location}
             {designer && ` | Designed by ${designer}`}
           </p>
+          {tagline && (
+            <p className="text-roseGold mb-4 italic">{tagline}</p>
+          )}
           <span className="inline-flex items-center gap-2 text-roseGold/90 border border-roseGold/90 px-4 py-2 rounded text-sm md:text-base">
             View Project <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </span>

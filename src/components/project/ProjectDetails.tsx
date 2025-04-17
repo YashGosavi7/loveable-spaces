@@ -27,6 +27,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
               <p className="text-lg mb-10 leading-relaxed">
                 Our approach to this project focused on creating a harmonious balance between functionality and aesthetic excellence. 
                 We embraced the natural elements of the space while introducing architectural elements that reflect the client's unique personality and lifestyle needs.
+                {project.id === "nikhil-nikam-modern-residence" && " The design incorporates subtle nods to Indian craftsmanship through textured surfaces, warm lighting, and carefully selected materials that bring a sense of heritage into this contemporary space."}
               </p>
               
               <h3 className="font-playfair text-2xl mb-6">Features</h3>
@@ -53,7 +54,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <div className="bg-lightGray/30 p-8 rounded-xl sticky top-32">
+            <div className="bg-lightGray/30 p-8 rounded-xl sticky top-32 mandala-pattern-bg">
               <h3 className="font-playfair text-2xl mb-6">Project Details</h3>
               
               <div className="space-y-6">
@@ -82,6 +83,28 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                 <div>
                   <p className="text-darkGray/60 text-sm">Completed</p>
                   <p className="font-medium text-lg">{project.completionYear}</p>
+                </div>
+
+                {project.style && (
+                  <div>
+                    <p className="text-darkGray/60 text-sm">Style</p>
+                    <p className="font-medium text-lg">{project.style}</p>
+                  </div>
+                )}
+                
+                <div className="pt-2">
+                  <p className="text-darkGray/60 text-sm">Since</p>
+                  <p className="font-medium text-lg">Loveable Interiors, est. 2012</p>
+                </div>
+                
+                <div>
+                  <p className="text-darkGray/60 text-sm">Experience</p>
+                  <p className="font-medium text-lg">600+ Projects Across Tier 1 Cities</p>
+                </div>
+                
+                <div>
+                  <p className="text-darkGray/60 text-sm">Starting At</p>
+                  <p className="font-medium text-lg">₹15,000 Total</p>
                 </div>
               </div>
               

@@ -11,10 +11,44 @@ export interface Project {
   images: string[];
   isFeatured?: boolean;
   designer?: string;
+  tagline?: string;
+  style?: string;
 }
 
 // Placeholder images from public domain
 const projectsData: Project[] = [
+  {
+    id: "nikhil-nikam-modern-residence",
+    title: "Nikhil Nikam's Modern Residence",
+    category: "Residential",
+    location: "Mumbai",
+    size: "2,000 sq ft",
+    completionYear: "2025",
+    description: "Crafted for Mr. Nikhil Nikam, this Mumbai residence embodies Loveable's vision of warmth and elegance. Spanning 2,000 sq ft, the project features rich wood finishes, soft textiles, and Indian-inspired details like jali screens, creating a perfect balance of modernity and tradition. Our approach to this project focused on creating a harmonious balance between functionality and aesthetic excellence, while incorporating subtle cultural elements that reflect the client's heritage and personal style.",
+    features: [
+      "Custom ceiling design with wooden accents",
+      "Modern LED lighting including feature wall lights",
+      "Contemporary modular furniture with warm tones",
+      "Minimalist TV wall with integrated storage",
+      "Artistic wall paneling with vertical ribbing",
+      "Elegant marble-inspired flooring",
+      "Space-efficient built-in wardrobes",
+      "Subtle cultural elements and art"
+    ],
+    images: [
+      "/lovable-uploads/f5ee7e6c-2a95-4175-ad8c-b39c5989edbc.png",
+      "/lovable-uploads/09506ceb-06f0-4edc-8df9-52cfc11d86f9.png",
+      "/lovable-uploads/cee99868-3b74-4a2c-a612-cf021461f04e.png",
+      "/lovable-uploads/b52db17b-0bb9-4c9d-a33b-acbca15a2a79.png",
+      "/lovable-uploads/0ca6700f-3aa4-4261-9d5b-93b736f2dacb.png",
+      "/lovable-uploads/5bc6dc7e-be03-49c6-818f-ca1717ddf6e7.png",
+      "/lovable-uploads/46f2b2ae-5b91-41d8-af0f-2f4e4b9217d9.png"
+    ],
+    isFeatured: true,
+    designer: "Dalaram Suthar",
+    tagline: "A Cozy Haven in Mumbai",
+    style: "Warm Minimalism"
+  },
   {
     id: "ravi-kale-celebrity-home",
     title: "Ravi Kale's Celebrity Home & Hadapsar Apartment",
@@ -45,7 +79,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/24c6ec06-e41e-4621-9565-85f1d857a4c5.png",
       "/lovable-uploads/a19eedb8-bc4e-4e31-837c-782e81c3f3d3.png"
     ],
-    isFeatured: true,
+    isFeatured: false,
     designer: "Shravan Suthar"
   },
   {

@@ -9,6 +9,8 @@ interface OptimizedImageProps {
   className?: string;
   width?: number;
   height?: number;
+  sizes?: string;
+  preload?: boolean;
 }
 
 const OptimizedImage = memo(({ 
@@ -17,21 +19,53 @@ const OptimizedImage = memo(({
   priority = false,
   className = "",
   width = 800,
-  height = 600
+  height = 600,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  preload = false
 }: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Format for responsive image sources with WebP
+  // Generate tiny placeholder color based on image path
+  const placeholderColor = src.includes('f5ee7e6c') ? '#f5f0e6' : 
+                           src.includes('09506ceb') ? '#f0e9e4' : 
+                           src.includes('cee99868') ? '#f5f5f0' :
+                           src.includes('b52db17b') ? '#f0f0e8' :
+                           src.includes('0ca6700f') ? '#f8f6f2' :
+                           src.includes('5bc6dc7e') ? '#f5f2ed' :
+                           src.includes('46f2b2ae') ? '#f2f0eb' :
+                           src.includes('6f4bb809') ? '#f0e9e4' : 
+                           src.includes('e4e76a6f') ? '#f5f5f5' : '#efefef';
+
+  // Add preload link for critical images
+  useEffect(() => {
+    if (preload || priority) {
+      const linkElement = document.createElement('link');
+      linkElement.rel = 'preload';
+      linkElement.as = 'image';
+      linkElement.href = src;
+      document.head.appendChild(linkElement);
+      
+      return () => {
+        document.head.removeChild(linkElement);
+      };
+    }
+  }, [src, preload, priority]);
+
+  // Determine if mobile screen for serving correct image size
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
+  
+  // Responsive image sizing
   const getResponsiveImageSrc = (src: string, size: 'small' | 'medium' | 'large' = 'medium') => {
-    // This is a placeholder - in a real implementation, you would have
-    // different size versions of the image on your server
+    // In a production environment, you would have different sized versions
+    // e.g. appending -small, -medium suffixes to filenames
     return src;
   };
 
   useEffect(() => {
-    // If priority is true, don't use intersection observer
+    // If priority is true, don't use intersection observer - load immediately
     if (priority) {
       setIsInView(true);
       return;
@@ -47,7 +81,7 @@ const OptimizedImage = memo(({
           }
         }
       },
-      { threshold: 0.1, rootMargin: "200px" }
+      { threshold: 0.1, rootMargin: "300px" } // Increased rootMargin for earlier loading
     );
 
     if (imgRef.current) {
@@ -61,28 +95,28 @@ const OptimizedImage = memo(({
     };
   }, [priority]);
 
-  // Generate a tiny placeholder color from the image path (just for demo purposes)
-  const placeholderColor = src.includes('6f4bb809') ? '#f0e9e4' : 
-                           src.includes('e4e76a6f') ? '#f5f5f5' : '#efefef';
-
   return (
     <>
       {!isLoaded && (
-        <div className="absolute inset-0 w-full h-full animate-pulse" style={{ backgroundColor: placeholderColor }}>
+        <div 
+          className="absolute inset-0 w-full h-full animate-pulse" 
+          style={{ backgroundColor: placeholderColor }}
+          aria-hidden="true"
+        >
           <Skeleton className="w-full h-full" />
         </div>
       )}
       {(isInView || priority) && (
         <picture>
-          {/* WebP format - better compression, smaller file size */}
+          {/* WebP format for modern browsers */}
           <source 
             type="image/webp" 
             srcSet={`${getResponsiveImageSrc(src, 'small')} 300w, 
                     ${getResponsiveImageSrc(src, 'medium')} 600w, 
-                    ${getResponsiveImageSrc(src, 'large')} 1200w`} 
-            sizes="(max-width: 640px) 300px, (max-width: 1024px) 600px, 1200px"
+                    ${getResponsiveImageSrc(src, 'large')} 1200w`}
+            sizes={sizes}
           />
-          {/* Fallback for browsers that don't support WebP */}
+          {/* Fallback image */}
           <img
             ref={imgRef}
             src={src}
@@ -100,5 +134,7 @@ const OptimizedImage = memo(({
     </>
   );
 });
+
+OptimizedImage.displayName = "OptimizedImage";
 
 export default OptimizedImage;
