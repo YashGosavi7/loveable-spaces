@@ -18,6 +18,41 @@ export interface Project {
 // Placeholder images from public domain
 const projectsData: Project[] = [
   {
+    id: "gaikwad-luxe-bungalow",
+    title: "Gaikwad's Luxe Bungalow",
+    category: "Residential",
+    location: "Pune",
+    size: "3,000 sq ft",
+    completionYear: "2025",
+    description: "Crafted for Mr. Gaikwad, this Pune bungalow redefines luxury with Loveable's signature warmth. Spanning 3,000 sq ft, the home features walnut wood paneling, handcrafted jali screens, and vibrant silk textiles, blending modern sophistication with Indian artistry for a grand yet inviting space. The design celebrates cultural elements with intricate jali work around the entrance, diagonal pattern-tiled façade, and custom furniture featuring traditional Indian cane weaving, all while maintaining a contemporary appeal.",
+    features: [
+      "Elegant façade with diagonal-pattern tiling and warm lighting accents",
+      "Handcrafted jali screens inspired by traditional Indian architecture",
+      "Custom wooden ceiling with integrated lighting in dining area",
+      "Artisanal pendant lights with traditional weaving patterns",
+      "Cane-backed dining chairs with contemporary frames",
+      "Modern kitchen with terrazzo-inspired countertops",
+      "Indoor planters for natural elements throughout the space",
+      "Walnut wood accents and paneling throughout"
+    ],
+    images: [
+      "/lovable-uploads/69c5505e-7fce-4921-821b-968350915941.png", 
+      "/lovable-uploads/162c3976-5536-4565-94e3-63a6ae016de9.png",
+      "/lovable-uploads/fd5187c0-2026-452d-befe-454afc74d221.png",
+      "/lovable-uploads/3282f0c6-6e0c-4fa3-8ab0-cb8b01b4d081.png",
+      "/lovable-uploads/b60c1013-7d70-40f4-9d27-356da444ddc2.png",
+      "/lovable-uploads/b6d041bc-9e50-48d7-8940-89967bfd25a7.png",
+      "/lovable-uploads/97e8a637-8c5d-4374-b76e-5de0dcb51ae3.png",
+      "/lovable-uploads/6a80598e-4a16-48d6-87ae-5768eb200470.png",
+      "/lovable-uploads/af2cf939-499b-41d8-a440-171728da79db.png",
+      "/lovable-uploads/411a20a4-671e-4c25-87ed-0e7a59de0bd5.png"
+    ],
+    isFeatured: true,
+    designer: "Dalaram Suthar",
+    tagline: "A Grand Retreat in Pune",
+    style: "Luxurious Indian Contemporary"
+  },
+  {
     id: "bhushan-naikwadi-elegant-abode",
     title: "Bhushan Naikwadi's Elegant Abode",
     category: "Residential",

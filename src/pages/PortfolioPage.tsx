@@ -26,12 +26,40 @@ const PortfolioPage = () => {
     
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
-  }, []);
+    
+    // Preload critical featured project images
+    if (featuredProject) {
+      const preloadImage = new Image();
+      preloadImage.src = featuredProject.images[0];
+    }
+    
+    // Preload first image of each project for optimal grid view loading
+    const preloadThumbnails = () => {
+      const visibleProjects = activeCategory === "All" 
+        ? projectsData.slice(0, 6) 
+        : projectsData.filter(p => p.category === activeCategory).slice(0, 6);
+        
+      visibleProjects.forEach(project => {
+        const img = new Image();
+        img.src = project.images[0];
+      });
+    };
+    
+    preloadThumbnails();
+  }, [activeCategory, featuredProject]);
   
   // Filter projects based on selected category
   const filteredProjects = activeCategory === "All"
     ? projectsData
     : projectsData.filter(project => project.category === activeCategory);
+
+  // Generate placeholder colors based on project for smoother loading
+  const getPlaceholderColor = (projectId: string) => {
+    if (projectId === "gaikwad-luxe-bungalow") return "#f5f1ea";
+    if (projectId === "bhushan-naikwadi-elegant-abode") return "#f4efe8";
+    if (projectId === "grandeur-wedding-hall") return "#f5f0e9";
+    return "#f5f2ed";
+  };
 
   return (
     <div className="min-h-screen pt-24 pb-16">
@@ -45,6 +73,22 @@ const PortfolioPage = () => {
           name="keywords" 
           content="interior design, portfolio, residential design, commercial design, hospitality design, Indian interiors, Loveable"
         />
+        
+        {/* DNS prefetch for image domains */}
+        <link rel="dns-prefetch" href="https://lovable.app" />
+        <link rel="preconnect" href="https://lovable.app" crossOrigin="anonymous" />
+        
+        {/* Preload critical images */}
+        <link 
+          rel="preload" 
+          as="image" 
+          href={featuredProject.images[0]} 
+          fetchPriority="high"
+          crossOrigin="anonymous"
+        />
+        
+        {/* Cache control hints */}
+        <meta httpEquiv="Cache-Control" content="max-age=5184000" /> {/* 60 days */}
       </Helmet>
       
       {/* Page Title */}
@@ -59,24 +103,45 @@ const PortfolioPage = () => {
           <h2 className="font-playfair text-2xl md:text-3xl mb-6">Featured Project</h2>
           <div className="relative overflow-hidden rounded-lg shadow-lg group">
             <div className="relative w-full h-0" style={{ paddingBottom: '56.25%' }}>
-              {/* Update in the featured project image section */}
-              <img 
-                src={featuredProject.images[0]} 
-                alt={`Fast-loading ${featuredProject.title} interior by Loveable in ${featuredProject.location}`}
-                className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 ${
-                  isLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
-                loading="eager" 
-                width={1000}
-                height={563}
-                // Corrected to camelCase fetchPriority
-                fetchPriority="high"
-                decoding="sync"
-                style={{
-                  aspectRatio: `${getFeaturedAspectRatio()}`,
-                  objectFit: "cover"
+              <div 
+                className="absolute inset-0 transition-opacity duration-300" 
+                style={{ 
+                  backgroundColor: getPlaceholderColor(featuredProject.id),
+                  opacity: isLoaded ? 0 : 1 
                 }}
-              />
+              ></div>
+              <picture>
+                {/* WebP format for modern browsers */}
+                <source 
+                  type="image/webp" 
+                  srcSet={`${featuredProject.images[0]} 500w, ${featuredProject.images[0]} 1000w`} 
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1000px"
+                />
+                {/* AVIF format for browsers with best compression support */}
+                <source 
+                  type="image/avif" 
+                  srcSet={`${featuredProject.images[0]} 500w, ${featuredProject.images[0]} 1000w`} 
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1000px"
+                />
+                {/* Fallback image */}
+                <img 
+                  src={featuredProject.images[0]} 
+                  alt={`Fast-loading ${featuredProject.title} interior by Loveable in ${featuredProject.location}`}
+                  className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 ${
+                    isLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  loading="eager" 
+                  width={1000}
+                  height={563}
+                  fetchPriority="high"
+                  decoding="sync"
+                  style={{
+                    aspectRatio: `${getFeaturedAspectRatio()}`,
+                    objectFit: "cover"
+                  }}
+                  onLoad={() => setIsLoaded(true)}
+                />
+              </picture>
             </div>
             <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-6">
               <h3 className="font-playfair text-white text-2xl md:text-3xl mb-3">{featuredProject.title}</h3>
@@ -132,6 +197,14 @@ const PortfolioPage = () => {
             />
           ))}
         </motion.div>
+        
+        {/* Information Section */}
+        <div className="mt-20 text-center">
+          <p className="text-darkGray/80 mb-2">
+            Founded in 2012 by Dalaram Suthar • 600+ Projects Across Tier 1 Cities
+          </p>
+          <p className="text-roseGold/90">Starting at ₹15,000 Total</p>
+        </div>
       </div>
     </div>
   );
