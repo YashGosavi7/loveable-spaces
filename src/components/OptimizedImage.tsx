@@ -11,6 +11,9 @@ interface OptimizedImageProps {
   height?: number;
   sizes?: string;
   preload?: boolean;
+  quality?: "low" | "medium" | "high";
+  blurHash?: string;
+  skipLazyLoading?: boolean;
 }
 
 const OptimizedImage = memo(({ 
@@ -21,13 +24,16 @@ const OptimizedImage = memo(({
   width = 800,
   height = 600,
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
-  preload = false
+  preload = false,
+  quality = "medium",
+  blurHash,
+  skipLazyLoading = false
 }: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  const [isInView, setIsInView] = useState(priority || skipLazyLoading);
   const imgRef = useRef<HTMLImageElement>(null);
-
-  // Generate a color placeholder based on image path for better UX while loading
+  
+  // Generate color placeholder based on image path for better UX while loading
   const generatePlaceholderColor = () => {
     if (src.includes('eea53347')) return '#f5f0e9'; // Wedding hall main
     if (src.includes('18ae3aa6')) return '#f3ede6'; // Wedding hall seating
@@ -56,6 +62,14 @@ const OptimizedImage = memo(({
 
   const placeholderColor = generatePlaceholderColor();
 
+  // Enhanced image path formatting for theoretically variable sizes
+  // In production this would connect to a proper image CDN
+  const getImageUrl = (imgPath: string, imgWidth: number, format: string = 'auto') => {
+    // In production, this would be handled by an image processing service
+    // For example: return `https://cdn.loveable.com/img/${imgWidth}/${format}/${imgPath}`
+    return imgPath;
+  };
+
   // Add preload link for critical images to speed up loading time
   useEffect(() => {
     if ((preload || priority) && typeof window !== 'undefined') {
@@ -71,40 +85,47 @@ const OptimizedImage = memo(({
       const isMobile = window.innerWidth < 768;
       if (isMobile && width > 400) {
         // Append a size indicator for hypothetical image resizing service
-        // In production, this would be handled by an actual resizing service
-        linkElement.href = `${src}?w=${Math.floor(width/2)}`;
+        // In production, this would connect to an image CDN
+        linkElement.href = getImageUrl(src, Math.floor(width/2));
       }
       
       document.head.appendChild(linkElement);
+      
+      // Add cache control headers (this would be on server-side in production)
+      linkElement.setAttribute('data-cache-control', 'public, max-age=5184000'); // 60 days
       
       return () => {
         try {
           document.head.removeChild(linkElement);
         } catch (e) {
-          // Linklement might have already been removed
+          // Link element might have already been removed
           console.info('Preload link already removed');
         }
       };
     }
   }, [src, preload, priority, width]);
 
-  // Determine viewport size for responsive images
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
-  
   // Get responsive image source for different device sizes
   const getResponsiveImageSrc = (src: string, size: 'small' | 'medium' | 'large' = 'medium') => {
     // In a production environment, we would have a proper image CDN
     // that could dynamically resize images based on query parameters
-    // For this exercise we'll just return the original source
-    // but in production we'd append width params like ?w=300 for small
-    return src;
+    let targetWidth = width;
+    
+    if (size === 'small') {
+      targetWidth = Math.min(250, width); // Mobile sizes
+    } else if (size === 'medium') {
+      targetWidth = Math.min(500, width); // Tablet sizes
+    } else if (size === 'large') {
+      targetWidth = width; // Desktop sizes
+    }
+    
+    return getImageUrl(src, targetWidth);
   };
-
-  // Use Intersection Observer to lazy load images - with increased thresholds for faster loading
+  
+  // Enhanced intersection observer with much earlier detection
   useEffect(() => {
     // If priority is true, don't use intersection observer - load immediately
-    if (priority) {
+    if (priority || skipLazyLoading) {
       setIsInView(true);
       return;
     }
@@ -120,8 +141,8 @@ const OptimizedImage = memo(({
         }
       },
       { 
-        threshold: 0.05, // Reduced threshold to start loading earlier
-        rootMargin: "600px" // Increased rootMargin significantly to load images well before they enter viewport
+        threshold: 0.01, // Reduced threshold to start loading when just 1% visible
+        rootMargin: "800px 0px" // Increased rootMargin significantly to load images well before they enter viewport
       }
     );
 
@@ -134,13 +155,23 @@ const OptimizedImage = memo(({
         observer.unobserve(imgRef.current);
       }
     };
-  }, [priority]);
+  }, [priority, skipLazyLoading]);
+
+  // Define quality parameters for different quality settings
+  const getQualitySuffix = () => {
+    // In production this would be used with a CDN
+    switch(quality) {
+      case 'low': return '&q=60';
+      case 'high': return '&q=90';
+      default: return '&q=75';
+    }
+  };
 
   return (
     <>
       {!isLoaded && (
         <div 
-          className="absolute inset-0 w-full h-full animate-pulse" 
+          className="absolute inset-0 w-full h-full"
           style={{ backgroundColor: placeholderColor }}
           aria-hidden="true"
         >
@@ -148,27 +179,27 @@ const OptimizedImage = memo(({
         </div>
       )}
       
-      {(isInView || priority) && (
+      {(isInView) && (
         <picture>
-          {/* WebP format for modern browsers - in production these would be proper WebP conversions */}
+          {/* WebP format for modern browsers */}
           <source 
             type="image/webp" 
-            srcSet={`${getResponsiveImageSrc(src, 'small')} 300w, 
-                    ${getResponsiveImageSrc(src, 'medium')} 600w, 
-                    ${getResponsiveImageSrc(src, 'large')} 1200w`}
+            srcSet={`${getResponsiveImageSrc(src, 'small')} 250w, 
+                    ${getResponsiveImageSrc(src, 'medium')} 500w, 
+                    ${getResponsiveImageSrc(src, 'large')} ${width}w`}
             sizes={sizes}
           />
           
           {/* AVIF format for browsers with the best compression support */}
           <source 
             type="image/avif" 
-            srcSet={`${getResponsiveImageSrc(src, 'small')} 300w, 
-                    ${getResponsiveImageSrc(src, 'medium')} 600w, 
-                    ${getResponsiveImageSrc(src, 'large')} 1200w`}
+            srcSet={`${getResponsiveImageSrc(src, 'small')} 250w, 
+                    ${getResponsiveImageSrc(src, 'medium')} 500w, 
+                    ${getResponsiveImageSrc(src, 'large')} ${width}w`}
             sizes={sizes}
           />
           
-          {/* Responsive images for different devices */}
+          {/* Responsive sources for different devices */}
           <source 
             media="(max-width: 640px)" 
             srcSet={getResponsiveImageSrc(src, 'small')}
@@ -190,8 +221,22 @@ const OptimizedImage = memo(({
             height={height}
             decoding={priority ? "sync" : "async"}
             fetchPriority={priority ? "high" : "auto"}
+            style={{
+              aspectRatio: `${width}/${height}`,
+              objectFit: "cover"
+            }}
           />
         </picture>
+      )}
+
+      {/* Hidden image for prefetching next gallery images */}
+      {!isInView && preload && (
+        <link 
+          rel="prefetch" 
+          href={src} 
+          as="image" 
+          fetchPriority="low"
+        />
       )}
     </>
   );

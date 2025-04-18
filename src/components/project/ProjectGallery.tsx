@@ -9,7 +9,7 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from "@/components/ui/carousel";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -17,10 +17,35 @@ interface ProjectGalleryProps {
 
 const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [preloadedSlides, setPreloadedSlides] = useState<number[]>([0, 1]);
   
   const handleSlideChange = useCallback((index: number) => {
     setCurrentSlide(index);
-  }, []);
+    
+    // Preload next few slides when slide changes
+    const nextSlidesToPreload = [];
+    const totalSlides = project.images.length;
+    
+    // Preload next 2 slides
+    for (let i = 1; i <= 2; i++) {
+      const nextIndex = (index + i) % totalSlides;
+      if (!preloadedSlides.includes(nextIndex)) {
+        nextSlidesToPreload.push(nextIndex);
+      }
+    }
+    
+    if (nextSlidesToPreload.length > 0) {
+      setPreloadedSlides(prev => [...prev, ...nextSlidesToPreload]);
+    }
+  }, [project.images.length, preloadedSlides]);
+  
+  // Get optimal dimensions for gallery images
+  const getGalleryImageDimensions = () => {
+    // Default dimensions (optimal for gallery view)
+    return { width: 500, height: 375 };
+  };
+  
+  const { width, height } = getGalleryImageDimensions();
   
   return (
     <section className="bg-warmWhite py-16">
@@ -42,10 +67,11 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
                       src={image}
                       alt={`${project.title} view ${index + 1} - Fast loading interior design by Loveable for ${project.location}`}
                       className="w-full h-full object-cover rounded-md"
-                      width={600}
-                      height={450}
-                      // Only prioritize the first few images
-                      priority={index < 2}
+                      width={width}
+                      height={height}
+                      priority={index < 1} // Prioritize only the first image
+                      preload={index < 3} // Preload first few images
+                      quality={index < 3 ? "high" : "medium"} // Higher quality for first few images
                     />
                   </AspectRatio>
                 </CarouselItem>
@@ -66,6 +92,20 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
                 onClick={() => handleSlideChange(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />
+            ))}
+          </div>
+          
+          {/* Hidden preloads to ensure smooth carousel navigation */}
+          <div className="hidden" aria-hidden="true">
+            {preloadedSlides.map(index => (
+              project.images[index] && (
+                <link 
+                  key={`preload-gallery-${index}`}
+                  rel="prefetch" 
+                  href={project.images[index]} 
+                  as="image"
+                />
+              )
             ))}
           </div>
         </div>

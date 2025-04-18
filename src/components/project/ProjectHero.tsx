@@ -43,19 +43,19 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
     }
   }, [activeImageIndex, project.images.length, preloadedIndices]);
 
-  // Calculate approximate image dimensions for the hero
+  // Calculate approximate image dimensions for the hero, optimized for different devices
   const getImageDimensions = () => {
     // Default dimensions (desktop)
-    let width = 1200;
-    let height = 675;
+    let width = 1000;
+    let height = 563;
     
     // Adapt based on viewport (if client-side)
     if (typeof window !== 'undefined') {
       const viewportWidth = window.innerWidth;
       if (viewportWidth < 640) {
         // Mobile
-        width = 600;
-        height = 338;
+        width = 500;
+        height = 281;
       } else if (viewportWidth < 1024) {
         // Tablet
         width = 800;
@@ -68,7 +68,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
   
   const { width, height } = getImageDimensions();
   
-  // Preload links for next and previous images
+  // Preload links for next and previous images with enhanced attributes
   const renderPreloadLinks = () => {
     const links = [];
     
@@ -80,7 +80,8 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         rel="preload" 
         as="image" 
         href={project.images[nextIndex]} 
-        fetchPriority="low"  // Changed from fetchpriority to fetchPriority
+        fetchPriority="low"
+        crossOrigin="anonymous"
       />
     );
     
@@ -92,7 +93,8 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         rel="preload" 
         as="image" 
         href={project.images[prevIndex]} 
-        fetchPriority="low"  // Changed from fetchpriority to fetchPriority
+        fetchPriority="low"
+        crossOrigin="anonymous"
       />
     );
     
@@ -103,22 +105,31 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
     <section className="w-full h-[100vh] relative">
       <Helmet>
         <title>Loveable - {project.title} Interior Design</title>
-        <meta name="description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship.`} />
+        <meta name="description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship. Projects starting at 15k.`} />
         <meta property="og:title" content={`Loveable - ${project.title} Interior Design`} />
-        <meta property="og:description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship.`} />
+        <meta property="og:description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship. Founded in 2012.`} />
         <meta property="og:image" content={project.images[0]} />
-        <meta name="keywords" content={`interior design, ${project.category.toLowerCase()}, ${project.location}, Indian design, luxury interiors, ${project.title.toLowerCase()}`} />
+        <meta name="keywords" content={`interior design, ${project.category.toLowerCase()}, ${project.location}, Indian design, luxury interiors, ${project.title.toLowerCase()}, fast-loading`} />
         <meta name="author" content="Loveable Interiors" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={`https://loveable.com/portfolio/${project.id}`} />
+        
+        {/* DNS prefetch for image domains */}
+        <link rel="dns-prefetch" href="https://lovable.app" />
+        <link rel="dns-prefetch" href="https://images.pexels.com" />
+        
+        {/* Preconnect to image domains */}
+        <link rel="preconnect" href="https://lovable.app" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.pexels.com" crossOrigin="anonymous" />
         
         {/* Preload critical images */}
         <link 
           rel="preload" 
           as="image" 
           href={project.images[activeImageIndex]} 
-          fetchPriority="high"  // Changed from fetchpriority to fetchPriority
+          fetchPriority="high"
+          crossOrigin="anonymous"
         />
         {renderPreloadLinks()}
       </Helmet>
@@ -144,6 +155,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
               width={Math.floor(width/2)}
               height={Math.floor(height/2)}
               preload={true}
+              skipLazyLoading={true}
             />
           </div>
         ))}
@@ -167,6 +179,10 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
                   {project.tagline}
                 </p>
               )}
+              
+              <p className="text-white/80 text-base mt-4">
+                Founded in 2012 by Dalaram Suthar • 600+ Projects Across Tier 1 Cities • Starting at ₹15,000
+              </p>
             </motion.div>
           </div>
         </div>

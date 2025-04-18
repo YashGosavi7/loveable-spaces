@@ -14,18 +14,21 @@ interface ProjectCardProps {
   image: string;
   designer?: string;
   tagline?: string;
+  index?: number;
 }
 
 const OptimizedCardImage = memo(({ 
   src, 
   alt, 
   onLoad, 
-  isVisible 
+  isVisible,
+  priority 
 }: { 
   src: string; 
   alt: string; 
   onLoad: () => void; 
   isVisible: boolean;
+  priority?: boolean;
 }): JSX.Element => {
   if (!isVisible) {
     return <></>;
@@ -65,7 +68,14 @@ const OptimizedCardImage = memo(({
       {/* WebP for modern browsers - in production, these would be actual WebP versions */}
       <source 
         type="image/webp" 
-        srcSet={`${src} 300w, ${src} 600w, ${src} 1200w`} 
+        srcSet={`${src} 250w, ${src} 500w`} 
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      />
+      
+      {/* AVIF for browsers with best compression support */}
+      <source 
+        type="image/avif" 
+        srcSet={`${src} 250w, ${src} 500w`} 
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />
       
@@ -84,30 +94,34 @@ const OptimizedCardImage = memo(({
         src={src} 
         alt={alt} 
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
         onLoad={onLoad}
-        width={300}
-        height={225}
-        style={{ backgroundColor: placeholderColor }}
-        fetchPriority="auto"
+        width={250}
+        height={188}
+        style={{ 
+          backgroundColor: placeholderColor,
+          aspectRatio: "4/3" 
+        }}
+        fetchPriority={priority ? "high" : "auto"}
+        decoding={priority ? "sync" : "async"}
       />
     </picture>
   );
 });
 
-const ProjectCard = ({ id, title, category, location, image, designer, tagline }: ProjectCardProps) => {
+const ProjectCard = ({ id, title, category, location, image, designer, tagline, index = 0 }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Check if element is in viewport using IntersectionObserver
+  // Check if element is in viewport using IntersectionObserver with larger margin
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0.1, rootMargin: "400px 0px" } // Preload as user approaches (increased margin)
+      { threshold: 0.01, rootMargin: "600px 0px" } // Preload as user approaches (increased margin)
     );
 
     if (cardRef.current) {
@@ -126,6 +140,9 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline }
     setImageLoaded(true);
   };
 
+  // Determine if this is a priority image (first 2 in the list)
+  const isPriority = index < 2;
+
   return (
     <motion.div
       ref={cardRef}
@@ -138,9 +155,10 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline }
             {!imageLoaded && <Skeleton className="w-full h-full absolute inset-0" />}
             <OptimizedCardImage
               src={image}
-              alt={title}
+              alt={`Fast-loading ${title} interior by Loveable in ${location}`}
               onLoad={handleImageLoad}
-              isVisible={isInView}
+              isVisible={isInView || isPriority}
+              priority={isPriority}
             />
           </AspectRatio>
         </div>

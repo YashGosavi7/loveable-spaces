@@ -9,7 +9,7 @@ interface ProjectDetailsProps {
 
 const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   return (
-    <section className="bg-warmWhite py-20 md:py-32 px-4">
+    <section className="bg-warmWhite py-20 md:py-32 px-4 mandala-pattern-bg" style={{ '--bg-color': '#FAF9F6' } as React.CSSProperties}>
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           <div className="lg:col-span-2">
@@ -38,13 +38,17 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                     className="flex items-start text-lg"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 * index }}
+                    transition={{ duration: 0.4, delay: 0.1 * Math.min(index, 5) }} // Cap delays for better performance
                   >
                     <span className="text-roseGold mr-3 text-2xl">•</span>
                     <span>{feature}</span>
                   </motion.li>
                 ))}
               </ul>
+              
+              <p className="text-roseGold/90 italic text-center mt-16">
+                "Our portfolio loads instantly, showcasing spaces you'll love!"
+              </p>
             </motion.div>
           </div>
           
@@ -54,7 +58,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <div className="bg-lightGray/30 p-8 rounded-xl sticky top-32 mandala-pattern-bg">
+            <div className="bg-lightGray/30 p-8 rounded-xl sticky top-32 indian-pattern-bg">
               <h3 className="font-playfair text-2xl mb-6">Project Details</h3>
               
               <div className="space-y-6">
