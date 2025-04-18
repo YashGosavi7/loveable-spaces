@@ -12,4 +12,3 @@ export interface ImageProps {
   blurHash?: string;
   skipLazyLoading?: boolean;
 }
-

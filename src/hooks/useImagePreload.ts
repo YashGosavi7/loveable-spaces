@@ -38,4 +38,3 @@ export const useImagePreload = (src: string, options: PreloadOptions = {}) => {
     }
   }, [src, preload, priority, width]);
 };
-

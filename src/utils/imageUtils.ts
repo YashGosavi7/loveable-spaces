@@ -42,4 +42,3 @@ export const getImageUrl = (imgPath: string, imgWidth: number, format: string = 
   // For example: return `https://cdn.loveable.com/img/${imgWidth}/${format}/${imgPath}`
   return imgPath;
 };
-

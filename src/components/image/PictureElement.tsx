@@ -63,4 +63,3 @@ const PictureElement = memo(({
 PictureElement.displayName = "PictureElement";
 
 export default PictureElement;
-

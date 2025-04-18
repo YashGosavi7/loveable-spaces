@@ -1,5 +1,5 @@
 
-import { memo, useRef, useState } from "react";
+import { memo, useRef, useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageProps } from "./image/types";
 import PictureElement from "./image/PictureElement";
@@ -85,4 +85,3 @@ const OptimizedImage = memo(({
 OptimizedImage.displayName = "OptimizedImage";
 
 export default OptimizedImage;
-
