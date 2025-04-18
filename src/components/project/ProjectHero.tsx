@@ -80,7 +80,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         rel="preload" 
         as="image" 
         href={project.images[nextIndex]} 
-        fetchpriority="low"
+        fetchPriority="low"  // Changed from fetchpriority to fetchPriority
       />
     );
     
@@ -92,7 +92,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         rel="preload" 
         as="image" 
         href={project.images[prevIndex]} 
-        fetchpriority="low"
+        fetchPriority="low"  // Changed from fetchpriority to fetchPriority
       />
     );
     
@@ -114,7 +114,12 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         <link rel="canonical" href={`https://loveable.com/portfolio/${project.id}`} />
         
         {/* Preload critical images */}
-        <link rel="preload" as="image" href={project.images[activeImageIndex]} fetchpriority="high" />
+        <link 
+          rel="preload" 
+          as="image" 
+          href={project.images[activeImageIndex]} 
+          fetchPriority="high"  // Changed from fetchpriority to fetchPriority
+        />
         {renderPreloadLinks()}
       </Helmet>
       
