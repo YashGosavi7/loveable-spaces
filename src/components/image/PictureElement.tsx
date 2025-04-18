@@ -2,6 +2,8 @@
 import { memo } from 'react';
 import { ImageProps } from './types';
 import { generatePlaceholderColor } from '@/utils/imageUtils';
+import ImageSource from './ImageSource';
+import ResponsiveImage from './ResponsiveImage';
 
 interface PictureElementProps extends ImageProps {
   onLoad: () => void;
@@ -20,41 +22,17 @@ const PictureElement = memo(({
 
   return (
     <picture>
-      <source 
-        type="image/webp" 
-        srcSet={`${src} 250w, ${src} 500w`} 
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      />
-      
-      <source 
-        type="image/avif" 
-        srcSet={`${src} 250w, ${src} 500w`} 
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      />
-      
-      <source 
-        media="(max-width: 640px)" 
-        srcSet={src}
-      />
-      <source 
-        media="(max-width: 1024px)" 
-        srcSet={src}
-      />
-      
-      <img 
-        src={src} 
-        alt={alt} 
+      <ImageSource src={src} type="webp" />
+      <ImageSource src={src} type="avif" />
+      <ResponsiveImage
+        src={src}
+        alt={alt}
         className={className}
-        loading={priority ? "eager" : "lazy"}
-        onLoad={onLoad}
         width={width}
         height={height}
-        style={{ 
-          backgroundColor: placeholderColor,
-          aspectRatio: `${width}/${height}` 
-        }}
-        fetchPriority={priority ? "high" : "auto"}
-        decoding={priority ? "sync" : "async"}
+        priority={priority}
+        onLoad={onLoad}
+        placeholderColor={placeholderColor}
       />
     </picture>
   );
