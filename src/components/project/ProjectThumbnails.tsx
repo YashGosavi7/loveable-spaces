@@ -120,6 +120,20 @@ const ProjectThumbnails = ({
     // Render thumbnails in the visible range plus buffer
     return index >= visibleRange.start && index <= visibleRange.end;
   };
+  
+  // Get project-specific styling
+  const getProjectStyles = () => {
+    if (project.id === "bhushan-naikwadi-elegant-abode") {
+      return {
+        activeBorderClass: "ring-2 ring-roseGold"
+      };
+    }
+    return {
+      activeBorderClass: "ring-2 ring-roseGold"
+    };
+  };
+  
+  const { activeBorderClass } = getProjectStyles();
 
   return (
     <section className="bg-darkGray/95 py-6">
@@ -134,7 +148,7 @@ const ProjectThumbnails = ({
             <button
               key={index}
               className={`flex-shrink-0 w-28 md:w-36 h-20 overflow-hidden thumbnail ${
-                index === activeImageIndex ? "ring-2 ring-roseGold" : "ring-1 ring-white/20"
+                index === activeImageIndex ? activeBorderClass : "ring-1 ring-white/20"
               }`}
               onClick={() => setActiveImageIndex(index)}
               aria-label={`View image ${index + 1} of ${project.images.length}`}

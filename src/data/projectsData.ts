@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -16,6 +17,40 @@ export interface Project {
 
 // Placeholder images from public domain
 const projectsData: Project[] = [
+  {
+    id: "bhushan-naikwadi-elegant-abode",
+    title: "Bhushan Naikwadi's Elegant Abode",
+    category: "Residential",
+    location: "Pune",
+    size: "1,800 sq ft",
+    completionYear: "2025",
+    description: "Crafted for Mr. Bhushan Naikwadi, this Pune residence embodies Loveable's vision of warmth and elegance. The design blends modern minimalism with rich Indian heritage, featuring warm teak wood finishes, soft handwoven textiles, and subtle jali screen accents, creating a harmonious blend of modern comfort and Indian tradition. The home demonstrates our philosophy of creating spaces that honor cultural elements while delivering contemporary functionality and aesthetic excellence.",
+    features: [
+      "Custom jali-inspired wooden partitions and cabinetry",
+      "Handcrafted mandala artwork showcasing traditional Indian motifs",
+      "Warm ambient lighting with wooden ceiling fan elements",
+      "Bespoke furniture with natural cane weaving details",
+      "Traditional temple space with modern interpretation",
+      "Contemporary living room with wooden accent wall",
+      "Space-optimizing wardrobes and storage solutions",
+      "Elegant entrance with traditional Indian influences"
+    ],
+    images: [
+      "/lovable-uploads/7a9b0e2f-c1e3-43ef-b9c6-aa850fe2eb1c.png",
+      "/lovable-uploads/59d47f06-4804-44f0-9b05-dc61f36623c0.png",
+      "/lovable-uploads/94247c8f-238a-4f8e-9629-5a3b60a5df84.png",
+      "/lovable-uploads/33bf1683-11c9-4576-b811-98408302083a.png",
+      "/lovable-uploads/5d5e5726-e734-49b1-8119-b134d03c74c8.png",
+      "/lovable-uploads/8ebf3bc3-a5cd-4905-9f27-21b6e529eddb.png",
+      "/lovable-uploads/3914b6c6-9c40-4585-a168-6d363e94e610.png",
+      "/lovable-uploads/88614b3e-de34-4dc9-821d-64f73b6c4930.png",
+      "/lovable-uploads/cc7886ad-97f8-4b34-995d-ffba8b41e2b0.png"
+    ],
+    isFeatured: true,
+    designer: "Shravan Suthar",
+    tagline: "A Timeless Home in Pune",
+    style: "Warm Indian Minimalism"
+  },
   {
     id: "ravi-kale-celebrity-home",
     title: "Ravi Kale's Celebrity Home & Hadapsar Apartment",

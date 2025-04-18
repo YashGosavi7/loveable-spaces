@@ -35,6 +35,18 @@ const OptimizedImage = memo(({
   
   // Generate color placeholder based on image path for better UX while loading
   const generatePlaceholderColor = () => {
+    // Naikwadi project placeholders
+    if (src.includes('7a9b0e2f')) return '#f5f1ea'; // Living room
+    if (src.includes('59d47f06')) return '#f4efe8'; // Bedroom with mandalas
+    if (src.includes('94247c8f')) return '#f5f0e9'; // Bedroom alternative angle
+    if (src.includes('33bf1683')) return '#f3ede6'; // Bedroom storage
+    if (src.includes('5d5e5726')) return '#f4efe7'; // Bedroom side view
+    if (src.includes('8ebf3bc3')) return '#f5f0e8'; // Entrance
+    if (src.includes('3914b6c6')) return '#f2ede5'; // TV Unit
+    if (src.includes('88614b3e')) return '#f5f1ea'; // Dining area
+    if (src.includes('cc7886ad')) return '#f4efe7'; // Living space
+
+    // Wedding hall placeholders
     if (src.includes('eea53347')) return '#f5f0e9'; // Wedding hall main
     if (src.includes('18ae3aa6')) return '#f3ede6'; // Wedding hall seating
     if (src.includes('76be1317')) return '#f4efe8'; // Wedding hall walkway
@@ -78,7 +90,7 @@ const OptimizedImage = memo(({
       linkElement.as = 'image';
       linkElement.href = src;
       
-      // Add fetchpriority attribute for browsers that support it
+      // Use lowercase attribute to avoid React warning
       linkElement.setAttribute('fetchpriority', priority ? 'high' : 'auto');
       
       // Use smaller images when appropriate
@@ -220,7 +232,8 @@ const OptimizedImage = memo(({
             width={width}
             height={height}
             decoding={priority ? "sync" : "async"}
-            fetchPriority={priority ? "high" : "auto"}
+            // Fixed to lowercase to avoid React warning
+            fetchpriority={priority ? "high" : "auto"}
             style={{
               aspectRatio: `${width}/${height}`,
               objectFit: "cover"
@@ -235,7 +248,8 @@ const OptimizedImage = memo(({
           rel="prefetch" 
           href={src} 
           as="image" 
-          fetchPriority="low"
+          // Use setAttribute to avoid React warnings
+          data-fetchpriority="low"
         />
       )}
     </>

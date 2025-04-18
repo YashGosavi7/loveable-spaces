@@ -68,7 +68,7 @@ const PortfolioPage = () => {
         
         {/* Critical preloads for featured project and first few portfolio items */}
         {featuredProject && (
-          <link rel="preload" as="image" href={featuredProject.images[0]} fetchPriority="high" />
+          <link rel="preload" as="image" href={featuredProject.images[0]} data-fetchpriority="high" />
         )}
         
         {/* Preconnect to image host domains to speed up loading */}
@@ -95,7 +95,7 @@ const PortfolioPage = () => {
           </p>
           
           <p className="text-roseGold/90 mt-3 text-base md:text-lg">
-            Founded in 2012 by Dalaram Suthar • 600+ Projects Across Tier 1 Cities • Starting at ₹15k
+            Founded in 2012 by Dalaram Suthar • 600+ Projects Across Tier 1 Cities • Starting at ₹15,000
           </p>
         </div>
       </motion.section>
@@ -171,7 +171,7 @@ const PortfolioPage = () => {
                         loading="eager" 
                         width={1000}
                         height={563}
-                        fetchPriority="high"
+                        fetchpriority="high"
                         decoding="sync"
                         style={{
                           aspectRatio: `${getFeaturedAspectRatio()}`,

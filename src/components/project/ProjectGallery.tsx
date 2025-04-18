@@ -46,6 +46,22 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   };
   
   const { width, height } = getGalleryImageDimensions();
+
+  // Custom styles for specific projects
+  const getProjectSpecificStyles = () => {
+    if (project.id === "bhushan-naikwadi-elegant-abode") {
+      return {
+        navButtonClass: "bg-roseGold/90 hover:bg-roseGold text-white",
+        dotClass: "bg-roseGold w-4"
+      };
+    }
+    return {
+      navButtonClass: "bg-roseGold/90 hover:bg-roseGold text-white",
+      dotClass: "bg-roseGold w-4"
+    };
+  };
+  
+  const { navButtonClass, dotClass } = getProjectSpecificStyles();
   
   return (
     <section className="bg-warmWhite py-16">
@@ -77,8 +93,8 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute -left-4 md:-left-12 lg:-left-12 bg-roseGold/90 hover:bg-roseGold text-white border-none focus:outline-none focus:ring-2 focus:ring-roseGold/50" />
-            <CarouselNext className="absolute -right-4 md:-right-12 lg:-right-12 bg-roseGold/90 hover:bg-roseGold text-white border-none focus:outline-none focus:ring-2 focus:ring-roseGold/50" />
+            <CarouselPrevious className={`absolute -left-4 md:-left-12 lg:-left-12 ${navButtonClass} border-none focus:outline-none focus:ring-2 focus:ring-roseGold/50`} />
+            <CarouselNext className={`absolute -right-4 md:-right-12 lg:-right-12 ${navButtonClass} border-none focus:outline-none focus:ring-2 focus:ring-roseGold/50`} />
           </Carousel>
           
           {/* Carousel dots for navigation */}
@@ -87,7 +103,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all ${
-                  currentSlide === index ? "bg-roseGold w-4" : "bg-lightGray"
+                  currentSlide === index ? dotClass : "bg-lightGray"
                 }`}
                 onClick={() => handleSlideChange(index)}
                 aria-label={`Go to slide ${index + 1}`}

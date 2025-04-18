@@ -36,6 +36,18 @@ const OptimizedCardImage = memo(({
   
   // Generate a placeholder color based on the image path
   const generatePlaceholderColor = () => {
+    // Naikwadi project placeholders
+    if (src.includes('7a9b0e2f')) return '#f5f1ea'; // Living room
+    if (src.includes('59d47f06')) return '#f4efe8'; // Bedroom with mandalas
+    if (src.includes('94247c8f')) return '#f5f0e9'; // Bedroom alternative angle
+    if (src.includes('33bf1683')) return '#f3ede6'; // Bedroom storage
+    if (src.includes('5d5e5726')) return '#f4efe7'; // Bedroom side view
+    if (src.includes('8ebf3bc3')) return '#f5f0e8'; // Entrance
+    if (src.includes('3914b6c6')) return '#f2ede5'; // TV Unit
+    if (src.includes('88614b3e')) return '#f5f1ea'; // Dining area
+    if (src.includes('cc7886ad')) return '#f4efe7'; // Living space
+
+    // Wedding hall placeholders
     if (src.includes('eea53347')) return '#f5f0e9'; // Wedding hall main
     if (src.includes('18ae3aa6')) return '#f3ede6'; // Wedding hall seating
     if (src.includes('76be1317')) return '#f4efe8'; // Wedding hall walkway
@@ -65,7 +77,7 @@ const OptimizedCardImage = memo(({
                           
   return (
     <picture>
-      {/* WebP for modern browsers - in production, these would be actual WebP versions */}
+      {/* WebP for modern browsers */}
       <source 
         type="image/webp" 
         srcSet={`${src} 250w, ${src} 500w`} 
@@ -102,7 +114,8 @@ const OptimizedCardImage = memo(({
           backgroundColor: placeholderColor,
           aspectRatio: "4/3" 
         }}
-        fetchPriority={priority ? "high" : "auto"}
+        // Fixed the console error by using lowercase attribute
+        fetchpriority={priority ? "high" : "auto"}
         decoding={priority ? "sync" : "async"}
       />
     </picture>
@@ -140,8 +153,8 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
     setImageLoaded(true);
   };
 
-  // Determine if this is a priority image (first 2 in the list)
-  const isPriority = index < 2;
+  // Determine if this is a priority image (first 3 in the list)
+  const isPriority = index < 3;
 
   return (
     <motion.div

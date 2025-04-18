@@ -68,6 +68,15 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
   
   const { width, height } = getImageDimensions();
   
+  // Customize meta data based on project ID
+  const getCustomMetaDescription = () => {
+    if (project.id === "bhushan-naikwadi-elegant-abode") {
+      return `Explore the warm, culturally rich interiors of Mr. Bhushan Naikwadi's Pune home by Loveable, designed for timeless comfort. Projects starting at 15k.`;
+    }
+    
+    return `Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship. Projects starting at 15k.`;
+  };
+  
   // Preload links for next and previous images with enhanced attributes
   const renderPreloadLinks = () => {
     const links = [];
@@ -80,7 +89,8 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         rel="preload" 
         as="image" 
         href={project.images[nextIndex]} 
-        fetchPriority="low"
+        // Use data attributes to avoid React warnings
+        data-fetchpriority="low"
         crossOrigin="anonymous"
       />
     );
@@ -93,7 +103,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         rel="preload" 
         as="image" 
         href={project.images[prevIndex]} 
-        fetchPriority="low"
+        data-fetchpriority="low"
         crossOrigin="anonymous"
       />
     );
@@ -105,7 +115,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
     <section className="w-full h-[100vh] relative">
       <Helmet>
         <title>Loveable - {project.title} Interior Design</title>
-        <meta name="description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship. Projects starting at 15k.`} />
+        <meta name="description" content={getCustomMetaDescription()} />
         <meta property="og:title" content={`Loveable - ${project.title} Interior Design`} />
         <meta property="og:description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship. Founded in 2012.`} />
         <meta property="og:image" content={project.images[0]} />
@@ -128,7 +138,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
           rel="preload" 
           as="image" 
           href={project.images[activeImageIndex]} 
-          fetchPriority="high"
+          data-fetchpriority="high"
           crossOrigin="anonymous"
         />
         {renderPreloadLinks()}
