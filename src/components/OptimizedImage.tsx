@@ -58,7 +58,7 @@ const OptimizedImage = memo(({
 
   // Add preload link for critical images to speed up loading time
   useEffect(() => {
-    if (preload || priority) {
+    if ((preload || priority) && typeof window !== 'undefined') {
       const linkElement = document.createElement('link');
       linkElement.rel = 'preload';
       linkElement.as = 'image';
@@ -67,13 +67,26 @@ const OptimizedImage = memo(({
       // Add fetchpriority attribute for browsers that support it
       linkElement.setAttribute('fetchpriority', priority ? 'high' : 'auto');
       
+      // Use smaller images when appropriate
+      const isMobile = window.innerWidth < 768;
+      if (isMobile && width > 400) {
+        // Append a size indicator for hypothetical image resizing service
+        // In production, this would be handled by an actual resizing service
+        linkElement.href = `${src}?w=${Math.floor(width/2)}`;
+      }
+      
       document.head.appendChild(linkElement);
       
       return () => {
-        document.head.removeChild(linkElement);
+        try {
+          document.head.removeChild(linkElement);
+        } catch (e) {
+          // Linklement might have already been removed
+          console.info('Preload link already removed');
+        }
       };
     }
-  }, [src, preload, priority]);
+  }, [src, preload, priority, width]);
 
   // Determine viewport size for responsive images
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -83,10 +96,12 @@ const OptimizedImage = memo(({
   const getResponsiveImageSrc = (src: string, size: 'small' | 'medium' | 'large' = 'medium') => {
     // In a production environment, we would have a proper image CDN
     // that could dynamically resize images based on query parameters
+    // For this exercise we'll just return the original source
+    // but in production we'd append width params like ?w=300 for small
     return src;
   };
 
-  // Use Intersection Observer to lazy load images
+  // Use Intersection Observer to lazy load images - with increased thresholds for faster loading
   useEffect(() => {
     // If priority is true, don't use intersection observer - load immediately
     if (priority) {
@@ -105,8 +120,8 @@ const OptimizedImage = memo(({
         }
       },
       { 
-        threshold: 0.1, 
-        rootMargin: "400px" // Increased rootMargin to load images earlier before they enter viewport
+        threshold: 0.05, // Reduced threshold to start loading earlier
+        rootMargin: "600px" // Increased rootMargin significantly to load images well before they enter viewport
       }
     );
 
@@ -129,7 +144,7 @@ const OptimizedImage = memo(({
           style={{ backgroundColor: placeholderColor }}
           aria-hidden="true"
         >
-          <Skeleton className="w-full h-full opacity-40" />
+          <Skeleton className="w-full h-full opacity-30" />
         </div>
       )}
       
@@ -138,6 +153,15 @@ const OptimizedImage = memo(({
           {/* WebP format for modern browsers - in production these would be proper WebP conversions */}
           <source 
             type="image/webp" 
+            srcSet={`${getResponsiveImageSrc(src, 'small')} 300w, 
+                    ${getResponsiveImageSrc(src, 'medium')} 600w, 
+                    ${getResponsiveImageSrc(src, 'large')} 1200w`}
+            sizes={sizes}
+          />
+          
+          {/* AVIF format for browsers with the best compression support */}
+          <source 
+            type="image/avif" 
             srcSet={`${getResponsiveImageSrc(src, 'small')} 300w, 
                     ${getResponsiveImageSrc(src, 'medium')} 600w, 
                     ${getResponsiveImageSrc(src, 'large')} 1200w`}
@@ -159,7 +183,7 @@ const OptimizedImage = memo(({
             ref={imgRef}
             src={src}
             alt={alt}
-            loading={priority ? "eager" : "lazy"}
+            loading={priority ? "eager" : "lazy"} 
             onLoad={() => setIsLoaded(true)}
             className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
             width={width}

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import OptimizedImage from "../OptimizedImage";
 import { Helmet } from "react-helmet";
 import { Project } from "@/data/projectsData";
+import { useState, useEffect } from "react";
 
 interface ProjectHeroProps {
   project: Project;
@@ -13,6 +14,91 @@ interface ProjectHeroProps {
 }
 
 const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: ProjectHeroProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [preloadedIndices, setPreloadedIndices] = useState<number[]>([]);
+  
+  // Preload the next image to ensure smooth transitions
+  useEffect(() => {
+    // Mark the current image as loaded
+    setIsLoaded(true);
+    
+    // Preload the next few images for smoother navigation
+    const indicesToPreload = [];
+    
+    // Preload next image
+    const nextIndex = (activeImageIndex + 1) % project.images.length;
+    if (!preloadedIndices.includes(nextIndex)) {
+      indicesToPreload.push(nextIndex);
+    }
+    
+    // Preload previous image
+    const prevIndex = activeImageIndex === 0 ? project.images.length - 1 : activeImageIndex - 1;
+    if (!preloadedIndices.includes(prevIndex)) {
+      indicesToPreload.push(prevIndex);
+    }
+    
+    // Update the list of preloaded indices
+    if (indicesToPreload.length > 0) {
+      setPreloadedIndices(prev => [...prev, ...indicesToPreload]);
+    }
+  }, [activeImageIndex, project.images.length, preloadedIndices]);
+
+  // Calculate approximate image dimensions for the hero
+  const getImageDimensions = () => {
+    // Default dimensions (desktop)
+    let width = 1200;
+    let height = 675;
+    
+    // Adapt based on viewport (if client-side)
+    if (typeof window !== 'undefined') {
+      const viewportWidth = window.innerWidth;
+      if (viewportWidth < 640) {
+        // Mobile
+        width = 600;
+        height = 338;
+      } else if (viewportWidth < 1024) {
+        // Tablet
+        width = 800;
+        height = 450;
+      }
+    }
+    
+    return { width, height };
+  };
+  
+  const { width, height } = getImageDimensions();
+  
+  // Preload links for next and previous images
+  const renderPreloadLinks = () => {
+    const links = [];
+    
+    // Add preload for next image
+    const nextIndex = (activeImageIndex + 1) % project.images.length;
+    links.push(
+      <link 
+        key={`preload-next-${nextIndex}`}
+        rel="preload" 
+        as="image" 
+        href={project.images[nextIndex]} 
+        fetchpriority="low"
+      />
+    );
+    
+    // Add preload for previous image
+    const prevIndex = activeImageIndex === 0 ? project.images.length - 1 : activeImageIndex - 1;
+    links.push(
+      <link 
+        key={`preload-prev-${prevIndex}`}
+        rel="preload" 
+        as="image" 
+        href={project.images[prevIndex]} 
+        fetchpriority="low"
+      />
+    );
+    
+    return links;
+  };
+
   return (
     <section className="w-full h-[100vh] relative">
       <Helmet>
@@ -26,18 +112,37 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={`https://loveable.com/portfolio/${project.id}`} />
+        
+        {/* Preload critical images */}
+        <link rel="preload" as="image" href={project.images[activeImageIndex]} fetchpriority="high" />
+        {renderPreloadLinks()}
       </Helmet>
       
       <div className="absolute inset-0">
         <OptimizedImage 
           src={project.images[activeImageIndex]} 
-          alt={`${project.title} - Interior design by Loveable in ${project.location}`} 
+          alt={`${project.title} - Fast-loading interior design by Loveable in ${project.location}`} 
           className="w-full h-full object-cover"
           priority={true}
-          width={1200}
-          height={675}
+          width={width}
+          height={height}
           preload={true}
         />
+        
+        {/* Hidden preload for next image */}
+        {preloadedIndices.map(index => (
+          <div key={`preload-${index}`} className="hidden">
+            <OptimizedImage 
+              src={project.images[index]} 
+              alt={`Preload ${project.title} image`} 
+              className="hidden" 
+              width={Math.floor(width/2)}
+              height={Math.floor(height/2)}
+              preload={true}
+            />
+          </div>
+        ))}
+        
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex items-end">
           <div className="container mx-auto p-8 md:p-16 pb-32">
             <motion.div
