@@ -21,6 +21,11 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
         <meta property="og:title" content={`Loveable - ${project.title} Interior Design`} />
         <meta property="og:description" content={`Explore the warm, elegant interiors of ${project.title} in ${project.location} by Loveable, designed with Indian craftsmanship.`} />
         <meta property="og:image" content={project.images[0]} />
+        <meta name="keywords" content={`interior design, ${project.category.toLowerCase()}, ${project.location}, Indian design, luxury interiors, ${project.title.toLowerCase()}`} />
+        <meta name="author" content="Loveable Interiors" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`https://loveable.com/portfolio/${project.id}`} />
       </Helmet>
       
       <div className="absolute inset-0">

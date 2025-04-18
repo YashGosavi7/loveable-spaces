@@ -32,15 +32,33 @@ const OptimizedCardImage = memo(({
   }
   
   // Generate a placeholder color based on the image path
-  const placeholderColor = src.includes('f5ee7e6c') ? '#f5f0e6' : 
-                           src.includes('09506ceb') ? '#f0e9e4' : 
-                           src.includes('cee99868') ? '#f5f5f0' :
-                           src.includes('b52db17b') ? '#f0f0e8' :
-                           src.includes('0ca6700f') ? '#f8f6f2' :
-                           src.includes('5bc6dc7e') ? '#f5f2ed' :
-                           src.includes('46f2b2ae') ? '#f2f0eb' :
-                           src.includes('6f4bb809') ? '#f0e9e4' : 
-                           src.includes('e4e76a6f') ? '#f5f5f5' : '#efefef';
+  const generatePlaceholderColor = () => {
+    if (src.includes('eea53347')) return '#f5f0e9'; // Wedding hall main
+    if (src.includes('18ae3aa6')) return '#f3ede6'; // Wedding hall seating
+    if (src.includes('76be1317')) return '#f4efe8'; // Wedding hall walkway
+    if (src.includes('ca4507e9')) return '#f2ede5'; // Wedding hall mandap
+    if (src.includes('40a33995')) return '#f5f1ea'; // Wedding hall chandelier
+    if (src.includes('c9e93dc4')) return '#f4efe7'; // Wedding hall entrance
+    if (src.includes('de461583')) return '#f3eee7'; // Wedding hall stage
+    if (src.includes('ac8a7286')) return '#f5f0e8'; // Wedding hall reception
+    if (src.includes('e6e7be2a')) return '#f4efe7'; // Wedding hall overview
+    
+    // Original placeholders
+    if (src.includes('f5ee7e6c')) return '#f5f0e6';
+    if (src.includes('09506ceb')) return '#f0e9e4';
+    if (src.includes('cee99868')) return '#f5f5f0';
+    if (src.includes('b52db17b')) return '#f0f0e8';
+    if (src.includes('0ca6700f')) return '#f8f6f2';
+    if (src.includes('5bc6dc7e')) return '#f5f2ed';
+    if (src.includes('46f2b2ae')) return '#f2f0eb';
+    if (src.includes('6f4bb809')) return '#f0e9e4'; 
+    if (src.includes('e4e76a6f')) return '#f5f5f5';
+    
+    // Default
+    return '#efefef';
+  };
+  
+  const placeholderColor = generatePlaceholderColor();
                           
   return (
     <picture>
@@ -49,6 +67,16 @@ const OptimizedCardImage = memo(({
         type="image/webp" 
         srcSet={`${src} 300w, ${src} 600w, ${src} 1200w`} 
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      />
+      
+      {/* Responsive source for different screen sizes */}
+      <source 
+        media="(max-width: 640px)" 
+        srcSet={src}
+      />
+      <source 
+        media="(max-width: 1024px)" 
+        srcSet={src}
       />
       
       {/* Fallback for older browsers */}
@@ -61,6 +89,7 @@ const OptimizedCardImage = memo(({
         width={300}
         height={225}
         style={{ backgroundColor: placeholderColor }}
+        fetchPriority="auto"
       />
     </picture>
   );
@@ -78,7 +107,7 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline }
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0.1, rootMargin: "300px 0px" } // Preload as user approaches (increased margin)
+      { threshold: 0.1, rootMargin: "400px 0px" } // Preload as user approaches (increased margin)
     );
 
     if (cardRef.current) {
@@ -136,6 +165,11 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline }
             {category} | {location}
             {designer && ` | Designed by ${designer}`}
           </p>
+          {tagline && (
+            <p className="text-roseGold/90 text-sm mt-1 italic">
+              {tagline}
+            </p>
+          )}
         </div>
       </Link>
     </motion.div>

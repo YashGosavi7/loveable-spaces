@@ -38,7 +38,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/6f4bb809-788e-4c22-9a73-0fd24c6fbc61.png",
       "/lovable-uploads/b420a207-198d-4084-bbb6-40fbd814de50.png",
       "/lovable-uploads/c5141b3f-b0ee-4393-bb50-a0ae2402f071.png",
-      "/lovable-uploads/e4e76a6f-d3c6-4791-8799-f931bd28a63a.png", // New Hadapsar apartment image
+      "/lovable-uploads/e4e76a6f-d3c6-4791-8799-f931bd28a63a.png",
       "/lovable-uploads/bfd2f8c4-957b-4ddb-9da4-8772ed7840f2.png",
       "/lovable-uploads/5225c2f7-57d9-4da8-8bf3-a9e4fe750f65.png",
       "/lovable-uploads/e81c7af2-7a0f-40c5-a281-932f2ac0007d.png",
@@ -48,6 +48,40 @@ const projectsData: Project[] = [
     ],
     isFeatured: true,
     designer: "Shravan Suthar"
+  },
+  {
+    id: "grandeur-wedding-hall",
+    title: "Grandeur Wedding Hall",
+    category: "Commercial",
+    location: "Delhi",
+    size: "5,000 sq ft",
+    completionYear: "2023",
+    description: "Crafted for grand celebrations, the Grandeur Wedding Hall in Delhi showcases Loveable's mastery in creating luxurious, welcoming spaces. Spanning 5,000 sq ft, the venue features ornate chandeliers, intricate mandala-inspired wall panels, and warm, golden lighting, blending Indian tradition with modern elegance to create unforgettable wedding moments. The hall incorporates subtle cultural motifs throughout, with hand-carved wooden elements and premium materials that create a sense of opulence while maintaining warmth and approachability.",
+    features: [
+      "Crystal chandelier installation with customized lighting design",
+      "Hand-carved wooden mandap with intricate detailing",
+      "Premium Italian marble flooring with brass inlays",
+      "Acoustically optimized space for music and speeches",
+      "Custom wall paneling with gold-leaf geometric patterns",
+      "Integrated state-of-the-art audiovisual systems",
+      "Flexible seating arrangements accommodating up to 300 guests",
+      "Elegant drapery with traditional Indian motifs"
+    ],
+    images: [
+      "/lovable-uploads/eea53347-13c4-4190-a5e7-2884b1eeba4c.png",
+      "/lovable-uploads/18ae3aa6-c2eb-494a-b249-9c39020ebe2b.png",
+      "/lovable-uploads/76be1317-69fb-4e4c-9403-acfd0f29aaa7.png",
+      "/lovable-uploads/ca4507e9-02dd-4fcd-9e2b-77405883fa9f.png",
+      "/lovable-uploads/40a33995-6522-4218-80ca-423333a06e58.png",
+      "/lovable-uploads/c9e93dc4-4dfc-474b-b75a-38fb4ee1cabf.png",
+      "/lovable-uploads/de461583-050a-46ef-ad14-2c60f8993e50.png",
+      "/lovable-uploads/ac8a7286-1971-4aa0-bbd7-3d6499a3c9c9.png",
+      "/lovable-uploads/e6e7be2a-5cb9-4696-830b-ec8880f338eb.png"
+    ],
+    isFeatured: true,
+    designer: "Dalaram Suthar",
+    tagline: "A Celebration Space in Delhi",
+    style: "Luxurious Indian Contemporary"
   },
   {
     id: "mumbai-apartment",

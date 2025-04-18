@@ -27,7 +27,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
               <p className="text-lg mb-10 leading-relaxed">
                 Our approach to this project focused on creating a harmonious balance between functionality and aesthetic excellence. 
                 We embraced the natural elements of the space while introducing architectural elements that reflect the client's unique personality and lifestyle needs.
-                {project.id === "nikhil-nikam-modern-residence" && " The design incorporates subtle nods to Indian craftsmanship through textured surfaces, warm lighting, and carefully selected materials that bring a sense of heritage into this contemporary space."}
+                {project.id === "grandeur-wedding-hall" && " The design incorporates traditional Indian craftsmanship through ornate woodwork, warm lighting, and carefully selected materials that bring a sense of heritage while creating a luxurious atmosphere perfect for celebrations."}
               </p>
               
               <h3 className="font-playfair text-2xl mb-6">Features</h3>
@@ -93,7 +93,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                 )}
                 
                 <div className="pt-2">
-                  <p className="text-darkGray/60 text-sm">Since</p>
+                  <p className="text-darkGray/60 text-sm">Founding</p>
                   <p className="font-medium text-lg">Loveable Interiors, est. 2012</p>
                 </div>
                 
