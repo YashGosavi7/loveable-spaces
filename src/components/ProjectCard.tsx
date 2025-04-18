@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -114,8 +113,8 @@ const OptimizedCardImage = memo(({
           backgroundColor: placeholderColor,
           aspectRatio: "4/3" 
         }}
-        // Fixed the console error by using lowercase attribute
-        fetchpriority={priority ? "high" : "auto"}
+        // Corrected to camelCase fetchPriority
+        fetchPriority={priority ? "high" : "auto"}
         decoding={priority ? "sync" : "async"}
       />
     </picture>

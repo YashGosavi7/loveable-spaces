@@ -232,8 +232,8 @@ const OptimizedImage = memo(({
             width={width}
             height={height}
             decoding={priority ? "sync" : "async"}
-            // Fixed to lowercase to avoid React warning
-            fetchpriority={priority ? "high" : "auto"}
+            // Corrected to camelCase fetchPriority
+            fetchPriority={priority ? "high" : "auto"}
             style={{
               aspectRatio: `${width}/${height}`,
               objectFit: "cover"
