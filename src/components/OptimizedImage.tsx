@@ -1,9 +1,10 @@
 
-import { memo, useRef, useState, useEffect } from "react";
+import { memo, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageProps } from "./image/types";
 import PictureElement from "./image/PictureElement";
 import { useImagePreload } from "@/hooks/useImagePreload";
+import { useImageIntersection } from "@/hooks/useImageIntersection";
 
 const OptimizedImage = memo(({ 
   src, 
@@ -16,51 +17,16 @@ const OptimizedImage = memo(({
   skipLazyLoading = false
 }: ImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(priority || skipLazyLoading);
-  const imgRef = useRef<HTMLDivElement>(null);
+  const { isInView, elementRef } = useImageIntersection({ priority, skipLazyLoading });
   
   useImagePreload(src, { priority, preload, width });
-  
-  // Enhanced intersection observer with earlier detection
-  useEffect(() => {
-    if (priority || skipLazyLoading) {
-      setIsInView(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          if (imgRef.current) {
-            observer.unobserve(imgRef.current);
-          }
-        }
-      },
-      { 
-        threshold: 0.01,
-        rootMargin: "800px 0px"
-      }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
-    }
-
-    return () => {
-      if (imgRef.current) {
-        observer.unobserve(imgRef.current);
-      }
-    };
-  }, [priority, skipLazyLoading]);
 
   const handleImageLoad = () => {
     setIsLoaded(true);
   };
 
   return (
-    <div ref={imgRef} className="relative">
+    <div ref={elementRef} className="relative">
       {!isLoaded && (
         <div className="absolute inset-0">
           <Skeleton className="w-full h-full opacity-30" />
