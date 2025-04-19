@@ -5,6 +5,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect, memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import WhatsAppCTA from "./portfolio/WhatsAppCTA";
 
 interface ProjectCardProps {
   id: string;
@@ -104,7 +105,7 @@ const OptimizedCardImage = memo(({
       {/* Fallback for older browsers */}
       <img 
         src={src} 
-        alt={alt} 
+        alt={`Best interior design by Loveable for ${alt}`} 
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         loading={priority ? "eager" : "lazy"}
         onLoad={onLoad}
@@ -125,6 +126,7 @@ const OptimizedCardImage = memo(({
 const ProjectCard = ({ id, title, category, location, image, designer, tagline, index = 0 }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [showWhatsApp, setShowWhatsApp] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Check if element is in viewport using IntersectionObserver with larger margin
@@ -161,6 +163,9 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
       ref={cardRef}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
+      onHoverStart={() => setShowWhatsApp(true)}
+      onHoverEnd={() => setShowWhatsApp(false)}
+      className="flex flex-col"
     >
       <Link to={`/portfolio/${id}`} className="group block relative">
         <div className="overflow-hidden rounded-md shadow-md">
@@ -168,7 +173,7 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
             {!imageLoaded && <Skeleton className="w-full h-full absolute inset-0" />}
             <OptimizedCardImage
               src={image}
-              alt={`Fast-loading full-width ${title} interior by Loveable in ${location}`}
+              alt={`${title} interior by Loveable in ${location}`}
               onLoad={handleImageLoad}
               isVisible={isInView || isPriority}
               priority={isPriority}
@@ -203,6 +208,11 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
           )}
         </div>
       </Link>
+      
+      {/* WhatsApp CTA for each project */}
+      <div className={`mt-3 transition-opacity duration-300 text-center ${showWhatsApp ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
+        <WhatsAppCTA text={`Ask about ${title}`} />
+      </div>
     </motion.div>
   );
 };

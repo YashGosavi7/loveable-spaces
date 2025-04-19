@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -5,17 +6,14 @@ import CategoryFilter from "@/components/portfolio/CategoryFilter";
 import ProjectsGrid from "@/components/portfolio/ProjectsGrid";
 import { isLikelySlowConnection } from "@/utils/imageUtils";
 import projectsData from "../data/projectsData";
-import FeaturedProject from "@/components/portfolio/FeaturedProject";
+import WhatsAppCTA from "@/components/portfolio/WhatsAppCTA";
 
 const PortfolioPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const categories = ["All", "Residential", "Commercial", "Hospitality"];
+  const [activeCategory, setActiveCategory] = useState<string>("Residential");
+  const categories = ["Residential", "Commercial", "Hospitality"];
   const connectionSpeed = useRef<'slow'|'normal'|'fast'>('normal');
   const isMobile = useIsMobile();
-  
-  // Get the featured project (Bopdev Machi Restaurant)
-  const featuredProject = projectsData.find(project => project.id === "bopdev-machi-restaurant") || projectsData[0];
   
   useEffect(() => {
     setIsLoaded(true);
@@ -55,21 +53,14 @@ const PortfolioPage = () => {
     
     addDomainHints();
     
-    // Preload critical featured project images
-    if (featuredProject) {
-      const preloadImage = new Image();
-      preloadImage.fetchPriority = 'high';
-      preloadImage.src = featuredProject.images[0];
-    }
-    
     // Preload first image of each project for optimal grid view loading
     const preloadThumbnails = () => {
       // Only preload a limited number of thumbnails on slow connections
       const preloadLimit = connectionSpeed.current === 'slow' ? 3 : 6;
       
-      const visibleProjects = activeCategory === "All" 
-        ? projectsData.slice(0, preloadLimit) 
-        : projectsData.filter(p => p.category === activeCategory).slice(0, preloadLimit);
+      const visibleProjects = projectsData
+        .filter(p => p.category === activeCategory)
+        .slice(0, preloadLimit);
         
       visibleProjects.forEach((project, index) => {
         // Stagger preloads to avoid network congestion
@@ -83,34 +74,34 @@ const PortfolioPage = () => {
     };
     
     preloadThumbnails();
-  }, [activeCategory, featuredProject]);
+  }, [activeCategory]);
   
   // Filter projects based on selected category
-  const filteredProjects = activeCategory === "All"
-    ? projectsData
-    : projectsData.filter(project => project.category === activeCategory);
+  const filteredProjects = projectsData.filter(project => project.category === activeCategory);
 
   return (
     <div className="min-h-screen pt-24 md:pt-32 pb-16">
       <Helmet>
-        <title>Loveable - Featured Project: Bopdev Machi Restaurant</title>
+        <title>Loveable - Portfolio: Residential, Commercial, and Hospitality Projects</title>
         <meta 
           name="description" 
-          content="Explore Bopdev Machi Restaurant's warm interiors, featured on Loveable's fast-loading mobile portfolio, starting at 15k."
+          content="Explore Loveable's top interiors in Residential, Commercial, and Hospitality, contact Dalpat on WhatsApp from 15k."
         />
         
         {/* DNS prefetch for image domains */}
         <link rel="dns-prefetch" href="https://lovable.app" />
         <link rel="preconnect" href="https://lovable.app" crossOrigin="anonymous" />
         
-        {/* Preload critical images */}
-        <link 
-          rel="preload" 
-          as="image" 
-          href={featuredProject.images[0]} 
-          fetchPriority="high"
-          crossOrigin="anonymous"
-        />
+        {/* Preload critical images - the first image of the active category */}
+        {filteredProjects.length > 0 && (
+          <link 
+            rel="preload" 
+            as="image" 
+            href={filteredProjects[0].images[0]} 
+            fetchPriority="high"
+            crossOrigin="anonymous"
+          />
+        )}
         
         {/* Cache control hints */}
         <meta httpEquiv="Cache-Control" content="max-age=7776000" /> {/* 90 days */}
@@ -121,41 +112,20 @@ const PortfolioPage = () => {
           Our Portfolio
         </h1>
         
-        {/* Mobile-Optimized Featured Section */}
-        <div className="mb-12">
-          {isMobile ? (
-            <div className="min-h-[400px] bg-gradient-to-b from-warmWhite to-lightGray/20 rounded-lg p-6 shadow-sm">
-              <h2 className="font-playfair text-[20px] text-darkGray font-normal mb-4">
-                Featured Project: {featuredProject.title}
-              </h2>
-              
-              <p className="font-lato text-[13px] text-darkGray/90 font-light leading-[1.7] mb-6">
-                Step into the heart of Pune's Askarwadi with Bopdev Machi Restaurant, where rustic 
-                Maharashtrian charm meets modern elegance. This 2,500 sq ft space features warm teak 
-                wood accents, Warli-inspired art, and vibrant brass lighting, crafted by Loveable in 
-                2025 for a memorable dining experience.
-              </p>
-              
-              <div className="space-y-4">
-                <a 
-                  href={`/portfolio/${featuredProject.id}`}
-                  className="inline-block font-lato text-[14px] text-roseGold border border-roseGold/90 
-                           px-4 py-2 rounded hover:bg-roseGold/10 transition-colors"
-                >
-                  Explore More
-                </a>
-                
-                <p className="text-[11px] text-darkGray/70 italic">
-                  Designed with Loveable's expertise since 2012
-                </p>
-              </div>
-            </div>
-          ) : (
-            // Featured Project
-            <div>
-              {isLoaded && <FeaturedProject project={featuredProject} isLoaded={isLoaded} onLoad={() => setIsLoaded(true)} />}
-            </div>
-          )}
+        {/* Introduction section */}
+        <div className="mb-8 py-4">
+          <h2 className="font-playfair text-[20px] text-darkGray font-normal text-center mb-4">
+            Explore Our Portfolio: Spaces Designed with Love
+          </h2>
+          
+          <p className="text-center text-darkGray/80 font-lato text-sm">
+            Contact Dalpat on WhatsApp for your dream space!
+          </p>
+        </div>
+        
+        {/* Global WhatsApp CTA */}
+        <div className="mb-8 flex justify-center">
+          <WhatsAppCTA />
         </div>
         
         {/* Category Filter */}
@@ -176,6 +146,11 @@ const PortfolioPage = () => {
               Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities, pricing from 15k total.
             </span>
           </p>
+          
+          {/* Footer WhatsApp CTA */}
+          <div className="mt-8 flex justify-center">
+            <WhatsAppCTA text="Contact Dalpat Directly via WhatsApp" />
+          </div>
         </div>
       </div>
     </div>

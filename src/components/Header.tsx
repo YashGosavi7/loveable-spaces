@@ -70,41 +70,49 @@ const Header = ({ isScrolled }: HeaderProps) => {
         </button>
       </div>
       
-      {/* Mobile Navigation - Enhanced Overlay */}
+      {/* Mobile Navigation - Brighter Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-darkGray/95 z-50">
+        <div className="md:hidden fixed inset-0 bg-lightGray/95 backdrop-blur-sm z-50 animate-fade-in">
           <div className="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
+            <button 
+              className="absolute top-6 right-6 p-2"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={24} className="text-roseGold" />
+            </button>
+            
             <Link 
               to="/" 
-              className={`nav-link text-xl mb-8 text-white hover:text-roseGold ${isActive("/") ? "text-roseGold" : ""}`}
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/") ? "text-roseGold" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               to="/portfolio" 
-              className={`nav-link text-xl mb-8 text-white hover:text-roseGold ${isActive("/portfolio") ? "text-roseGold" : ""}`}
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/portfolio") ? "text-roseGold" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Portfolio
             </Link>
             <Link 
               to="/about" 
-              className={`nav-link text-xl mb-8 text-white hover:text-roseGold ${isActive("/about") ? "text-roseGold" : ""}`}
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/about") ? "text-roseGold" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/services" 
-              className={`nav-link text-xl mb-8 text-white hover:text-roseGold ${isActive("/services") ? "text-roseGold" : ""}`}
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/services") ? "text-roseGold" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to="/contact" 
-              className={`nav-link text-xl mb-8 text-white hover:text-roseGold ${isActive("/contact") ? "text-roseGold" : ""}`}
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/contact") ? "text-roseGold" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact

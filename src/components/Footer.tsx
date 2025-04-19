@@ -1,5 +1,7 @@
+
 import { Link } from "react-router-dom";
 import { Instagram, Mail, Phone } from "lucide-react";
+import WhatsAppCTA from "./portfolio/WhatsAppCTA";
 
 const Footer = () => {
   return (
@@ -11,6 +13,10 @@ const Footer = () => {
             <p className="text-sm opacity-80 leading-relaxed">
               Founded in 2012, Balaji Design Studio has completed over 600 projects across Pune, Mumbai, Latur, Solapur, Satara, Solpaur, Belgaum, Hyderabad, and Bangalore, blending cultural heritage with modern elegance
             </p>
+            
+            <div className="mt-6">
+              <WhatsAppCTA />
+            </div>
           </div>
           
           <div>
@@ -36,6 +42,10 @@ const Footer = () => {
                 <span>balajidesignstudio@hotmail.com</span>
               </li>
             </ul>
+            
+            <p className="text-roseGold mt-4 italic text-sm">
+              Reach out to Dalpat via WhatsApp for your dream space!
+            </p>
           </div>
           
           <div>
@@ -44,6 +54,12 @@ const Footer = () => {
               <a href="https://www.instagram.com/balaji_design_studio_/" target="_blank" rel="noopener noreferrer" className="hover:text-roseGold transition-colors">
                 <Instagram size={24} />
               </a>
+            </div>
+            
+            <div className="mt-8 text-sm opacity-80">
+              <p>Starting from 15k total</p>
+              <p>Over 600 projects in Tier 1 cities</p>
+              <p>Founded in 2012 by Dalaram Suthar</p>
             </div>
           </div>
         </div>
