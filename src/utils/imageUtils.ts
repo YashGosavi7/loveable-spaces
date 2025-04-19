@@ -96,6 +96,9 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('afbf5e62')) return '#f5f0e8'; // Media room wide view
   if (src.includes('81f64ee8')) return '#f4efe8'; // Living space with artwork
 
+  // Additional Samir Ghule's project images
+  if (src.includes('de5ee7a3')) return '#f4efe7'; // Entrance with family nameplate
+
   // Default warm color matching the website's aesthetic
   return '#f5f2ed';
 };

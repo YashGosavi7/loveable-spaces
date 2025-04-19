@@ -76,10 +76,11 @@ const projectsData: Project[] = [
       "/lovable-uploads/e3c671b2-a99e-4162-921d-ee370e0b31f2.png",
       "/lovable-uploads/135e62ce-0279-4d09-b036-c7099aa9676b.png",
       "/lovable-uploads/afbf5e62-9033-48ed-8d05-a54b220f498a.png",
-      "/lovable-uploads/81f64ee8-dd4a-4e7b-840c-c64b0c904d54.png"
+      "/lovable-uploads/81f64ee8-dd4a-4e7b-840c-c64b0c904d54.png",
+      "/lovable-uploads/de5ee7a3-e803-45e3-bebd-d3f5baa43cfc.png"
     ],
     isFeatured: true,
-    designer: "Dalaram Suthar",
+    designer: "Dalpat Suthar",
     tagline: "Modern Luxury Living in Pune",
     style: "Contemporary Minimalist"
   },
@@ -111,7 +112,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/09c9804b-61ee-4ca0-b912-f48bcb4a6d3e.png"
     ],
     isFeatured: true,
-    designer: "Shravan Suthar",
+    designer: "Dalpat Suthar",
     tagline: "Luxury Redefined in Personal Space",
     style: "Contemporary Luxe"
   },
@@ -153,7 +154,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/eb48dfd7-2867-4f0d-b797-925e8ebd9d10.png"
     ],
     isFeatured: true,
-    designer: "Dalaram Suthar",
+    designer: "Dalpat Suthar",
     tagline: "A Grand Retreat in Pune",
     style: "Contemporary Zen Luxury"
   },
@@ -187,7 +188,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/cc7886ad-97f8-4b34-995d-ffba8b41e2b0.png"
     ],
     isFeatured: true,
-    designer: "Shravan Suthar",
+    designer: "Dalpat Suthar",
     tagline: "A Timeless Home in Pune",
     style: "Warm Indian Minimalism"
   },
@@ -222,7 +223,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/a19eedb8-bc4e-4e31-837c-782e81c3f3d3.png"
     ],
     isFeatured: true,
-    designer: "Shravan Suthar"
+    designer: "Dalpat Suthar"
   },
   {
     id: "grandeur-wedding-hall",
@@ -254,7 +255,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/e6e7be2a-5cb9-4696-830b-ec8880f338eb.png"
     ],
     isFeatured: true,
-    designer: "Dalaram Suthar",
+    designer: "Dalpat Suthar",
     tagline: "A Celebration Space in Delhi",
     style: "Luxurious Indian Contemporary"
   },
