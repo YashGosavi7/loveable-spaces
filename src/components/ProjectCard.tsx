@@ -105,14 +105,15 @@ const OptimizedCardImage = memo(({
       <img 
         src={src} 
         alt={alt} 
-        className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         loading={priority ? "eager" : "lazy"}
         onLoad={onLoad}
         width={300}
         height={225}
         style={{ 
           backgroundColor: placeholderColor,
-          aspectRatio: "4/3" 
+          aspectRatio: "4/3",
+          objectPosition: "center"
         }}
         fetchPriority={priority ? "high" : "auto"}
         decoding={priority ? "sync" : "async"}
@@ -163,11 +164,11 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
     >
       <Link to={`/portfolio/${id}`} className="group block relative">
         <div className="overflow-hidden rounded-md shadow-md">
-          <AspectRatio ratio={4/3} className="bg-lightGray/20">
+          <AspectRatio ratio={4/3} className="bg-lightGray/20 w-full">
             {!imageLoaded && <Skeleton className="w-full h-full absolute inset-0" />}
             <OptimizedCardImage
               src={image}
-              alt={`Fast-loading uncropped ${title} interior by Loveable in ${location}`}
+              alt={`Fast-loading full-width ${title} interior by Loveable in ${location}`}
               onLoad={handleImageLoad}
               isVisible={isInView || isPriority}
               priority={isPriority}

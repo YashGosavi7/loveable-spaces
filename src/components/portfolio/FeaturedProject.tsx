@@ -16,11 +16,6 @@ const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) =>
     preload: true
   });
 
-  // Calculate aspect ratio for the featured project image
-  const getFeaturedAspectRatio = () => {
-    return "16/9"; // Default aspect ratio for featured image
-  };
-
   return (
     <div className="mb-16">
       <h2 className="font-playfair text-2xl md:text-3xl mb-6">Featured Project</h2>
@@ -46,8 +41,8 @@ const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) =>
             />
             <img 
               src={project.images[0]} 
-              alt={`${project.title} uncropped interior by Loveable in ${project.location}`}
-              className={`object-contain w-full h-full transition-transform duration-700 group-hover:scale-105 ${
+              alt={`${project.title} full-width interior by Loveable in ${project.location}`}
+              className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 ${
                 isLoaded ? 'opacity-100' : 'opacity-0'
               }`}
               loading="eager" 
@@ -56,8 +51,9 @@ const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) =>
               fetchPriority="high"
               decoding="sync"
               style={{
-                aspectRatio: `${getFeaturedAspectRatio()}`,
-                objectFit: "contain"
+                aspectRatio: "16/9",
+                objectFit: "cover",
+                objectPosition: "center"
               }}
               onLoad={onLoad}
             />

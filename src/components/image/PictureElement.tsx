@@ -45,7 +45,7 @@ const PictureElement = memo(({
   };
 
   return (
-    <picture>
+    <picture className="w-full h-full">
       {/* AVIF for best compression */}
       <ImageSource 
         src={src} 
@@ -74,7 +74,7 @@ const PictureElement = memo(({
       <ResponsiveImage
         src={src}
         alt={alt}
-        className={className}
+        className={`${className} w-full h-full`}
         width={getOptimalWidth()}
         height={getOptimalHeight()}
         priority={priority}

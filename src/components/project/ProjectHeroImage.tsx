@@ -17,7 +17,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
   });
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 w-full h-full">
       <div 
         className="absolute inset-0 transition-opacity duration-300"
         style={{ 
@@ -28,7 +28,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       <OptimizedImage
         src={src}
         alt={alt}
-        className="w-full h-full object-contain" 
+        className="w-full h-full object-cover" 
         priority={true}
         width={width}
         height={height}

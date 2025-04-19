@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import SectionTitle from "../components/SectionTitle";
 import projectsData from "../data/projectsData";
@@ -95,7 +96,7 @@ const PortfolioPage = () => {
     : projectsData.filter(project => project.category === activeCategory);
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-32 md:pt-36 pb-16"> {/* Increased top padding to fix logo overlap */}
       <Helmet>
         <title>Loveable - Portfolio of Interior Design Projects</title>
         <meta 
@@ -152,7 +153,7 @@ const PortfolioPage = () => {
         <div className="mt-16 text-center">
           <p className="text-darkGray font-lato text-sm md:text-base">
             Our portfolio images load fast and display perfectly, showcasing spaces you'll love! 
-            <span className="text-roseGold ml-1">Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities.</span>
+            <span className="text-roseGold ml-1">Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities, pricing from 15k total.</span>
           </p>
         </div>
       </div>

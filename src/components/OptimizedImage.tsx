@@ -79,7 +79,7 @@ const OptimizedImage = memo(({
   const contentVisibility = isInView ? 'auto' : 'hidden';
 
   return (
-    <div ref={elementRef} className="relative" style={{ contentVisibility }}>
+    <div ref={elementRef} className="relative w-full h-full" style={{ contentVisibility }}>
       {!isLoaded && (
         <div className="absolute inset-0">
           <Skeleton 
@@ -100,7 +100,7 @@ const OptimizedImage = memo(({
           height={height}
           priority={priority}
           quality={quality}
-          className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+          className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 w-full h-full object-cover`}
           onLoad={handleImageLoad}
           srcSet={getSrcSet()}
           sizes={getSizes()}

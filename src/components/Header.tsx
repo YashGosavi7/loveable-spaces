@@ -26,12 +26,12 @@ const Header = ({ isScrolled }: HeaderProps) => {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="flex items-center justify-start">
+        {/* Logo with increased z-index to prevent overlap */}
+        <Link to="/" className="flex items-center justify-start relative z-[1100]">
           <img 
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
-            className="h-28 sm:h-32 md:h-36 lg:h-40 object-contain" 
+            className="h-20 sm:h-24 md:h-28 lg:h-32 object-contain" 
             loading="eager" 
           />
         </Link>
