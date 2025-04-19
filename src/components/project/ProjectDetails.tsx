@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Project } from "@/data/projectsData";
@@ -61,7 +60,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                     className="flex items-start text-lg"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 * Math.min(index, 5) }} // Cap delays for better performance
+                    transition={{ duration: 0.4, delay: 0.1 * Math.min(index, 5) }}
                   >
                     <span className="text-roseGold mr-3 text-2xl">•</span>
                     <span>{feature}</span>
@@ -118,21 +117,6 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                     <p className="font-medium text-lg">{project.style}</p>
                   </div>
                 )}
-                
-                <div className="pt-2">
-                  <p className="text-darkGray/60 text-sm">Founding</p>
-                  <p className="font-medium text-lg">Loveable Interiors, est. 2012</p>
-                </div>
-                
-                <div>
-                  <p className="text-darkGray/60 text-sm">Experience</p>
-                  <p className="font-medium text-lg">600+ Projects Across Tier 1 Cities</p>
-                </div>
-                
-                <div>
-                  <p className="text-darkGray/60 text-sm">Starting At</p>
-                  <p className="font-medium text-lg">₹15,000 Total</p>
-                </div>
               </div>
               
               <div className="mt-10">
