@@ -130,6 +130,11 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('d0d2a8e8')) return '#f4efe8'; // Alternate bedroom view
   if (src.includes('1070561d')) return '#f5f0e9'; // Another bedroom perspective
 
+  // New Ravi Kale Celebrity Home project images placeholders
+  if (src.includes('e458768f')) return '#f4efe8';
+  if (src.includes('933cc55d')) return '#f5f0e9';
+  if (src.includes('7376f411')) return '#f3ede6';
+
   // Default warm color matching the website's aesthetic
   return '#f5f2ed';
 };
