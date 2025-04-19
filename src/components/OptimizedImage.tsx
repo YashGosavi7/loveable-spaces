@@ -14,7 +14,8 @@ const OptimizedImage = memo(({
   width = 800,
   height = 600,
   preload = false,
-  skipLazyLoading = false
+  skipLazyLoading = false,
+  onLoad
 }: ImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { isInView, elementRef } = useImageIntersection({ priority, skipLazyLoading });
@@ -23,6 +24,9 @@ const OptimizedImage = memo(({
 
   const handleImageLoad = () => {
     setIsLoaded(true);
+    if (onLoad) {
+      onLoad();
+    }
   };
 
   return (

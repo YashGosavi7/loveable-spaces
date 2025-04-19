@@ -11,4 +11,5 @@ export interface ImageProps {
   quality?: "low" | "medium" | "high";
   blurHash?: string;
   skipLazyLoading?: boolean;
+  onLoad?: () => void;
 }
