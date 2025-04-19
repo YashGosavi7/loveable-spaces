@@ -1,5 +1,5 @@
 
-import { WhatsApp } from "lucide-react";
+import { Send } from "lucide-react";
 
 interface WhatsAppCTAProps {
   text?: string;
@@ -18,7 +18,7 @@ const WhatsAppCTA = ({ text = "Chat with Dalpat on WhatsApp" }: WhatsAppCTAProps
                  text-white rounded-md transition-colors duration-300 font-lato text-sm md:text-base"
       aria-label="Contact via WhatsApp"
     >
-      <WhatsApp size={20} />
+      <Send size={20} />
       <span>{text}</span>
     </a>
   );
