@@ -16,61 +16,36 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
-    id: "bopdev-machi-restaurant",
-    title: "Bopdev Machi Restaurant",
-    category: "Commercial",
-    location: "Pune",
-    size: "2,500 sq ft",
-    completionYear: "2025",
-    description: "A contemporary fusion restaurant that celebrates Maharashtra's culinary heritage with a modern twist. The striking entrance features artistic jali patterns with LED elements, creating a mesmerizing welcome experience. Inside, the space combines traditional Indian design elements with contemporary aesthetics, including a stunning green wall backdrop and custom lighting installations.",
-    features: [
-      "Dramatic entrance with LED-lit jali patterns",
-      "Green wall feature with digital display integration",
-      "Custom seating areas with designer furniture",
-      "Artistic wall murals showcasing local culture",
-      "Modern lighting system with ambient controls",
-      "Contemporary facade with traditional elements",
-      "Landscaped entrance planters",
-      "Premium finish materials and textures"
-    ],
-    images: [
-      "/lovable-uploads/47225446-efa7-4bed-b7d8-70b219b8c14c.png",
-      "/lovable-uploads/864a9c6a-c580-4af3-94cc-692d4245561b.png",
-      "/lovable-uploads/f6949cd8-2d4e-4b1c-b46a-017644039bde.png",
-      "/lovable-uploads/779fd8ba-4b7f-4cb6-827d-7b0c666dc9f8.png"
-    ],
-    isFeatured: true,
-    designer: "Shravan Suthar",
-    tagline: "Where Tradition Meets Innovation",
-    style: "Contemporary Indian"
-  },
-  {
     id: "suraj-chavat-luxury-bedroom",
     title: "Suraj Chavat's Luxury Bedroom",
     category: "Residential",
     location: "Pune",
     size: "250 sq ft",
     completionYear: "2025",
-    description: "Custom designed for Mr. Suraj Chavat, this sophisticated bedroom project showcases a luxurious walk-in wardrobe with minimalist aesthetics. The wardrobe features sleek glass partitions with black frames, LED-illuminated shelving, and premium storage solutions. The design emphasizes clean lines and neutral tones, creating an organized and elegant space that combines functionality with high-end finishes.",
+    description: "A meticulously designed luxury bedroom that epitomizes modern elegance and personal style. The space features a sophisticated design with a crystal chandelier, marble-clad walls, and custom lighting that creates a warm, inviting atmosphere. The room incorporates a blend of neutral tones with rich accent colors, featuring plush seating, a state-of-the-art entertainment system, and personalized artwork that reflects the homeowner's personality.",
     features: [
-      "Custom walk-in wardrobe with glass partitions",
-      "LED-illuminated shelving system",
-      "Premium drawer units with soft-close mechanism",
-      "Dedicated sections for hanging clothes and accessories",
-      "Integrated lighting design",
-      "Floor-to-ceiling storage solutions",
-      "Black-framed glass doors with modern handles",
-      "Neutral color palette with premium finishes"
+      "Intricate ceiling design with concealed lighting",
+      "Crystal chandelier as a statement piece",
+      "Custom marble wall paneling",
+      "Luxurious king-size bed with designer headboard",
+      "Integrated smart home entertainment system",
+      "Elegant sitting area with designer chairs",
+      "Personalized photo artwork",
+      "Sophisticated color palette with warm accents"
     ],
     images: [
       "/lovable-uploads/fc2d4e14-ce3f-4ab0-9925-3af8418ccf1c.png",
       "/lovable-uploads/11ce913b-af6f-4656-a92e-a4dcf70775f9.png",
-      "/lovable-uploads/7add93ba-e971-4fef-9a11-caff92c9c443.png"
+      "/lovable-uploads/7add93ba-e971-4fef-9a11-caff92c9c443.png",
+      "/lovable-uploads/f4fa52bc-7b36-48c9-bce9-85632a289c57.png",
+      "/lovable-uploads/15bf770f-1251-4c88-9438-a2f6f5c3c2b0.png",
+      "/lovable-uploads/f5834427-dd78-43d5-8248-9c62db020362.png",
+      "/lovable-uploads/09c9804b-61ee-4ca0-b912-f48bcb4a6d3e.png"
     ],
     isFeatured: true,
     designer: "Shravan Suthar",
-    tagline: "Minimalist Luxury in Pune",
-    style: "Modern Minimalist"
+    tagline: "Luxury Redefined in Personal Space",
+    style: "Contemporary Luxe"
   },
   {
     id: "gaikwad-luxe-bungalow",

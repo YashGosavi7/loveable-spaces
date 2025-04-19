@@ -1,11 +1,14 @@
 // Utility functions for image optimization
 export const generatePlaceholderColor = (src: string): string => {
-  // Bopdev Machi Restaurant
-  if (src.includes('47225446')) return '#f5f1ea'; // Night entrance view
-  if (src.includes('864a9c6a')) return '#f4efe8'; // Evening entrance view
-  if (src.includes('f6949cd8')) return '#f5f0e9'; // Day entrance view
-  if (src.includes('779fd8ba')) return '#f3ede6'; // Sunset entrance view
-  
+  // Suraj Chavat's Luxury Bedroom
+  if (src.includes('fc2d4e14')) return '#f5f1ea'; // Walk-in wardrobe view 1
+  if (src.includes('11ce913b')) return '#f4efe8'; // Walk-in wardrobe view 2
+  if (src.includes('7add93ba')) return '#f5f0e9'; // Walk-in wardrobe view 3
+  if (src.includes('f4fa52bc')) return '#f3ede6'; // Bedroom overview
+  if (src.includes('15bf770f')) return '#f4efe7'; // Bedroom with TV
+  if (src.includes('f5834427')) return '#f5f0e8'; // Bedroom sitting area
+  if (src.includes('09c9804b')) return '#f2ede5'; // Detailed bedroom view
+
   // Naikwadi project placeholders
   if (src.includes('7a9b0e2f')) return '#f5f1ea'; // Living room
   if (src.includes('59d47f06')) return '#f4efe8'; // Bedroom with mandalas
