@@ -16,6 +16,40 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "samir-ghule-duplex-flat",
+    title: "Mr. Samir Ghule's Duplex Flat",
+    category: "Residential",
+    location: "Pune",
+    size: "2,800 sq ft",
+    completionYear: "2025",
+    description: "An elegant duplex flat designed for Mr. Samir Ghule showcasing modern luxury living. The space features sophisticated bedroom designs with custom lighting, premium materials, and thoughtful spatial planning. Notable elements include a bespoke workspace integration, designer furniture, and a harmonious blend of warm wood tones with neutral colors.",
+    features: [
+      "Custom LED ceiling design with modern fan",
+      "Integrated workspace with cork board",
+      "Designer seating area with rust-colored accent chairs",
+      "Premium wardrobe with geometric patterns",
+      "Smart TV setup with entertainment unit",
+      "Built-in study desk with storage",
+      "Floor-to-ceiling curtains with automated control",
+      "Gold accent details throughout the space"
+    ],
+    images: [
+      "/lovable-uploads/69ec1e87-1249-492e-8ff9-298eebf23db8.png",
+      "/lovable-uploads/eaf8abd9-9b29-4e7d-a0a1-dfa938ac007e.png",
+      "/lovable-uploads/23180269-6c58-4406-8b83-2b08c6d62711.png",
+      "/lovable-uploads/8890830f-3b8e-4bfa-b765-17adb3f32503.png",
+      "/lovable-uploads/4087f33e-e77f-4ae9-a390-d7a2492b4e93.png",
+      "/lovable-uploads/d09f42ee-d921-46eb-95f8-ba30b5327c51.png",
+      "/lovable-uploads/10b63de8-31ae-4fc5-a67e-ecd079e7d72a.png",
+      "/lovable-uploads/b682a7cf-b4cf-4191-b90e-69169ad66bd7.png",
+      "/lovable-uploads/75e23826-7fb8-4636-9799-17eaf7952a33.png"
+    ],
+    isFeatured: true,
+    designer: "Dalaram Suthar",
+    tagline: "Modern Luxury Living in Pune",
+    style: "Contemporary Minimalist"
+  },
+  {
     id: "suraj-chavat-luxury-bedroom",
     title: "Suraj Chavat's Luxury Bedroom",
     category: "Residential",

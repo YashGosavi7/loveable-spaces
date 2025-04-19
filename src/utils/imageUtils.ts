@@ -43,6 +43,17 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('b6d041bc')) return '#f3eee7'; // Bedroom
   if (src.includes('53764224')) return '#f4efe8'; // Kitchen
   
+  // Samir Ghule's Duplex Flat placeholders
+  if (src.includes('69ec1e87')) return '#f4efe8'; // Bedroom view 1
+  if (src.includes('eaf8abd9')) return '#f5f0e9'; // Bedroom view 2
+  if (src.includes('23180269')) return '#f3ede6'; // Bedroom with workspace
+  if (src.includes('8890830f')) return '#f4efe7'; // Bedroom with TV
+  if (src.includes('4087f33e')) return '#f5f0e8'; // Bedroom side view
+  if (src.includes('d09f42ee')) return '#f4efe8'; // Bedroom with seating
+  if (src.includes('10b63de8')) return '#f3ede6'; // Modern bedroom view
+  if (src.includes('b682a7cf')) return '#f4efe7'; // Bedroom with storage
+  if (src.includes('75e23826')) return '#f5f0e8'; // Bedroom with seating area
+
   // More placeholders for additional projects
   if (src.includes('f5ee7e6c')) return '#f5f0e6';
   if (src.includes('09506ceb')) return '#f0e9e4';
