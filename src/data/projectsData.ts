@@ -16,6 +16,34 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "suraj-chavat-luxury-bedroom",
+    title: "Suraj Chavat's Luxury Bedroom",
+    category: "Residential",
+    location: "Pune",
+    size: "250 sq ft",
+    completionYear: "2025",
+    description: "Custom designed for Mr. Suraj Chavat, this sophisticated bedroom project showcases a luxurious walk-in wardrobe with minimalist aesthetics. The wardrobe features sleek glass partitions with black frames, LED-illuminated shelving, and premium storage solutions. The design emphasizes clean lines and neutral tones, creating an organized and elegant space that combines functionality with high-end finishes.",
+    features: [
+      "Custom walk-in wardrobe with glass partitions",
+      "LED-illuminated shelving system",
+      "Premium drawer units with soft-close mechanism",
+      "Dedicated sections for hanging clothes and accessories",
+      "Integrated lighting design",
+      "Floor-to-ceiling storage solutions",
+      "Black-framed glass doors with modern handles",
+      "Neutral color palette with premium finishes"
+    ],
+    images: [
+      "/lovable-uploads/fc2d4e14-ce3f-4ab0-9925-3af8418ccf1c.png",
+      "/lovable-uploads/11ce913b-af6f-4656-a92e-a4dcf70775f9.png",
+      "/lovable-uploads/7add93ba-e971-4fef-9a11-caff92c9c443.png"
+    ],
+    isFeatured: true,
+    designer: "Shravan Suthar",
+    tagline: "Minimalist Luxury in Pune",
+    style: "Modern Minimalist"
+  },
+  {
     id: "gaikwad-luxe-bungalow",
     title: "Gaikwad's Luxe Bungalow",
     category: "Residential",
