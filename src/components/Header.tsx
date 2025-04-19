@@ -32,7 +32,7 @@ const Header = ({ isScrolled }: HeaderProps) => {
             src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
             alt="Balaji Design Studio Logo" 
             className="h-28 sm:h-32 md:h-36 lg:h-40 object-contain" 
-            priority={true}
+            loading="eager" 
           />
         </Link>
         
