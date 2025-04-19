@@ -31,7 +31,11 @@ const projectsData: Project[] = [
       "Smart TV setup with entertainment unit",
       "Built-in study desk with storage",
       "Floor-to-ceiling curtains with automated control",
-      "Gold accent details throughout the space"
+      "Gold accent details throughout the space",
+      "Contemporary pooja room with modern interpretations",
+      "Marble-finished kitchen with premium appliances",
+      "Elegant staircase with architectural lighting",
+      "Custom-designed dining area with artistic elements"
     ],
     images: [
       "/lovable-uploads/69ec1e87-1249-492e-8ff9-298eebf23db8.png",
@@ -51,7 +55,16 @@ const projectsData: Project[] = [
       "/lovable-uploads/f7be22f5-b0b9-40b6-a0da-023a44e9eb6f.png",
       "/lovable-uploads/af6bcccb-acd3-44d7-af6a-307ea12f304a.png",
       "/lovable-uploads/a655d983-c4c8-4255-9546-a899bfee24d6.png",
-      "/lovable-uploads/d4581ac8-e503-4095-aa2f-6929d2c5d1ed.png"
+      "/lovable-uploads/d4581ac8-e503-4095-aa2f-6929d2c5d1ed.png",
+      "/lovable-uploads/5a2aff14-bcc9-4961-8bb3-d51feedd8898.png",
+      "/lovable-uploads/2faf3e3c-8c50-4e9e-a1f1-ac68389af958.png",
+      "/lovable-uploads/1c3e331c-5b8e-4fe2-9e8c-244a941388f5.png",
+      "/lovable-uploads/b8701b77-5f5e-435c-9cbe-9f83294c651e.png",
+      "/lovable-uploads/f0e9f148-9c7c-4239-9b26-54d99ccca784.png",
+      "/lovable-uploads/0a377a7f-86bd-48a8-affd-1a82ff018603.png",
+      "/lovable-uploads/51321ef6-2b4b-4720-90d0-4d87c13da10c.png",
+      "/lovable-uploads/176eb3a2-f7d1-495f-b42c-4ee40396d357.png",
+      "/lovable-uploads/d7feb61c-ae60-4cfb-9520-66239c4912c6.png"
     ],
     isFeatured: true,
     designer: "Dalaram Suthar",
