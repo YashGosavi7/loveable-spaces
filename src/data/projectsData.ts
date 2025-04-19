@@ -22,7 +22,7 @@ const projectsData: Project[] = [
     location: "Pune",
     size: "2,800 sq ft",
     completionYear: "2025",
-    description: "An elegant duplex flat designed for Mr. Samir Ghule showcasing modern luxury living. The space features sophisticated bedroom designs with custom lighting, premium materials, and thoughtful spatial planning. Notable elements include a bespoke workspace integration, designer furniture, and a harmonious blend of warm wood tones with neutral colors.",
+    description: "An elegant duplex flat designed for Mr. Samir Ghule showcasing modern luxury living. The space features sophisticated bedroom designs with custom lighting, premium materials, and thoughtful spatial planning. Notable elements include a bespoke workspace integration, designer furniture, and a harmonious blend of warm wood tones with neutral colors. The entertainment area showcases a stunning media wall with curated artwork, while the pooja room reflects traditional values with contemporary aesthetics.",
     features: [
       "Custom LED ceiling design with modern fan",
       "Integrated workspace with cork board",
@@ -35,7 +35,10 @@ const projectsData: Project[] = [
       "Contemporary pooja room with modern interpretations",
       "Marble-finished kitchen with premium appliances",
       "Elegant staircase with architectural lighting",
-      "Custom-designed dining area with artistic elements"
+      "Custom-designed dining area with artistic elements",
+      "Media room with premium entertainment system",
+      "Bespoke entrance unit with family name display",
+      "Traditional pooja room with modern aesthetics"
     ],
     images: [
       "/lovable-uploads/69ec1e87-1249-492e-8ff9-298eebf23db8.png",
@@ -64,7 +67,16 @@ const projectsData: Project[] = [
       "/lovable-uploads/0a377a7f-86bd-48a8-affd-1a82ff018603.png",
       "/lovable-uploads/51321ef6-2b4b-4720-90d0-4d87c13da10c.png",
       "/lovable-uploads/176eb3a2-f7d1-495f-b42c-4ee40396d357.png",
-      "/lovable-uploads/d7feb61c-ae60-4cfb-9520-66239c4912c6.png"
+      "/lovable-uploads/d7feb61c-ae60-4cfb-9520-66239c4912c6.png",
+      "/lovable-uploads/5f920765-b70f-4dc4-b726-858a05c86f36.png",
+      "/lovable-uploads/cb324df1-2449-4af0-a1a3-434db3f9782b.png",
+      "/lovable-uploads/7bb8af9e-f4f0-478d-b55e-4b55c95a83b3.png",
+      "/lovable-uploads/3b0645ff-ec97-423c-842d-5926c9535590.png",
+      "/lovable-uploads/c2d52fcd-4a56-4cd5-88de-fdb694e4c4c4.png",
+      "/lovable-uploads/e3c671b2-a99e-4162-921d-ee370e0b31f2.png",
+      "/lovable-uploads/135e62ce-0279-4d09-b036-c7099aa9676b.png",
+      "/lovable-uploads/afbf5e62-9033-48ed-8d05-a54b220f498a.png",
+      "/lovable-uploads/81f64ee8-dd4a-4e7b-840c-c64b0c904d54.png"
     ],
     isFeatured: true,
     designer: "Dalaram Suthar",

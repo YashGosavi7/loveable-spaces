@@ -85,6 +85,17 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('6f4bb809')) return '#f0e9e4';
   if (src.includes('e4e76a6f')) return '#f5f5f5';
 
+  // Additional Samir Ghule's project images
+  if (src.includes('5f920765')) return '#f4efe8'; // Living room with designer chandelier
+  if (src.includes('cb324df1')) return '#f3ede6'; // Entertainment area view
+  if (src.includes('7bb8af9e')) return '#f4efe7'; // Living space alternate angle
+  if (src.includes('3b0645ff')) return '#f5f0e8'; // Media room front view
+  if (src.includes('c2d52fcd')) return '#f4efe8'; // Living area detail shot
+  if (src.includes('e3c671b2')) return '#f3ede6'; // Modern pooja room
+  if (src.includes('135e62ce')) return '#f4efe7'; // Entrance unit with nameplate
+  if (src.includes('afbf5e62')) return '#f5f0e8'; // Media room wide view
+  if (src.includes('81f64ee8')) return '#f4efe8'; // Living space with artwork
+
   // Default warm color matching the website's aesthetic
   return '#f5f2ed';
 };
