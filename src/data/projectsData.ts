@@ -16,6 +16,35 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "bopdev-machi-restaurant",
+    title: "Bopdev Machi Restaurant",
+    category: "Commercial",
+    location: "Pune",
+    size: "2,500 sq ft",
+    completionYear: "2025",
+    description: "A contemporary fusion restaurant that celebrates Maharashtra's culinary heritage with a modern twist. The striking entrance features artistic jali patterns with LED elements, creating a mesmerizing welcome experience. Inside, the space combines traditional Indian design elements with contemporary aesthetics, including a stunning green wall backdrop and custom lighting installations.",
+    features: [
+      "Dramatic entrance with LED-lit jali patterns",
+      "Green wall feature with digital display integration",
+      "Custom seating areas with designer furniture",
+      "Artistic wall murals showcasing local culture",
+      "Modern lighting system with ambient controls",
+      "Contemporary facade with traditional elements",
+      "Landscaped entrance planters",
+      "Premium finish materials and textures"
+    ],
+    images: [
+      "/lovable-uploads/47225446-efa7-4bed-b7d8-70b219b8c14c.png",
+      "/lovable-uploads/864a9c6a-c580-4af3-94cc-692d4245561b.png",
+      "/lovable-uploads/f6949cd8-2d4e-4b1c-b46a-017644039bde.png",
+      "/lovable-uploads/779fd8ba-4b7f-4cb6-827d-7b0c666dc9f8.png"
+    ],
+    isFeatured: true,
+    designer: "Shravan Suthar",
+    tagline: "Where Tradition Meets Innovation",
+    style: "Contemporary Indian"
+  },
+  {
     id: "suraj-chavat-luxury-bedroom",
     title: "Suraj Chavat's Luxury Bedroom",
     category: "Residential",
