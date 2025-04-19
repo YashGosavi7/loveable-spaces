@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SectionTitle from "../components/SectionTitle";
@@ -197,14 +196,6 @@ const PortfolioPage = () => {
             />
           ))}
         </motion.div>
-        
-        {/* Information Section */}
-        <div className="mt-20 text-center">
-          <p className="text-darkGray/80 mb-2">
-            Founded in 2012 by Dalaram Suthar • 600+ Projects Across Tier 1 Cities
-          </p>
-          <p className="text-roseGold/90">Starting at ₹15,000 Total</p>
-        </div>
       </div>
     </div>
   );

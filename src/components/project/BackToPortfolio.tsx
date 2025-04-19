@@ -14,11 +14,6 @@ const BackToPortfolio = () => {
           <ChevronLeft size={20} className="mr-2 transition-transform group-hover:-translate-x-1" />
           <span>Back to Portfolio</span>
         </Link>
-        
-        <div className="mt-8 text-center text-darkGray/70 text-sm">
-          <p>Loveable Interiors • Founded 2012 by Dalaram Suthar • 600+ Projects Across Tier 1 Cities • Starting at ₹15k</p>
-          <p className="mt-2 font-playfair italic">Designing Spaces You'll Love to Live In</p>
-        </div>
       </div>
     </section>
   );
