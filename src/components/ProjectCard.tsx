@@ -1,9 +1,22 @@
+
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect, memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+
+// Define the missing ProjectCardProps interface
+interface ProjectCardProps {
+  id: string;
+  title: string;
+  category: string;
+  location: string;
+  image: string;
+  designer?: string;
+  tagline?: string;
+  index?: number;
+}
 
 const OptimizedCardImage = memo(({ 
   src, 
