@@ -234,7 +234,6 @@ const projectsData: Project[] = [
       "/lovable-uploads/32396da3-2606-4172-aa45-a34009c7876d.png",
       "/lovable-uploads/b5081487-3cf6-41e1-b070-9de4ad65c9aa.png",
       "/lovable-uploads/5e1ae636-2c18-438c-a45d-42f563288a53.png",
-      
       "/lovable-uploads/8aa6ea8f-3ad8-41b7-8afe-6ef05a9a11c7.png",
       "/lovable-uploads/081379a4-fca0-4432-a721-27e5451557ff.png",
       "/lovable-uploads/737f1abd-364f-4936-834b-1f7b893df4fc.png",
@@ -242,7 +241,10 @@ const projectsData: Project[] = [
       "/lovable-uploads/aa20a76e-dc46-4f58-953a-8b65e51aae94.png",
       "/lovable-uploads/1e6f3006-f658-45b6-bef6-19552dd6c517.png",
       "/lovable-uploads/d0d2a8e8-964f-4cb9-9ccf-0cd2d20410bc.png",
-      "/lovable-uploads/1070561d-9c51-4a4e-bbaa-542d99e198e1.png"
+      "/lovable-uploads/1070561d-9c51-4a4e-bbaa-542d99e198e1.png",
+      "/lovable-uploads/e458768f-34c4-42f0-a193-6352689a4f5c.png",
+      "/lovable-uploads/933cc55d-1a94-4bfb-a6b4-b9ef58c1a81c.png",
+      "/lovable-uploads/7376f411-be9d-4aa1-ba87-dd81c60da67c.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
@@ -298,9 +300,9 @@ const projectsData: Project[] = [
       "Traditional jali-inspired dividers"
     ],
     images: [
-      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-      "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg",
-      "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"
+      "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
     ],
     isFeatured: true
   },
@@ -319,9 +321,9 @@ const projectsData: Project[] = [
       "Interactive presentation areas"
     ],
     images: [
-      "https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg",
-      "https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg",
-      "https://images.pexels.com/photos/260931/pexels-photo-260931.jpeg"
+      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1"
     ],
     isFeatured: true
   },
@@ -340,9 +342,9 @@ const projectsData: Project[] = [
       "Custom art installations by local artists"
     ],
     images: [
-      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg",
-      "https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg",
-      "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"
+      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+      "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
     ],
     isFeatured: true
   },
@@ -361,9 +363,9 @@ const projectsData: Project[] = [
       "Locally sourced sustainable materials"
     ],
     images: [
-      "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg",
-      "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg",
-      "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg"
+      "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
     ],
     isFeatured: true
   },
@@ -382,24 +384,6 @@ const projectsData: Project[] = [
       "Handcrafted furniture by local artisans"
     ],
     images: [
-      "https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg",
-      "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg",
-      "https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg"
-    ]
-  },
-  {
-    id: "jaipur-heritage-hotel",
-    title: "Jaipur Heritage Hotel",
-    category: "Hospitality",
-    location: "Jaipur",
-    size: "12,000 sq ft",
-    completionYear: "2022",
-    description: "This boutique heritage hotel in Jaipur's old city combines Rajasthani royal aesthetics with contemporary luxury. The restoration preserved original architectural features while introducing modern comforts and amenities for an authentic yet luxurious experience.",
-    features: [
-      "Restored heritage facade with traditional jharokhas",
-      "Courtyard with traditional stepwell-inspired water feature",
-      "Rooftop restaurant with city views",
-      "Luxury spa featuring traditional Rajasthani treatments"
-    ],
-    images: [
-      "https://images.pexels.com/photos/161758/governor-s-m
+      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
+      "https://images.unsplash.com/photo-1531297484001-8002
