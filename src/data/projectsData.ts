@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -15,6 +16,40 @@ export interface Project {
 }
 
 const projectsData: Project[] = [
+  {
+    id: "bopdev-machi-restaurant",
+    title: "Bopdev Machi Restaurant",
+    category: "Commercial",
+    location: "Askarwadi, Pune",
+    size: "2,500 sq ft",
+    completionYear: "2025",
+    description: "Crafted for Bopdev Machi Restaurant in Pune's Askarwadi, this design captures the essence of Maharashtrian culture with modern flair. The space features rustic teak wood tables, innovative pavilion-style seating pods, Warli-inspired wall art, and brass lighting fixtures. The unique outdoor dining area combines contemporary architectural elements with traditional jali-patterned dividers, creating a warm, vibrant atmosphere perfect for dining and celebrations under the stars, while maintaining an authentic connection to Maharashtra's rich cultural heritage.",
+    features: [
+      "Contemporary pavilion-style outdoor seating pods with privacy screens",
+      "Custom jali-patterned lighting fixtures and path markers",
+      "Integrated performance stage with traditional Maharashtrian motifs",
+      "Open-air dining experience with landscaped surroundings",
+      "Artistic backdrop wall with music-themed artwork",
+      "Modern grid lighting structure with professional sound system",
+      "Indoor dining area with culturally inspired wall murals",
+      "Premium outdoor furniture with warm wood and brass accents"
+    ],
+    images: [
+      "/lovable-uploads/1124b796-e6a5-498f-8368-cdb8e4b98e10.png",
+      "/lovable-uploads/644044fd-a263-4ed1-bead-7b1aa8d4b4f4.png",
+      "/lovable-uploads/71594cd3-bd13-43b4-b8f8-bc0fc0038b1c.png",
+      "/lovable-uploads/39cce8ce-6362-4285-b9e1-fd8cf9c36878.png",
+      "/lovable-uploads/f930f390-9c90-419b-b3f3-907d56c87463.png",
+      "/lovable-uploads/6ecc65f2-942a-4c00-b3e9-85e19006de36.png",
+      "/lovable-uploads/2ea76eaf-0372-46af-a6be-5e6ce050a79f.png",
+      "/lovable-uploads/83d84c7c-d2de-437b-8a68-c71899ba8bb4.png",
+      "/lovable-uploads/98a4a85f-6e99-485f-97d4-1bfaa987b581.png"
+    ],
+    isFeatured: true,
+    designer: "Dalaram Suthar",
+    tagline: "A Culinary Haven in Pune",
+    style: "Contemporary Maharashtrian"
+  },
   {
     id: "gaikwad-luxe-bungalow",
     title: "Gaikwad's Luxe Bungalow",

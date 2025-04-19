@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Project } from "@/data/projectsData";
@@ -21,6 +22,12 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
         accentColor: "bg-roseGold/90"
       };
     }
+    if (project.id === "bopdev-machi-restaurant") {
+      return {
+        backgroundPattern: "indian-pattern-bg bg-opacity-15",
+        accentColor: "bg-roseGold/90"
+      };
+    }
     return {
       backgroundPattern: "mandala-pattern-bg",
       accentColor: "bg-roseGold/90"
@@ -28,6 +35,43 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   };
   
   const { backgroundPattern, accentColor } = getProjectSpecificStyles();
+  
+  const getCustomDescriptionParagraph = () => {
+    if (project.id === "bopdev-machi-restaurant") {
+      return (
+        <>
+          <p className="text-xl mb-12 leading-relaxed">
+            {project.description}
+          </p>
+          
+          <h3 className="font-playfair text-2xl mb-6">Design Philosophy</h3>
+          <p className="text-lg mb-10 leading-relaxed">
+            Our approach to this project focused on creating a vibrant yet relaxing outdoor dining experience that celebrates 
+            Maharashtra's rich cultural heritage. By blending contemporary architectural elements with traditional motifs, 
+            we've created a dining destination that feels both modern and authentically rooted in local tradition. The pavilion-style 
+            seating areas offer privacy while maintaining connection to the vibrant atmosphere, and the jali patterns throughout 
+            provide beautiful lighting effects as day transitions to evening.
+          </p>
+        </>
+      );
+    }
+    
+    return (
+      <>
+        <p className="text-xl mb-12 leading-relaxed">
+          {project.description}
+        </p>
+        
+        <h3 className="font-playfair text-2xl mb-6">Design Philosophy</h3>
+        <p className="text-lg mb-10 leading-relaxed">
+          Our approach to this project focused on creating a harmonious balance between functionality and aesthetic excellence. 
+          We embraced the natural elements of the space while introducing architectural elements that reflect the client's unique personality and lifestyle needs.
+          {project.id === "grandeur-wedding-hall" && " The design incorporates traditional Indian craftsmanship through ornate woodwork, warm lighting, and carefully selected materials that bring a sense of heritage while creating a luxurious atmosphere perfect for celebrations."}
+          {project.id === "bhushan-naikwadi-elegant-abode" && " The design celebrates the rich heritage of Indian craftsmanship through teak wood elements, handwoven textiles, and subtle jali screens that create a perfect harmony of traditional and contemporary aesthetics."}
+        </p>
+      </>
+    );
+  };
   
   return (
     <section className="bg-warmWhite py-20 md:py-32 px-4 mandala-pattern-bg" style={{ '--bg-color': '#FAF9F6' } as React.CSSProperties}>
@@ -40,17 +84,8 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="font-playfair text-3xl md:text-4xl mb-8">Project Overview</h2>
-              <p className="text-xl mb-12 leading-relaxed">
-                {project.description}
-              </p>
               
-              <h3 className="font-playfair text-2xl mb-6">Design Philosophy</h3>
-              <p className="text-lg mb-10 leading-relaxed">
-                Our approach to this project focused on creating a harmonious balance between functionality and aesthetic excellence. 
-                We embraced the natural elements of the space while introducing architectural elements that reflect the client's unique personality and lifestyle needs.
-                {project.id === "grandeur-wedding-hall" && " The design incorporates traditional Indian craftsmanship through ornate woodwork, warm lighting, and carefully selected materials that bring a sense of heritage while creating a luxurious atmosphere perfect for celebrations."}
-                {project.id === "bhushan-naikwadi-elegant-abode" && " The design celebrates the rich heritage of Indian craftsmanship through teak wood elements, handwoven textiles, and subtle jali screens that create a perfect harmony of traditional and contemporary aesthetics."}
-              </p>
+              {getCustomDescriptionParagraph()}
               
               <h3 className="font-playfair text-2xl mb-6">Features</h3>
               <ul className="space-y-4 mb-12">

@@ -12,7 +12,17 @@ const ProjectHeroMeta = ({ project, activeImageIndex }: ProjectHeroMetaProps) =>
     if (project.id === "bhushan-naikwadi-elegant-abode") {
       return `Explore the warm, culturally rich interiors of Mr. Bhushan Naikwadi's Pune home, designed for timeless comfort.`;
     }
+    if (project.id === "bopdev-machi-restaurant") {
+      return `Explore the vibrant, uncropped interiors of Bopdev Machi Restaurant in Pune by Loveable, designed for warmth and speed.`;
+    }
     return `Explore the warm, elegant interiors of ${project.title} in ${project.location}.`;
+  };
+
+  const getCustomAltText = () => {
+    if (project.id === "bopdev-machi-restaurant") {
+      return `Fast-loading uncropped restaurant interior by Loveable for Bopdev Machi`;
+    }
+    return `Fast-loading uncropped ${project.category.toLowerCase()} interior by Loveable in ${project.location}`;
   };
 
   return (
