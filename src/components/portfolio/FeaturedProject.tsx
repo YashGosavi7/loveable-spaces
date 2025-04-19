@@ -1,8 +1,7 @@
 
-import { useState } from "react";
 import { Project } from "@/data/projectsData";
 import OptimizedImage from "@/components/OptimizedImage";
-import { generatePlaceholderColor } from "@/utils/imageUtils";
+import { useOptimizedImage } from "@/hooks/useOptimizedImage";
 
 interface FeaturedProjectProps {
   project: Project;
@@ -11,6 +10,12 @@ interface FeaturedProjectProps {
 }
 
 const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) => {
+  const { placeholderColor } = useOptimizedImage({
+    src: project.images[0],
+    priority: true,
+    preload: true
+  });
+
   // Calculate aspect ratio for the featured project image
   const getFeaturedAspectRatio = () => {
     return "16/9"; // Default aspect ratio for featured image
@@ -24,27 +29,24 @@ const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) =>
           <div 
             className="absolute inset-0 transition-opacity duration-300" 
             style={{ 
-              backgroundColor: generatePlaceholderColor(project.id),
+              backgroundColor: placeholderColor,
               opacity: isLoaded ? 0 : 1 
             }}
           ></div>
           <picture>
-            {/* WebP format for modern browsers */}
             <source 
               type="image/webp" 
               srcSet={`${project.images[0]} 500w, ${project.images[0]} 1000w`} 
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1000px"
             />
-            {/* AVIF format for browsers with best compression support */}
             <source 
               type="image/avif" 
               srcSet={`${project.images[0]} 500w, ${project.images[0]} 1000w`} 
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1000px"
             />
-            {/* Fallback image */}
             <img 
               src={project.images[0]} 
-              alt={`Fast-loading ${project.title} interior by Loveable in ${project.location}`}
+              alt={`${project.title} interior by Loveable in ${project.location}`}
               className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 ${
                 isLoaded ? 'opacity-100' : 'opacity-0'
               }`}
