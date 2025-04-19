@@ -53,6 +53,15 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('10b63de8')) return '#f3ede6'; // Modern bedroom view
   if (src.includes('b682a7cf')) return '#f4efe7'; // Bedroom with storage
   if (src.includes('75e23826')) return '#f5f0e8'; // Bedroom with seating area
+  if (src.includes('9a92d3e9')) return '#f4efe8'; // Additional bedroom view
+  if (src.includes('25d0624e')) return '#f5f0e9'; // Secondary bedroom angle
+  if (src.includes('2c7d97e4')) return '#f3ede6'; // Living room view
+  if (src.includes('720e8505')) return '#f4efe7'; // Living space with artwork
+  if (src.includes('92a8b763')) return '#f5f0e8'; // Seating area
+  if (src.includes('f7be22f5')) return '#f4efe8'; // Living room alternate view
+  if (src.includes('af6bcccb')) return '#f3ede6'; // Additional seating space
+  if (src.includes('a655d983')) return '#f4efe7'; // Main bedroom vista
+  if (src.includes('d4581ac8')) return '#f5f0e8'; // Master bedroom detail
 
   // More placeholders for additional projects
   if (src.includes('f5ee7e6c')) return '#f5f0e6';
