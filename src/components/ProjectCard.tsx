@@ -1,22 +1,9 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect, memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import WhatsAppCTA from "./portfolio/WhatsAppCTA";
-
-interface ProjectCardProps {
-  id: string;
-  title: string;
-  category: string;
-  location: string;
-  image: string;
-  designer?: string;
-  tagline?: string;
-  index?: number;
-}
 
 const OptimizedCardImage = memo(({ 
   src, 
@@ -35,9 +22,7 @@ const OptimizedCardImage = memo(({
     return <></>;
   }
   
-  // Generate a placeholder color based on the image path
   const generatePlaceholderColor = () => {
-    // Naikwadi project placeholders
     if (src.includes('7a9b0e2f')) return '#f5f1ea'; // Living room
     if (src.includes('59d47f06')) return '#f4efe8'; // Bedroom with mandalas
     if (src.includes('94247c8f')) return '#f5f0e9'; // Bedroom alternative angle
@@ -48,7 +33,6 @@ const OptimizedCardImage = memo(({
     if (src.includes('88614b3e')) return '#f5f1ea'; // Dining area
     if (src.includes('cc7886ad')) return '#f4efe7'; // Living space
 
-    // Wedding hall placeholders
     if (src.includes('eea53347')) return '#f5f0e9'; // Wedding hall main
     if (src.includes('18ae3aa6')) return '#f3ede6'; // Wedding hall seating
     if (src.includes('76be1317')) return '#f4efe8'; // Wedding hall walkway
@@ -59,7 +43,6 @@ const OptimizedCardImage = memo(({
     if (src.includes('ac8a7286')) return '#f5f0e8'; // Wedding hall reception
     if (src.includes('e6e7be2a')) return '#f4efe7'; // Wedding hall overview
     
-    // Original placeholders
     if (src.includes('f5ee7e6c')) return '#f5f0e6';
     if (src.includes('09506ceb')) return '#f0e9e4';
     if (src.includes('cee99868')) return '#f5f5f0';
@@ -70,7 +53,6 @@ const OptimizedCardImage = memo(({
     if (src.includes('6f4bb809')) return '#f0e9e4'; 
     if (src.includes('e4e76a6f')) return '#f5f5f5';
     
-    // Default
     return '#efefef';
   };
   
@@ -78,21 +60,18 @@ const OptimizedCardImage = memo(({
                           
   return (
     <picture>
-      {/* WebP for modern browsers */}
       <source 
         type="image/webp" 
         srcSet={`${src} 250w, ${src} 500w`} 
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />
       
-      {/* AVIF for browsers with best compression support */}
       <source 
         type="image/avif" 
         srcSet={`${src} 250w, ${src} 500w`} 
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />
       
-      {/* Responsive source for different screen sizes */}
       <source 
         media="(max-width: 640px)" 
         srcSet={src}
@@ -102,7 +81,6 @@ const OptimizedCardImage = memo(({
         srcSet={src}
       />
       
-      {/* Fallback for older browsers */}
       <img 
         src={src} 
         alt={`Best interior design by Loveable for ${alt}`} 
@@ -126,17 +104,15 @@ const OptimizedCardImage = memo(({
 const ProjectCard = ({ id, title, category, location, image, designer, tagline, index = 0 }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
-  const [showWhatsApp, setShowWhatsApp] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Check if element is in viewport using IntersectionObserver with larger margin
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0.01, rootMargin: "600px 0px" } // Preload as user approaches (increased margin)
+      { threshold: 0.01, rootMargin: "600px 0px" }
     );
 
     if (cardRef.current) {
@@ -150,21 +126,11 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
     };
   }, []);
 
-  // Function to handle successful image load
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
-  // Determine if this is a priority image (first 3 in the list)
-  const isPriority = index < 3;
-
   return (
     <motion.div
       ref={cardRef}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
-      onHoverStart={() => setShowWhatsApp(true)}
-      onHoverEnd={() => setShowWhatsApp(false)}
       className="flex flex-col"
     >
       <Link to={`/portfolio/${id}`} className="group block relative">
@@ -174,9 +140,9 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
             <OptimizedCardImage
               src={image}
               alt={`${title} interior by Loveable in ${location}`}
-              onLoad={handleImageLoad}
-              isVisible={isInView || isPriority}
-              priority={isPriority}
+              onLoad={() => setImageLoaded(true)}
+              isVisible={isInView || (index < 3)}
+              priority={index < 3}
             />
           </AspectRatio>
         </div>
@@ -208,11 +174,6 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
           )}
         </div>
       </Link>
-      
-      {/* WhatsApp CTA for each project */}
-      <div className={`mt-3 transition-opacity duration-300 text-center ${showWhatsApp ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
-        <WhatsAppCTA text={`Ask about ${title}`} />
-      </div>
     </motion.div>
   );
 };

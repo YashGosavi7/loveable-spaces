@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -20,11 +19,9 @@ const PortfolioPage = () => {
     window.scrollTo(0, 0);
     connectionSpeed.current = isLikelySlowConnection() ? 'slow' : 'normal';
     
-    // Add DNS prefetch for all image domains
     const addDomainHints = () => {
       const domains = new Set<string>();
       
-      // Extract unique domains from project images
       projectsData.forEach(project => {
         if (project.images && project.images.length > 0) {
           const url = new URL(project.images[0], window.location.origin);
@@ -32,16 +29,13 @@ const PortfolioPage = () => {
         }
       });
       
-      // Add DNS prefetch and preconnect for each domain
       domains.forEach(domain => {
-        // Add DNS prefetch
         if (!document.querySelector(`link[rel="dns-prefetch"][href="//${domain}"]`)) {
           const prefetchLink = document.createElement('link');
           prefetchLink.rel = 'dns-prefetch';
           prefetchLink.href = `//${domain}`;
           document.head.appendChild(prefetchLink);
           
-          // Add preconnect
           const preconnectLink = document.createElement('link');
           preconnectLink.rel = 'preconnect';
           preconnectLink.href = `//${domain}`;
@@ -53,9 +47,7 @@ const PortfolioPage = () => {
     
     addDomainHints();
     
-    // Preload first image of each project for optimal grid view loading
     const preloadThumbnails = () => {
-      // Only preload a limited number of thumbnails on slow connections
       const preloadLimit = connectionSpeed.current === 'slow' ? 3 : 6;
       
       const visibleProjects = projectsData
@@ -63,11 +55,9 @@ const PortfolioPage = () => {
         .slice(0, preloadLimit);
         
       visibleProjects.forEach((project, index) => {
-        // Stagger preloads to avoid network congestion
         setTimeout(() => {
           const img = new Image();
           img.src = project.images[0];
-          // Only high priority for the first few
           img.fetchPriority = index < 3 ? 'high' : 'auto';
         }, index * 100);
       });
@@ -76,7 +66,6 @@ const PortfolioPage = () => {
     preloadThumbnails();
   }, [activeCategory]);
   
-  // Filter projects based on selected category
   const filteredProjects = projectsData.filter(project => project.category === activeCategory);
 
   return (
@@ -88,23 +77,18 @@ const PortfolioPage = () => {
           content="Explore Loveable's top interiors in Residential, Commercial, and Hospitality, contact Dalpat on WhatsApp from 15k."
         />
         
-        {/* DNS prefetch for image domains */}
         <link rel="dns-prefetch" href="https://lovable.app" />
         <link rel="preconnect" href="https://lovable.app" crossOrigin="anonymous" />
         
-        {/* Preload critical images - the first image of the active category */}
-        {filteredProjects.length > 0 && (
-          <link 
-            rel="preload" 
-            as="image" 
-            href={filteredProjects[0].images[0]} 
-            fetchPriority="high"
-            crossOrigin="anonymous"
-          />
-        )}
+        <link 
+          rel="preload" 
+          as="image" 
+          href={filteredProjects.length > 0 ? filteredProjects[0].images[0] : ''} 
+          fetchPriority="high"
+          crossOrigin="anonymous"
+        />
         
-        {/* Cache control hints */}
-        <meta httpEquiv="Cache-Control" content="max-age=7776000" /> {/* 90 days */}
+        <meta httpEquiv="Cache-Control" content="max-age=7776000" />
       </Helmet>
       
       <div className="container mx-auto px-4 md:px-8">
@@ -112,33 +96,28 @@ const PortfolioPage = () => {
           Our Portfolio
         </h1>
         
-        {/* Introduction section */}
         <div className="mb-8 py-4">
           <h2 className="font-playfair text-[20px] text-darkGray font-normal text-center mb-4">
             Explore Our Portfolio: Spaces Designed with Love
           </h2>
           
           <p className="text-center text-darkGray/80 font-lato text-sm">
-            Contact Dalpat on WhatsApp for your dream space!
+            Starting at 15k, over 600 projects across Tier 1 cities
           </p>
         </div>
         
-        {/* Global WhatsApp CTA */}
         <div className="mb-8 flex justify-center">
           <WhatsAppCTA />
         </div>
         
-        {/* Category Filter */}
         <CategoryFilter 
           categories={categories}
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
         />
         
-        {/* Projects Grid */}
         <ProjectsGrid projects={filteredProjects} />
         
-        {/* Performance Note */}
         <div className="mt-16 text-center">
           <p className="text-darkGray font-lato text-[13px] md:text-base">
             Our mobile portfolio shines with fast, engaging designs!{" "}
@@ -146,11 +125,6 @@ const PortfolioPage = () => {
               Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities, pricing from 15k total.
             </span>
           </p>
-          
-          {/* Footer WhatsApp CTA */}
-          <div className="mt-8 flex justify-center">
-            <WhatsAppCTA text="Contact Dalpat Directly via WhatsApp" />
-          </div>
         </div>
       </div>
     </div>
