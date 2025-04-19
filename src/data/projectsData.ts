@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -43,7 +42,16 @@ const projectsData: Project[] = [
       "/lovable-uploads/6ecc65f2-942a-4c00-b3e9-85e19006de36.png",
       "/lovable-uploads/2ea76eaf-0372-46af-a6be-5e6ce050a79f.png",
       "/lovable-uploads/83d84c7c-d2de-437b-8a68-c71899ba8bb4.png",
-      "/lovable-uploads/98a4a85f-6e99-485f-97d4-1bfaa987b581.png"
+      "/lovable-uploads/98a4a85f-6e99-485f-97d4-1bfaa987b581.png",
+      "/lovable-uploads/a90b8016-3233-445a-a96d-4355ea558cf4.png",
+      "/lovable-uploads/0e55735d-cbc9-4ed5-ac63-d289a0bdc8eb.png",
+      "/lovable-uploads/e4c640b3-469b-40c5-abd3-e7686b499dd9.png",
+      "/lovable-uploads/1a6ded74-dadb-43df-84c3-f5b6f0ea21ac.png",
+      "/lovable-uploads/33e4c2c6-21ab-4929-a737-f14945939eee.png",
+      "/lovable-uploads/e428e225-1ffb-4054-895d-49b990f59ad8.png",
+      "/lovable-uploads/60f1d8f7-839b-4630-9de0-3332f2bda5d3.png",
+      "/lovable-uploads/75504ad6-9317-4c2f-810f-26c4b07dede6.png",
+      "/lovable-uploads/00bed64c-645d-4662-add2-5cacf7db43c4.png"
     ],
     isFeatured: true,
     designer: "Dalaram Suthar",

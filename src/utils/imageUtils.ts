@@ -1,4 +1,3 @@
-
 // Utility functions for image optimization
 export const generatePlaceholderColor = (src: string): string => {
   // Bopdev Machi Restaurant placeholders
@@ -11,6 +10,15 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('2ea76eaf')) return '#f4efe7'; // Structure view
   if (src.includes('83d84c7c')) return '#f5f0e9'; // Stage closeup
   if (src.includes('98a4a85f')) return '#f2ede6'; // Full view
+  if (src.includes('a90b8016')) return '#f4efe8'; // Additional dining view
+  if (src.includes('0e55735d')) return '#f3eee7'; // Night view
+  if (src.includes('e4c640b3')) return '#f5f1ea'; // Stage setup
+  if (src.includes('1a6ded74')) return '#f4efe8'; // Pavilion view
+  if (src.includes('33e4c2c6')) return '#f3eee7'; // Private pods
+  if (src.includes('e428e225')) return '#f5f0e8'; // Seating area
+  if (src.includes('60f1d8f7')) return '#f4efe7'; // Garden pathway
+  if (src.includes('75504ad6')) return '#f5f0e9'; // Night dining
+  if (src.includes('00bed64c')) return '#f2ede6'; // Evening ambiance
 
   // Naikwadi project placeholders
   if (src.includes('7a9b0e2f')) return '#f5f1ea'; // Living room
