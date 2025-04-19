@@ -194,36 +194,36 @@ const projectsData: Project[] = [
   },
   {
     id: "ravi-kale-celebrity-home",
-    title: "Ravi Kale's Celebrity Home",
+    title: "Ravi Kale's Modern 3BHK",
     category: "Residential",
     location: "Mumbai",
-    size: "3,500 sq ft",
+    size: "1,800 sq ft",
     completionYear: "2024",
-    description: "An exquisite celebrity residence that perfectly balances luxury with comfort. The space features a stunning living area with marble and wooden accents, designer furniture, and a sophisticated entertainment setup. Custom design elements include a suspended swing in the terrace area, artisanal wall paneling with integrated lighting, and a bespoke entertainment wall with a built-in fireplace. The interiors showcase a harmonious blend of rich burgundy and neutral tones, complemented by gold accents throughout.",
+    description: "An elegant modern apartment designed for Mr. Ravi Kale that seamlessly blends contemporary aesthetics with traditional elements. The space features a stunning pooja room with jali work and brass accents, a sophisticated dining area with designer pendant lighting, and a modern kitchen with premium finishes. The master bedroom showcases a blend of cane work and refined materials, while the overall design maintains a harmonious neutral color palette enhanced by wooden accents throughout.",
     features: [
-      "Custom entertainment wall with integrated fireplace",
-      "Designer seating with burgundy accent chairs",
-      "Marble flooring with wooden ceiling details",
-      "Bespoke wooden entrance door with traditional motifs",
-      "Terrace lounge with suspended swing seating",
-      "Integrated display shelving with accent lighting",
-      "Gold-accented contemporary furniture",
-      "Modern artwork and sculptural elements"
+      "Custom pooja room with intricate jali pattern work",
+      "Dining area with modern globe pendant lights",
+      "Designer kitchen with handleless cabinetry",
+      "Master bedroom with cane work headboard",
+      "Marble flooring throughout",
+      "Custom lighting solutions",
+      "Built-in storage with premium finishes",
+      "Modern artwork and wall paneling"
     ],
     images: [
-      "/lovable-uploads/b96c0181-ad3d-4bba-9fe1-a129b2882e7e.png",
-      "/lovable-uploads/c22c507f-7bb0-42e0-a911-f99b5c199c21.png",
-      "/lovable-uploads/0f2238c2-c189-4802-b37c-101c3d888ca2.png",
-      "/lovable-uploads/5424fefb-9b80-4a6d-a5ff-49d88a99c49c.png",
-      "/lovable-uploads/6f6a2ee3-b44e-4539-b2d7-2c6c7843e958.png",
-      "/lovable-uploads/26ed1595-2e33-41d5-b4ab-916bea72d522.png",
-      "/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png",
-      "/lovable-uploads/00d57ea8-93e6-4800-9b88-990cdc0eb383.png"
+      "/lovable-uploads/53e406a7-fb5c-44a0-b0c5-530a6299cc61.png",
+      "/lovable-uploads/9355aa7a-d752-473d-b4fc-c3f9f7254f62.png",
+      "/lovable-uploads/248904a0-be9d-4c02-b006-146265a3fc4d.png",
+      "/lovable-uploads/59444e2d-0ffc-4e65-a38b-6baaf0364e98.png",
+      "/lovable-uploads/8c33ab1a-d5ef-4840-b406-dcca6a50345e.png",
+      "/lovable-uploads/04a59497-eba7-4d18-8377-b906c400217e.png",
+      "/lovable-uploads/24bc45ca-531d-438e-b423-acec2aae9fe5.png",
+      "/lovable-uploads/2f3d8ae0-f086-4b1f-907b-b0f08aba734c.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
-    tagline: "Contemporary Luxury for Modern Living",
-    style: "Modern Luxury"
+    tagline: "Modern Minimalism Meets Indian Tradition",
+    style: "Contemporary Minimalist"
   },
   {
     id: "grandeur-wedding-hall",

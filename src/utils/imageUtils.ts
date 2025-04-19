@@ -99,15 +99,15 @@ export const generatePlaceholderColor = (src: string): string => {
   // Additional Samir Ghule's project images
   if (src.includes('de5ee7a3')) return '#f4efe7'; // Entrance with family nameplate
 
-  // Ravi Kale's Celebrity Home placeholders
-  if (src.includes('b96c0181')) return '#f4efe8'; // Terrace lounge view
-  if (src.includes('c22c507f')) return '#f5f0e9'; // Terrace alternative angle
-  if (src.includes('0f2238c2')) return '#f4efe7'; // Living room main view
-  if (src.includes('5424fefb')) return '#f5f0e8'; // Living room alternate view
-  if (src.includes('6f6a2ee3')) return '#f4efe8'; // Entertainment wall view
-  if (src.includes('26ed1595')) return '#f3ede6'; // Entertainment wall alternate
-  if (src.includes('d655dd68')) return '#f4efe7'; // Living room panorama
-  if (src.includes('00d57ea8')) return '#f5f0e8'; // Entrance view
+  // Ravi Kale's 3BHK Apartment placeholders
+  if (src.includes('53e406a7')) return '#f4efe8'; // Pooja room view
+  if (src.includes('9355aa7a')) return '#f5f0e9'; // Dining area view 1
+  if (src.includes('248904a0')) return '#f3ede6'; // Dining and kitchen view
+  if (src.includes('59444e2d')) return '#f4efe7'; // Dining close-up
+  if (src.includes('8c33ab1a')) return '#f4efe8'; // Master bedroom
+  if (src.includes('04a59497')) return '#f5f0e8'; // Entrance foyer
+  if (src.includes('24bc45ca')) return '#f4efe8'; // Kitchen view 1
+  if (src.includes('2f3d8ae0')) return '#f3ede6'; // Kitchen view 2
 
   // Default warm color matching the website's aesthetic
   return '#f5f2ed';
