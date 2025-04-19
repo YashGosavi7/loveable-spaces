@@ -109,6 +109,17 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('24bc45ca')) return '#f4efe8'; // Kitchen view 1
   if (src.includes('2f3d8ae0')) return '#f3ede6'; // Kitchen view 2
 
+  // New Ravi Kale 3BHK project images placeholders
+  if (src.includes('0c969194')) return '#f4efe8'; // Bedroom with marble wall
+  if (src.includes('ba8fcac1')) return '#f5f0e9'; // Bedroom with curtains and console
+  if (src.includes('164f03ed')) return '#f3ede6'; // Bedroom with arched mirror
+  if (src.includes('2050285b')) return '#f4efe7'; // Bedroom with side console
+  if (src.includes('95bc3918')) return '#f5f0e8'; // Pooja room with Ganesha statue
+  if (src.includes('366cf1dd')) return '#f3eee7'; // Dining area with pendant lights
+  if (src.includes('32396da3')) return '#f4efe8'; // Kitchen and dining area
+  if (src.includes('b5081487')) return '#f5f0e9'; // Dining room with round table
+  if (src.includes('5e1ae636')) return '#f3ede6'; // Another dining room view
+
   // Default warm color matching the website's aesthetic
   return '#f5f2ed';
 };

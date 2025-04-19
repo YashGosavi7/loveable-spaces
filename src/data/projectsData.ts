@@ -193,22 +193,24 @@ const projectsData: Project[] = [
     style: "Warm Indian Minimalism"
   },
   {
-    id: "ravi-kale-celebrity-home",
+    id: "ravi-kale-3bhk",
     title: "Ravi Kale's Modern 3BHK",
     category: "Residential",
     location: "Mumbai",
     size: "1,800 sq ft",
     completionYear: "2024",
-    description: "An elegant modern apartment designed for Mr. Ravi Kale that seamlessly blends contemporary aesthetics with traditional elements. The space features a stunning pooja room with jali work and brass accents, a sophisticated dining area with designer pendant lighting, and a modern kitchen with premium finishes. The master bedroom showcases a blend of cane work and refined materials, while the overall design maintains a harmonious neutral color palette enhanced by wooden accents throughout.",
+    description: "An elegantly designed 3BHK apartment that seamlessly blends contemporary aesthetics with functional living. The space features a sophisticated master bedroom with a marble accent wall, a meticulously crafted pooja room with traditional elements, and a modern dining area with pendant lighting. Each room showcases a carefully curated design language that emphasizes clean lines, neutral color palettes, and thoughtful spatial planning.",
     features: [
-      "Custom pooja room with intricate jali pattern work",
-      "Dining area with modern globe pendant lights",
-      "Designer kitchen with handleless cabinetry",
-      "Master bedroom with cane work headboard",
-      "Marble flooring throughout",
-      "Custom lighting solutions",
-      "Built-in storage with premium finishes",
-      "Modern artwork and wall paneling"
+      "Custom marble accent wall in master bedroom",
+      "Elegant pooja room with traditional Ganesha statue",
+      "Modern dining area with designer pendant lights",
+      "Integrated kitchen with marble backsplash",
+      "Cane and wood furniture details",
+      "Neutral color palette with warm wood tones",
+      "Custom ceiling designs with integrated lighting",
+      "Elegant window treatments",
+      "Artistic wall decor",
+      "Functional and stylish storage solutions"
     ],
     images: [
       "/lovable-uploads/53e406a7-fb5c-44a0-b0c5-530a6299cc61.png",
@@ -218,12 +220,21 @@ const projectsData: Project[] = [
       "/lovable-uploads/8c33ab1a-d5ef-4840-b406-dcca6a50345e.png",
       "/lovable-uploads/04a59497-eba7-4d18-8377-b906c400217e.png",
       "/lovable-uploads/24bc45ca-531d-438e-b423-acec2aae9fe5.png",
-      "/lovable-uploads/2f3d8ae0-f086-4b1f-907b-b0f08aba734c.png"
+      "/lovable-uploads/2f3d8ae0-f086-4b1f-907b-b0f08aba734c.png",
+      "/lovable-uploads/0c969194-8d9b-4ccf-b1e6-7ff5401646e9.png",
+      "/lovable-uploads/ba8fcac1-d2aa-443c-9f0f-b0db77352fd3.png",
+      "/lovable-uploads/164f03ed-d4e4-431b-bc2f-a7d770452da4.png",
+      "/lovable-uploads/2050285b-0a38-41a8-80ce-4beed9ba5163.png",
+      "/lovable-uploads/95bc3918-c87a-4740-bb42-6916e924b963.png",
+      "/lovable-uploads/366cf1dd-b4e9-42b6-bfcc-8870b7dbfd54.png",
+      "/lovable-uploads/32396da3-2606-4172-aa45-a34009c7876d.png",
+      "/lovable-uploads/b5081487-3cf6-41e1-b070-9de4ad65c9aa.png",
+      "/lovable-uploads/5e1ae636-2c18-438c-a45d-42f563288a53.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
-    tagline: "Modern Minimalism Meets Indian Tradition",
-    style: "Contemporary Minimalist"
+    tagline: "Contemporary Elegance in Mumbai",
+    style: "Modern Minimalist"
   },
   {
     id: "grandeur-wedding-hall",
