@@ -65,6 +65,12 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('6f4bb809')) return '#f0e9e4';
   if (src.includes('e4e76a6f')) return '#f5f5f5';
 
+  // New image placeholders
+  if (src.includes('81998ae7')) return '#f5f1ea'; // Green dining area
+  if (src.includes('ea548018')) return '#f4efe8'; // Open pavilion 
+  if (src.includes('c8012428')) return '#f5f0e9'; // Lighting design
+  if (src.includes('23b4cdbc')) return '#f3eee7'; // Night view
+
   // Default warm color matching the website's aesthetic
   return '#f5f2ed';
 };
