@@ -22,32 +22,32 @@ const projectsData: Project[] = [
     location: "Pune",
     size: "3,000 sq ft",
     completionYear: "2025",
-    description: "Crafted for Mr. Gaikwad, this Pune bungalow redefines luxury living with a perfect blend of traditional Indian elements and modern sophistication. The 3,000 sq ft residence features a stunning temple room with intricate jali work, a state-of-the-art home theater with star ceiling effects, and an entertainment lounge showcasing curated Indian cinema memorabilia. The living spaces are adorned with custom walnut wood paneling, handcrafted mandala art, and contemporary furniture in warm neutrals, while traditional elements like brass-finished jali screens and geometric marble flooring create a harmonious fusion of heritage and modern luxury.",
+    description: "Crafted for Mr. Gaikwad, this Pune bungalow redefines luxury living with a perfect blend of traditional Indian elements and modern sophistication. The 3,000 sq ft residence features a stunning zen garden with a bonsai centerpiece and meditation area, a modern dining space with custom lighting, and an innovative staircase design. The living spaces showcase intricate wall paneling, handcrafted floral relief work, and premium finishes throughout, creating a harmonious fusion of heritage and contemporary luxury.",
     features: [
-      "Bespoke temple room with ornate gold-leafed arch and traditional iconography",
-      "Premium home theater with reclining seating and starlit ceiling",
-      "Entertainment lounge with curated Indian cinema art collection",
-      "Handcrafted jali screens with traditional motifs and brass finishes",
-      "Contemporary living area with custom curved sofas and accent lighting",
-      "Geometric marble flooring with traditional Indian patterns",
-      "Custom wood paneling with integrated mood lighting",
-      "Traditional Mandala wall art with modern interpretation"
+      "Zen garden with bonsai tree and meditation space",
+      "Custom-designed dining area with pendant lighting",
+      "Modernist staircase with integrated planters",
+      "3D floral relief wall art in white",
+      "Premium wood and marble finishes",
+      "Skylight features for natural illumination",
+      "Elegant wall paneling with ribbed details",
+      "Contemporary kitchen with built-in storage"
     ],
     images: [
-      "/lovable-uploads/14e55209-7a66-41cb-9186-2e7b5a4bbd03.png",
-      "/lovable-uploads/bb51cd3b-c61a-4a23-9931-c30a1e4d9e43.png",
-      "/lovable-uploads/65c0b1b0-f6be-4dc8-bb4b-64302cee7345.png",
-      "/lovable-uploads/8adc9b13-dae8-49f7-9206-395ec3d79da3.png",
-      "/lovable-uploads/b0b1b81a-3476-4b42-8671-ba0db70507aa.png",
-      "/lovable-uploads/07142895-0e0d-4747-948e-89457336cb63.png",
-      "/lovable-uploads/0150a831-8d44-4fdb-a0f7-229419ab3a1c.png",
-      "/lovable-uploads/96d6f8be-1a57-4117-b61c-17c126c9ef13.png",
-      "/lovable-uploads/7b46cdf3-f1d4-4c07-9bbf-9e0c5e65f569.png"
+      "/lovable-uploads/454a3d4a-b6c1-42b0-ad59-0832b59f5d5c.png",
+      "/lovable-uploads/bf3afaa7-11d3-44f7-bacf-5c150f4af51f.png",
+      "/lovable-uploads/5c104c50-65b6-4279-b365-c943f23dec2e.png",
+      "/lovable-uploads/8b848d7c-d5de-4f47-a18d-f7f58b49e8de.png",
+      "/lovable-uploads/c7038182-f9d3-441c-b269-77d5f66000ef.png",
+      "/lovable-uploads/48cfc59c-c75e-4386-9b87-b527b87d46da.png",
+      "/lovable-uploads/ef4fba5f-cb62-4b17-8d0e-ad7f85a6d26b.png",
+      "/lovable-uploads/6fa9ee11-f6ae-4a28-8494-008244403acc.png",
+      "/lovable-uploads/754482da-9b61-4da8-877c-f91e2f86df83.png"
     ],
     isFeatured: true,
     designer: "Dalaram Suthar",
     tagline: "A Grand Retreat in Pune",
-    style: "Luxurious Indian Contemporary"
+    style: "Contemporary Zen Luxury"
   },
   {
     id: "bhushan-naikwadi-elegant-abode",
