@@ -42,7 +42,15 @@ const projectsData: Project[] = [
       "/lovable-uploads/48cfc59c-c75e-4386-9b87-b527b87d46da.png",
       "/lovable-uploads/ef4fba5f-cb62-4b17-8d0e-ad7f85a6d26b.png",
       "/lovable-uploads/6fa9ee11-f6ae-4a28-8494-008244403acc.png",
-      "/lovable-uploads/754482da-9b61-4da8-877c-f91e2f86df83.png"
+      "/lovable-uploads/754482da-9b61-4da8-877c-f91e2f86df83.png",
+      "/lovable-uploads/5398dd36-7556-4e81-977a-b70f872a8082.png",
+      "/lovable-uploads/76d98c07-cb83-440f-b779-0b8ae1dcec4e.png",
+      "/lovable-uploads/d3035f15-bb73-46c9-8b1b-dca9f506a620.png",
+      "/lovable-uploads/deba8bfc-8b52-43b6-a38c-8908dfd5de2e.png",
+      "/lovable-uploads/033c5fde-3941-4a63-921a-028a850e9a08.png",
+      "/lovable-uploads/e5a507ea-54bf-44ca-bde9-f01680e1ef11.png",
+      "/lovable-uploads/0ecd4d82-43b9-4dff-9940-18532c3123eb.png",
+      "/lovable-uploads/eb48dfd7-2867-4f0d-b797-925e8ebd9d10.png"
     ],
     isFeatured: true,
     designer: "Dalaram Suthar",
