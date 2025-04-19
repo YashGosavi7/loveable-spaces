@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import SectionTitle from "../components/SectionTitle";
 import projectsData from "../data/projectsData";
@@ -154,9 +153,6 @@ const PortfolioPage = () => {
           <p className="text-darkGray font-lato text-sm md:text-base">
             Our portfolio images load fast and display perfectly, showcasing spaces you'll love! 
             <span className="text-roseGold ml-1">Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities.</span>
-          </p>
-          <p className="text-darkGray/80 text-sm mt-2">
-            Pricing starting at ₹15k total. Experience quality design that loads as fast as it impresses.
           </p>
         </div>
       </div>
