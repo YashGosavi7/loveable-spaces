@@ -16,6 +16,38 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "golden-leaf-banquet-hall",
+    title: "The Golden Leaf Banquet Hall",
+    category: "Commercial",
+    location: "Kunjirwadi, Pune",
+    size: "10,000 sq ft",
+    completionYear: "2025",
+    description: "The Golden Leaf Banquet Hall in Kunjirwadi, Pune, epitomizes classical elegance with its striking neoclassical architecture. The venue features majestic lion sculptures, ornate columns, and a grand entrance adorned with classical statues. The interior showcases crystal chandeliers, premium marble flooring with geometric patterns, and bespoke seating areas. Notable elements include a decorative fountain with pelican sculptures, gold-accented wall sconces, and a meticulously detailed reception area with walnut wood paneling.",
+    features: [
+      "Neoclassical architectural design with ornate columns and arches",
+      "Lion and classical statue sculptures at entrance",
+      "Crystal chandelier installations in reception area",
+      "Custom marble flooring with geometric patterns",
+      "Decorative fountain with pelican sculptures",
+      "Gold-accented wall sconces and lighting fixtures",
+      "Bespoke seating areas with striped upholstery",
+      "Walnut wood paneling with gold details",
+      "Landscaped entrance with palm trees",
+      "Premium marble reception counter"
+    ],
+    images: [
+      "/lovable-uploads/90ba60fa-2f18-45bd-8258-3027706b3e34.png",
+      "/lovable-uploads/cd4ff427-a2a0-4f40-ab3f-d652e947309a.png",
+      "/lovable-uploads/50766ba2-0832-4e3b-b0e6-918993ebcf5c.png",
+      "/lovable-uploads/f702f23a-64b8-4c3c-9a24-9ef29422454f.png",
+      "/lovable-uploads/20990b92-00f5-42b5-a5fc-1cbedc2bdc85.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Classical Elegance in Pune",
+    style: "Neoclassical Luxury"
+  },
+  {
     id: "samir-ghule-duplex-flat",
     title: "Mr. Samir Ghule's Duplex Flat",
     category: "Residential",
