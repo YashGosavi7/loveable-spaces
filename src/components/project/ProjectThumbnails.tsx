@@ -162,8 +162,8 @@ const ProjectThumbnails = ({
               {shouldRenderThumbnail(index) ? (
                 <OptimizedImage 
                   src={image} 
-                  alt={`Fast-loading ${project.title} thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  alt={`Fast-loading uncropped ${project.title} thumbnail ${index + 1}`}
+                  className="w-full h-full object-contain"
                   width={width}
                   height={height}
                   // Higher priority for active and nearby thumbnails

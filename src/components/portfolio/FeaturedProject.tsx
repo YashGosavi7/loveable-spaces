@@ -46,18 +46,18 @@ const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) =>
             />
             <img 
               src={project.images[0]} 
-              alt={`${project.title} interior by Loveable in ${project.location}`}
-              className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 ${
+              alt={`${project.title} uncropped interior by Loveable in ${project.location}`}
+              className={`object-contain w-full h-full transition-transform duration-700 group-hover:scale-105 ${
                 isLoaded ? 'opacity-100' : 'opacity-0'
               }`}
               loading="eager" 
-              width={1000}
-              height={563}
+              width={1200}
+              height={675}
               fetchPriority="high"
               decoding="sync"
               style={{
                 aspectRatio: `${getFeaturedAspectRatio()}`,
-                objectFit: "cover"
+                objectFit: "contain"
               }}
               onLoad={onLoad}
             />

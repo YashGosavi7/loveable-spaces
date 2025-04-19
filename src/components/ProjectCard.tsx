@@ -105,11 +105,11 @@ const OptimizedCardImage = memo(({
       <img 
         src={src} 
         alt={alt} 
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
         loading={priority ? "eager" : "lazy"}
         onLoad={onLoad}
-        width={250}
-        height={188}
+        width={300}
+        height={225}
         style={{ 
           backgroundColor: placeholderColor,
           aspectRatio: "4/3" 
@@ -167,7 +167,7 @@ const ProjectCard = ({ id, title, category, location, image, designer, tagline, 
             {!imageLoaded && <Skeleton className="w-full h-full absolute inset-0" />}
             <OptimizedCardImage
               src={image}
-              alt={`Fast-loading ${title} interior by Loveable in ${location}`}
+              alt={`Fast-loading uncropped ${title} interior by Loveable in ${location}`}
               onLoad={handleImageLoad}
               isVisible={isInView || isPriority}
               priority={isPriority}

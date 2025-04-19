@@ -152,7 +152,7 @@ const PortfolioPage = () => {
         {/* Performance Note */}
         <div className="mt-16 text-center">
           <p className="text-darkGray font-lato text-sm md:text-base">
-            Our portfolio images load lightning-fast, showcasing spaces you'll love! 
+            Our portfolio images load fast and display perfectly, showcasing spaces you'll love! 
             <span className="text-roseGold ml-1">Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities.</span>
           </p>
           <p className="text-darkGray/80 text-sm mt-2">

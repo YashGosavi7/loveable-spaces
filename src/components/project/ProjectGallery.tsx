@@ -42,7 +42,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   // Get optimal dimensions for gallery images
   const getGalleryImageDimensions = () => {
     // Default dimensions (optimal for gallery view)
-    return { width: 500, height: 375 };
+    return { width: 600, height: 450 };
   };
   
   const { width, height } = getGalleryImageDimensions();
@@ -81,8 +81,8 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
                   <AspectRatio ratio={4/3} className="bg-lightGray/10 relative">
                     <OptimizedImage
                       src={image}
-                      alt={`${project.title} view ${index + 1} - Fast loading interior design by Loveable for ${project.location}`}
-                      className="w-full h-full object-cover rounded-md"
+                      alt={`${project.title} view ${index + 1} - Fast loading uncropped interior design by Loveable for ${project.location}`}
+                      className="w-full h-full object-contain rounded-md"
                       width={width}
                       height={height}
                       priority={index < 1} // Prioritize only the first image

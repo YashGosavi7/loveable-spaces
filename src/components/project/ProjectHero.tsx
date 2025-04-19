@@ -14,17 +14,17 @@ interface ProjectHeroProps {
 
 const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: ProjectHeroProps) => {
   const getImageDimensions = () => {
-    let width = 1000;
-    let height = 563;
+    let width = 1200;
+    let height = 900;
     
     if (typeof window !== 'undefined') {
       const viewportWidth = window.innerWidth;
       if (viewportWidth < 640) {
-        width = 500;
-        height = 281;
+        width = 640;
+        height = 480;
       } else if (viewportWidth < 1024) {
-        width = 800;
-        height = 450;
+        width = 960;
+        height = 720;
       }
     }
     
@@ -39,7 +39,7 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
       
       <ProjectHeroImage
         src={project.images[activeImageIndex]}
-        alt={`${project.title} interior in ${project.location}`}
+        alt={`Fast-loading uncropped ${project.title} interior in ${project.location}`}
         width={width}
         height={height}
       />

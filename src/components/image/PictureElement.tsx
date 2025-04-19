@@ -30,8 +30,8 @@ const PictureElement = memo(({
   const getOptimalWidth = () => {
     if (typeof window !== 'undefined') {
       const vw = window.innerWidth;
-      if (vw < 640) return Math.min(width, 240);
-      if (vw < 1024) return Math.min(width, 480);
+      if (vw < 640) return Math.min(width, 480);
+      if (vw < 1024) return Math.min(width, 768);
       return width;
     }
     return width;

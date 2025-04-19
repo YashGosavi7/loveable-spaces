@@ -28,7 +28,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       <OptimizedImage
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain" 
         priority={true}
         width={width}
         height={height}

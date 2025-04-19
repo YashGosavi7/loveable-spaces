@@ -37,7 +37,9 @@ const ResponsiveImage = memo(({
       style: {
         backgroundColor: placeholderColor,
         aspectRatio: `${width}/${height}`,
-        objectFit: "cover" as const,
+        objectFit: "contain" as const,
+        maxWidth: "100%" as const,
+        height: "auto" as const,
         imageRendering: "optimizeQuality" as const,
         // For smaller images on mobile, use pixelated to prevent blurring
         ...(width < 300 && { imageRendering: "pixelated" as const })
