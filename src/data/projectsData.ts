@@ -199,7 +199,7 @@ const projectsData: Project[] = [
     location: "Mumbai",
     size: "1,800 sq ft",
     completionYear: "2024",
-    description: "An elegantly designed 3BHK apartment that seamlessly blends contemporary aesthetics with functional living. The space features a sophisticated master bedroom with a marble accent wall, a meticulously crafted pooja room with traditional elements, and a modern dining area with pendant lighting. Each room showcases a carefully curated design language that emphasizes clean lines, neutral color palettes, and thoughtful spatial planning.",
+    description: "An elegantly designed 3BHK apartment that seamlessly blends contemporary aesthetics with functional living. The space features sophisticated bedroom designs with unique architectural elements, including textured wall panels, integrated workspaces, and carefully curated lighting. Each room showcases a modern minimalist approach with warm neutral tones, innovative storage solutions, and thoughtful spatial planning that maximizes both style and functionality.",
     features: [
       "Custom marble accent wall in master bedroom",
       "Elegant pooja room with traditional Ganesha statue",
@@ -210,7 +210,11 @@ const projectsData: Project[] = [
       "Custom ceiling designs with integrated lighting",
       "Elegant window treatments",
       "Artistic wall decor",
-      "Functional and stylish storage solutions"
+      "Functional and stylish storage solutions",
+      "Unique architectural wall panels",
+      "Integrated workspace with bulletin board",
+      "Sophisticated lighting design",
+      "Minimalist yet warm interior design"
     ],
     images: [
       "/lovable-uploads/53e406a7-fb5c-44a0-b0c5-530a6299cc61.png",
@@ -229,7 +233,16 @@ const projectsData: Project[] = [
       "/lovable-uploads/366cf1dd-b4e9-42b6-bfcc-8870b7dbfd54.png",
       "/lovable-uploads/32396da3-2606-4172-aa45-a34009c7876d.png",
       "/lovable-uploads/b5081487-3cf6-41e1-b070-9de4ad65c9aa.png",
-      "/lovable-uploads/5e1ae636-2c18-438c-a45d-42f563288a53.png"
+      "/lovable-uploads/5e1ae636-2c18-438c-a45d-42f563288a53.png",
+      
+      "/lovable-uploads/8aa6ea8f-3ad8-41b7-8afe-6ef05a9a11c7.png",
+      "/lovable-uploads/081379a4-fca0-4432-a721-27e5451557ff.png",
+      "/lovable-uploads/737f1abd-364f-4936-834b-1f7b893df4fc.png",
+      "/lovable-uploads/4847c6b9-d0a1-4f73-a5a3-638aab07f221.png",
+      "/lovable-uploads/aa20a76e-dc46-4f58-953a-8b65e51aae94.png",
+      "/lovable-uploads/1e6f3006-f658-45b6-bef6-19552dd6c517.png",
+      "/lovable-uploads/d0d2a8e8-964f-4cb9-9ccf-0cd2d20410bc.png",
+      "/lovable-uploads/1070561d-9c51-4a4e-bbaa-542d99e198e1.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
