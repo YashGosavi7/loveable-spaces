@@ -12,4 +12,11 @@ export interface ImageProps {
   blurHash?: string;
   skipLazyLoading?: boolean;
   onLoad?: () => void;
+  placeholderColor?: string;
+  format?: "auto" | "webp" | "avif" | "jpeg";
+  srcSet?: string;
+  loading?: "eager" | "lazy";
+  autoUpscale?: boolean;
+  renderAtBreakpoints?: boolean;
+  fetchPriority?: "high" | "low" | "auto";
 }

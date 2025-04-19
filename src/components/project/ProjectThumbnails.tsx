@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import OptimizedImage from "../OptimizedImage";
 import { Project } from "@/data/projectsData";
+import { getOptimalImageDimensions } from "@/utils/imageUtils";
 
 interface ProjectThumbnailsProps {
   project: Project;
@@ -19,12 +20,13 @@ const ProjectThumbnails = ({
   const hasScrolled = useRef(false);
   const [visibleRange, setVisibleRange] = useState({start: 0, end: 7}); // Increased buffer
   
-  // Memoize thumbnail dimensions calculation
+  // Determine the optimal dimensions for thumbnails based on device
   const getThumbnailDimensions = useCallback(() => {
-    return {
-      width: 144,
-      height: 80
-    };
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
+    
+    const viewport = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
+    return getOptimalImageDimensions('thumbnail', viewport);
   }, []);
   
   const { width, height } = getThumbnailDimensions();
@@ -160,7 +162,7 @@ const ProjectThumbnails = ({
               {shouldRenderThumbnail(index) ? (
                 <OptimizedImage 
                   src={image} 
-                  alt={`${project.title} thumbnail ${index + 1}`}
+                  alt={`Fast-loading ${project.title} thumbnail ${index + 1}`}
                   className="w-full h-full object-cover"
                   width={width}
                   height={height}
@@ -169,6 +171,8 @@ const ProjectThumbnails = ({
                   preload={Math.abs(index - activeImageIndex) < 3}
                   // Skip lazy loading for active and nearby thumbnails
                   skipLazyLoading={Math.abs(index - activeImageIndex) < 2}
+                  // Progressive quality loading
+                  quality={Math.abs(index - activeImageIndex) < 2 ? "high" : "medium"}
                 />
               ) : (
                 // Just show a placeholder for thumbnails that are far from view

@@ -1,16 +1,18 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SectionTitle from "../components/SectionTitle";
 import projectsData from "../data/projectsData";
 import { Helmet } from "react-helmet";
 import FeaturedProject from "@/components/portfolio/FeaturedProject";
 import CategoryFilter from "@/components/portfolio/CategoryFilter";
 import ProjectsGrid from "@/components/portfolio/ProjectsGrid";
+import { isLikelySlowConnection } from "@/utils/imageUtils";
 
 const PortfolioPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const categories = ["All", "Residential", "Commercial", "Hospitality"];
+  const connectionSpeed = useRef<'slow'|'normal'|'fast'>('normal');
   
   // Get the featured project (first one that is marked as featured)
   const featuredProject = projectsData.find(project => project.isFeatured === true) || projectsData[0];
@@ -22,21 +24,66 @@ const PortfolioPage = () => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
     
+    // Detect connection speed
+    connectionSpeed.current = isLikelySlowConnection() ? 'slow' : 'normal';
+    
+    // Add DNS prefetch for all image domains
+    const addDomainHints = () => {
+      const domains = new Set<string>();
+      
+      // Extract unique domains from project images
+      projectsData.forEach(project => {
+        if (project.images && project.images.length > 0) {
+          const url = new URL(project.images[0], window.location.origin);
+          domains.add(url.hostname);
+        }
+      });
+      
+      // Add DNS prefetch and preconnect for each domain
+      domains.forEach(domain => {
+        // Add DNS prefetch
+        if (!document.querySelector(`link[rel="dns-prefetch"][href="//${domain}"]`)) {
+          const prefetchLink = document.createElement('link');
+          prefetchLink.rel = 'dns-prefetch';
+          prefetchLink.href = `//${domain}`;
+          document.head.appendChild(prefetchLink);
+          
+          // Add preconnect
+          const preconnectLink = document.createElement('link');
+          preconnectLink.rel = 'preconnect';
+          preconnectLink.href = `//${domain}`;
+          preconnectLink.crossOrigin = 'anonymous';
+          document.head.appendChild(preconnectLink);
+        }
+      });
+    };
+    
+    addDomainHints();
+    
     // Preload critical featured project images
     if (featuredProject) {
       const preloadImage = new Image();
+      preloadImage.fetchPriority = 'high';
       preloadImage.src = featuredProject.images[0];
     }
     
     // Preload first image of each project for optimal grid view loading
     const preloadThumbnails = () => {
+      // Only preload a limited number of thumbnails on slow connections
+      const preloadLimit = connectionSpeed.current === 'slow' ? 3 : 6;
+      
       const visibleProjects = activeCategory === "All" 
-        ? projectsData.slice(0, 6) 
-        : projectsData.filter(p => p.category === activeCategory).slice(0, 6);
+        ? projectsData.slice(0, preloadLimit) 
+        : projectsData.filter(p => p.category === activeCategory).slice(0, preloadLimit);
         
-      visibleProjects.forEach(project => {
-        const img = new Image();
-        img.src = project.images[0];
+      visibleProjects.forEach((project, index) => {
+        // Stagger preloads to avoid network congestion
+        setTimeout(() => {
+          const img = new Image();
+          img.src = project.images[0];
+          // Only high priority for the first few
+          img.fetchPriority = index < 3 ? 'high' : 'auto';
+        }, index * 100);
       });
     };
     
@@ -75,7 +122,7 @@ const PortfolioPage = () => {
         />
         
         {/* Cache control hints */}
-        <meta httpEquiv="Cache-Control" content="max-age=5184000" /> {/* 60 days */}
+        <meta httpEquiv="Cache-Control" content="max-age=7776000" /> {/* 90 days */}
       </Helmet>
       
       {/* Page Title */}
@@ -101,6 +148,17 @@ const PortfolioPage = () => {
         
         {/* Projects Grid */}
         <ProjectsGrid projects={filteredProjects} />
+        
+        {/* Performance Note */}
+        <div className="mt-16 text-center">
+          <p className="text-darkGray font-lato text-sm md:text-base">
+            Our portfolio images load lightning-fast, showcasing spaces you'll love! 
+            <span className="text-roseGold ml-1">Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities.</span>
+          </p>
+          <p className="text-darkGray/80 text-sm mt-2">
+            Pricing starting at ₹15k total. Experience quality design that loads as fast as it impresses.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -22,8 +22,20 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('de461583')) return '#f3eee7'; // Wedding hall stage
   if (src.includes('ac8a7286')) return '#f5f0e8'; // Wedding hall reception
   if (src.includes('e6e7be2a')) return '#f4efe7'; // Wedding hall overview
-
-  // Original placeholders
+  
+  // Nikhil Nikam's Modern Residence
+  if (src.includes('54a11076')) return '#f2ede6'; // Living room
+  if (src.includes('5225c2f7')) return '#f3eee7'; // Kitchen
+  if (src.includes('b420a207')) return '#f5f1ea'; // Dining area
+  if (src.includes('69c5505e')) return '#f4efe8'; // Bedroom
+  
+  // Gaikwad's Luxe Bungalow
+  if (src.includes('6a80598e')) return '#f2ede6'; // Main hall
+  if (src.includes('b6b202ac')) return '#f5f0e9'; // Living room
+  if (src.includes('b6d041bc')) return '#f3eee7'; // Bedroom
+  if (src.includes('53764224')) return '#f4efe8'; // Kitchen
+  
+  // More placeholders for additional projects
   if (src.includes('f5ee7e6c')) return '#f5f0e6';
   if (src.includes('09506ceb')) return '#f0e9e4';
   if (src.includes('cee99868')) return '#f5f5f0';
@@ -34,11 +46,72 @@ export const generatePlaceholderColor = (src: string): string => {
   if (src.includes('6f4bb809')) return '#f0e9e4';
   if (src.includes('e4e76a6f')) return '#f5f5f5';
 
+  // Default warm color matching the website's aesthetic
   return '#f5f2ed';
 };
 
-export const getImageUrl = (imgPath: string, imgWidth: number, format: string = 'auto'): string => {
-  // In production, this would be handled by an image processing service
-  // For example: return `https://cdn.loveable.com/img/${imgWidth}/${format}/${imgPath}`
+// Calculate optimal dimensions for different view contexts
+export const getOptimalImageDimensions = (
+  context: 'thumbnail' | 'hero' | 'gallery' | 'slider',
+  viewport: 'mobile' | 'tablet' | 'desktop' = 'desktop'
+) => {
+  const dimensionsMap = {
+    thumbnail: {
+      mobile: { width: 120, height: 90 },
+      tablet: { width: 240, height: 180 },
+      desktop: { width: 240, height: 180 }
+    },
+    hero: {
+      mobile: { width: 480, height: 270 },
+      tablet: { width: 768, height: 432 },
+      desktop: { width: 960, height: 540 }
+    },
+    gallery: {
+      mobile: { width: 320, height: 240 },
+      tablet: { width: 480, height: 360 },
+      desktop: { width: 640, height: 480 }
+    },
+    slider: {
+      mobile: { width: 320, height: 240 },
+      tablet: { width: 480, height: 360 },
+      desktop: { width: 480, height: 360 }
+    }
+  };
+  
+  return dimensionsMap[context][viewport];
+};
+
+// Function to get optimized image URL with transformations
+// In production, this would connect to an image optimization service
+export const getImageUrl = (
+  imgPath: string, 
+  options: {
+    width?: number;
+    height?: number;
+    quality?: number;
+    format?: 'webp' | 'avif' | 'jpeg';
+  } = {}
+): string => {
+  // In a real implementation, this would transform the URL to include parameters
+  // For the demo, we'll just return the original path
   return imgPath;
+};
+
+// Helper to determine if the connection is likely slow
+export const isLikelySlowConnection = (): boolean => {
+  if (typeof navigator === 'undefined') return false;
+  
+  // Check if the browser supports the Connection API
+  if ('connection' in navigator) {
+    const conn = (navigator as any).connection;
+    
+    // Check if it's a slow connection
+    if (conn) {
+      if (conn.saveData) return true;
+      if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') return true;
+      if (conn.downlink < 1) return true;
+    }
+  }
+  
+  return false;
 };

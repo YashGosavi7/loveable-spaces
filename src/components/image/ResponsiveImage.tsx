@@ -10,6 +10,9 @@ interface ResponsiveImageProps {
   priority?: boolean;
   onLoad?: () => void;
   placeholderColor: string;
+  fetchPriority?: "high" | "low" | "auto";
+  loading?: "eager" | "lazy";
+  quality?: "low" | "medium" | "high";
 }
 
 const ResponsiveImage = memo(({ 
@@ -20,24 +23,41 @@ const ResponsiveImage = memo(({
   height = 600,
   priority = false,
   onLoad,
-  placeholderColor
-}: ResponsiveImageProps) => (
-  <img 
-    src={src} 
-    alt={alt} 
-    className={className}
-    loading={priority ? "eager" : "lazy"}
-    onLoad={onLoad}
-    width={width}
-    height={height}
-    style={{ 
-      backgroundColor: placeholderColor,
-      aspectRatio: `${width}/${height}` 
-    }}
-    fetchPriority={priority ? "high" : "auto"}
-    decoding={priority ? "sync" : "async"}
-  />
-));
+  placeholderColor,
+  fetchPriority = "auto",
+  loading = "lazy",
+  quality = "medium"
+}: ResponsiveImageProps) => {
+  // Add performance attributes and hints
+  const optimizeImage = () => {
+    return {
+      decoding: priority ? "sync" : "async",
+      fetchpriority: fetchPriority,
+      loading: loading,
+      style: {
+        backgroundColor: placeholderColor,
+        aspectRatio: `${width}/${height}`,
+        objectFit: "cover" as const,
+        imageRendering: "optimizeQuality" as const,
+        // For smaller images on mobile, use pixelated to prevent blurring
+        ...(width < 300 && { imageRendering: "pixelated" as const })
+      },
+      // Explicit image dimensions to prevent layout shifts
+      width: width,
+      height: height
+    };
+  };
+
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      className={className}
+      onLoad={onLoad}
+      {...optimizeImage()}
+    />
+  );
+});
 
 ResponsiveImage.displayName = "ResponsiveImage";
 
