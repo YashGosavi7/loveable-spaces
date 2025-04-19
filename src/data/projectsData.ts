@@ -386,4 +386,7 @@ const projectsData: Project[] = [
     images: [
       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
       "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-      "https://images.unsplash.com/photo-1531297484001-8002
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1"
+    ]
+  }
+]
