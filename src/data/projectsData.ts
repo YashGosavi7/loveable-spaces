@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -15,7 +14,6 @@ export interface Project {
   style?: string;
 }
 
-// Placeholder images from public domain
 const projectsData: Project[] = [
   {
     id: "gaikwad-luxe-bungalow",
@@ -24,28 +22,27 @@ const projectsData: Project[] = [
     location: "Pune",
     size: "3,000 sq ft",
     completionYear: "2025",
-    description: "Crafted for Mr. Gaikwad, this Pune bungalow redefines luxury with Loveable's signature warmth. Spanning 3,000 sq ft, the home features walnut wood paneling, handcrafted jali screens, and vibrant silk textiles, blending modern sophistication with Indian artistry for a grand yet inviting space. The design celebrates cultural elements with intricate jali work around the entrance, diagonal pattern-tiled façade, and custom furniture featuring traditional Indian cane weaving, all while maintaining a contemporary appeal.",
+    description: "Crafted for Mr. Gaikwad, this Pune bungalow redefines luxury living with a perfect blend of traditional Indian elements and modern sophistication. The 3,000 sq ft residence features a stunning temple room with intricate jali work, a state-of-the-art home theater with star ceiling effects, and an entertainment lounge showcasing curated Indian cinema memorabilia. The living spaces are adorned with custom walnut wood paneling, handcrafted mandala art, and contemporary furniture in warm neutrals, while traditional elements like brass-finished jali screens and geometric marble flooring create a harmonious fusion of heritage and modern luxury.",
     features: [
-      "Elegant façade with diagonal-pattern tiling and warm lighting accents",
-      "Handcrafted jali screens inspired by traditional Indian architecture",
-      "Custom wooden ceiling with integrated lighting in dining area",
-      "Artisanal pendant lights with traditional weaving patterns",
-      "Cane-backed dining chairs with contemporary frames",
-      "Modern kitchen with terrazzo-inspired countertops",
-      "Indoor planters for natural elements throughout the space",
-      "Walnut wood accents and paneling throughout"
+      "Bespoke temple room with ornate gold-leafed arch and traditional iconography",
+      "Premium home theater with reclining seating and starlit ceiling",
+      "Entertainment lounge with curated Indian cinema art collection",
+      "Handcrafted jali screens with traditional motifs and brass finishes",
+      "Contemporary living area with custom curved sofas and accent lighting",
+      "Geometric marble flooring with traditional Indian patterns",
+      "Custom wood paneling with integrated mood lighting",
+      "Traditional Mandala wall art with modern interpretation"
     ],
     images: [
-      "/lovable-uploads/69c5505e-7fce-4921-821b-968350915941.png", 
-      "/lovable-uploads/162c3976-5536-4565-94e3-63a6ae016de9.png",
-      "/lovable-uploads/fd5187c0-2026-452d-befe-454afc74d221.png",
-      "/lovable-uploads/3282f0c6-6e0c-4fa3-8ab0-cb8b01b4d081.png",
-      "/lovable-uploads/b60c1013-7d70-40f4-9d27-356da444ddc2.png",
-      "/lovable-uploads/b6d041bc-9e50-48d7-8940-89967bfd25a7.png",
-      "/lovable-uploads/97e8a637-8c5d-4374-b76e-5de0dcb51ae3.png",
-      "/lovable-uploads/6a80598e-4a16-48d6-87ae-5768eb200470.png",
-      "/lovable-uploads/af2cf939-499b-41d8-a440-171728da79db.png",
-      "/lovable-uploads/411a20a4-671e-4c25-87ed-0e7a59de0bd5.png"
+      "/lovable-uploads/14e55209-7a66-41cb-9186-2e7b5a4bbd03.png",
+      "/lovable-uploads/bb51cd3b-c61a-4a23-9931-c30a1e4d9e43.png",
+      "/lovable-uploads/65c0b1b0-f6be-4dc8-bb4b-64302cee7345.png",
+      "/lovable-uploads/8adc9b13-dae8-49f7-9206-395ec3d79da3.png",
+      "/lovable-uploads/b0b1b81a-3476-4b42-8671-ba0db70507aa.png",
+      "/lovable-uploads/07142895-0e0d-4747-948e-89457336cb63.png",
+      "/lovable-uploads/0150a831-8d44-4fdb-a0f7-229419ab3a1c.png",
+      "/lovable-uploads/96d6f8be-1a57-4117-b61c-17c126c9ef13.png",
+      "/lovable-uploads/7b46cdf3-f1d4-4c07-9bbf-9e0c5e65f569.png"
     ],
     isFeatured: true,
     designer: "Dalaram Suthar",
