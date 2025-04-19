@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -113,7 +114,6 @@ const OptimizedCardImage = memo(({
           backgroundColor: placeholderColor,
           aspectRatio: "4/3" 
         }}
-        // Corrected to camelCase fetchPriority
         fetchPriority={priority ? "high" : "auto"}
         decoding={priority ? "sync" : "async"}
       />
