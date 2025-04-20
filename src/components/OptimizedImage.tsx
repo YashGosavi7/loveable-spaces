@@ -6,6 +6,7 @@ import PictureElement from "./image/PictureElement";
 import { useImagePreload } from "@/hooks/useImagePreload";
 import { useImageIntersection } from "@/hooks/useImageIntersection";
 import { generatePlaceholderColor } from "@/utils/imageUtils";
+import { ImageLoader } from "./image/ImageLoader";
 
 const OptimizedImage = memo(({ 
   src, 
@@ -26,46 +27,89 @@ const OptimizedImage = memo(({
   const { isInView, elementRef } = useImageIntersection({ 
     priority, 
     skipLazyLoading,
-    rootMargin: "800px 0px" // Increased threshold for earlier loading
+    rootMargin: "1200px 0px" // Increased threshold for much earlier loading
   });
   
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
   
-  // Calculate optimal srcSet based on image dimensions
-  const getSrcSet = () => {
-    // In production, this would use a real image API
-    return `${src} ${width/2}w, ${src} ${width}w`;
+  // Optimize image loading based on connection speed
+  const getConnectionSpeed = () => {
+    if (typeof navigator === 'undefined') return 'unknown';
+    
+    // Check if the browser supports the Connection API
+    if ('connection' in navigator) {
+      const conn = (navigator as any).connection;
+      
+      if (conn) {
+        if (conn.saveData) return 'slow';
+        if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') return 'slow';
+        if (conn.effectiveType === '3g') return 'medium';
+        if (conn.downlink < 1) return 'slow';
+        if (conn.downlink >= 5) return 'fast';
+      }
+    }
+    
+    return 'unknown';
   };
   
-  // Define optimal sizes attribute based on image context
+  // Adjust quality based on connection speed
+  const getOptimalQuality = () => {
+    const speed = getConnectionSpeed();
+    
+    if (priority) return quality; // Never reduce priority images
+    
+    if (speed === 'slow') return 'low';
+    if (speed === 'medium' && quality === 'high') return 'medium';
+    
+    return quality;
+  };
+  
+  // Calculate optimal srcSet based on image dimensions and connection
+  const getSrcSet = () => {
+    const speed = getConnectionSpeed();
+    
+    // For slow connections, provide smaller images
+    if (speed === 'slow' && !priority) {
+      return `${src} 150w, ${src} 300w`;
+    }
+    
+    // In production, this would use a real image API with proper width parameters
+    return `${src} 300w, ${src} 600w, ${src} 900w`;
+  };
+  
+  // Define optimal sizes attribute based on image context and viewport
   const getSizes = () => {
     return sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
   };
   
   useEffect(() => {
     // Add DNS prefetch for image domains to improve lookup times
-    if (priority && typeof window !== 'undefined') {
-      const domain = new URL(src, window.location.origin).hostname;
-      if (!document.querySelector(`link[rel="dns-prefetch"][href="${domain}"]`)) {
-        const dnsLink = document.createElement('link');
-        dnsLink.rel = 'dns-prefetch';
-        dnsLink.href = `//${domain}`;
-        document.head.appendChild(dnsLink);
-        
-        const preconnectLink = document.createElement('link');
-        preconnectLink.rel = 'preconnect';
-        preconnectLink.href = `//${domain}`;
-        preconnectLink.crossOrigin = 'anonymous';
-        document.head.appendChild(preconnectLink);
+    if ((priority || preload) && typeof window !== 'undefined') {
+      try {
+        const domain = new URL(src, window.location.origin).hostname;
+        if (!document.querySelector(`link[rel="dns-prefetch"][href="${domain}"]`)) {
+          const dnsLink = document.createElement('link');
+          dnsLink.rel = 'dns-prefetch';
+          dnsLink.href = `//${domain}`;
+          document.head.appendChild(dnsLink);
+          
+          const preconnectLink = document.createElement('link');
+          preconnectLink.rel = 'preconnect';
+          preconnectLink.href = `//${domain}`;
+          preconnectLink.crossOrigin = 'anonymous';
+          document.head.appendChild(preconnectLink);
+        }
+      } catch (e) {
+        // Fail silently if URL parsing fails
       }
     }
-  }, [src, priority]);
+  }, [src, priority, preload]);
   
   useImagePreload(src, { 
     priority, 
     preload, 
     width, 
-    quality 
+    quality: getOptimalQuality() 
   });
 
   const handleImageLoad = () => {
@@ -75,11 +119,19 @@ const OptimizedImage = memo(({
     }
   };
 
-  // Calculate content-visibility based on image position
+  // Calculate content-visibility based on image position for better rendering performance
   const contentVisibility = isInView ? 'auto' : 'hidden';
 
   return (
-    <div ref={elementRef} className="relative w-full h-full" style={{ contentVisibility }}>
+    <div 
+      ref={elementRef} 
+      className="relative w-full h-full" 
+      style={{ 
+        contentVisibility,
+        // Add aspect ratio to prevent layout shifts
+        aspectRatio: `${width}/${height}`
+      }}
+    >
       {!isLoaded && (
         <div className="absolute inset-0">
           <Skeleton 
@@ -89,17 +141,22 @@ const OptimizedImage = memo(({
               opacity: 0.5
             }} 
           />
+          <ImageLoader 
+            color={derivedPlaceholderColor} 
+            showSpinner={priority} 
+            size="medium"
+          />
         </div>
       )}
       
-      {isInView && (
+      {(isInView || priority || skipLazyLoading) && (
         <PictureElement
           src={src}
           alt={alt}
           width={width}
           height={height}
           priority={priority}
-          quality={quality}
+          quality={getOptimalQuality()}
           className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 w-full h-full object-cover`}
           onLoad={handleImageLoad}
           srcSet={getSrcSet()}
