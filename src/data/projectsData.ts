@@ -16,6 +16,44 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "utture-3bhk-apartment",
+    title: "Mr. Utture's Modern 3BHK",
+    category: "Residential",
+    location: "Pune",
+    size: "2,000 sq ft",
+    completionYear: "2025",
+    description: "A contemporary 3BHK apartment designed for Mr. Utture that harmoniously blends modern aesthetics with functional spaces. The design features a sophisticated master bedroom with a unique concentric circle wall feature, custom-designed storage solutions, and a charming kids' room with a loft bed. Notable elements include a music-themed wardrobe with artistic musical note details, premium white wardrobes with sleek handles, and a dedicated study area with modern amenities.",
+    features: [
+      "Concentric circle feature wall with integrated lighting",
+      "Custom music-themed wardrobe with artistic details",
+      "Full-height wardrobes with premium finishes",
+      "Kids' bedroom with custom loft bed and play area",
+      "Dedicated study space with built-in workstation",
+      "Elegant botanical artwork in master bedroom",
+      "Premium wooden flooring throughout",
+      "Modern ceiling-mounted AC units",
+      "Built-in entertainment unit with floating shelves",
+      "Space-saving storage solutions",
+      "Contemporary furniture with neutral upholstery",
+      "Layered lighting design for ambiance"
+    ],
+    images: [
+      "/lovable-uploads/021b077a-92b2-4e2b-ac51-75d2fc3bf20e.png",
+      "/lovable-uploads/308a8036-5167-4e94-ace6-d5bdfc9677a9.png",
+      "/lovable-uploads/ab3194a4-24e2-4d27-9ab1-696bf2762efa.png",
+      "/lovable-uploads/6eadeff7-5c3f-4791-9428-375df057e460.png",
+      "/lovable-uploads/8929c4d3-15f0-44b4-be01-131f3cbfc072.png",
+      "/lovable-uploads/dc389068-ad82-416c-9250-52670dafe493.png",
+      "/lovable-uploads/3213f901-17eb-4fd5-ac59-c4264b91cc51.png",
+      "/lovable-uploads/9f82ba0d-7976-4582-8542-b6feda6861c2.png",
+      "/lovable-uploads/4628e43d-7137-4b66-acc6-3210b6e099af.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Modern Living with Musical Flair",
+    style: "Contemporary Minimalist"
+  },
+  {
     id: "golden-leaf-banquet-hall",
     title: "The Golden Leaf Banquet Hall",
     category: "Commercial",
