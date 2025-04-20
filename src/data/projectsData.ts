@@ -297,7 +297,35 @@ const projectsData: Project[] = [
     tagline: "Contemporary Elegance in Mumbai",
     style: "Modern Minimalist"
   },
-  
-]
+  {
+    id: "park-infinia",
+    title: "Park Infinia Temple",
+    category: "Commercial",
+    location: "Pune",
+    size: "2,500 sq ft",
+    completionYear: "2025",
+    description: "Park Infinia's temple stands as a testament to architectural grandeur, featuring a stunning pavilion crowned with an iconic saffron flag. The design incorporates traditional Indian architectural elements with modern aesthetics, including ornate Gothic arches, decorative lamp posts, and an elevated platform surrounded by vibrant floral gardens. The structure's dramatic lighting creates a mesmerizing ambiance during sunset, while the intricate wrought iron railings and illuminated steps add to its majestic presence.",
+    features: [
+      "Traditional pavilion with Gothic-inspired arches",
+      "Iconic saffron flag installation",
+      "Elevated platform with grand staircase",
+      "Ornate wrought iron railings and gates",
+      "Decorative vintage-style lamp posts",
+      "Dual-colored floral gardens",
+      "Strategic architectural lighting",
+      "Stone construction with detailed craftsmanship",
+      "Panoramic viewing areas",
+      "Custom-designed temple spire"
+    ],
+    images: [
+      "/lovable-uploads/875c7a27-7a75-4636-8653-a6ae823e8487.png",
+      "/lovable-uploads/d604159a-0d3f-44a4-bc9b-e44c1b3dc609.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Where Heritage Meets Harmony",
+    style: "Indo-Gothic Revival"
+  }
+];
 
 export default projectsData;
