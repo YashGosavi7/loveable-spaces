@@ -72,6 +72,9 @@ const PictureElement = memo(({
     return "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
   };
 
+  // Determine fetch priority for browser optimization
+  const actualFetchPriority = fetchPriority || (priority ? "high" : "auto");
+
   return (
     <picture className="w-full h-full">
       {/* AVIF for best compression - highest priority */}
@@ -99,7 +102,7 @@ const PictureElement = memo(({
         type="image/jpeg" 
         srcSet={getSrcSet()}
         sizes={getSizes()}
-        fetchPriority={fetchPriority || (priority ? "high" : "auto")}
+        data-fetchpriority={actualFetchPriority}
       />
       
       <ResponsiveImage
@@ -111,7 +114,7 @@ const PictureElement = memo(({
         priority={priority}
         onLoad={onLoad}
         placeholderColor={derivedPlaceholderColor}
-        fetchPriority={fetchPriority || (priority ? "high" : "auto")}
+        fetchPriority={actualFetchPriority}
         loading={priority ? "eager" : "lazy"}
         quality={quality}
       />

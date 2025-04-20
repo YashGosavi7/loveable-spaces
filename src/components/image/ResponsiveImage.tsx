@@ -32,7 +32,6 @@ const ResponsiveImage = memo(({
   const optimizeImage = () => {
     return {
       decoding: priority ? "sync" as const : "async" as const,
-      fetchPriority: fetchPriority,
       loading: loading,
       style: {
         backgroundColor: placeholderColor,
@@ -57,6 +56,7 @@ const ResponsiveImage = memo(({
       alt={alt} 
       className={className}
       onLoad={onLoad}
+      data-fetchpriority={fetchPriority}
       {...optimizeImage()}
     />
   );

@@ -37,13 +37,16 @@ const ImageSource = memo(({
   
   // Default sizes if not provided - optimized for all device widths
   const defaultSizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+  
+  // Set fetchpriority attribute using data-* to avoid TypeScript errors
+  const priority = quality === "high" ? "high" : "auto";
 
   return (
     <source 
       type={`image/${type}`} 
       srcSet={processedSrcSet} 
       sizes={sizes || defaultSizes}
-      fetchPriority={quality === "high" ? "high" : "auto"}
+      data-fetchpriority={priority}
     />
   );
 });
