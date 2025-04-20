@@ -36,6 +36,15 @@ const projectsData: Project[] = [
       "Premium marble reception counter"
     ],
     images: [
+      "/lovable-uploads/eea53347-13c4-4190-a5e7-2884b1eeba4c.png",
+      "/lovable-uploads/18ae3aa6-c2eb-494a-b249-9c39020ebe2b.png",
+      "/lovable-uploads/76be1317-69fb-4e4c-9403-acfd0f29aaa7.png",
+      "/lovable-uploads/ca4507e9-02dd-4fcd-9e2b-77405883fa9f.png",
+      "/lovable-uploads/40a33995-6522-4218-80ca-423333a06e58.png",
+      "/lovable-uploads/c9e93dc4-4dfc-474b-b75a-38fb4ee1cabf.png",
+      "/lovable-uploads/de461583-050a-46ef-ad14-2c60f8993e50.png",
+      "/lovable-uploads/ac8a7286-1971-4aa0-bbd7-3d6499a3c9c9.png",
+      "/lovable-uploads/e6e7be2a-5cb9-4696-830b-ec8880f338eb.png",
       "/lovable-uploads/90ba60fa-2f18-45bd-8258-3027706b3e34.png",
       "/lovable-uploads/cd4ff427-a2a0-4f40-ab3f-d652e947309a.png",
       "/lovable-uploads/50766ba2-0832-4e3b-b0e6-918993ebcf5c.png",
@@ -43,7 +52,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/20990b92-00f5-42b5-a5fc-1cbedc2bdc85.png",
       "/lovable-uploads/1e520620-9d9d-40ae-973f-188390810757.png",
       "/lovable-uploads/0739ef1d-2f3c-4cd2-8772-aa0ef290086f.png",
-      "/lovable-uploads/dbdac05c-5729-458c-9cc1-821b7cde53d8.png", 
+      "/lovable-uploads/dbdac05c-5729-458c-9cc1-821b7cde53d8.png",
       "/lovable-uploads/7eef5f5b-3789-4990-a1ea-c622dd00bce6.png",
       "/lovable-uploads/fd05fdd8-89e5-44e0-9415-669c442db39f.png"
     ],
@@ -288,40 +297,7 @@ const projectsData: Project[] = [
     tagline: "Contemporary Elegance in Mumbai",
     style: "Modern Minimalist"
   },
-  {
-    id: "grandeur-wedding-hall",
-    title: "Grandeur Wedding Hall",
-    category: "Commercial",
-    location: "Delhi",
-    size: "5,000 sq ft",
-    completionYear: "2023",
-    description: "Crafted for grand celebrations, the Grandeur Wedding Hall in Delhi showcases Loveable's mastery in creating luxurious, welcoming spaces. Spanning 5,000 sq ft, the venue features ornate chandeliers, intricate mandala-inspired wall panels, and warm, golden lighting, blending Indian tradition with modern elegance to create unforgettable wedding moments. The hall incorporates subtle cultural motifs throughout, with hand-carved wooden elements and premium materials that create a sense of opulence while maintaining warmth and approachability.",
-    features: [
-      "Crystal chandelier installation with customized lighting design",
-      "Hand-carved wooden mandap with intricate detailing",
-      "Premium Italian marble flooring with brass inlays",
-      "Acoustically optimized space for music and speeches",
-      "Custom wall paneling with gold-leaf geometric patterns",
-      "Integrated state-of-the-art audiovisual systems",
-      "Flexible seating arrangements accommodating up to 300 guests",
-      "Elegant drapery with traditional Indian motifs"
-    ],
-    images: [
-      "/lovable-uploads/eea53347-13c4-4190-a5e7-2884b1eeba4c.png",
-      "/lovable-uploads/18ae3aa6-c2eb-494a-b249-9c39020ebe2b.png",
-      "/lovable-uploads/76be1317-69fb-4e4c-9403-acfd0f29aaa7.png",
-      "/lovable-uploads/ca4507e9-02dd-4fcd-9e2b-77405883fa9f.png",
-      "/lovable-uploads/40a33995-6522-4218-80ca-423333a06e58.png",
-      "/lovable-uploads/c9e93dc4-4dfc-474b-b75a-38fb4ee1cabf.png",
-      "/lovable-uploads/de461583-050a-46ef-ad14-2c60f8993e50.png",
-      "/lovable-uploads/ac8a7286-1971-4aa0-bbd7-3d6499a3c9c9.png",
-      "/lovable-uploads/e6e7be2a-5cb9-4696-830b-ec8880f338eb.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "A Celebration Space in Delhi",
-    style: "Luxurious Indian Contemporary"
-  }
+  
 ]
 
 export default projectsData;
