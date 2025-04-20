@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -16,9 +15,7 @@ const PortfolioPage = () => {
   const isMobile = useIsMobile();
   const prefetchedImages = useRef<Set<string>>(new Set());
   
-  // Detect connection speed more accurately
   const detectConnectionSpeed = useCallback(() => {
-    // Check network information if available
     if (typeof navigator !== 'undefined' && 'connection' in navigator) {
       const conn = (navigator as any).connection;
       
@@ -40,31 +37,26 @@ const PortfolioPage = () => {
     window.scrollTo(0, 0);
     connectionSpeed.current = detectConnectionSpeed() as 'slow' | 'normal' | 'fast';
     
-    // Add domain hints for DNS prefetching - great for performance
     const addDomainHints = () => {
       const domains = new Set<string>();
       
       projectsData.forEach(project => {
         if (project.images && project.images.length > 0) {
-          // Extract domain from URL
           try {
             const url = new URL(project.images[0], window.location.origin);
             domains.add(url.hostname);
           } catch (e) {
-            // Skip invalid URLs
           }
         }
       });
       
       domains.forEach(domain => {
         if (!document.querySelector(`link[rel="dns-prefetch"][href="//${domain}"]`)) {
-          // Add DNS prefetch
           const prefetchLink = document.createElement('link');
           prefetchLink.rel = 'dns-prefetch';
           prefetchLink.href = `//${domain}`;
           document.head.appendChild(prefetchLink);
           
-          // Also add preconnect for even faster loading
           const preconnectLink = document.createElement('link');
           preconnectLink.rel = 'preconnect';
           preconnectLink.href = `//${domain}`;
@@ -76,34 +68,27 @@ const PortfolioPage = () => {
     
     addDomainHints();
     
-    // Smart preloading strategy - only preload what's needed based on connection
     const preloadVisibleImages = () => {
       const speed = connectionSpeed.current;
       
-      // Set preload limit based on connection speed
       let preloadLimit: number;
       if (speed === 'slow') preloadLimit = 2;
       else if (speed === 'fast') preloadLimit = 8;
-      else preloadLimit = 4; // 'normal' or 'medium' speed
+      else preloadLimit = 4;
       
-      // Limit further on mobile
       if (isMobile && preloadLimit > 4) preloadLimit = 4;
       
-      // Get projects for the current category
       const visibleProjects = projectsData
         .filter(p => p.category === activeCategory)
         .slice(0, preloadLimit);
       
-      // Preload the first image of each visible project
       visibleProjects.forEach((project, index) => {
         if (project.images?.length > 0) {
           const imageUrl = project.images[0];
           
-          // Skip if already prefetched
           if (prefetchedImages.current.has(imageUrl)) return;
           prefetchedImages.current.add(imageUrl);
           
-          // Stagger loading for better network utilization
           setTimeout(() => {
             const link = document.createElement('link');
             link.rel = speed === 'slow' ? 'prefetch' : 'preload';
@@ -118,20 +103,15 @@ const PortfolioPage = () => {
     
     preloadVisibleImages();
     
-    // Also preload when category changes
     return () => {
-      // Clean up any preload links if component unmounts
     };
   }, [activeCategory, isMobile, detectConnectionSpeed]);
   
-  // Get filtered projects for current category
   const filteredProjects = projectsData.filter(project => project.category === activeCategory);
-
-  // Get the first project image for immediate preview
   const firstProjectImage = filteredProjects.length > 0 ? filteredProjects[0].images[0] : '';
 
   return (
-    <div className="min-h-screen pt-24 md:pt-32 pb-16">
+    <div className="min-h-screen pt-32 md:pt-40 pb-16">
       <Helmet>
         <title>Loveable - Fast-loading Portfolio: Residential, Commercial, and Hospitality Projects</title>
         <meta 
@@ -139,11 +119,9 @@ const PortfolioPage = () => {
           content="Loveable's portfolio loads instantly with top interiors in Residential, Commercial, and Hospitality, starting at 15k."
         />
         
-        {/* DNS prefetch for faster loading */}
         <link rel="dns-prefetch" href={window.location.origin} />
         <link rel="preconnect" href={window.location.origin} crossOrigin="anonymous" />
         
-        {/* Preload first visible image */}
         {firstProjectImage && (
           <link 
             rel="preload" 
@@ -154,12 +132,12 @@ const PortfolioPage = () => {
           />
         )}
         
-        {/* Cache control for longer browser caching */}
         <meta httpEquiv="Cache-Control" content="max-age=86400" />
       </Helmet>
       
       <div className="container mx-auto px-4 md:px-8">
-        <h1 className="sticky top-[60px] bg-warmWhite/95 backdrop-blur-sm py-4 z-[900] text-lg md:text-2xl font-playfair text-darkGray mb-8">
+        <h1 className="sticky top-[84px] md:top-[100px] bg-warmWhite/95 backdrop-blur-sm py-4 z-[900] 
+                       text-lg md:text-2xl font-playfair text-darkGray mb-8 border-b border-roseGold/10">
           Our Portfolio
         </h1>
         

@@ -1,9 +1,7 @@
-
 import { Link } from "react-router-dom";
 import HeroSection from "../components/HeroSection";
 import SectionTitle from "../components/SectionTitle";
-import TeamMember from "../components/TeamMember";
-import teamData from "../data/teamData";
+import WhatsAppCTA from "../components/portfolio/WhatsAppCTA";
 
 const AboutPage = () => {
   return (
@@ -106,7 +104,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Why Choose Us - Moved from HomePage */}
+      {/* Why Choose Us */}
       <section className="section-padding bg-warmWhite">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -159,29 +157,6 @@ const AboutPage = () => {
                 Our Projects
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Our Team */}
-      <section className="section-padding bg-lightGray">
-        <div className="container mx-auto">
-          <SectionTitle 
-            title="Meet Our Team" 
-            subtitle="The creative minds behind our beautiful spaces" 
-            center 
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {teamData.map((member) => (
-              <TeamMember 
-                key={member.id}
-                name={member.name}
-                title={member.title}
-                bio={member.bio}
-                image={member.image}
-              />
-            ))}
           </div>
         </div>
       </section>
@@ -256,10 +231,12 @@ const AboutPage = () => {
             </div>
           </div>
           
-          <div className="mt-12 text-center">
-            <Link to="/portfolio" className="bg-roseGold/90 text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold transition-colors">
-              Our Projects
-            </Link>
+          <div className="mt-12 text-center space-y-6">
+            <p className="text-white/90 text-lg max-w-2xl mx-auto">
+              Founded in 2012, Loveable has delivered over 600 projects across Tier 1 cities, 
+              crafting spaces with passion and expertise starting at 15k.
+            </p>
+            <WhatsAppCTA text="Connect with Dalpat on WhatsApp" />
           </div>
         </div>
       </section>
