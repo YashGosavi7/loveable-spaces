@@ -53,7 +53,9 @@ const projectsData: Project[] = [
       "/lovable-uploads/267788ed-6e9e-4b9c-8745-a0556b5104fb.png",
       "/lovable-uploads/020de292-6a35-4ebe-aa70-2c60d671b134.png",
       "/lovable-uploads/28cc1669-df32-4195-b8e1-2808fc9698cb.png",
-      "/lovable-uploads/ee07f83e-48be-409c-9e1f-043aea745d68.png"
+      "/lovable-uploads/ee07f83e-48be-409c-9e1f-043aea745d68.png",
+      "/lovable-uploads/6e2bbb3d-4b39-4d21-8e42-3a7e14b06ecd.png",
+      "/lovable-uploads/04959893-c12e-41dc-a85f-cc122ae11521.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
