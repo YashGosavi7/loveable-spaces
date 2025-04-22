@@ -16,45 +16,6 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
-    id: "dada-rao-danve",
-    title: "Dada Rao Danve Restaurant",
-    category: "Hospitality",
-    location: "Pune",
-    size: "5,000 sq ft",
-    completionYear: "2025",
-    description: "A luxurious dining establishment that seamlessly blends Indo-Islamic architecture with modern comfort. The space features distinctive jali patterns, terracotta-tiled roofing, and innovative seating arrangements including water-surrounded dining areas. Notable elements include handcrafted bamboo wall art, ornate lighting fixtures, and a stunning Ganesha installation with a living green wall backdrop.",
-    features: [
-      "Indo-Islamic architectural elements with jali work",
-      "Unique water-surrounded dining booths with mosaic tiles",
-      "Traditional terracotta roof tiles and decorative eaves",
-      "Custom-designed seating with ethnic cushions",
-      "Bamboo art wall installations",
-      "Artificial grass elevated platforms",
-      "Ornate pendant lighting fixtures",
-      "Contemporary interpretation of traditional arches",
-      "Elegant outdoor dining pavilions",
-      "Geometric pattern screens in wood and metal",
-      "Illuminated Ganesha wall feature",
-      "Landscaped planters with tropical foliage",
-      "Custom-designed entrance with nature vista",
-      "Mood lighting with traditional lanterns"
-    ],
-    images: [
-      "/lovable-uploads/114038fd-0ab0-4b56-9070-b9886917cb16.png",
-      "/lovable-uploads/6b69aebf-320f-4514-84dc-7887c6d16b00.png",
-      "/lovable-uploads/64bdaf74-6ff5-4978-b994-f584881d1cc4.png",
-      "/lovable-uploads/b86f7e83-3b22-4858-8433-418b9d6f59b6.png",
-      "/lovable-uploads/f02e0cc6-6508-4b11-8781-00a319cef988.png",
-      "/lovable-uploads/a83abdc8-a6e4-4db5-a2d7-4d8e21dec75e.png",
-      "/lovable-uploads/39831f31-678f-402a-9d65-d6bcb138da6e.png",
-      "/lovable-uploads/e0a4981c-0ed3-48a5-9611-e88a89a4c5a1.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Where Heritage Meets Modern Luxury",
-    style: "Indo-Islamic Contemporary"
-  },
-  {
     id: "mr-kale-office",
     title: "Mr. Kale's Office",
     category: "Commercial",
