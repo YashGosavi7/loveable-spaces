@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import ProjectCard from "../ProjectCard";
 import { Project } from "@/data/projectsData";
+import { getBestProjectImage } from "@/utils/imageSelection";
 
 interface ProjectsGridProps {
   projects: Project[];
@@ -15,19 +16,23 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {projects.map((project, index) => (
-        <ProjectCard
-          key={project.id}
-          id={project.id}
-          title={project.title}
-          category={project.category}
-          location={project.location}
-          image={project.images[0]}
-          designer={project.designer}
-          tagline={project.tagline}
-          index={index}
-        />
-      ))}
+      {projects.map((project, index) => {
+        const bestImage = getBestProjectImage(project);
+        
+        return (
+          <ProjectCard
+            key={project.id}
+            id={project.id}
+            title={project.title}
+            category={project.category}
+            location={project.location}
+            image={bestImage}
+            designer={project.designer}
+            tagline={project.tagline}
+            index={index}
+          />
+        );
+      })}
     </motion.div>
   );
 };
