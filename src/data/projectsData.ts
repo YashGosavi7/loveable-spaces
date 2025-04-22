@@ -1,6 +1,57 @@
 import { Project } from "@/data/projectsData";
 
+export interface Project {
+  id: string;
+  title: string;
+  category: "Residential" | "Commercial" | "Hospitality";
+  location: string;
+  size: string;
+  completionYear: string;
+  description: string;
+  features: string[];
+  images: string[];
+  isFeatured?: boolean;
+  designer?: string;
+  tagline?: string;
+  style?: string;
+}
+
 const projectsData: Project[] = [
+  {
+    id: "dada-rao-danve",
+    title: "Dada Rao Danve Restaurant",
+    category: "Hospitality",
+    location: "Pune",
+    size: "5,000 sq ft",
+    completionYear: "2025",
+    description: "A fusion of traditional Indian architecture and modern dining comfort, Dada Rao Danve Restaurant showcases intricate jali work, terracotta roofing, and innovative water features. The space combines outdoor seating areas with private dining cabanas, featuring custom-designed furniture and artisanal decor elements. Notable design elements include ornate archways, decorative bamboo basket wall art, and a stunning blend of natural and ambient lighting.",
+    features: [
+      "Indo-Islamic jali pattern screens and archways",
+      "Handcrafted bamboo basket wall art installations",
+      "Custom-designed wooden seating with designer cushions",
+      "Artificial grass accent areas for outdoor ambiance",
+      "Terracotta tile roofing with decorative trim",
+      "Private dining cabanas with ornate lattice work",
+      "Mosaic-tiled water features with swan motifs",
+      "LED-backlit geometric patterns",
+      "Contemporary wall sconces and pendant lighting",
+      "Mixed seating zones with booth and table options",
+      "Landscape integration with ornamental plants",
+      "Architectural brick detailing on facades"
+    ],
+    images: [
+      "/lovable-uploads/4030bf15-bff4-49fd-9a85-ba2d010653cd.png",
+      "/lovable-uploads/67d6f8db-e76d-46b5-9231-74523bc40a75.png",
+      "/lovable-uploads/7ac814e9-97f5-477c-aac1-c68834fc9810.png",
+      "/lovable-uploads/6d06e5cb-4efa-4fa9-89b0-de184b1953ef.png",
+      "/lovable-uploads/472c0701-3bf6-4aa7-a843-953a5273788f.png",
+      "/lovable-uploads/ee47fe3a-67fc-40aa-a5b9-f3adf81f2297.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Where Tradition Meets Modern Luxury",
+    style: "Indo-Contemporary"
+  },
   {
     id: "mr-kale-office",
     title: "Mr. Kale's Office",
