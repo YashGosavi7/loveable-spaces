@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { motion } from "framer-motion";
-import { useRef, useState, memo } from "react";
+import { useRef, useState, memo, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import OptimizedImage from "./OptimizedImage";
 import { Project } from "@/data/projectsData";
@@ -32,6 +32,11 @@ const ProjectCard = memo(({
 }: ProjectCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Add debugging for individual card
+  useEffect(() => {
+    console.log(`Rendering card for ${id}: ${title} with image: ${image}`);
+  }, [id, title, image]);
 
   return (
     <motion.div
@@ -49,7 +54,7 @@ const ProjectCard = memo(({
             <OptimizedImage
               src={image}
               alt={`${title} interior by Loveable in ${location}`}
-              className="w-full h-full"
+              className="w-full h-full object-cover"
               width={300}
               height={225}
               priority={index < 3}

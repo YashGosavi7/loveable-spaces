@@ -33,6 +33,9 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
   
   const { width, height } = getImageDimensions();
 
+  // Add console log to debug projects
+  console.log("Current project in ProjectHero:", project.id, project.title);
+
   return (
     <section className="w-full h-[100vh] relative">
       <ProjectHeroMeta project={project} activeImageIndex={activeImageIndex} />
