@@ -1,18 +1,4 @@
-export interface Project {
-  id: string;
-  title: string;
-  category: "Residential" | "Commercial" | "Hospitality";
-  location: string;
-  size: string;
-  completionYear: string;
-  description: string;
-  features: string[];
-  images: string[];
-  isFeatured?: boolean;
-  designer?: string;
-  tagline?: string;
-  style?: string;
-}
+import { Project } from "@/data/projectsData";
 
 const projectsData: Project[] = [
   {
