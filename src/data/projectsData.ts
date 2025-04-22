@@ -16,6 +16,43 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "mr-kale-office",
+    title: "Mr. Kale's Office",
+    category: "Commercial",
+    location: "Pune",
+    size: "400 sq ft",
+    completionYear: "2025",
+    description: "A modern office space designed for Mr. Kale that combines functionality with contemporary aesthetics. The space features a striking color scheme with orange accent niches contrasting against neutral grays and whites. Notable elements include custom storage solutions, a professional meeting area, and a thoughtfully designed workspace with scenic views. The design incorporates motivational artwork, sophisticated lighting, and premium finishes throughout.",
+    features: [
+      "Custom storage units with orange accent niches",
+      "Modern workstation with panoramic views",
+      "Professional meeting area with ergonomic seating",
+      "Tufted gray lounge seating for comfort",
+      "Integrated multimedia display system",
+      "Designer lighting with recessed spotlights",
+      "Marble-finish flooring",
+      "Motivational artwork gallery wall",
+      "Built-in storage solutions",
+      "Premium white and gray color scheme",
+      "Elegant sliding door with geometric patterns",
+      "Contemporary office furniture"
+    ],
+    images: [
+      "/lovable-uploads/e724072a-dad1-41b5-8f58-0362c0796aa7.png",
+      "/lovable-uploads/78c628f5-48a3-46b9-955a-3860cb95c9d1.png",
+      "/lovable-uploads/b7d77ee2-3ba1-4716-b7c1-cf3217e23de2.png",
+      "/lovable-uploads/b6b17a69-200a-42d3-b5db-1d7ed19c9a4e.png",
+      "/lovable-uploads/9f0bf73c-23f8-4e5f-876e-b0dc18c0f152.png",
+      "/lovable-uploads/4c7c6883-e641-4626-ad86-97b61a9f7eb2.png",
+      "/lovable-uploads/125864ca-6339-4d41-ae9a-e3ed758259dd.png",
+      "/lovable-uploads/5c93d240-c89c-4337-a153-b4ca5bbdcd8f.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Modern Efficiency Meets Elegant Design",
+    style: "Contemporary Corporate"
+  },
+  {
     id: "utture-3bhk-apartment",
     title: "Mr. Utture's Modern 3BHK",
     category: "Residential",
