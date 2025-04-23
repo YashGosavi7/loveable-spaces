@@ -7,7 +7,7 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "localhost", // Changed from "::" to "localhost"
+    host: "localhost", // Use localhost instead of ::
     port: 8080,
     fs: {
       // Allow serving files from one level up to the project root
