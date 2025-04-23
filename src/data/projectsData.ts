@@ -1,4 +1,3 @@
-
 import { Project } from "@/data/projectsData";
 
 export interface Project {
@@ -41,15 +40,15 @@ const projectsData: Project[] = [
       "Architectural brick detailing on facades"
     ],
     images: [
-      "/lovable-uploads/ee896a1f-7728-49a0-b684-5e7c92b44d46.png",
-      "/lovable-uploads/db8f88d5-d595-456b-bd0e-aba036f62b1e.png",
-      "/lovable-uploads/6347dfb9-07dd-4130-8c6b-aedd8d891f47.png",
-      "/lovable-uploads/c9a96936-b987-494c-9d1a-6b8bd57ae69e.png",
-      "/lovable-uploads/53196947-8652-4f89-a673-1d174bcd72b9.png",
-      "/lovable-uploads/bbfa733a-db64-4b89-b045-e8df398d295c.png",
-      "/lovable-uploads/cf4e8a9c-2112-4c13-960f-675a8ea301c5.png",
-      "/lovable-uploads/3d1f71ac-93f8-46fd-a819-3ad1bf5e1c96.png",
-      "/lovable-uploads/efba1676-f3d5-41a0-a152-c7ac8f97e1f2.png"
+      "/lovable-uploads/18a1b9fa-cc31-4fe0-9084-b8dcc2a46206.png",
+      "/lovable-uploads/53cd747c-a422-4fd2-b813-3a816313ddb0.png",
+      "/lovable-uploads/53787841-f06d-4306-bcc5-a6adbe781f61.png",
+      "/lovable-uploads/2fd9fcf1-33a2-452a-bbf5-31c00993d12a.png",
+      "/lovable-uploads/f785cbf9-3167-4119-85bd-734403a9061e.png",
+      "/lovable-uploads/50a48392-830c-4d70-9fc8-6a3d107193e7.png",
+      "/lovable-uploads/eda05d20-e325-47aa-8a8d-8b7dbd5a4137.png",
+      "/lovable-uploads/060aad3c-5d7a-4eb6-9c32-c85d3c406754.png",
+      "/lovable-uploads/c2c7c6d7-dd2c-4887-8900-67738d347155.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
