@@ -1,3 +1,4 @@
+
 import { ProjectCategory } from "../components/portfolio/CategoryFilter";
 
 export interface Project {
@@ -172,6 +173,38 @@ const projectsData: Project[] = [
     tagline: "A Home Where Memories Are Made",
     style: "Modern Rustic"
   },
+  // Add new Dada Rao Danve project
+  {
+    id: "dada-rao-danve-residence",
+    title: "Dada Rao Danve Residence",
+    category: "Residential",
+    location: "Jalna",
+    size: "3,200 sq ft",
+    completionYear: "2025",
+    description: "Dada Rao Danve's residence in Jalna blends modern luxury with Maratha heritage, featuring intricate jali work, warm teak wood finishes, and a serene courtyard, crafted by Loveable in 2025.",
+    features: [
+      "Traditional jali work adorning the windows and balconies",
+      "Warm teak wood finishes throughout the home",
+      "Serene central courtyard with water feature",
+      "Modern kitchen with premium appliances",
+      "Master suite with traditional Maratha design elements",
+      "Guest bedrooms with en-suite bathrooms",
+      "Living area with heritage-inspired furnishings",
+      "Energy-efficient smart home features",
+      "Indoor-outdoor living spaces",
+      "Custom lighting design highlighting architectural elements"
+    ],
+    images: [
+      "/lovable-uploads/afbf5e62-9033-48ed-8d05-a54b220f498a.png",
+      "/lovable-uploads/8aa6ea8f-3ad8-41b7-8afe-6ef05a9a11c7.png",
+      "/lovable-uploads/de461583-050a-46ef-ad14-2c60f8993e50.png",
+      "/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Maratha Heritage Meets Modern Luxury",
+    style: "Indo-Contemporary"
+  }
 ];
 
 export default projectsData;

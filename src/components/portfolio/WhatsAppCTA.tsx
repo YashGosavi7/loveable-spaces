@@ -1,26 +1,19 @@
 
-import { Send } from "lucide-react";
+import { WhatsApp } from "lucide-react";
 
-interface WhatsAppCTAProps {
-  text?: string;
-}
-
-const WhatsAppCTA = ({ text = "Connect on WhatsApp" }: WhatsAppCTAProps) => {
-  // Dalpat's WhatsApp number (placeholder until confirmed)
-  const whatsappNumber = "+919762000000";
-  
+const WhatsAppCTA = () => {
   return (
     <a 
-      href={`https://wa.me/${whatsappNumber}`} 
+      href="https://wa.me/+91XXXXXXXXXX" 
       target="_blank" 
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2FCE2] hover:bg-[#E6F4D3] 
-                 text-darkGray rounded-md transition-colors duration-300 font-lato text-sm md:text-base 
-                 border border-[#D4A017]/30 shadow-sm"
-      aria-label="Contact via WhatsApp"
+      className="whatsapp-btn inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-3 
+                rounded font-lato text-sm md:text-base hover:bg-[#128C7E] transition-colors 
+                shadow-md hover:shadow-lg"
+      aria-label="Chat with Dalpat Suthar on WhatsApp"
     >
-      <Send size={20} className="text-[#128C7E]" />
-      <span>{text}</span>
+      <WhatsApp size={18} />
+      Chat with Dalpat on WhatsApp
     </a>
   );
 };
