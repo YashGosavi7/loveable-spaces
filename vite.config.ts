@@ -6,13 +6,15 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  root: process.cwd(),
+  // Set root directory explicitly as current working directory
+  root: ".",
   base: "/",
   server: {
     host: "localhost",
     port: 8080,
     fs: {
-      allow: ['..', '.', '/'],
+      // Expand allowed directories to ensure package.json is accessible
+      allow: ['.', '..', '../..', '/'],
       strict: false
     }
   },
@@ -36,7 +38,7 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
+    // Ensure dependencies are properly scanned and included
     include: ['react', 'react-dom', 'react-router-dom']
   }
 }));
-
