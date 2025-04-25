@@ -5,9 +5,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
-// Ensure we're using the correct environment
+// Enhanced development mode logging
 if (process.env.NODE_ENV !== 'production') {
   console.log('Running in development mode');
+  console.log('React version:', React.version);
+  console.log('Current environment:', process.env.NODE_ENV);
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -17,3 +19,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Router>
   </React.StrictMode>,
 );
+
