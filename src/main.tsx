@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
   console.log('Running in development mode');
   console.log('React version:', React.version);
   console.log('Current environment:', process.env.NODE_ENV);
+  console.log('Application root path:', process.cwd());
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -19,4 +20,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Router>
   </React.StrictMode>,
 );
-

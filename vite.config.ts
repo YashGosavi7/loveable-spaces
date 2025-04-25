@@ -14,8 +14,12 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     fs: {
       // Expand allowed directories to ensure package.json is accessible
-      allow: ['.', '..', '../..', '/'],
+      allow: ['.', '..', '../..', '/', process.cwd()],
       strict: false
+    },
+    watch: {
+      // Ensure file watching works properly
+      usePolling: true
     }
   },
   plugins: [
@@ -26,7 +30,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-    },
+    }
   },
   build: {
     outDir: "dist",
