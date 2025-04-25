@@ -9,8 +9,8 @@ interface ProjectsGridProps {
 }
 
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
-  // Add logging to debug projects
-  console.log("Projects in grid:", projects.map(p => p.title));
+  // Add more detailed logging to debug projects
+  console.log("Projects in grid:", projects.map(p => ({id: p.id, title: p.title, category: p.category})));
   
   return (
     <motion.div 
@@ -26,6 +26,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
       ) : (
         projects.map((project, index) => {
           const bestImage = getBestProjectImage(project);
+          console.log(`Rendering project ${project.id} with image: ${bestImage}`);
           
           return (
             <ProjectCard

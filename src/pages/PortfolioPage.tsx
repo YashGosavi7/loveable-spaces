@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -10,18 +9,21 @@ import WhatsAppCTA from "@/components/portfolio/WhatsAppCTA";
 
 const PortfolioPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  // Change default category to "All" to ensure all projects are visible initially
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  // Add "All" to categories
   const categories = ["All", "Residential", "Commercial", "Hospitality"];
   const connectionSpeed = useRef<'slow'|'normal'|'fast'>('normal');
   const isMobile = useIsMobile();
   const prefetchedImages = useRef<Set<string>>(new Set());
   
-  // Add debugging logs to check projects
   useEffect(() => {
     console.log("Total projects in data:", projectsData.length);
-    console.log("Hospitality projects:", projectsData.filter(p => p.category === "Hospitality").map(p => p.title));
+    console.log("Projects by category:", {
+      All: projectsData.length,
+      Residential: projectsData.filter(p => p.category === "Residential").length,
+      Commercial: projectsData.filter(p => p.category === "Commercial").length,
+      Hospitality: projectsData.filter(p => p.category === "Hospitality").length
+    });
+    console.log("Dada Rao project:", projectsData.find(p => p.id === "dada-rao-danve-residence"));
   }, []);
   
   const detectConnectionSpeed = useCallback(() => {
@@ -116,7 +118,6 @@ const PortfolioPage = () => {
     };
   }, [activeCategory, isMobile, detectConnectionSpeed]);
   
-  // Update filtering logic to include "All" category
   const filteredProjects = activeCategory === "All" 
     ? projectsData 
     : projectsData.filter(project => project.category === activeCategory);

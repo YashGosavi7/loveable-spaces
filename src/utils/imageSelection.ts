@@ -8,6 +8,7 @@ interface ImageScore {
 
 export const getBestProjectImage = (project: Project): string => {
   if (!project.images || project.images.length === 0) {
+    console.warn(`No images found for project: ${project.id}`);
     return "";
   }
 
@@ -16,6 +17,10 @@ export const getBestProjectImage = (project: Project): string => {
     return project.images[0];
   }
 
+  // Add logging to help debug
+  console.log(`Selecting best image for ${project.id} from ${project.images.length} images`);
+  console.log(`Available images:`, project.images);
+  
   // For now, we'll use the first image as the best one since we can't 
   // programmatically analyze image content without additional libraries
   // In a real implementation, this would use computer vision APIs
