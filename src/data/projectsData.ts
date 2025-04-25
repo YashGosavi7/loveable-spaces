@@ -1,4 +1,3 @@
-
 import { ProjectCategory } from "../components/portfolio/CategoryFilter";
 
 export interface Project {
@@ -173,7 +172,6 @@ const projectsData: Project[] = [
     tagline: "A Home Where Memories Are Made",
     style: "Modern Rustic"
   },
-  // Add new Dada Rao Danve project
   {
     id: "dada-rao-danve-residence",
     title: "Dada Rao Danve Residence",
@@ -195,10 +193,12 @@ const projectsData: Project[] = [
       "Custom lighting design highlighting architectural elements"
     ],
     images: [
-      "/lovable-uploads/afbf5e62-9033-48ed-8d05-a54b220f498a.png",
-      "/lovable-uploads/8aa6ea8f-3ad8-41b7-8afe-6ef05a9a11c7.png",
-      "/lovable-uploads/de461583-050a-46ef-ad14-2c60f8993e50.png",
-      "/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png"
+      "/lovable-uploads/97278d17-3093-436c-a19e-8c2c5a918c63.png",
+      "/lovable-uploads/da50fe76-e092-487a-99e8-224725915191.png",
+      "/lovable-uploads/69fe8d07-6bd4-4574-a901-b045e0b7457e.png",
+      "/lovable-uploads/68bfafb1-507b-4e9e-9b8d-3ececf2f99e9.png",
+      "/lovable-uploads/8926e94d-51dc-49d0-b9c6-c21e5fb20b78.png",
+      "/lovable-uploads/aeabbe0a-f9d5-452d-a091-30fbd274a362.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
