@@ -6,14 +6,14 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  root: ".", // Set root to current directory
+  root: ".", // Set root explicitly to current directory
   base: "/",
   server: {
     host: "localhost",
     port: 8080,
     fs: {
-      // Simplify allowed directories
-      allow: ['.'],
+      // Allow access to necessary directories
+      allow: ['.', '..'],
       strict: false
     },
     watch: {
@@ -41,5 +41,7 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
-  }
+  },
+  // Add this to make Vite look for package.json in the current directory
+  cacheDir: '.vite'
 }));
