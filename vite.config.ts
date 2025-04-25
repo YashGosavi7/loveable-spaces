@@ -6,15 +6,14 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Set root directory explicitly as current directory
-  root: process.cwd(),
+  root: ".", // Set root to current directory
   base: "/",
   server: {
     host: "localhost",
     port: 8080,
     fs: {
-      // Allow broader file access to ensure package.json is found
-      allow: ['..', '../..', '/', '.', process.cwd(), '/dev-server'],
+      // Simplify allowed directories
+      allow: ['.'],
       strict: false
     },
     watch: {
@@ -28,7 +27,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(process.cwd(), "./src"),
+      "@": path.resolve("./src"),
     }
   },
   build: {
@@ -36,7 +35,7 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve(process.cwd(), 'index.html'),
+        main: path.resolve('index.html'),
       },
     }
   },
