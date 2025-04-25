@@ -6,12 +6,12 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Set root to current directory instead of /dev-server
-  root: process.cwd(), 
+  // Set root to current directory to solve package.json resolution
+  root: process.cwd(),
   // Use absolute paths for better resolution
   base: "/",
   server: {
-    host: "localhost", // Use localhost instead of ::
+    host: "localhost",
     port: 8080,
     fs: {
       // Allow serving files from parent directories
