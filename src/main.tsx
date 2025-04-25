@@ -11,6 +11,13 @@ if (process.env.NODE_ENV !== 'production') {
   console.log('React version:', React.version);
   console.log('Current environment:', process.env.NODE_ENV);
   console.log('Application root path:', process.cwd());
+  
+  // Log additional information to help with debugging
+  try {
+    console.log('Package location:', require.resolve('react/package.json'));
+  } catch (err) {
+    console.error('Could not resolve package.json:', err.message);
+  }
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
