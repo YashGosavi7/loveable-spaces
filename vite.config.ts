@@ -6,8 +6,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Explicitly set root to current directory
-  root: ".",
+  root: process.cwd(),
   base: "/",
   publicDir: "public",
   server: {
@@ -51,10 +50,8 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
   },
-  // Ensure Vite finds package.json in the correct location
-  cacheDir: './.vite',
-  // Explicitly define project root for all file resolution
-  envDir: ".",
-  // Add better error logging
+  // Use absolute paths instead of relative ones
+  cacheDir: path.resolve('.vite'),
+  envDir: process.cwd(),
   logLevel: 'info'
 }));
