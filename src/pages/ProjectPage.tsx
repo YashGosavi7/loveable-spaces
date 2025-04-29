@@ -22,10 +22,13 @@ const ProjectPage = () => {
   
   const project = projectsData.find(p => p.id === projectId);
   
+  // Reset active image when navigating between projects
   useEffect(() => {
+    setActiveImageIndex(0);
     window.scrollTo(0, 0);
   }, [projectId]);
 
+  // Scroll thumbnails to center the active image
   useEffect(() => {
     if (scrollContainerRef.current) {
       const thumbnails = scrollContainerRef.current.querySelectorAll(".thumbnail");

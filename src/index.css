@@ -15,3 +15,18 @@
     @apply font-playfair;
   }
 }
+
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll-snap-align-start {
+    scroll-snap-align: start;
+  }
+}

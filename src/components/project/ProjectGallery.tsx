@@ -10,6 +10,7 @@ import {
   CarouselPrevious 
 } from "@/components/ui/carousel";
 import { useState, useCallback, useEffect } from "react";
+import ProjectImageThumbnails from "./ProjectImageThumbnails";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -97,12 +98,19 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
             <CarouselNext className={`absolute -right-4 md:-right-12 lg:-right-12 ${navButtonClass} border-none focus:outline-none focus:ring-2 focus:ring-roseGold/50`} />
           </Carousel>
           
-          {/* Carousel dots for navigation */}
-          <div className="flex justify-center space-x-2 mt-4">
+          {/* Project Image Thumbnails */}
+          <ProjectImageThumbnails 
+            images={project.images}
+            activeImageIndex={currentSlide}
+            onSelectImage={handleSlideChange}
+          />
+          
+          {/* Carousel dots for navigation (smaller now that we have thumbnails) */}
+          <div className="flex justify-center space-x-1 mt-1">
             {project.images.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-all ${
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
                   currentSlide === index ? dotClass : "bg-lightGray"
                 }`}
                 onClick={() => handleSlideChange(index)}
