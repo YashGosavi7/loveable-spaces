@@ -2,13 +2,13 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/components/Layout';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import PortfolioPage from './pages/PortfolioPage';
-import ProjectPage from './pages/ProjectPage';
-import ServicesPage from './pages/ServicesPage';
-import ContactPage from './pages/ContactPage';
-import NotFound from './pages/NotFound';
+import HomePage from '@/pages/HomePage';
+import AboutPage from '@/pages/AboutPage';
+import PortfolioPage from '@/pages/PortfolioPage';
+import ProjectPage from '@/pages/ProjectPage';
+import ServicesPage from '@/pages/ServicesPage';
+import ContactPage from '@/pages/ContactPage';
+import NotFound from '@/pages/NotFound';
 
 const App: React.FC = () => {
   useEffect(() => {
