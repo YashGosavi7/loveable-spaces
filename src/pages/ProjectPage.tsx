@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import ProjectHero from '../components/project/ProjectHero';
 import ProjectDetails from '../components/project/ProjectDetails';
@@ -7,6 +7,7 @@ import projectsData from '../data/projectsData';
 
 const ProjectPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   
   const project = projectsData.find(p => p.id === projectId);
   
@@ -20,9 +21,26 @@ const ProjectPage: React.FC = () => {
     return <Navigate to="/portfolio" replace />;
   }
   
+  const nextImage = () => {
+    setActiveImageIndex((prevIndex) => 
+      prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+  
+  const prevImage = () => {
+    setActiveImageIndex((prevIndex) => 
+      prevIndex === 0 ? project.images.length - 1 : prevIndex - 1
+    );
+  };
+  
   return (
     <div className="min-h-screen">
-      <ProjectHero project={project} />
+      <ProjectHero 
+        project={project} 
+        activeImageIndex={activeImageIndex}
+        prevImage={prevImage}
+        nextImage={nextImage}
+      />
       <ProjectDetails project={project} />
     </div>
   );
