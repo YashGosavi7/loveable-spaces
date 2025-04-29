@@ -39,6 +39,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
               designer={project.designer}
               tagline={project.tagline}
               index={index}
+              allImages={project.images} // Pass all images to enable the photo glimpse feature
             />
           );
         })
