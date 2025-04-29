@@ -1,3 +1,4 @@
+
 import { ProjectCategory } from "../components/portfolio/CategoryFilter";
 
 export interface Project {
@@ -17,6 +18,37 @@ export interface Project {
 }
 
 const projectsData: Project[] = [
+  {
+    id: "bopdev-machi",
+    title: "Bopdev Machi",
+    category: "Hospitality",
+    location: "Pune",
+    size: "4,500 sq ft",
+    completionYear: "2024",
+    description: "A contemporary entertainment venue featuring vibrant interiors with colorful art panels, stylish lighting, and a distinctive façade. The space combines modern design elements with playful colors and patterns, creating an inviting atmosphere for guests. Unique lattice patterns and illuminated features define this standout hospitality project.",
+    features: [
+      "Striking façade with illuminated signage and decorative lattice work",
+      "Colorful artistic panels with custom patterns",
+      "Accent lighting highlighting architectural features",
+      "Lush green wall behind main reception area",
+      "Contemporary seating with bright red accent chairs",
+      "Modern ceiling with integrated lighting design",
+      "Custom-designed entrance with stone cladding",
+      "Indoor-outdoor transition spaces",
+      "Branded entertainment experience",
+      "Multi-level interior layout with central viewing area"
+    ],
+    images: [
+      "/lovable-uploads/f81bb603-f688-4243-90cf-5a769d625a81.png",
+      "/lovable-uploads/4cf0811a-7826-4609-83b5-076459872132.png",
+      "/lovable-uploads/0f808e11-8989-4405-9592-fe09119073fd.png",
+      "/lovable-uploads/97b489db-bf78-48b3-99a8-16f18fde2b7d.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Modern Entertainment Reimagined",
+    style: "Contemporary Fusion"
+  },
   {
     id: "mr-kale-office",
     title: "Mr. Kale's Office",

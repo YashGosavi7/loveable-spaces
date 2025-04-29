@@ -7,7 +7,7 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // Explicitly set root to current directory
-  root: ".",
+  root: process.cwd(),
   base: "/",
   server: {
     host: "localhost",
@@ -46,5 +46,5 @@ export default defineConfig(({ mode }) => ({
   // Add this to make Vite look for package.json in the current directory
   cacheDir: '.vite',
   // Ensure proper directory access
-  envDir: "."
+  envDir: process.cwd()
 }));

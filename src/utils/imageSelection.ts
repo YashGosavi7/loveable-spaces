@@ -6,24 +6,56 @@ interface ImageScore {
   score: number;
 }
 
+// Get the best project image based on various factors
 export const getBestProjectImage = (project: Project): string => {
   if (!project.images || project.images.length === 0) {
     console.warn(`No images found for project: ${project.id}`);
-    return "";
+    return "/placeholder.svg";
   }
 
-  // If there's only one image, use it
+  // For specific projects, manually select the best image
+  if (project.id === "bopdev-machi") {
+    return project.images[0]; // Use the first image as default for Bopdev Machi
+  }
+
+  // If there's only one image, return it
   if (project.images.length === 1) {
     return project.images[0];
   }
 
-  // Add logging to help debug
-  console.log(`Selecting best image for ${project.id} from ${project.images.length} images`);
-  console.log(`Available images:`, project.images);
+  // Score each image and pick the one with the highest score
+  const scoredImages: ImageScore[] = project.images.map((url) => {
+    let score = 0;
+
+    // Filename-based scoring
+    const filename = url.split('/').pop()?.toLowerCase() || '';
+    
+    // Prefer images with "main", "cover", "hero", "featured" in the filename
+    if (filename.includes('main')) score += 5;
+    if (filename.includes('cover')) score += 5;
+    if (filename.includes('hero')) score += 5;
+    if (filename.includes('featured')) score += 4;
+    
+    // Prefer images with project name in filename
+    const projectNameWords = project.title.toLowerCase().split(' ');
+    for (const word of projectNameWords) {
+      if (word.length > 2 && filename.includes(word)) {
+        score += 2;
+      }
+    }
+    
+    // Position-based heuristic - first images are often better
+    const position = project.images.indexOf(url);
+    score += Math.max(0, 3 - position);
+    
+    return { url, score };
+  });
+
+  // Get the image with the highest score
+  scoredImages.sort((a, b) => b.score - a.score);
+  console.log(`Scored images for ${project.id}:`, 
+    scoredImages.map(img => ({ url: img.url.split('/').pop(), score: img.score }))
+  );
   
-  // For now, we'll use the first image as the best one since we can't 
-  // programmatically analyze image content without additional libraries
-  // In a real implementation, this would use computer vision APIs
-  // to analyze image quality, composition, and focal points
-  return project.images[0];
+  return scoredImages[0].url;
 };

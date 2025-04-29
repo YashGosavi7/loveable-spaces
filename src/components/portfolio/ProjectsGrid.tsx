@@ -12,6 +12,12 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
   // Add more detailed logging to debug projects
   console.log("Projects in grid:", projects.map(p => ({id: p.id, title: p.title, category: p.category})));
   
+  // Check specifically for Bopdev Machi project
+  const bopdevProject = projects.find(p => p.id === "bopdev-machi");
+  if (bopdevProject) {
+    console.log("Bopdev Machi project found:", bopdevProject);
+  }
+  
   return (
     <motion.div 
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
