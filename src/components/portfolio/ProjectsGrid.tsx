@@ -11,13 +11,6 @@ interface ProjectsGridProps {
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
   console.log("Projects in grid:", projects.map(p => ({id: p.id, title: p.title, category: p.category})));
   
-  // Check specifically for Bopdev Machi project
-  const bopdevProject = projects.find(p => p.id === "bopdev-machi");
-  if (bopdevProject) {
-    console.log("Bopdev Machi project found:", bopdevProject);
-    console.log("Bopdev Machi images count:", bopdevProject.images.length);
-  }
-  
   return (
     <motion.div 
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"

@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
 import ProjectHero from "@/components/project/ProjectHero";
@@ -13,12 +13,19 @@ const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   
   // Log available project IDs for debugging
   useEffect(() => {
     console.log("Available projects:", projectsData.map(p => p.id));
     console.log("Current projectId from URL:", projectId);
-  }, [projectId]);
+    
+    // If project doesn't exist, redirect to portfolio page
+    if (projectId && !projectsData.some(p => p.id === projectId)) {
+      console.error("Project not found, redirecting to portfolio page");
+      navigate("/portfolio");
+    }
+  }, [projectId, navigate]);
   
   const project = projectsData.find(p => p.id === projectId);
   

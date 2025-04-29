@@ -13,13 +13,20 @@ export const getBestProjectImage = (project: Project): string => {
     return "/placeholder.svg";
   }
 
-  // For Bopdev Machi project, prefer the front facade view as the main image
+  // For Bopdev Machi project, always prefer the front facade view as the main image
   if (project.id === "bopdev-machi") {
-    // First check if we have the new facade images
-    const facadeImages = project.images.filter(url => url.includes("cca9f027") || url.includes("4883b78f"));
+    console.log("Selecting best image for Bopdev Machi project");
+    // First check if we have the facade images
+    const facadeImages = project.images.filter(url => 
+      url.includes("cca9f027") || 
+      url.includes("4883b78f"));
+      
     if (facadeImages.length > 0) {
+      console.log("Found facade image for Bopdev Machi:", facadeImages[0]);
       return facadeImages[0]; // Return the first facade image
     }
+    
+    console.log("No facade image found, using first image:", project.images[0]);
     return project.images[0]; // Fallback to the first image
   }
 
