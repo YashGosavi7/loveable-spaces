@@ -9,13 +9,13 @@ interface ProjectsGridProps {
 }
 
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
-  // Add more detailed logging to debug projects
   console.log("Projects in grid:", projects.map(p => ({id: p.id, title: p.title, category: p.category})));
   
   // Check specifically for Bopdev Machi project
   const bopdevProject = projects.find(p => p.id === "bopdev-machi");
   if (bopdevProject) {
     console.log("Bopdev Machi project found:", bopdevProject);
+    console.log("Bopdev Machi images count:", bopdevProject.images.length);
   }
   
   return (
@@ -33,6 +33,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
         projects.map((project, index) => {
           const bestImage = getBestProjectImage(project);
           console.log(`Rendering project ${project.id} with image: ${bestImage}`);
+          console.log(`Total images for ${project.id}: ${project.images.length}`);
           
           return (
             <ProjectCard
