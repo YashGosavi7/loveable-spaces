@@ -10,15 +10,22 @@ export default defineConfig(({ mode }) => ({
   root: process.cwd(),
   base: "/",
   server: {
-    host: "localhost",
+    host: true, // Listen on all addresses
     port: 8080,
+    strictPort: false, // Allow fallback to another port if 8080 is in use
     fs: {
       // Allow access to necessary directories
       allow: ['.', '..', '/'],
       strict: false
     },
     watch: {
-      usePolling: true
+      usePolling: true,
+      interval: 1000, // Increase polling interval for better stability
+    },
+    hmr: {
+      // Make HMR more resilient
+      overlay: true,
+      timeout: 5000, // Increase timeout
     }
   },
   plugins: [
@@ -46,5 +53,7 @@ export default defineConfig(({ mode }) => ({
   // Add this to make Vite look for package.json in the current directory
   cacheDir: '.vite',
   // Ensure proper directory access
-  envDir: process.cwd()
+  envDir: process.cwd(),
+  // Add better error logging
+  logLevel: 'info'
 }));
