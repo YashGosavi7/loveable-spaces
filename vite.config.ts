@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  // Ensure we're using relative paths for everything
+  // Use relative paths instead of absolute paths
   cacheDir: './.vite-cache',
   base: './',
   plugins: [
@@ -35,13 +35,13 @@ export default defineConfig(({ mode }) => ({
       }
     }
   },
-  // Explicitly set the root to the current directory to avoid path issues
+  // Tell Vite to use the current working directory as the project root
   root: process.cwd(),
-  // Ensure npm operations use the correct directory
+  // Explicitly define the environment directory to avoid confusion
   envDir: process.cwd(),
-  // Explicitly define public dir to avoid confusion
+  // Explicitly define the public directory
   publicDir: path.resolve(process.cwd(), 'public'),
-  // Ensure dependencies are properly pre-bundled
+  // Ensure all dependencies are properly pre-bundled
   optimizeDeps: {
     include: [
       'react', 
@@ -50,7 +50,13 @@ export default defineConfig(({ mode }) => ({
       'framer-motion',
       'react-helmet'
     ],
-    // Ensure dependencies are resolved from the project directory
+    // Force dependency pre-bundling from the project directory
     force: true
+  },
+  // Prevent the build from looking for non-existent directories
+  cacheDir: path.join(process.cwd(), '.vite-cache'),
+  // Ensure the correct package.json is used
+  packageCache: {
+    dir: process.cwd()
   }
 }));
