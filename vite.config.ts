@@ -10,9 +10,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  // Use relative path for cache directory
+  // Ensure we're using relative paths for everything
   cacheDir: './.vite-cache',
-  // Fix base path to ensure correct asset loading
   base: './',
   plugins: [
     react(),
@@ -27,7 +26,6 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     emptyOutDir: true,
-    // Fix paths to make sure it's using the correct package.json
     rollupOptions: {
       output: {
         manualChunks: {
@@ -37,13 +35,22 @@ export default defineConfig(({ mode }) => ({
       }
     }
   },
-  // Prevent file not found errors by ensuring npm uses the correct working directory
+  // Explicitly set the root to the current directory to avoid path issues
   root: process.cwd(),
+  // Ensure npm operations use the correct directory
+  envDir: process.cwd(),
+  // Explicitly define public dir to avoid confusion
+  publicDir: path.resolve(process.cwd(), 'public'),
+  // Ensure dependencies are properly pre-bundled
   optimizeDeps: {
     include: [
       'react', 
       'react-dom', 
-      'react-router-dom'
-    ]
-  },
+      'react-router-dom',
+      'framer-motion',
+      'react-helmet'
+    ],
+    // Ensure dependencies are resolved from the project directory
+    force: true
+  }
 }));
