@@ -10,7 +10,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     fs: {
-      // Explicitly allow only project files
+      // Strictly limit file access to just the project directory
+      strict: true,
       allow: [process.cwd()]
     },
   },
@@ -52,12 +53,17 @@ export default defineConfig(({ mode }) => ({
       'framer-motion',
       'react-helmet'
     ],
-    // Force Vite to bundle these dependencies and avoid looking for /dev-server
+    // Force Vite to bundle these dependencies 
     force: true,
     // Only search for deps in our project folder
     entries: [
       '*.html', 
       'src/**/*.{ts,tsx,js,jsx}'
-    ]
+    ],
+    // Disable scanning for dependencies outside the project
+    scan: {
+      include: ['src/**/*'],
+      exclude: ['node_modules/**', '**/node_modules/**']
+    }
   }
 }));
