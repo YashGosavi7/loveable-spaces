@@ -26,6 +26,10 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // Ensure no external lookups
+    preserveSymlinks: true,
+    // Only look in allowed locations
+    conditions: ['browser', 'module', 'import', 'default']
   },
   build: {
     outDir: "dist",
@@ -67,7 +71,8 @@ export default defineConfig(({ mode }) => ({
         'node_modules/**', 
         '**/node_modules/**', 
         '/dev-server/**',
-        '**/dev-server/**'
+        '**/dev-server/**',
+        'dev-server'
       ]
     },
     // Prevent any external package.json lookups
@@ -75,7 +80,12 @@ export default defineConfig(({ mode }) => ({
       resolveExtensions: ['.js', '.jsx', '.ts', '.tsx'],
       platform: 'browser',
       mainFields: ['browser', 'module', 'main'],
-      conditions: ['browser', 'import', 'default']
+      conditions: ['browser', 'import', 'default'],
+      define: {
+        'process.env.NODE_ENV': JSON.stringify(mode)
+      },
+      // Skip all external module resolution
+      external: ['/dev-server/**', '/dev-server/package.json']
     }
   }
 }));
