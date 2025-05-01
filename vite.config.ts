@@ -60,10 +60,15 @@ export default defineConfig(({ mode }) => ({
       '*.html', 
       'src/**/*.{ts,tsx,js,jsx}'
     ],
-    // Disable scanning for dependencies outside the project
+    // Completely disable scanning for dependencies outside the project
     scan: {
       include: ['src/**/*'],
-      exclude: ['node_modules/**', '**/node_modules/**']
+      exclude: ['node_modules/**', '**/node_modules/**', '/dev-server/**']
+    },
+    // Prevent any external package.json lookups
+    esbuildOptions: {
+      resolveExtensions: ['.js', '.jsx', '.ts', '.tsx'],
+      platform: 'browser'
     }
   }
 }));
