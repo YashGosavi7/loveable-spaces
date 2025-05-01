@@ -6,7 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  root: "./", // Set root to current directory with explicit path format
+  // Use process.cwd() to get the absolute path of the current working directory
+  root: process.cwd(),
   base: "/",
   publicDir: "public",
   server: {
@@ -34,7 +35,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve("./src"),
+      "@": path.resolve(process.cwd(), "src"),
     }
   },
   build: {
@@ -42,15 +43,14 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve("index.html"),
+        main: path.resolve(process.cwd(), "index.html"),
       },
     }
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
   },
-  // Use relative paths for cache and env to ensure they're found in the project directory
-  cacheDir: path.resolve("./.vite"),
-  envDir: path.resolve("./"),
+  cacheDir: path.resolve(process.cwd(), ".vite"),
+  envDir: process.cwd(),
   logLevel: 'info'
 }));
