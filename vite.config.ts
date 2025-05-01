@@ -5,21 +5,21 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import fs from 'fs';
 
-// Advanced project root detection with better fallback mechanisms
+// Fully revised project root detection function
 function findProjectRoot() {
-  // Expanded list of possible paths for package.json
+  // Prioritized paths to check for package.json
   const possiblePaths = [
     process.cwd(),
+    path.resolve(process.cwd()),
     '/app',
     '/usr/src/app',
     path.resolve(process.cwd(), '..'),
     path.resolve(process.cwd(), '../..'),
-    '/',
     '/workspace',
     '/home/node/app'
   ];
   
-  // First check if any of these paths already have package.json
+  // Search for package.json in all possible locations
   for (const dir of possiblePaths) {
     try {
       if (fs.existsSync(path.join(dir, 'package.json'))) {
@@ -30,9 +30,9 @@ function findProjectRoot() {
       console.warn(`❌ Error checking path ${dir}:`, err.message);
     }
   }
-  
-  // No package.json found anywhere, use the current directory as fallback
-  console.warn('⚠️ No package.json found in any expected location, using current directory');
+
+  // If no package.json found anywhere, use current working directory
+  console.log('⚠️ No package.json found, using current working directory as fallback');
   return process.cwd();
 }
 
@@ -111,7 +111,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     
-    // Ensure cache directory is within the project root
+    // Use node_modules/.vite as cache directory to avoid permission issues
     cacheDir: path.join(PROJECT_ROOT, "node_modules/.vite"),
     
     logLevel: 'info',
