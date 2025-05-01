@@ -28,6 +28,7 @@ const ImageLoader = ({
             borderColor: color,
             borderTopColor: 'transparent'
           }}
+          data-testid="image-loader-spinner"
         />
       )}
     </div>

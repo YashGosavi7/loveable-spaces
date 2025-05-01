@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  root: process.cwd(), // Explicitly set root directory
+  root: ".", // Set root directly to the current directory
   base: "/",
   publicDir: "public",
   server: {
@@ -20,10 +20,9 @@ export default defineConfig(({ mode }) => ({
     },
     watch: {
       usePolling: true,
-      interval: 1000, // Increase polling interval for better stability
+      interval: 1000, // Polling interval for better stability
     },
     hmr: {
-      // Make HMR more resilient
       overlay: true,
       timeout: 5000, // Increase timeout
     }
@@ -50,8 +49,8 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
   },
-  // Use absolute paths with __dirname for better reliability
-  cacheDir: path.resolve(__dirname, '.vite'),
-  envDir: __dirname,
+  // Absolute paths for cache and env
+  cacheDir: "./.vite",
+  envDir: ".",
   logLevel: 'info'
 }));
