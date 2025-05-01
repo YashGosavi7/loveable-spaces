@@ -27,7 +27,7 @@ const OptimizedImage = memo(({
   const { isInView, elementRef } = useImageIntersection({ 
     priority, 
     skipLazyLoading,
-    rootMargin: "300px 0px" // Reduced from 1200px for better performance
+    rootMargin: "300px 0px"
   });
   
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
@@ -62,24 +62,21 @@ const OptimizedImage = memo(({
     }
   };
 
-  // Apply content visibility optimization
-  const contentVisibility = isInView ? 'auto' : 'hidden';
-
-  // For extremely small images, don't use fancy loaders
-  const isSmallImage = width < 100 && height < 100;
+  // Calculate aspect ratio to prevent layout shifts
+  const aspectRatio = `${width}/${height}`;
 
   return (
     <div 
       ref={elementRef} 
       className="relative w-full h-full" 
       style={{ 
-        contentVisibility,
-        // Add aspect ratio to prevent layout shifts
-        aspectRatio: `${width}/${height}`
+        aspectRatio,
+        contentVisibility: isInView ? 'auto' : 'hidden'
       }}
+      aria-busy={!isLoaded}
     >
-      {!isLoaded && !isSmallImage && (
-        <div className="absolute inset-0">
+      {!isLoaded && (
+        <div className="absolute inset-0" aria-hidden="true">
           <Skeleton 
             className="w-full h-full" 
             style={{ 
@@ -91,7 +88,7 @@ const OptimizedImage = memo(({
             color={derivedPlaceholderColor} 
             showSpinner={priority} 
             size={width < 200 ? "small" : "medium"}
-            blurEffect={width > 100} // Only use blur effect for larger images
+            blurEffect={width > 100}
           />
         </div>
       )}
@@ -106,7 +103,7 @@ const OptimizedImage = memo(({
           quality={getOptimalQuality()}
           className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 w-full h-full object-cover`}
           onLoad={handleImageLoad}
-          srcSet={undefined} // Let PictureElement generate optimized srcSet
+          srcSet={undefined}
           sizes={sizes}
           fetchPriority={priority ? "high" : "auto"}
           format={loadingStrategy.preferredFormat as "auto" | "webp" | "avif"}

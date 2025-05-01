@@ -4,6 +4,7 @@ import ProjectHeroMeta from "./ProjectHeroMeta";
 import ProjectHeroImage from "./ProjectHeroImage";
 import ProjectHeroInfo from "./ProjectHeroInfo";
 import ProjectHeroNavigation from "./ProjectHeroNavigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ProjectHeroProps {
   project: Project;
@@ -33,25 +34,38 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
   
   const { width, height } = getImageDimensions();
 
-  // Add console log to debug projects
-  console.log("Current project in ProjectHero:", project.id, project.title);
-
   return (
-    <section className="w-full h-[100vh] relative">
+    <section 
+      className="w-full h-[100vh] relative"
+      aria-label={`${project.title} project showcase`}
+    >
       <ProjectHeroMeta project={project} activeImageIndex={activeImageIndex} />
       
-      <ProjectHeroImage
-        src={project.images[activeImageIndex]}
-        alt={`Fast-loading uncropped ${project.title} interior in ${project.location}`}
-        width={width}
-        height={height}
-      />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeImageIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute inset-0"
+        >
+          <ProjectHeroImage
+            src={project.images[activeImageIndex]}
+            alt={`${project.title} interior in ${project.location}, image ${activeImageIndex + 1} of ${project.images.length}`}
+            width={width}
+            height={height}
+          />
+        </motion.div>
+      </AnimatePresence>
       
       <ProjectHeroInfo project={project} />
       
       <ProjectHeroNavigation
         onPrev={prevImage}
         onNext={nextImage}
+        currentIndex={activeImageIndex}
+        totalImages={project.images.length}
       />
     </section>
   );

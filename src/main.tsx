@@ -4,9 +4,27 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
+import { usePerformanceMetrics } from './hooks/usePerformanceMetrics';
+import ErrorBoundary from './components/ErrorBoundary';
+
+// Performance monitoring wrapper
+const PerformanceMonitor: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const metrics = usePerformanceMetrics();
+  
+  // Log metrics to console when they change
+  React.useEffect(() => {
+    if (metrics.lcp && metrics.fcp && metrics.cls !== null) {
+      console.log('Core Web Vitals metrics:', metrics);
+      
+      // You could send these metrics to an analytics service here
+    }
+  }, [metrics]);
+  
+  return <>{children}</>;
+};
 
 // Enhanced error boundary for production
-class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {
+class RootErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {
   constructor(props: {children: React.ReactNode}) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -27,7 +45,7 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasErr
         <div className="min-h-screen flex items-center justify-center bg-lightGray p-4">
           <div className="max-w-md w-full bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-playfair text-darkGray mb-4">Something went wrong</h2>
-            <p className="text-darkGray/80 mb-4">The application encountered an error. Please try refreshing the page.</p>
+            <p className="text-darkGray/80 mb-4">The application encountered a critical error. Please try refreshing the page.</p>
             <pre className="bg-gray-100 p-3 rounded text-sm overflow-auto max-h-40 mb-4">
               {this.state.error?.toString()}
             </pre>
@@ -46,24 +64,6 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasErr
   }
 }
 
-// Enhanced development mode logging
-if (process.env.NODE_ENV !== 'production') {
-  console.log('Running in development mode');
-  console.log('React version:', React.version);
-  console.log('Current environment:', process.env.NODE_ENV);
-  console.log('Application root path:', process.cwd());
-  console.log('Window location:', window.location.href);
-  
-  // Log additional information to help with debugging
-  console.log('User agent:', navigator.userAgent);
-  console.log('Viewport size:', window.innerWidth, 'x', window.innerHeight);
-  try {
-    console.log('Current directory structure:', import.meta.url);
-  } catch (err) {
-    console.error('Could not resolve import meta:', (err as Error).message);
-  }
-}
-
 // Make sure the root element exists
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -73,11 +73,13 @@ if (!rootElement) {
   try {
     ReactDOM.createRoot(rootElement).render(
       <React.StrictMode>
-        <ErrorBoundary>
+        <RootErrorBoundary>
           <Router>
-            <App />
+            <PerformanceMonitor>
+              <App />
+            </PerformanceMonitor>
           </Router>
-        </ErrorBoundary>
+        </RootErrorBoundary>
       </React.StrictMode>,
     );
     console.log('React app successfully mounted');

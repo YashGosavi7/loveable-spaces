@@ -4,9 +4,16 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 interface ProjectHeroNavigationProps {
   onPrev: () => void;
   onNext: () => void;
+  currentIndex: number;
+  totalImages: number;
 }
 
-const ProjectHeroNavigation = ({ onPrev, onNext }: ProjectHeroNavigationProps) => {
+const ProjectHeroNavigation = ({ 
+  onPrev, 
+  onNext, 
+  currentIndex, 
+  totalImages 
+}: ProjectHeroNavigationProps) => {
   return (
     <>
       <button 
@@ -24,6 +31,11 @@ const ProjectHeroNavigation = ({ onPrev, onNext }: ProjectHeroNavigationProps) =
       >
         <ArrowRight size={24} />
       </button>
+      
+      {/* Image counter */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white text-sm md:text-base">
+        <span className="sr-only">Image</span> {currentIndex + 1} <span aria-hidden="true">/</span> <span className="sr-only">of</span> {totalImages}
+      </div>
     </>
   );
 };

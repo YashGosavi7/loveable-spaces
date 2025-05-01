@@ -5,24 +5,32 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import fs from 'fs';
 
-// Fully revised project root detection function
+/**
+ * Enhanced project root detection that completely eliminates /dev-server references
+ * and properly handles various deployment environments
+ */
 function findProjectRoot() {
-  // Prioritized paths to check for package.json
+  // Comprehensive list of possible project root locations in priority order
   const possiblePaths = [
     process.cwd(),
     path.resolve(process.cwd()),
+    path.resolve(__dirname),
+    path.resolve('.'),
     '/app',
     '/usr/src/app',
     path.resolve(process.cwd(), '..'),
-    path.resolve(process.cwd(), '../..'),
     '/workspace',
     '/home/node/app'
   ];
   
-  // Search for package.json in all possible locations
+  console.log('🔍 Searching for package.json in these locations:');
+  possiblePaths.forEach(p => console.log(`   - ${p}`));
+  
+  // Find the first valid path with a package.json
   for (const dir of possiblePaths) {
     try {
-      if (fs.existsSync(path.join(dir, 'package.json'))) {
+      const packageJsonPath = path.join(dir, 'package.json');
+      if (fs.existsSync(packageJsonPath)) {
         console.log(`✅ Found valid package.json in ${dir}`);
         return dir;
       }
@@ -31,7 +39,7 @@ function findProjectRoot() {
     }
   }
 
-  // If no package.json found anywhere, use current working directory
+  // Fallback to current working directory if no package.json found
   console.log('⚠️ No package.json found, using current working directory as fallback');
   return process.cwd();
 }
@@ -50,14 +58,13 @@ export default defineConfig(({ mode }) => {
     base: "/",
     publicDir: path.join(PROJECT_ROOT, "public"),
     
-    // Enhanced server configuration for better flexibility
+    // Enhanced server configuration with more permissive file access
     server: {
       host: "0.0.0.0", // Listen on all interfaces
       port: 8080,
-      strictPort: false, // Allow fallback to another port if 8080 is in use
+      strictPort: false,
       fs: {
         strict: false,
-        // Allow access to multiple possible filesystem locations
         allow: [
           PROJECT_ROOT,
           "/",
@@ -66,11 +73,11 @@ export default defineConfig(({ mode }) => {
           process.cwd(),
           path.resolve(PROJECT_ROOT),
           path.resolve(PROJECT_ROOT, '..'),
-          '..' // Allow access to parent directory
+          '..'
         ]
       },
       watch: {
-        usePolling: true, // Better for container environments
+        usePolling: true,
         interval: 1000,
         ignored: ['**/node_modules/**', '**/dist/**']
       },
@@ -89,7 +96,6 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": path.join(PROJECT_ROOT, "src"),
       },
-      // Improve module resolution in containerized environments
       dedupe: ['react', 'react-dom']
     },
     
@@ -103,7 +109,6 @@ export default defineConfig(({ mode }) => {
       }
     },
     
-    // Enhanced logging and performance optimizations
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom'],
       esbuildOptions: {
@@ -111,7 +116,6 @@ export default defineConfig(({ mode }) => {
       }
     },
     
-    // Use node_modules/.vite as cache directory to avoid permission issues
     cacheDir: path.join(PROJECT_ROOT, "node_modules/.vite"),
     
     logLevel: 'info',
