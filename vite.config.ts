@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -9,6 +10,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  cacheDir: '.vite-cache', // Use a custom cache directory to avoid conflicts
   plugins: [
     react(),
     mode === 'development' &&
@@ -22,8 +24,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     emptyOutDir: true,
+    // Avoid creating excessively large chunks
     rollupOptions: {
-      // Optimize chunking to keep file sizes manageable
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
