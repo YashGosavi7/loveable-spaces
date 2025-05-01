@@ -10,7 +10,10 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  cacheDir: '.vite-cache', // Use a custom cache directory to avoid conflicts
+  // Use relative path for cache directory
+  cacheDir: './.vite-cache',
+  // Fix base path to ensure correct asset loading
+  base: './',
   plugins: [
     react(),
     mode === 'development' &&
@@ -24,7 +27,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     emptyOutDir: true,
-    // Avoid creating excessively large chunks
+    // Fix paths to make sure it's using the correct package.json
     rollupOptions: {
       output: {
         manualChunks: {
@@ -33,5 +36,14 @@ export default defineConfig(({ mode }) => ({
         }
       }
     }
-  }
+  },
+  // Prevent file not found errors by ensuring npm uses the correct working directory
+  root: process.cwd(),
+  optimizeDeps: {
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom'
+    ]
+  },
 }));

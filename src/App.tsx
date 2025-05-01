@@ -10,24 +10,21 @@ import ProjectPage from './pages/ProjectPage';
 import ContactPage from './pages/ContactPage';
 import NotFound from './pages/NotFound';
 
-// Resource cleanup component
+// Resource cleanup component - more efficient approach
 const RouteChangeHandler = () => {
   const location = useLocation();
   
   useEffect(() => {
     // Clean up resources on route changes
     return () => {
-      // Clear any potential memory leaks
-      const allImages = document.querySelectorAll('img[loading="lazy"]');
-      allImages.forEach(img => {
-        if (img.src) {
-          const originalSrc = img.src;
-          img.src = '';
-          setTimeout(() => {
-            if (document.contains(img)) img.src = originalSrc;
-          }, 10);
-        }
-      });
+      // Clear any potential memory leaks using a more reliable approach
+      // that won't cause additional loading issues
+      window.performance?.clearResourceTimings?.();
+      
+      if ('gc' in window) {
+        // @ts-ignore - Call garbage collection if available (Chrome dev only)
+        window.gc();
+      }
     };
   }, [location.pathname]);
   

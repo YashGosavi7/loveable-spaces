@@ -1,26 +1,24 @@
 
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const Index = () => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Redirect to home page
+    navigate('/');
+  }, [navigate]);
+  
   return (
-    <div className="min-h-screen flex items-center justify-center bg-warmWhite">
-      <div className="text-center">
-        <h1 className="text-4xl font-playfair font-bold mb-4 text-darkGray">Lovable Interior Design</h1>
-        <p className="text-xl text-darkGray/80 mb-6">Premium interior design services starting at 15k</p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link 
-            to="/portfolio" 
-            className="px-6 py-3 bg-roseGold/90 text-white rounded hover:bg-roseGold transition-colors"
-          >
-            View Our Portfolio
-          </Link>
-          <Link 
-            to="/contact" 
-            className="px-6 py-3 border border-roseGold/90 text-roseGold/90 rounded hover:bg-roseGold/10 transition-colors"
-          >
-            Contact Us
-          </Link>
-        </div>
+    <div>
+      <Helmet>
+        <title>Loveable Interior Design - Premium Services from 15k</title>
+        <meta name="description" content="Premium interior design services by Loveable, founded in 2012. Over 600 projects across Tier 1 cities, starting at 15k." />
+      </Helmet>
+      <div className="flex items-center justify-center h-screen">
+        <p>Redirecting to home page...</p>
       </div>
     </div>
   );
