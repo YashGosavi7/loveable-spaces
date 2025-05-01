@@ -6,8 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Use process.cwd() to get the absolute path of the current working directory
-  root: process.cwd(),
+  // Use relative path to ensure the package.json is found
+  root: '.',
   base: "/",
   publicDir: "public",
   server: {
@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     strictPort: false, // Allow fallback to another port if 8080 is in use
     fs: {
-      // Allow access to necessary directories
+      // Always allow access to upper directories to find package.json
       allow: ['.', '..', '/'],
       strict: false
     },
@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(process.cwd(), "src"),
+      "@": path.resolve(".", "src"),
     }
   },
   build: {
@@ -43,14 +43,15 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve(process.cwd(), "index.html"),
+        main: path.resolve(".", "index.html"),
       },
     }
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
   },
-  cacheDir: path.resolve(process.cwd(), ".vite"),
-  envDir: process.cwd(),
+  // Use relative paths for cache and env directories
+  cacheDir: "./.vite",
+  envDir: ".",
   logLevel: 'info'
 }));
