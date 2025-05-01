@@ -9,10 +9,15 @@ import ProjectPage from './pages/ProjectPage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 import NotFound from './pages/NotFound';
+import { optimizeImageDomains } from './utils/imageUtils';
+import { cleanupImageIntersectionObservers } from './hooks/useImageIntersection';
 
 const App: React.FC = () => {
   useEffect(() => {
     console.log('App component rendered');
+    
+    // Apply image performance optimizations
+    optimizeImageDomains();
     
     // Log routing information
     console.log('Current pathname:', window.location.pathname);
@@ -34,21 +39,17 @@ const App: React.FC = () => {
         main: !!main
       });
     }, 500);
+    
+    // Clean up image observers when unmounting
+    return () => {
+      cleanupImageIntersectionObservers();
+    };
   }, []);
 
   return (
     <>
-      <div id="app-loading-indicator" style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        background: '#f0f0f0',
-        padding: '10px',
-        textAlign: 'center',
-        zIndex: 9999,
-        display: 'none'
-      }}>
+      {/* Page loading indicator */}
+      <div id="app-loading-indicator" style={{display: 'none'}}>
         App is loading... If you see this message, rendering may be stuck.
       </div>
       
@@ -70,6 +71,13 @@ const App: React.FC = () => {
           setTimeout(() => {
             document.getElementById('app-loading-indicator').style.display = 'none';
           }, 2000);
+          
+          // Add support for image lazy loading in older browsers
+          if (!('loading' in HTMLImageElement.prototype)) {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js';
+            document.body.appendChild(script);
+          }
         `
       }} />
     </>

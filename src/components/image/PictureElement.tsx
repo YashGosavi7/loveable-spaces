@@ -1,7 +1,7 @@
 
 import { memo } from 'react';
 import { ImageProps } from './types';
-import { generatePlaceholderColor } from '@/utils/imageUtils';
+import { generatePlaceholderColor, getImageFormatSupport } from '@/utils/imageUtils';
 import ImageSource from './ImageSource';
 import ResponsiveImage from './ResponsiveImage';
 
@@ -27,36 +27,25 @@ const PictureElement = memo(({
   // Get or generate placeholder color
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
   
-  // Detect if user might be from India based on time zone 
-  // This is a simplified approach; in production, use IP-based geolocation
-  const isPossiblyIndianUser = () => {
-    try {
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      return timeZone.includes('Asia/Kolkata') || timeZone.includes('Asia/Calcutta');
-    } catch (e) {
-      return false;
-    }
-  };
-  
-  const isIndia = isPossiblyIndianUser();
+  // Check image format support
+  const { webp, avif } = getImageFormatSupport();
   
   // Calculate optimal srcSet based on image dimensions
   const getSrcSet = () => {
     if (srcSet) return srcSet;
     
-    // In production, this would use a real image API
-    // For smaller images, provide fewer variations
-    if (width <= 300) {
-      return `${src} 150w, ${src} 300w`;
+    // Create scaled srcset for responsive images
+    // In production, this would call an actual image resize API
+    const widths = [300, 600, 900, 1200, 1800];
+    const relevantWidths = widths.filter(w => w <= Math.min(width * 2, 1800));
+    
+    if (relevantWidths.length === 0) {
+      relevantWidths.push(width);
     }
     
-    // For medium-sized images
-    if (width <= 600) {
-      return `${src} 150w, ${src} 300w, ${src} 600w`;
-    }
-    
-    // For larger images
-    return `${src} 150w, ${src} 300w, ${src} 600w, ${src} 900w, ${src} 1200w`;
+    return relevantWidths
+      .map(w => `${src} ${w}w`)
+      .join(', ');
   };
   
   // Define optimal sizes attribute based on image context
@@ -65,11 +54,16 @@ const PictureElement = memo(({
     
     // Hero images get full width
     if (width >= 1000) {
-      return "100vw";
+      return "(max-width: 640px) 100vw, 100vw";
     }
     
-    // Gallery or thumbnail images use responsive sizing
-    return "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+    // Gallery images
+    if (width >= 600) {
+      return "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px";
+    }
+    
+    // Thumbnail images
+    return "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px";
   };
 
   // Determine fetch priority for browser optimization
@@ -77,27 +71,27 @@ const PictureElement = memo(({
 
   return (
     <picture className="w-full h-full">
-      {/* AVIF for best compression - highest priority */}
-      <ImageSource 
-        src={src} 
-        type="avif" 
-        srcSet={getSrcSet()}
-        sizes={getSizes()} 
-        quality={quality}
-        isIndia={isIndia}
-      />
+      {/* Use AVIF for supported browsers */}
+      {avif && format !== 'webp' && format !== 'jpeg' && (
+        <source 
+          type="image/avif" 
+          srcSet={getSrcSet()}
+          sizes={getSizes()} 
+          data-fetchpriority={actualFetchPriority}
+        />
+      )}
       
-      {/* WebP as primary format with good browser support */}
-      <ImageSource 
-        src={src} 
-        type="webp" 
-        srcSet={getSrcSet()}
-        sizes={getSizes()}
-        quality={quality}
-        isIndia={isIndia}
-      />
+      {/* WebP for broad support */}
+      {webp && format !== 'jpeg' && (
+        <source 
+          type="image/webp" 
+          srcSet={getSrcSet()}
+          sizes={getSizes()}
+          data-fetchpriority={actualFetchPriority}
+        />
+      )}
       
-      {/* JPEG fallback for legacy browsers */}
+      {/* JPEG/PNG fallback for legacy browsers */}
       <source 
         type="image/jpeg" 
         srcSet={getSrcSet()}

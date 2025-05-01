@@ -74,40 +74,106 @@ export const getOptimalImageDimensions = (
 };
 
 /**
- * Detect if the user is likely from India
+ * Detect if the user is likely from a specific region for CDN optimization
  */
-export const isProbablyFromIndia = (): boolean => {
+export const detectUserRegion = (): string => {
   try {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return timeZone === 'Asia/Kolkata' || timeZone === 'Asia/Calcutta';
+    if (timeZone.includes('Asia/Kolkata') || timeZone.includes('Asia/Calcutta')) {
+      return 'india';
+    }
+    if (timeZone.includes('Asia/')) {
+      return 'asia';
+    }
+    if (timeZone.includes('Europe/')) {
+      return 'europe';
+    }
+    if (timeZone.includes('America/')) {
+      return 'americas';
+    }
+    return 'global';
   } catch (e) {
-    return false;
+    return 'global';
   }
 };
 
 /**
- * Update HTML meta tags for better performance in India
+ * Get WebP and AVIF support status
  */
-export const applyIndiaCDNOptimizations = () => {
-  if (typeof document !== 'undefined' && isProbablyFromIndia()) {
-    // Add DNS prefetch for CDNs used for images
-    const cdnHosts = ['lovable-uploads.lovable.app'];
+export const getImageFormatSupport = (): { webp: boolean, avif: boolean } => {
+  let webp = false;
+  let avif = false;
+  
+  if (typeof document !== 'undefined') {
+    // Test for WebP support
+    const webpCanvas = document.createElement('canvas');
+    if (webpCanvas && webpCanvas.getContext && webpCanvas.toDataURL) {
+      webp = webpCanvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    }
     
-    cdnHosts.forEach(host => {
-      // Add DNS prefetch
-      if (!document.querySelector(`link[rel="dns-prefetch"][href="//${host}"]`)) {
-        const prefetch = document.createElement('link');
-        prefetch.rel = 'dns-prefetch';
-        prefetch.href = `//${host}`;
-        document.head.appendChild(prefetch);
-        
-        // Also add preconnect
-        const preconnect = document.createElement('link');
-        preconnect.rel = 'preconnect';
-        preconnect.href = `//${host}`;
-        preconnect.crossOrigin = 'anonymous';
-        document.head.appendChild(preconnect);
-      }
-    });
+    // For AVIF, we'll check if the browser is recent enough
+    const ua = navigator.userAgent;
+    if (
+      (ua.includes('Chrome/') && parseInt(ua.split('Chrome/')[1], 10) >= 85) ||
+      (ua.includes('Firefox/') && parseInt(ua.split('Firefox/')[1], 10) >= 93) ||
+      (ua.includes('Safari/') && parseInt(ua.split('Safari/')[1], 10) >= 16)
+    ) {
+      avif = true;
+    }
   }
+  
+  return { webp, avif };
 };
+
+/**
+ * Add DNS prefetch and preconnect for common image domains
+ */
+export const optimizeImageDomains = () => {
+  if (typeof document === 'undefined') return;
+  
+  const domains = [
+    'lovable-uploads.lovable.app',
+    'images.unsplash.com',
+    'cdn.lovable.dev'
+  ];
+  
+  domains.forEach(domain => {
+    // Add DNS prefetch
+    if (!document.querySelector(`link[rel="dns-prefetch"][href="//${domain}"]`)) {
+      const prefetch = document.createElement('link');
+      prefetch.rel = 'dns-prefetch';
+      prefetch.href = `//${domain}`;
+      document.head.appendChild(prefetch);
+      
+      // Also add preconnect for critical resources
+      const preconnect = document.createElement('link');
+      preconnect.rel = 'preconnect';
+      preconnect.href = `//${domain}`;
+      preconnect.crossOrigin = 'anonymous';
+      document.head.appendChild(preconnect);
+    }
+  });
+};
+
+/**
+ * Apply best image loading practices based on connection quality
+ */
+export const getImageLoadingStrategy = () => {
+  const isSlowConnection = isLikelySlowConnection();
+  const region = detectUserRegion();
+  const { webp, avif } = getImageFormatSupport();
+  
+  return {
+    preferredFormat: avif ? 'avif' : webp ? 'webp' : 'jpg',
+    loadingStrategy: isSlowConnection ? 'lazy' : 'eager',
+    qualityLevel: isSlowConnection ? 'low' : 'high',
+    preload: !isSlowConnection,
+    regionOptimized: region !== 'global',
+    region
+  };
+};
+
+// Apply optimizations automatically when this file is imported
+if (typeof window !== 'undefined') {
+  optimizeImageDomains();
+}

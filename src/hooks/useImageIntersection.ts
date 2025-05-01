@@ -8,13 +8,13 @@ interface UseImageIntersectionProps {
   threshold?: number;
 }
 
-// Use a shared observer for better performance
-const observers = new Map<string, IntersectionObserver>();
+// Shared IntersectionObserver for better performance
+const sharedObservers = new Map<string, IntersectionObserver>();
 
 export const useImageIntersection = ({ 
   priority = false, 
   skipLazyLoading = false,
-  rootMargin = "1200px 0px", // Much more aggressive preloading
+  rootMargin = "300px 0px", // Reduced from 1200px for better performance
   threshold = 0.01
 }: UseImageIntersectionProps) => {
   const [isInView, setIsInView] = useState(priority || skipLazyLoading);
@@ -27,45 +27,13 @@ export const useImageIntersection = ({
       return;
     }
 
-    // Get connection speed to adjust intersection thresholds
-    const getConnectionSpeed = () => {
-      if (typeof navigator === 'undefined') return 'unknown';
-      
-      if ('connection' in navigator) {
-        const conn = (navigator as any).connection;
-        
-        if (conn) {
-          if (conn.saveData) return 'slow';
-          if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') return 'slow';
-          if (conn.effectiveType === '3g') return 'medium';
-        }
-      }
-      
-      return 'unknown';
-    };
-
-    // Adjust root margin based on connection speed
-    const getOptimizedRootMargin = () => {
-      const speed = getConnectionSpeed();
-      
-      if (speed === 'slow') {
-        // Less aggressive for slow connections
-        return "600px 0px";
-      }
-      
-      if (speed === 'medium') {
-        // Medium aggressive for 3G
-        return "900px 0px";
-      }
-      
-      // Very aggressive preloading for fast connections
-      return rootMargin;
-    };
+    // Don't create observers on the server
+    if (typeof window === 'undefined' || !elementRef.current) return;
 
     // Use a single shared IntersectionObserver for better performance
-    const observerKey = `${getOptimizedRootMargin()}-${threshold}`;
+    const observerKey = `${rootMargin}-${threshold}`;
     
-    if (!observers.has(observerKey) && typeof IntersectionObserver !== 'undefined') {
+    if (!sharedObservers.has(observerKey) && typeof IntersectionObserver !== 'undefined') {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
@@ -84,18 +52,18 @@ export const useImageIntersection = ({
         },
         { 
           threshold,
-          rootMargin: getOptimizedRootMargin() 
+          rootMargin
         }
       );
       
-      observers.set(observerKey, observer);
+      sharedObservers.set(observerKey, observer);
     }
 
-    const observer = observers.get(observerKey);
+    const observer = sharedObservers.get(observerKey);
     
     if (elementRef.current && observer) {
       // Add a unique ID to identify this element
-      const uniqueId = `image-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      const uniqueId = `img-${Math.random().toString(36).substring(2, 9)}`;
       elementRef.current.setAttribute('data-intersection-id', uniqueId);
       
       observer.observe(elementRef.current);
@@ -109,4 +77,12 @@ export const useImageIntersection = ({
   }, [priority, skipLazyLoading, rootMargin, threshold]);
 
   return { isInView, elementRef };
+};
+
+// Cleanup function to call on page transitions
+export const cleanupImageIntersectionObservers = () => {
+  sharedObservers.forEach(observer => {
+    observer.disconnect();
+  });
+  sharedObservers.clear();
 };
