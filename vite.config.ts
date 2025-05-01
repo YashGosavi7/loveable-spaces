@@ -5,9 +5,9 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import fs from 'fs';
 
-// Determine project root based on where package.json exists
+// Improved project root detection with better containerized environment support
 function findProjectRoot() {
-  // Common locations where package.json might be found in containerized environments
+  // Possible paths for package.json in various container setups
   const possiblePaths = [
     process.cwd(),
     '/app',
@@ -15,20 +15,27 @@ function findProjectRoot() {
     '/dev-server',
     path.resolve(process.cwd(), '..'),
     path.resolve(process.cwd(), '../..'),
+    '/'
   ];
   
   for (const dir of possiblePaths) {
-    if (fs.existsSync(path.join(dir, 'package.json'))) {
-      console.log(`Found package.json in ${dir}`);
-      return dir;
+    try {
+      // Check if package.json exists and is readable in this location
+      if (fs.existsSync(path.join(dir, 'package.json'))) {
+        console.log(`Found valid package.json in ${dir}`);
+        return dir;
+      }
+    } catch (err) {
+      console.warn(`Error checking path ${dir}:`, err.message);
     }
   }
   
-  // Default to current directory if not found elsewhere
-  console.warn('No package.json found in common locations, defaulting to current working directory');
+  // If we reach here, we couldn't find a package.json
+  console.warn('No package.json found in common locations, defaulting to current directory');
   return process.cwd();
 }
 
+// Determine the actual project root
 const PROJECT_ROOT = findProjectRoot();
 console.log(`Using project root: ${PROJECT_ROOT}`);
 
@@ -37,31 +44,31 @@ export default defineConfig(({ mode }) => ({
   // Use the detected project root for all paths
   root: PROJECT_ROOT,
   base: "/",
-  publicDir: "public",
+  publicDir: path.join(PROJECT_ROOT, "public"),
   
   // Enhanced server configuration for better Docker compatibility
   server: {
-    host: "0.0.0.0", // Listen on all available network interfaces
+    host: "0.0.0.0", // Listen on all interfaces
     port: 8080,
     strictPort: true,
     fs: {
       strict: false,
-      // Allow access to multiple possible file system locations
+      // Allow access to multiple possible filesystem locations
       allow: [
+        PROJECT_ROOT,
         "/",
         "/app",
         "/usr/src/app",
         "/dev-server",
-        PROJECT_ROOT,
         path.resolve(PROJECT_ROOT)
       ]
     },
     watch: {
-      usePolling: true, // Better for Docker/containers
+      usePolling: true, // Better for container environments
       interval: 1000,
     },
     hmr: {
-      clientPort: 8080, // Force the client to connect to port 8080
+      clientPort: 8080,
       overlay: true,
       timeout: 5000,
     }
@@ -74,25 +81,25 @@ export default defineConfig(({ mode }) => ({
   
   resolve: {
     alias: {
-      "@": path.resolve(PROJECT_ROOT, "src"),
+      "@": path.join(PROJECT_ROOT, "src"),
     }
   },
   
   build: {
-    outDir: "dist",
+    outDir: path.join(PROJECT_ROOT, "dist"),
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve(PROJECT_ROOT, "index.html"),
+        main: path.join(PROJECT_ROOT, "index.html"),
       },
     }
   },
   
+  // Add detailed logging to help troubleshoot path issues
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
   },
   
-  cacheDir: path.resolve(PROJECT_ROOT, ".vite"),
-  envDir: PROJECT_ROOT,
+  cacheDir: path.join(PROJECT_ROOT, ".vite"),
   logLevel: 'info',
 }));
