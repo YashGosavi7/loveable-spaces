@@ -1,9 +1,9 @@
 
 import { motion } from "framer-motion";
-import ProjectCard from "../ProjectCard";
 import { Project } from "@/data/projectsData";
 import { getBestProjectImage, preloadHighPriorityProjectImages } from "@/utils/imageSelection";
 import { useEffect } from "react";
+import ProjectCard from "../project-card/ProjectCard";
 
 interface ProjectsGridProps {
   projects: Project[];
