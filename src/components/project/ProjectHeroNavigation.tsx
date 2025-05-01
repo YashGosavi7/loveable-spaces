@@ -22,6 +22,7 @@ const ProjectHeroNavigation = ({
         aria-label="Previous image"
       >
         <ArrowLeft size={24} />
+        <span className="sr-only">Previous image</span>
       </button>
       
       <button 
@@ -30,11 +31,19 @@ const ProjectHeroNavigation = ({
         aria-label="Next image"
       >
         <ArrowRight size={24} />
+        <span className="sr-only">Next image</span>
       </button>
       
-      {/* Image counter */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white text-sm md:text-base">
-        <span className="sr-only">Image</span> {currentIndex + 1} <span aria-hidden="true">/</span> <span className="sr-only">of</span> {totalImages}
+      {/* Enhanced image counter with better accessibility and visual styling */}
+      <div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-black/50 px-5 py-2.5 rounded-full text-white text-sm md:text-base flex items-center gap-2"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <span className="font-medium">{currentIndex + 1}</span>
+        <span aria-hidden="true" className="text-white/70">/</span>
+        <span className="text-white/90">{totalImages}</span>
+        <span className="sr-only">Image {currentIndex + 1} of {totalImages}</span>
       </div>
     </>
   );

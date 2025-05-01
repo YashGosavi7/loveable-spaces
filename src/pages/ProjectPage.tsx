@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import ProjectHero from '../components/project/ProjectHero';
 import ProjectDetails from '../components/project/ProjectDetails';
 import ProjectGallery from '../components/project/ProjectGallery';
@@ -16,19 +17,9 @@ const ProjectPage: React.FC = () => {
   
   useEffect(() => {
     if (project) {
-      document.title = `${project.title} | Balaji Design Studio`;
-      
-      // Add meta tags for better SEO
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', 
-          `Explore ${project.title} by Balaji Design Studio in ${project.location}. ${project.tagline}. View all project images instantly.`
-        );
-      }
+      // Scroll to top when project changes
+      window.scrollTo(0, 0);
     }
-    
-    // Scroll to top when project changes
-    window.scrollTo(0, 0);
   }, [project]);
   
   if (!project) {
@@ -49,6 +40,18 @@ const ProjectPage: React.FC = () => {
   
   return (
     <div className="min-h-screen">
+      {/* Enhanced SEO with Helmet */}
+      <Helmet>
+        <title>{`${project.title} | Balaji Design Studio`}</title>
+        <meta name="description" content={`Explore ${project.title} by Balaji Design Studio in ${project.location}. ${project.tagline || 'View our interior design project'}.`} />
+        <meta property="og:title" content={`${project.title} | Balaji Design Studio`} />
+        <meta property="og:description" content={`Interior design project in ${project.location}. ${project.tagline || ''}`} />
+        <meta property="og:image" content={project.images[0]} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`/portfolio/${project.id}`} />
+      </Helmet>
+      
       <ProjectHero 
         project={project} 
         activeImageIndex={activeImageIndex}

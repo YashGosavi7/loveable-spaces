@@ -6,42 +6,46 @@ import { componentTagger } from "lovable-tagger";
 import fs from 'fs';
 
 /**
- * Enhanced project root detection that completely eliminates /dev-server references
- * and properly handles various deployment environments
+ * Find the project root by checking for package.json in various locations
+ * This eliminates all references to /dev-server which is causing the errors
  */
 function findProjectRoot() {
-  // Comprehensive list of possible project root locations in priority order
+  // First, check the current working directory and immediate paths
+  const currentDir = process.cwd();
+  console.log(`Current working directory: ${currentDir}`);
+  
+  // Common locations to check for package.json
   const possiblePaths = [
-    process.cwd(),
-    path.resolve(process.cwd()),
+    currentDir,
+    path.resolve(currentDir),
     path.resolve(__dirname),
     path.resolve('.'),
     '/app',
-    '/usr/src/app',
-    path.resolve(process.cwd(), '..'),
     '/workspace',
-    '/home/node/app'
+    '/usr/src/app',
+    path.join(currentDir, '..'),
+    '/'
   ];
   
-  console.log('🔍 Searching for package.json in these locations:');
-  possiblePaths.forEach(p => console.log(`   - ${p}`));
+  console.log('🔍 Checking for package.json in possible locations:');
+  possiblePaths.forEach(dir => console.log(`   - ${dir}`));
   
-  // Find the first valid path with a package.json
+  // Check each location for package.json
   for (const dir of possiblePaths) {
     try {
       const packageJsonPath = path.join(dir, 'package.json');
       if (fs.existsSync(packageJsonPath)) {
-        console.log(`✅ Found valid package.json in ${dir}`);
+        console.log(`✅ Found valid package.json at: ${packageJsonPath}`);
         return dir;
       }
     } catch (err) {
-      console.warn(`❌ Error checking path ${dir}:`, err.message);
+      console.warn(`❌ Error checking path ${dir}: ${err.message}`);
     }
   }
-
-  // Fallback to current working directory if no package.json found
-  console.log('⚠️ No package.json found, using current working directory as fallback');
-  return process.cwd();
+  
+  // If no package.json found anywhere, fallback to current directory
+  console.warn('⚠️ No package.json found in any location. Using current directory as fallback.');
+  return currentDir;
 }
 
 // Determine the actual project root
@@ -50,30 +54,31 @@ console.log(`📂 Using project root: ${PROJECT_ROOT}`);
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  console.log(`🔄 Starting Vite in ${mode} mode using root: ${PROJECT_ROOT}`);
+  console.log(`🔄 Starting Vite in ${mode} mode from ${PROJECT_ROOT}`);
   
   return {
-    // Use the detected project root for all paths
     root: PROJECT_ROOT,
     base: "/",
     publicDir: path.join(PROJECT_ROOT, "public"),
     
-    // Enhanced server configuration with more permissive file access
+    // Enhanced server configuration
     server: {
-      host: "0.0.0.0", // Listen on all interfaces
+      host: "0.0.0.0",
       port: 8080,
       strictPort: false,
       fs: {
         strict: false,
+        // Allow all relevant paths
         allow: [
-          PROJECT_ROOT,
-          "/",
-          "/app",
-          "/usr/src/app",
+          PROJECT_ROOT, 
+          '/',
           process.cwd(),
-          path.resolve(PROJECT_ROOT),
-          path.resolve(PROJECT_ROOT, '..'),
-          '..'
+          path.resolve('.'),
+          path.resolve('..'),
+          __dirname,
+          '/app',
+          '/workspace',
+          '/usr/src/app'
         ]
       },
       watch: {
