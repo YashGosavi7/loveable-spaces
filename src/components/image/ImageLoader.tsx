@@ -1,39 +1,37 @@
 
 import React from 'react';
-import { Loader } from "lucide-react";
 
 interface ImageLoaderProps {
   color?: string;
-  size?: 'small' | 'medium' | 'large';
   showSpinner?: boolean;
+  size?: 'small' | 'medium' | 'large';
 }
 
-export const ImageLoader = ({ 
-  color = "#E0E0E0", 
-  size = 'medium',
-  showSpinner = false
+const ImageLoader = ({ 
+  color = "#D4A017", 
+  showSpinner = true,
+  size = 'medium'
 }: ImageLoaderProps) => {
-  // Size mapping
-  const sizeMap = {
-    small: 'w-4 h-4',
-    medium: 'w-6 h-6',
-    large: 'w-8 h-8'
-  };
-
-  // If not showing spinner, just return the placeholder
-  if (!showSpinner) {
-    return null;
-  }
-
+  const spinnerSize = size === 'small' ? 16 : (size === 'medium' ? 24 : 32);
+  
   return (
     <div 
-      className="absolute inset-0 flex items-center justify-center bg-opacity-20 z-10"
-      style={{ backgroundColor: color }}
+      className="absolute inset-0 flex items-center justify-center bg-darkGray/5"
+      aria-hidden="true"
     >
-      <Loader 
-        className={`animate-spin text-roseGold/70 ${sizeMap[size]}`}
-        aria-label="Loading image"
-      />
+      {showSpinner && (
+        <div 
+          className="animate-spin rounded-full border-t-2 border-opacity-60"
+          style={{ 
+            width: spinnerSize, 
+            height: spinnerSize,
+            borderColor: color,
+            borderTopColor: 'transparent'
+          }}
+        />
+      )}
     </div>
   );
 };
+
+export default ImageLoader;

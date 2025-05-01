@@ -1,13 +1,16 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import ProjectHero from '../components/project/ProjectHero';
 import ProjectDetails from '../components/project/ProjectDetails';
+import ProjectGallery from '../components/project/ProjectGallery';
+import ProjectThumbnails from '../components/project/ProjectThumbnails';
 import projectsData from '../data/projectsData';
 
 const ProjectPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const project = projectsData.find(p => p.id === projectId);
   
@@ -41,7 +44,17 @@ const ProjectPage: React.FC = () => {
         prevImage={prevImage}
         nextImage={nextImage}
       />
+      
+      <ProjectThumbnails 
+        project={project}
+        activeImageIndex={activeImageIndex}
+        setActiveImageIndex={setActiveImageIndex}
+        scrollContainerRef={scrollContainerRef}
+      />
+      
       <ProjectDetails project={project} />
+      
+      <ProjectGallery project={project} />
     </div>
   );
 };

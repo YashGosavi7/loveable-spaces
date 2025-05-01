@@ -1,72 +1,61 @@
 
-import { memo } from 'react';
+import React from 'react';
 
 interface ImageSourceProps {
   src: string;
-  type: 'webp' | 'avif';
+  type: 'webp' | 'avif' | 'jpeg';
   srcSet?: string;
   sizes?: string;
-  quality?: "low" | "medium" | "high";
-  isIndia?: boolean; // Special optimization for Indian users
+  quality?: 'low' | 'medium' | 'high';
+  isIndia?: boolean;
 }
 
-const ImageSource = memo(({ 
+const ImageSource = ({ 
   src, 
-  type,
-  srcSet,
+  type, 
+  srcSet, 
   sizes,
-  quality = "medium",
+  quality = 'medium',
   isIndia = false
 }: ImageSourceProps) => {
-  // Calculate quality parameter based on format, quality setting and user location
+  // Quality settings based on quality prop
+  // In a real app, these would be passed to a real image API
   const getQualityParam = () => {
-    // In production, this would be used with a real image API
-    // For India (typically slower connections), reduce quality slightly
-    const indiaAdjustment = isIndia ? -5 : 0;
-    
-    const qualityMap = {
-      avif: { low: 60, medium: 75, high: 85 },
-      webp: { low: 65, medium: 80, high: 90 }
-    };
-    
-    return Math.max(qualityMap[type]?.[quality] + indiaAdjustment, 50) || 75;
+    if (quality === 'low') return '&q=60';
+    if (quality === 'medium') return '&q=75';
+    return '&q=85';
   };
   
-  // Process srcSet to add quality parameters and handle responsive sizes
-  const processedSrcSet = srcSet || generateOptimalSrcSet(src, type);
+  // For users in India, we'd use specialized CDN params
+  // This is a simulation for the example
+  const getOptimizedSrc = (originalSrc: string) => {
+    if (isIndia) {
+      // In production, this would use a CDN with edge locations in India
+      return originalSrc;
+    }
+    return originalSrc;
+  };
   
-  // Default sizes if not provided - optimized for all device widths
-  const defaultSizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+  // In production, you would transform the srcSet URLs as well
+  const getOptimizedSrcSet = () => {
+    if (!srcSet) return undefined;
+    
+    if (isIndia) {
+      // Process srcSet for India
+      return srcSet;
+    }
+    
+    return srcSet;
+  };
   
-  // Set fetchpriority attribute using data-* to avoid TypeScript errors
-  const priority = quality === "high" ? "high" : "auto";
-
   return (
     <source 
       type={`image/${type}`} 
-      srcSet={processedSrcSet} 
-      sizes={sizes || defaultSizes}
-      data-fetchpriority={priority}
+      srcSet={getOptimizedSrcSet() || getOptimizedSrc(src)}
+      sizes={sizes}
+      data-quality={quality}
     />
   );
-});
-
-// Generate optimal srcSet with varied sizes for responsive images
-const generateOptimalSrcSet = (src: string, format: 'webp' | 'avif'): string => {
-  // Small size for mobile (150x113px)
-  // Medium size for tablets (300x225px)
-  // Large size for desktop (600x450px)
-  // Based on 4:3 aspect ratio
-  
-  // For AVIF, we need fewer variations since it's already very efficient
-  if (format === 'avif') {
-    return `${src} 300w, ${src} 600w`;
-  }
-  
-  // For WebP, provide more options for browsers to choose from
-  return `${src} 150w, ${src} 300w, ${src} 600w, ${src} 900w`;
 };
-
-ImageSource.displayName = "ImageSource";
 
 export default ImageSource;
