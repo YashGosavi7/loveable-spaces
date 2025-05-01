@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
   root: process.cwd(),
   envDir: process.cwd(),
   publicDir: path.join(process.cwd(), 'public'),
-  cacheDir: '.vite',
+  cacheDir: path.join(process.cwd(), '.vite'),
   // Skip external package.json access entirely
   optimizeDeps: {
     include: [
@@ -63,12 +63,19 @@ export default defineConfig(({ mode }) => ({
     // Completely disable scanning for dependencies outside the project
     scan: {
       include: ['src/**/*'],
-      exclude: ['node_modules/**', '**/node_modules/**', '/dev-server/**']
+      exclude: [
+        'node_modules/**', 
+        '**/node_modules/**', 
+        '/dev-server/**',
+        '**/dev-server/**'
+      ]
     },
     // Prevent any external package.json lookups
     esbuildOptions: {
       resolveExtensions: ['.js', '.jsx', '.ts', '.tsx'],
-      platform: 'browser'
+      platform: 'browser',
+      mainFields: ['browser', 'module', 'main'],
+      conditions: ['browser', 'import', 'default']
     }
   }
 }));
