@@ -6,52 +6,57 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Use relative path to ensure the package.json is found
-  root: '.',
+  // Setting the root to the current directory
+  root: "./",
   base: "/",
   publicDir: "public",
+  
+  // Enhanced server configuration for better Docker compatibility
   server: {
-    host: true, // Listen on all addresses
+    host: "0.0.0.0", // Listen on all available network interfaces
     port: 8080,
-    strictPort: false, // Allow fallback to another port if 8080 is in use
+    strictPort: true,
     fs: {
-      // Always allow access to upper directories to find package.json
-      allow: ['.', '..', '/'],
-      strict: false
+      strict: false,
+      allow: [".", "..", "/"]
     },
     watch: {
       usePolling: true,
-      interval: 1000, // Polling interval for better stability
+      interval: 1000,
     },
     hmr: {
+      clientPort: 8080, // Force the client to connect to port 8080
       overlay: true,
-      timeout: 5000, // Increase timeout
+      timeout: 5000,
     }
   },
+  
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
+  
   resolve: {
     alias: {
-      "@": path.resolve(".", "src"),
+      "@": path.resolve(__dirname, "./src"),
     }
   },
+  
   build: {
     outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve(".", "index.html"),
+        main: path.resolve(__dirname, "./index.html"),
       },
     }
   },
+  
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']
   },
-  // Use relative paths for cache and env directories
+  
   cacheDir: "./.vite",
-  envDir: ".",
-  logLevel: 'info'
+  envDir: "./",
+  logLevel: 'info',
 }));
