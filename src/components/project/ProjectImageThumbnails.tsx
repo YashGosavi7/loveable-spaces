@@ -43,7 +43,7 @@ const ProjectImageThumbnails = ({
     if (!scrollContainerRef.current) return;
     
     const options = {
-      root: scrollContainerRef.current,
+      root: null, // Use viewport as root
       rootMargin: '0px',
       threshold: 0.2 // 20% visibility required
     };
@@ -73,56 +73,49 @@ const ProjectImageThumbnails = ({
   }, [images.length]);
 
   return (
-    <div className="mt-4 mb-6">
-      <h4 className="text-sm font-lato text-center text-darkGray mb-3 relative inline-block">
-        Explore More Images
-        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-roseGold/80"></span>
-      </h4>
-      
-      <div 
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto gap-2 py-2 hide-scrollbar max-w-full mx-auto"
-        style={{ 
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          scrollSnapType: 'x mandatory'
-        }}
-        aria-label="Project image thumbnails"
-      >
-        {images.map((image, index) => (
-          <button
-            key={index}
-            data-index={index}
-            onClick={() => onSelectImage(index)}
-            className={`flex-shrink-0 rounded-md overflow-hidden transition-all duration-300 scroll-snap-align-start ${
-              index === activeImageIndex 
-                ? 'ring-2 ring-roseGold transform scale-105' 
-                : 'ring-1 ring-lightGray/30 hover:ring-roseGold/50'
-            }`}
-            style={{ 
-              width: '100px',
-              height: '75px',
-              scrollSnapAlign: 'start'
-            }}
-            aria-label={`View image ${index + 1} of ${images.length}`}
-            aria-current={index === activeImageIndex ? "true" : "false"}
-          >
-            <OptimizedImage
-              src={image}
-              alt={`Thumbnail of interior project image ${index + 1}`}
-              width={100}
-              height={75}
-              className="w-full h-full object-cover"
-              // Only preload visible and nearby thumbnails
-              priority={index === activeImageIndex}
-              preload={Math.abs(index - activeImageIndex) <= 2}
-              // Progressive image quality
-              quality={index === activeImageIndex ? "medium" : "low"}
-              placeholderColor={placeholderColors[index]}
-            />
-          </button>
-        ))}
-      </div>
+    <div 
+      ref={scrollContainerRef}
+      className="flex overflow-x-auto gap-3 py-2 pb-4 hide-scrollbar max-w-full mx-auto"
+      style={{ 
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        scrollSnapType: 'x mandatory'
+      }}
+      aria-label="Project image thumbnails"
+    >
+      {images.map((image, index) => (
+        <button
+          key={index}
+          data-index={index}
+          onClick={() => onSelectImage(index)}
+          className={`flex-shrink-0 rounded-md overflow-hidden transition-all duration-300 scroll-snap-align-start ${
+            index === activeImageIndex 
+              ? 'ring-2 ring-roseGold transform scale-105' 
+              : 'ring-1 ring-lightGray/30 hover:ring-roseGold/50'
+          }`}
+          style={{ 
+            width: '100px',
+            height: '75px',
+            scrollSnapAlign: 'start'
+          }}
+          aria-label={`View image ${index + 1} of ${images.length}`}
+          aria-current={index === activeImageIndex ? "true" : "false"}
+        >
+          <OptimizedImage
+            src={image}
+            alt={`Thumbnail of ${index + 1} - interior project by Lovable`}
+            width={100}
+            height={75}
+            className="w-full h-full object-cover"
+            // Only preload visible and nearby thumbnails
+            priority={index === activeImageIndex}
+            preload={Math.abs(index - activeImageIndex) <= 2}
+            // Progressive image quality
+            quality={index === activeImageIndex ? "medium" : "low"}
+            placeholderColor={placeholderColors[index]}
+          />
+        </button>
+      ))}
     </div>
   );
 };

@@ -17,7 +17,18 @@ const ProjectPage: React.FC = () => {
   useEffect(() => {
     if (project) {
       document.title = `${project.title} | Balaji Design Studio`;
+      
+      // Add meta tags for better SEO
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 
+          `Explore ${project.title} by Balaji Design Studio in ${project.location}. ${project.tagline}. View all project images instantly.`
+        );
+      }
     }
+    
+    // Scroll to top when project changes
+    window.scrollTo(0, 0);
   }, [project]);
   
   if (!project) {

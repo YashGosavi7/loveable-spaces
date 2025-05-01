@@ -26,11 +26,20 @@ const ImageLoader = ({
             width: spinnerSize, 
             height: spinnerSize,
             borderColor: color,
-            borderTopColor: 'transparent'
+            borderTopColor: 'transparent',
+            boxShadow: '0 0 10px rgba(0,0,0,0.1)'
           }}
           data-testid="image-loader-spinner"
         />
       )}
+      
+      {/* Added subtle pulse effect for better visual feedback */}
+      <div 
+        className="absolute inset-0 animate-pulse bg-darkGray/5 opacity-30"
+        style={{
+          animationDuration: '2s'
+        }}
+      />
     </div>
   );
 };

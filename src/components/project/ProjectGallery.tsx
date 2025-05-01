@@ -62,7 +62,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
     };
   };
   
-  const { navButtonClass, dotClass } = getProjectSpecificStyles();
+  const { navButtonClass } = getProjectSpecificStyles();
   
   return (
     <section className="bg-warmWhite py-16">
@@ -98,25 +98,20 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
             <CarouselNext className={`absolute -right-4 md:-right-12 lg:-right-12 ${navButtonClass} border-none focus:outline-none focus:ring-2 focus:ring-roseGold/50`} />
           </Carousel>
           
-          {/* Project Image Thumbnails */}
-          <ProjectImageThumbnails 
-            images={project.images}
-            activeImageIndex={currentSlide}
-            onSelectImage={handleSlideChange}
-          />
-          
-          {/* Carousel dots for navigation (smaller now that we have thumbnails) */}
-          <div className="flex justify-center space-x-1 mt-1">
-            {project.images.map((_, index) => (
-              <button
-                key={index}
-                className={`w-1.5 h-1.5 rounded-full transition-all ${
-                  currentSlide === index ? dotClass : "bg-lightGray"
-                }`}
-                onClick={() => handleSlideChange(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+          {/* Moved Project Image Thumbnails below main gallery */}
+          <div className="mt-8 border-t border-lightGray/10 pt-6">
+            <h4 className="font-lato text-sm text-center text-darkGray mb-4 relative inline-flex">
+              <span className="relative">
+                Explore More Images
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-roseGold/80"></span>
+              </span>
+            </h4>
+            
+            <ProjectImageThumbnails 
+              images={project.images}
+              activeImageIndex={currentSlide}
+              onSelectImage={handleSlideChange}
+            />
           </div>
           
           {/* Hidden preloads to ensure smooth carousel navigation */}
