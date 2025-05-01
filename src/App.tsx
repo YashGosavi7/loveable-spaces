@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -13,22 +13,31 @@ import { optimizeImageDomains } from './utils/imageUtils';
 import { cleanupImageIntersectionObservers } from './hooks/useImageIntersection';
 import ErrorBoundary from './components/ErrorBoundary';
 import { Toaster } from 'sonner';
+import { clearImagePreloadCache } from './hooks/useImagePreload';
 
 const App: React.FC = () => {
+  const location = useLocation();
+  
   useEffect(() => {
-    console.log('App component rendered');
+    console.log('App component initialized');
     
-    // Apply image performance optimizations
+    // Apply image performance optimizations once
     optimizeImageDomains();
     
-    // Log routing information
-    console.log('Current pathname:', window.location.pathname);
-    
-    // Clean up image observers when unmounting
+    // Return cleanup function
     return () => {
+      console.log('App component unmounting, cleaning up resources');
       cleanupImageIntersectionObservers();
+      clearImagePreloadCache();
     };
   }, []);
+  
+  // Clean up observers when route changes to prevent memory leaks
+  useEffect(() => {
+    console.log('Route changed to:', location.pathname);
+    cleanupImageIntersectionObservers();
+    clearImagePreloadCache();
+  }, [location.pathname]);
 
   return (
     <>
@@ -47,14 +56,11 @@ const App: React.FC = () => {
         </Routes>
       </ErrorBoundary>
       
-      {/* Add support for image lazy loading in older browsers */}
+      {/* Support for image lazy loading in older browsers - simplified */}
       <script dangerouslySetInnerHTML={{
         __html: `
-          // Add support for image lazy loading in older browsers
           if (!('loading' in HTMLImageElement.prototype)) {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js';
-            document.body.appendChild(script);
+            document.write('<script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" async><\\/script>');
           }
         `
       }} />

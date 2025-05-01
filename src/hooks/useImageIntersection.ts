@@ -8,13 +8,14 @@ interface UseImageIntersectionProps {
   threshold?: number;
 }
 
-// Shared IntersectionObserver for better performance
+// Use a more efficient shared IntersectionObserver implementation
 const sharedObservers = new Map<string, IntersectionObserver>();
+const observedElements = new Map<string, HTMLElement>();
 
 export const useImageIntersection = ({ 
   priority = false, 
   skipLazyLoading = false,
-  rootMargin = "300px 0px", // Reduced from 1200px for better performance
+  rootMargin = "200px 0px", // Reduced from 300px for better performance
   threshold = 0.01
 }: UseImageIntersectionProps) => {
   const [isInView, setIsInView] = useState(priority || skipLazyLoading);
@@ -39,13 +40,16 @@ export const useImageIntersection = ({
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               // Find the element's ref in our local state
-              const target = entry.target as HTMLDivElement;
+              const target = entry.target as HTMLElement;
               const dataId = target.getAttribute('data-intersection-id');
               
-              // Only update our state if this is our element
-              if (elementRef.current && elementRef.current.getAttribute('data-intersection-id') === dataId) {
+              if (dataId) {
+                // Mark as viewed
                 setIsInView(true);
+                
+                // Cleanup to reduce memory usage
                 observer.unobserve(target);
+                observedElements.delete(dataId);
               }
             }
           });
@@ -66,14 +70,19 @@ export const useImageIntersection = ({
       const uniqueId = `img-${Math.random().toString(36).substring(2, 9)}`;
       elementRef.current.setAttribute('data-intersection-id', uniqueId);
       
+      // Track the element
+      observedElements.set(uniqueId, elementRef.current);
+      
       observer.observe(elementRef.current);
+      
+      return () => {
+        if (elementRef.current) {
+          observer.unobserve(elementRef.current);
+          const id = elementRef.current.getAttribute('data-intersection-id');
+          if (id) observedElements.delete(id);
+        }
+      };
     }
-
-    return () => {
-      if (elementRef.current && observer) {
-        observer.unobserve(elementRef.current);
-      }
-    };
   }, [priority, skipLazyLoading, rootMargin, threshold]);
 
   return { isInView, elementRef };
@@ -85,4 +94,5 @@ export const cleanupImageIntersectionObservers = () => {
     observer.disconnect();
   });
   sharedObservers.clear();
+  observedElements.clear();
 };

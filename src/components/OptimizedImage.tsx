@@ -27,7 +27,7 @@ const OptimizedImage = memo(({
   const { isInView, elementRef } = useImageIntersection({ 
     priority, 
     skipLazyLoading,
-    rootMargin: "300px 0px"
+    rootMargin: "200px 0px" // Reduced from 300px to improve performance
   });
   
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
@@ -46,10 +46,10 @@ const OptimizedImage = memo(({
     return quality;
   };
 
-  // Use more aggressive preloading for priority images
+  // Use more focused preloading for priority images only
   useImagePreload(src, { 
     priority, 
-    preload: preload || priority, 
+    preload: priority, // Only preload priority images
     width, 
     quality: getOptimalQuality(),
     format: loadingStrategy.preferredFormat as "auto" | "webp" | "avif" | undefined

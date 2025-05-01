@@ -33,7 +33,7 @@ export default defineConfig({
       ]
     },
     watch: {
-      usePolling: true,
+      usePolling: false, // Changed from true to reduce file system load
       interval: 1000,
     },
   },
