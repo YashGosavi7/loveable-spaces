@@ -5,14 +5,13 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import fs from 'fs';
 
-// Advanced project root detection with directory creation capability
+// Advanced project root detection with better fallback mechanisms
 function findProjectRoot() {
   // Expanded list of possible paths for package.json
   const possiblePaths = [
     process.cwd(),
     '/app',
     '/usr/src/app',
-    '/dev-server',
     path.resolve(process.cwd(), '..'),
     path.resolve(process.cwd(), '../..'),
     '/',
@@ -32,28 +31,8 @@ function findProjectRoot() {
     }
   }
   
-  // If no package.json found, try to use the dev-server directory
-  // and handle its existence appropriately
-  const devServerPath = '/dev-server';
-  try {
-    // Check if dev-server directory exists
-    if (fs.existsSync(devServerPath)) {
-      console.log(`✅ Using dev-server directory at ${devServerPath}`);
-      
-      // Check if it has package.json
-      if (!fs.existsSync(path.join(devServerPath, 'package.json'))) {
-        console.log(`🔧 Note: No package.json found in ${devServerPath}, but the directory exists`);
-      }
-      return devServerPath;
-    } else {
-      console.warn(`❌ Dev server directory not found at ${devServerPath}`);
-    }
-  } catch (err) {
-    console.error(`❌ Error accessing dev-server directory:`, err.message);
-  }
-  
-  // Default fallback to current directory if nothing else works
-  console.warn('⚠️ No suitable project root found, defaulting to current directory');
+  // No package.json found anywhere, use the current directory as fallback
+  console.warn('⚠️ No package.json found in any expected location, using current directory');
   return process.cwd();
 }
 
@@ -84,8 +63,7 @@ export default defineConfig(({ mode }) => {
           "/",
           "/app",
           "/usr/src/app",
-          "/dev-server",
-          "/workspace",
+          process.cwd(),
           path.resolve(PROJECT_ROOT),
           path.resolve(PROJECT_ROOT, '..'),
           '..' // Allow access to parent directory
@@ -99,7 +77,6 @@ export default defineConfig(({ mode }) => {
       hmr: {
         clientPort: 8080,
         overlay: true,
-        timeout: 5000,
       }
     },
     
@@ -134,29 +111,9 @@ export default defineConfig(({ mode }) => {
       }
     },
     
-    // Ensure cache directory is available
-    cacheDir: (() => {
-      const dir = path.join(PROJECT_ROOT, ".vite");
-      try {
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
-          console.log(`✅ Created cache directory: ${dir}`);
-        }
-        return dir;
-      } catch (err) {
-        console.warn(`⚠️ Could not create cache directory at ${dir}:`, err.message);
-        return './.vite'; // Fallback
-      }
-    })(),
+    // Ensure cache directory is within the project root
+    cacheDir: path.join(PROJECT_ROOT, "node_modules/.vite"),
     
     logLevel: 'info',
-    
-    // Improved error handling
-    customLogger: {
-      info: (msg) => console.log(`ℹ️ ${msg}`),
-      warn: (msg) => console.warn(`⚠️ ${msg}`),
-      error: (msg) => console.error(`❌ ${msg}`),
-      warnOnce: (msg) => console.warn(`⚠️ (once) ${msg}`),
-    },
   };
 });
