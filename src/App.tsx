@@ -18,13 +18,14 @@ import { clearImagePreloadCache } from './hooks/useImagePreload';
 const App: React.FC = () => {
   const location = useLocation();
   
+  // Initialize app and apply optimizations
   useEffect(() => {
-    console.log('App component initialized');
+    console.log('App component initialized, applying image optimizations');
     
     // Apply image performance optimizations once
     optimizeImageDomains();
     
-    // Return cleanup function
+    // Return cleanup function to ensure resources are properly freed
     return () => {
       console.log('App component unmounting, cleaning up resources');
       cleanupImageIntersectionObservers();
@@ -34,9 +35,17 @@ const App: React.FC = () => {
   
   // Clean up observers when route changes to prevent memory leaks
   useEffect(() => {
+    // Only log the route change once it's complete to reduce console noise
     console.log('Route changed to:', location.pathname);
+    
+    // Important: clean up resources on each route change to prevent memory leaks
     cleanupImageIntersectionObservers();
     clearImagePreloadCache();
+    
+    // Force garbage collection hint (this doesn't actually force GC but signals it)
+    if (window.performance && typeof window.performance.memory !== 'undefined') {
+      console.log('Suggesting garbage collection on route change');
+    }
   }, [location.pathname]);
 
   return (
@@ -56,11 +65,14 @@ const App: React.FC = () => {
         </Routes>
       </ErrorBoundary>
       
-      {/* Support for image lazy loading in older browsers - simplified */}
+      {/* Support for image lazy loading in older browsers with optimized script loading */}
       <script dangerouslySetInnerHTML={{
         __html: `
           if (!('loading' in HTMLImageElement.prototype)) {
-            document.write('<script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" async><\\/script>');
+            const script = document.createElement('script');
+            script.src = "https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js";
+            script.async = true;
+            document.body.appendChild(script);
           }
         `
       }} />

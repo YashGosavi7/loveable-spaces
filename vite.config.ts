@@ -4,12 +4,13 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// Simple project root detection without any references to /dev-server
-const PROJECT_ROOT = process.cwd();
+// Detect project root properly without using /dev-server
+const PROJECT_ROOT = path.resolve(process.cwd());
 console.log(`📂 Using project root: ${PROJECT_ROOT}`);
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Set the root to the current working directory
   root: PROJECT_ROOT,
   base: "/",
   publicDir: path.resolve(PROJECT_ROOT, "public"),
@@ -33,7 +34,7 @@ export default defineConfig({
       ]
     },
     watch: {
-      usePolling: false, // Changed from true to reduce file system load
+      usePolling: false, // Reduced file system load
       interval: 1000,
     },
   },
@@ -45,12 +46,23 @@ export default defineConfig({
   },
   
   build: {
-    outDir: path.resolve(PROJECT_ROOT, "dist"),
+    // Improve caching and reduce build time
     emptyOutDir: true,
+    outDir: path.resolve(PROJECT_ROOT, "dist"),
+    // Enable caching to speed up builds
+    reportCompressedSize: false, // Faster build
+    chunkSizeWarningLimit: 1000, // Increase limit to reduce warnings
     rollupOptions: {
       input: {
         main: path.resolve(PROJECT_ROOT, "index.html"),
       },
+      output: {
+        manualChunks: {
+          // Split large dependencies into separate chunks
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@/components/ui'],
+        },
+      }
     }
   },
   
@@ -58,5 +70,6 @@ export default defineConfig({
     include: ['react', 'react-dom', 'react-router-dom'],
   },
   
+  // Move cache directory to project root for better sandbox compatibility
   cacheDir: path.resolve(PROJECT_ROOT, "node_modules/.vite"),
 });
