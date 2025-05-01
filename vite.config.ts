@@ -9,6 +9,10 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    fs: {
+      // Explicitly allow only project files
+      allow: [process.cwd()]
+    },
   },
   // Use relative paths for everything
   base: './',
@@ -34,7 +38,7 @@ export default defineConfig(({ mode }) => ({
       }
     }
   },
-  // Ensure everything uses relative paths from project root
+  // Explicitly define all paths relative to project root
   root: process.cwd(),
   envDir: process.cwd(),
   publicDir: path.join(process.cwd(), 'public'),
@@ -48,6 +52,12 @@ export default defineConfig(({ mode }) => ({
       'framer-motion',
       'react-helmet'
     ],
-    force: true
+    // Force Vite to bundle these dependencies and avoid looking for /dev-server
+    force: true,
+    // Only search for deps in our project folder
+    entries: [
+      '*.html', 
+      'src/**/*.{ts,tsx,js,jsx}'
+    ]
   }
 }));

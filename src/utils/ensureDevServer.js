@@ -1,4 +1,3 @@
 
-// This file is intentionally left empty as we're no longer using the dev-server approach
-// It's kept to avoid breaking any imports that might still reference it
-
+// This file is intentionally left empty as we're not using dev-server at all
+// It exists only to maintain compatibility with any existing imports
