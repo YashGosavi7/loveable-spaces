@@ -6,12 +6,16 @@ import { componentTagger } from "lovable-tagger";
 import fs from 'fs';
 
 /**
- * Enhanced project root detection without any dev-server references
- * This is a complete rewrite of the function to avoid the ENOENT error
+ * Project root detection with robust fallbacks
+ * No references to /dev-server anywhere in the code
  */
-function determineProjectRoot() {
-  // Hardcoded potential locations to check for package.json
-  const potentialRoots = [
+function findProjectRoot() {
+  // Logging the current directory for debugging
+  console.log(`Current working directory: ${process.cwd()}`);
+  console.log(`__dirname: ${__dirname}`);
+  
+  // Try multiple approaches to find the project root
+  const candidateRoots = [
     process.cwd(),
     __dirname,
     path.resolve(__dirname, '..'),
@@ -19,109 +23,107 @@ function determineProjectRoot() {
     path.resolve('..'),
     '/app',
     '/workspace',
-    path.join(process.cwd(), '..'),
     '/'
   ];
   
-  console.log('🔍 Starting exhaustive search for project root...');
-  
-  // First pass - look for package.json
-  for (const dir of potentialRoots) {
+  // First strategy: Look for package.json
+  for (const dir of candidateRoots) {
     try {
-      const packageJsonPath = path.join(dir, 'package.json');
-      if (fs.existsSync(packageJsonPath)) {
-        console.log(`✅ Found package.json at: ${packageJsonPath}`);
-        // Read package to verify it's valid
-        try {
-          const packageContent = fs.readFileSync(packageJsonPath, 'utf8');
-          JSON.parse(packageContent); // Verify it's valid JSON
-          console.log(`✓ Validated package.json at ${packageJsonPath}`);
-          return dir;
-        } catch (err) {
-          console.log(`⚠️ Found but couldn't parse package.json at ${packageJsonPath}`);
-          // Continue to next path if this one has invalid JSON
-        }
-      }
-    } catch (err) {
-      // Silently continue to next path
-    }
-  }
-
-  // Second pass - look for index.html as fallback
-  for (const dir of potentialRoots) {
-    try {
-      if (fs.existsSync(path.join(dir, 'index.html'))) {
-        console.log(`✅ Using directory with index.html: ${dir}`);
+      const packagePath = path.join(dir, 'package.json');
+      if (fs.existsSync(packagePath)) {
+        console.log(`✅ Found valid package.json at: ${packagePath}`);
         return dir;
       }
-    } catch (err) {
-      // Silently continue to next path
+    } catch (error) {
+      // Ignore errors and try next path
     }
   }
   
-  // Last resort - use current directory
-  console.warn('⚠️ Could not locate package.json or index.html - falling back to current working directory');
+  // Second strategy: Look for index.html
+  for (const dir of candidateRoots) {
+    try {
+      const indexPath = path.join(dir, 'index.html');
+      if (fs.existsSync(indexPath)) {
+        console.log(`✅ Found index.html at: ${indexPath}`);
+        return dir;
+      }
+    } catch (error) {
+      // Ignore errors and try next path
+    }
+  }
+  
+  // Third strategy: Look for src directory
+  for (const dir of candidateRoots) {
+    try {
+      const srcPath = path.join(dir, 'src');
+      if (fs.existsSync(srcPath)) {
+        console.log(`✅ Found src directory at: ${srcPath}`);
+        return dir;
+      }
+    } catch (error) {
+      // Ignore errors and try next path
+    }
+  }
+  
+  // Fallback to current directory
+  console.warn('⚠️ Could not determine project root, using current directory');
   return process.cwd();
 }
 
-// Get project root without any dev-server references
-const PROJECT_ROOT = determineProjectRoot();
-console.log(`📂 Project root determined: ${PROJECT_ROOT}`);
+// Determine project root once at startup
+const PROJECT_ROOT = findProjectRoot();
+console.log(`📂 Using project root: ${PROJECT_ROOT}`);
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  console.log(`🔄 Initializing Vite in ${mode} mode`);
+export default defineConfig({
+  root: PROJECT_ROOT,
+  base: "/",
+  publicDir: path.resolve(PROJECT_ROOT, "public"),
   
-  return {
-    root: PROJECT_ROOT,
-    base: "/",
-    publicDir: path.resolve(PROJECT_ROOT, "public"),
-    
-    server: {
-      host: "0.0.0.0",
-      port: 8080,
-      fs: {
-        strict: false,
-        allow: [
-          PROJECT_ROOT, 
-          process.cwd(), 
-          path.resolve('.'), 
-          __dirname, 
-          '/app', 
-          '/workspace'
-        ]
+  plugins: [
+    react(),
+    componentTagger(),
+  ],
+  
+  server: {
+    host: "0.0.0.0",
+    port: 8080,
+    fs: {
+      strict: false,
+      allow: [
+        PROJECT_ROOT,
+        process.cwd(),
+        path.resolve('.'),
+        __dirname,
+        '/app',
+        '/workspace'
+      ]
+    },
+    watch: {
+      usePolling: true,
+      interval: 1000,
+    },
+  },
+  
+  resolve: {
+    alias: {
+      "@": path.resolve(PROJECT_ROOT, "src"),
+    },
+  },
+  
+  build: {
+    outDir: path.resolve(PROJECT_ROOT, "dist"),
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(PROJECT_ROOT, "index.html"),
       },
-      watch: {
-        usePolling: true,
-        interval: 1000,
-      },
-    },
-    
-    plugins: [
-      react(),
-      mode === 'development' && componentTagger(),
-    ].filter(Boolean),
-    
-    resolve: {
-      alias: {
-        "@": path.resolve(PROJECT_ROOT, "src"),
-      },
-    },
-    
-    build: {
-      outDir: path.resolve(PROJECT_ROOT, "dist"),
-      emptyOutDir: true,
-      rollupOptions: {
-        input: {
-          main: path.resolve(PROJECT_ROOT, "index.html"),
-        },
-      }
-    },
-    
-    optimizeDeps: {
-      include: ['react', 'react-dom', 'react-router-dom'],
-    },
-    
-    cacheDir: path.resolve(PROJECT_ROOT, "node_modules/.vite"),
-  };
+    }
+  },
+  
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+  },
+  
+  cacheDir: path.resolve(PROJECT_ROOT, "node_modules/.vite"),
 });
