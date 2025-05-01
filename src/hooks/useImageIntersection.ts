@@ -8,14 +8,13 @@ interface UseImageIntersectionProps {
   threshold?: number;
 }
 
-// Use a more efficient shared IntersectionObserver implementation
-const sharedObservers = new Map<string, IntersectionObserver>();
-const observedElements = new Map<string, HTMLElement>();
+// Use a shared observer for better performance
+const observers = new Map<string, IntersectionObserver>();
 
 export const useImageIntersection = ({ 
   priority = false, 
   skipLazyLoading = false,
-  rootMargin = "200px 0px", // Reduced from 300px for better performance
+  rootMargin = "1200px 0px", // Much more aggressive preloading
   threshold = 0.01
 }: UseImageIntersectionProps) => {
   const [isInView, setIsInView] = useState(priority || skipLazyLoading);
@@ -28,71 +27,86 @@ export const useImageIntersection = ({
       return;
     }
 
-    // Don't create observers on the server
-    if (typeof window === 'undefined' || !elementRef.current) return;
+    // Get connection speed to adjust intersection thresholds
+    const getConnectionSpeed = () => {
+      if (typeof navigator === 'undefined') return 'unknown';
+      
+      if ('connection' in navigator) {
+        const conn = (navigator as any).connection;
+        
+        if (conn) {
+          if (conn.saveData) return 'slow';
+          if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') return 'slow';
+          if (conn.effectiveType === '3g') return 'medium';
+        }
+      }
+      
+      return 'unknown';
+    };
+
+    // Adjust root margin based on connection speed
+    const getOptimizedRootMargin = () => {
+      const speed = getConnectionSpeed();
+      
+      if (speed === 'slow') {
+        // Less aggressive for slow connections
+        return "600px 0px";
+      }
+      
+      if (speed === 'medium') {
+        // Medium aggressive for 3G
+        return "900px 0px";
+      }
+      
+      // Very aggressive preloading for fast connections
+      return rootMargin;
+    };
 
     // Use a single shared IntersectionObserver for better performance
-    const observerKey = `${rootMargin}-${threshold}`;
+    const observerKey = `${getOptimizedRootMargin()}-${threshold}`;
     
-    if (!sharedObservers.has(observerKey) && typeof IntersectionObserver !== 'undefined') {
+    if (!observers.has(observerKey) && typeof IntersectionObserver !== 'undefined') {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               // Find the element's ref in our local state
-              const target = entry.target as HTMLElement;
+              const target = entry.target as HTMLDivElement;
               const dataId = target.getAttribute('data-intersection-id');
               
-              if (dataId) {
-                // Mark as viewed
+              // Only update our state if this is our element
+              if (elementRef.current && elementRef.current.getAttribute('data-intersection-id') === dataId) {
                 setIsInView(true);
-                
-                // Cleanup to reduce memory usage
                 observer.unobserve(target);
-                observedElements.delete(dataId);
               }
             }
           });
         },
         { 
           threshold,
-          rootMargin
+          rootMargin: getOptimizedRootMargin() 
         }
       );
       
-      sharedObservers.set(observerKey, observer);
+      observers.set(observerKey, observer);
     }
 
-    const observer = sharedObservers.get(observerKey);
+    const observer = observers.get(observerKey);
     
     if (elementRef.current && observer) {
       // Add a unique ID to identify this element
-      const uniqueId = `img-${Math.random().toString(36).substring(2, 9)}`;
+      const uniqueId = `image-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
       elementRef.current.setAttribute('data-intersection-id', uniqueId);
       
-      // Track the element
-      observedElements.set(uniqueId, elementRef.current);
-      
       observer.observe(elementRef.current);
-      
-      return () => {
-        if (elementRef.current) {
-          observer.unobserve(elementRef.current);
-          const id = elementRef.current.getAttribute('data-intersection-id');
-          if (id) observedElements.delete(id);
-        }
-      };
     }
+
+    return () => {
+      if (elementRef.current && observer) {
+        observer.unobserve(elementRef.current);
+      }
+    };
   }, [priority, skipLazyLoading, rootMargin, threshold]);
 
   return { isInView, elementRef };
-};
-
-// Cleanup function to call on page transitions
-export const cleanupImageIntersectionObservers = () => {
-  sharedObservers.forEach(observer => {
-    observer.disconnect();
-  });
-  sharedObservers.clear();
-  observedElements.clear();
 };

@@ -1,56 +1,39 @@
 
 import React from 'react';
+import { Loader } from "lucide-react";
 
 interface ImageLoaderProps {
   color?: string;
-  showSpinner?: boolean;
   size?: 'small' | 'medium' | 'large';
-  blurEffect?: boolean;
+  showSpinner?: boolean;
 }
 
-const ImageLoader = ({ 
-  color = "#D4A017", 
-  showSpinner = true,
+export const ImageLoader = ({ 
+  color = "#E0E0E0", 
   size = 'medium',
-  blurEffect = true
+  showSpinner = false
 }: ImageLoaderProps) => {
-  const spinnerSize = size === 'small' ? 16 : (size === 'medium' ? 24 : 32);
-  
+  // Size mapping
+  const sizeMap = {
+    small: 'w-4 h-4',
+    medium: 'w-6 h-6',
+    large: 'w-8 h-8'
+  };
+
+  // If not showing spinner, just return the placeholder
+  if (!showSpinner) {
+    return null;
+  }
+
   return (
     <div 
-      className="absolute inset-0 flex items-center justify-center bg-darkGray/5"
-      aria-hidden="true"
+      className="absolute inset-0 flex items-center justify-center bg-opacity-20 z-10"
+      style={{ backgroundColor: color }}
     >
-      {showSpinner && (
-        <div 
-          className="animate-spin rounded-full border-t-2 border-opacity-60"
-          style={{ 
-            width: spinnerSize, 
-            height: spinnerSize,
-            borderColor: color,
-            borderTopColor: 'transparent',
-            boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-            animationDuration: '0.8s', // Faster animation
-            animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' // Smoother easing
-          }}
-          data-testid="image-loader-spinner"
-        />
-      )}
-      
-      {/* Improved subtle pulse effect with optimized animation */}
-      {blurEffect && (
-        <div 
-          className="absolute inset-0 animate-pulse bg-darkGray/5 opacity-30"
-          style={{
-            animationDuration: '1.5s', // Faster pulse
-            backdropFilter: 'blur(2px)', // Slight blur for better visual
-            WebkitBackdropFilter: 'blur(2px)'
-          }}
-        />
-      )}
+      <Loader 
+        className={`animate-spin text-roseGold/70 ${sizeMap[size]}`}
+        aria-label="Loading image"
+      />
     </div>
   );
 };
-
-export { ImageLoader };
-export default ImageLoader;

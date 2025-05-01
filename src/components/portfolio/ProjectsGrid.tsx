@@ -1,22 +1,16 @@
 
 import { motion } from "framer-motion";
+import ProjectCard from "../ProjectCard";
 import { Project } from "@/data/projectsData";
-import { getBestProjectImage, preloadHighPriorityProjectImages } from "@/utils/imageSelection";
-import { useEffect } from "react";
-import ProjectCard from "../project-card/ProjectCard";
+import { getBestProjectImage } from "@/utils/imageSelection";
 
 interface ProjectsGridProps {
   projects: Project[];
 }
 
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
-  // Preload images for featured projects based on priority
-  useEffect(() => {
-    if (projects.length > 0) {
-      const featuredProjectIds = projects.slice(0, 3).map(p => p.id);
-      preloadHighPriorityProjectImages(featuredProjectIds);
-    }
-  }, [projects]);
+  // Add logging to debug projects
+  console.log("Projects in grid:", projects.map(p => p.title));
   
   return (
     <motion.div 
@@ -44,7 +38,6 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
               designer={project.designer}
               tagline={project.tagline}
               index={index}
-              allImages={project.images.slice(0, 5)} // Limit to 5 images for performance
             />
           );
         })

@@ -1,4 +1,3 @@
-
 import { ProjectCategory } from "../components/portfolio/CategoryFilter";
 
 export interface Project {
@@ -18,41 +17,6 @@ export interface Project {
 }
 
 const projectsData: Project[] = [
-  {
-    id: "bopdev-machi",
-    title: "Bopdev Machi",
-    category: "Hospitality",
-    location: "Pune",
-    size: "4,500 sq ft",
-    completionYear: "2024",
-    description: "A contemporary entertainment venue featuring vibrant interiors with colorful art panels, stylish lighting, and a distinctive façade. The space combines modern design elements with playful colors and patterns, creating an inviting atmosphere for guests. Unique lattice patterns and illuminated features define this standout hospitality project.",
-    features: [
-      "Striking façade with illuminated signage and decorative lattice work",
-      "Colorful artistic panels with custom patterns",
-      "Accent lighting highlighting architectural features",
-      "Lush green wall behind main reception area",
-      "Contemporary seating with bright red accent chairs",
-      "Modern ceiling with integrated lighting design",
-      "Custom-designed entrance with stone cladding",
-      "Indoor-outdoor transition spaces",
-      "Branded entertainment experience",
-      "Multi-level interior layout with central viewing area"
-    ],
-    images: [
-      "/lovable-uploads/f81bb603-f688-4243-90cf-5a769d625a81.png",
-      "/lovable-uploads/4cf0811a-7826-4609-83b5-076459872132.png",
-      "/lovable-uploads/0f808e11-8989-4405-9592-fe09119073fd.png",
-      "/lovable-uploads/97b489db-bf78-48b3-99a8-16f18fde2b7d.png",
-      "/lovable-uploads/cca9f027-1951-433e-89b1-6e28226cced3.png",
-      "/lovable-uploads/4883b78f-c202-4380-9eb5-87515d8ef2e8.png",
-      "/lovable-uploads/dfe5a6fa-d0e0-442e-9474-0e6fdda38940.png",
-      "/lovable-uploads/ba3c87fe-59f8-4b8a-a7e5-0ddc2a900abb.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Modern Entertainment Reimagined",
-    style: "Contemporary Fusion"
-  },
   {
     id: "mr-kale-office",
     title: "Mr. Kale's Office",
@@ -208,39 +172,6 @@ const projectsData: Project[] = [
     tagline: "A Home Where Memories Are Made",
     style: "Modern Rustic"
   },
-  {
-    id: "dada-rao-danve-residence",
-    title: "Dada Rao Danve Residence",
-    category: "Residential",
-    location: "Jalna",
-    size: "3,200 sq ft",
-    completionYear: "2025",
-    description: "Dada Rao Danve's residence in Jalna blends modern luxury with Maratha heritage, featuring intricate jali work, warm teak wood finishes, and a serene courtyard, crafted by Loveable in 2025.",
-    features: [
-      "Traditional jali work adorning the windows and balconies",
-      "Warm teak wood finishes throughout the home",
-      "Serene central courtyard with water feature",
-      "Modern kitchen with premium appliances",
-      "Master suite with traditional Maratha design elements",
-      "Guest bedrooms with en-suite bathrooms",
-      "Living area with heritage-inspired furnishings",
-      "Energy-efficient smart home features",
-      "Indoor-outdoor living spaces",
-      "Custom lighting design highlighting architectural elements"
-    ],
-    images: [
-      "/lovable-uploads/97278d17-3093-436c-a19e-8c2c5a918c63.png",
-      "/lovable-uploads/da50fe76-e092-487a-99e8-224725915191.png",
-      "/lovable-uploads/69fe8d07-6bd4-4574-a901-b045e0b7457e.png",
-      "/lovable-uploads/68bfafb1-507b-4e9e-9b8d-3ececf2f99e9.png",
-      "/lovable-uploads/8926e94d-51dc-49d0-b9c6-c21e5fb20b78.png",
-      "/lovable-uploads/aeabbe0a-f9d5-452d-a091-30fbd274a362.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Maratha Heritage Meets Modern Luxury",
-    style: "Indo-Contemporary"
-  }
 ];
 
 export default projectsData;

@@ -1,4 +1,5 @@
 
+import { Helmet } from "react-helmet";
 import { Project } from "@/data/projectsData";
 
 interface ProjectHeroMetaProps {
@@ -25,7 +26,7 @@ const ProjectHeroMeta = ({ project, activeImageIndex }: ProjectHeroMetaProps) =>
   };
 
   return (
-    <>
+    <Helmet>
       <title>{project.title} Interior Design</title>
       <meta name="description" content={getCustomMetaDescription()} />
       <meta property="og:title" content={`${project.title} Interior Design`} />
@@ -36,7 +37,7 @@ const ProjectHeroMeta = ({ project, activeImageIndex }: ProjectHeroMetaProps) =>
       <meta name="twitter:card" content="summary_large_image" />
       <link rel="canonical" href={`https://loveable.com/portfolio/${project.id}`} />
       <link rel="preload" as="image" href={project.images[activeImageIndex]} data-fetchpriority="high" crossOrigin="anonymous" />
-    </>
+    </Helmet>
   );
 };
 

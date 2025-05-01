@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { generatePlaceholderColor, isLikelySlowConnection } from '@/utils/imageUtils';
 
@@ -9,7 +10,6 @@ interface UseOptimizedImageProps {
   width?: number;
   height?: number;
   lowQualityPreview?: boolean;
-  cacheSeconds?: number;
 }
 
 export const useOptimizedImage = ({ 
@@ -19,58 +19,31 @@ export const useOptimizedImage = ({
   quality = "medium",
   width,
   height,
-  lowQualityPreview = true,
-  cacheSeconds = 86400 // Default: cache for 1 day
+  lowQualityPreview = true
 }: UseOptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [lqipLoaded, setLqipLoaded] = useState(false);
   const placeholderColor = generatePlaceholderColor(src);
   
-  // Generate low quality image placeholder URL with cache-busting
+  // Generate low quality image placeholder URL
   const getLqipUrl = useCallback(() => {
     // In production, this would generate a real thumbnail URL
-    // Add a cache parameter if needed
-    const cacheBuster = !cacheSeconds ? `_cb=${Date.now()}` : '';
-    const separator = src.includes('?') ? '&' : '?';
-    return src + (cacheBuster ? `${separator}${cacheBuster}` : '');
-  }, [src, cacheSeconds]);
+    // For now, we're just using the original image
+    return src;
+  }, [src]);
   
   // Determine if we should use aggressive loading optimizations
   const useAggressiveOptimizations = useCallback(() => {
     return isLikelySlowConnection();
   }, []);
   
-  // Add support for image loading via Intersection Observer API
-  const setupIntersectionObserver = useCallback(() => {
-    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return;
-    if (priority) return; // Skip for priority images
-    
-    const imgElement = new Image();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          imgElement.src = src;
-          imgElement.onload = () => setIsLoaded(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px' } // Start loading when image is within 200px of viewport
-    );
-    
-    // Simulate observer target (will be connected to real DOM in component)
-    const target = document.createElement('div');
-    observer.observe(target);
-    
-    return () => observer.disconnect();
-  }, [src, priority]);
-  
-  // Preload high-priority images and LQIP for immediate visual feedback
+  // Load the main image
   useEffect(() => {
-    // Skip aggressive optimizations for priority images
+    // Skip preloading on slow connections unless priority is true
     if ((!useAggressiveOptimizations() || priority) && (priority || preload)) {
       const preloadImage = new Image();
       
-      // Set image loading attributes for better performance
+      // Set image loading attributes
       if ('fetchpriority' in preloadImage) {
         (preloadImage as any).fetchpriority = priority ? 'high' : 'auto';
       }
@@ -83,27 +56,17 @@ export const useOptimizedImage = ({
         preloadImage.decoding = priority ? 'sync' : 'async';
       }
       
-      // Apply cache control if supported by browser
-      if ('attributionSrc' in preloadImage) {
-        // This is a workaround to add cache hints
-        // In real implementation, you'd use proper CDN cache-control headers
-        preloadImage.setAttribute('data-cache-control', `public, max-age=${cacheSeconds}`);
-      }
-      
       // Load the image
       preloadImage.src = src;
       preloadImage.onload = () => setIsLoaded(true);
       
-      // Set image dimensions if available to avoid layout shifts
+      // Set image dimensions if available
       if (width) preloadImage.width = width;
       if (height) preloadImage.height = height;
-    } else {
-      // Otherwise use intersection observer approach
-      setupIntersectionObserver();
     }
-  }, [src, priority, preload, width, height, useAggressiveOptimizations, setupIntersectionObserver, cacheSeconds]);
+  }, [src, priority, preload, width, height, useAggressiveOptimizations]);
   
-  // Always load LQIP for immediate visual feedback
+  // Load LQIP for immediate visual feedback
   useEffect(() => {
     if (lowQualityPreview) {
       const lqipImage = new Image();
@@ -122,7 +85,6 @@ export const useOptimizedImage = ({
     handleImageLoad,
     placeholderColor,
     isSlowConnection: useAggressiveOptimizations(),
-    lqipUrl: getLqipUrl(),
-    intersectionObserver: setupIntersectionObserver
+    lqipUrl: getLqipUrl()
   };
 };
