@@ -3,11 +3,39 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import fs from 'fs';
+
+// Determine project root based on where package.json exists
+function findProjectRoot() {
+  // Common locations where package.json might be found in containerized environments
+  const possiblePaths = [
+    process.cwd(),
+    '/app',
+    '/usr/src/app',
+    '/dev-server',
+    path.resolve(process.cwd(), '..'),
+    path.resolve(process.cwd(), '../..'),
+  ];
+  
+  for (const dir of possiblePaths) {
+    if (fs.existsSync(path.join(dir, 'package.json'))) {
+      console.log(`Found package.json in ${dir}`);
+      return dir;
+    }
+  }
+  
+  // Default to current directory if not found elsewhere
+  console.warn('No package.json found in common locations, defaulting to current working directory');
+  return process.cwd();
+}
+
+const PROJECT_ROOT = findProjectRoot();
+console.log(`Using project root: ${PROJECT_ROOT}`);
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Use absolute path for root to ensure correct file resolution
-  root: process.cwd(),
+  // Use the detected project root for all paths
+  root: PROJECT_ROOT,
   base: "/",
   publicDir: "public",
   
@@ -18,10 +46,18 @@ export default defineConfig(({ mode }) => ({
     strictPort: true,
     fs: {
       strict: false,
-      allow: ["/", path.resolve(process.cwd())] // Use absolute paths
+      // Allow access to multiple possible file system locations
+      allow: [
+        "/",
+        "/app",
+        "/usr/src/app",
+        "/dev-server",
+        PROJECT_ROOT,
+        path.resolve(PROJECT_ROOT)
+      ]
     },
     watch: {
-      usePolling: true,
+      usePolling: true, // Better for Docker/containers
       interval: 1000,
     },
     hmr: {
@@ -38,7 +74,7 @@ export default defineConfig(({ mode }) => ({
   
   resolve: {
     alias: {
-      "@": path.resolve(process.cwd(), "src"),
+      "@": path.resolve(PROJECT_ROOT, "src"),
     }
   },
   
@@ -47,7 +83,7 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve(process.cwd(), "index.html"),
+        main: path.resolve(PROJECT_ROOT, "index.html"),
       },
     }
   },
@@ -56,7 +92,7 @@ export default defineConfig(({ mode }) => ({
     include: ['react', 'react-dom', 'react-router-dom']
   },
   
-  cacheDir: path.resolve(process.cwd(), ".vite"),
-  envDir: process.cwd(),
+  cacheDir: path.resolve(PROJECT_ROOT, ".vite"),
+  envDir: PROJECT_ROOT,
   logLevel: 'info',
 }));
