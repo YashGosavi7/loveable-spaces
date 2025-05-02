@@ -12,7 +12,8 @@ export default defineConfig(({ mode }) => ({
     fs: {
       // Strictly limit file access to just the project directory
       strict: true,
-      allow: [process.cwd()]
+      allow: [process.cwd()],
+      deny: ['/dev-server', '**/dev-server/**', 'dev-server']
     },
   },
   // Use relative paths for everything
@@ -25,11 +26,15 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Block any potential dev-server imports
+      "/dev-server": path.resolve(__dirname, "./src/utils/ensureDevServer.js"),
+      "dev-server": path.resolve(__dirname, "./src/utils/ensureDevServer.js")
     },
     // Ensure no external lookups
     preserveSymlinks: true,
     // Only look in allowed locations
-    conditions: ['browser', 'module', 'import', 'default']
+    conditions: ['browser', 'module', 'import', 'default'],
+    mainFields: ['browser', 'module', 'main']
   },
   build: {
     outDir: "dist",
@@ -85,7 +90,19 @@ export default defineConfig(({ mode }) => ({
         'process.env.NODE_ENV': JSON.stringify(mode)
       },
       // Skip all external module resolution
-      external: ['/dev-server/**', '/dev-server/package.json']
+      external: [
+        '/dev-server/**', 
+        '/dev-server/package.json',
+        'dev-server',
+        'dev-server/**'
+      ]
     }
+  },
+  // Prevent Node.js integration entirely
+  define: {
+    'process.env': {},
+    'process.platform': JSON.stringify('browser'),
+    'process.version': JSON.stringify(''),
+    'global': 'window'
   }
 }));

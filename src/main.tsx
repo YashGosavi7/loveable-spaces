@@ -10,7 +10,7 @@ if (!rootElement) throw new Error('Failed to find the root element');
 
 const root = createRoot(rootElement);
 
-// Render the app with no dynamic imports
+// Render the app without any dynamic imports or external dependencies
 root.render(
   <React.StrictMode>
     <App />
