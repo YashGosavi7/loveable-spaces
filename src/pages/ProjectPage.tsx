@@ -16,10 +16,12 @@ const ProjectPage = () => {
   
   const project = projectsData.find(p => p.id === projectId);
   
+  // Scroll to top when project changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [projectId]);
 
+  // Scroll to active thumbnail
   useEffect(() => {
     if (scrollContainerRef.current) {
       const thumbnails = scrollContainerRef.current.querySelectorAll(".thumbnail");
@@ -36,6 +38,7 @@ const ProjectPage = () => {
     }
   }, [activeImageIndex]);
 
+  // Project not found handling
   if (!project) {
     return (
       <div className="min-h-screen pt-24 section-padding">
@@ -50,6 +53,7 @@ const ProjectPage = () => {
     );
   }
   
+  // Image navigation functions
   const nextImage = () => {
     setActiveImageIndex((prev) => 
       prev === project.images.length - 1 ? 0 : prev + 1
@@ -85,7 +89,7 @@ const ProjectPage = () => {
         scrollContainerRef={scrollContainerRef}
       />
       
-      {/* Project Gallery - No "Residential" header anymore */}
+      {/* Project Gallery - No category headers anymore */}
       <ProjectGallery project={project} />
       
       {/* Project Details */}
