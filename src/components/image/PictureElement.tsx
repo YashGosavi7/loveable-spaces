@@ -22,7 +22,8 @@ const PictureElement = memo(({
   sizes,
   fetchPriority,
   format = "auto",
-  placeholderColor
+  placeholderColor,
+  loading
 }: PictureElementProps) => {
   // Get or generate placeholder color
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
@@ -74,6 +75,9 @@ const PictureElement = memo(({
 
   // Determine fetch priority for browser optimization
   const actualFetchPriority = fetchPriority || (priority ? "high" : "auto");
+  
+  // Determine loading attribute
+  const actualLoading = loading || (priority ? "eager" : "lazy");
 
   return (
     <picture className="w-full h-full">
@@ -115,7 +119,7 @@ const PictureElement = memo(({
         onLoad={onLoad}
         placeholderColor={derivedPlaceholderColor}
         fetchPriority={actualFetchPriority}
-        loading={priority ? "eager" : "lazy"}
+        loading={actualLoading}
         quality={quality}
       />
     </picture>

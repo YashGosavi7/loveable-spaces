@@ -1,3 +1,4 @@
+
 import { memo, useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageProps } from "./image/types";
@@ -20,6 +21,7 @@ const OptimizedImage = memo(({
   skipLazyLoading = false,
   placeholderColor,
   format = "auto",
+  loading,
   onLoad
 }: ImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -163,6 +165,7 @@ const OptimizedImage = memo(({
           fetchPriority={priority ? "high" : "auto"}
           format={format}
           placeholderColor={derivedPlaceholderColor}
+          loading={loading}
         />
       )}
     </div>

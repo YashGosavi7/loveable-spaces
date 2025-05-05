@@ -15,4 +15,5 @@ export interface ImageProps {
   placeholderColor?: string;
   skipLazyLoading?: boolean;
   onLoad?: () => void;
+  loading?: "eager" | "lazy";
 }
