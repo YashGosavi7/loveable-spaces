@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
     componentTagger(),
     {
       name: 'mock-dev-server',
-      resolveId(id) {
+      resolveId(id: string) {
         // Intercept any imports that try to access the dev-server path
         if (id.includes('dev-server')) {
           // Return a virtual module id that we'll handle in load
@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => ({
         }
         return null;
       },
-      load(id) {
+      load(id: string) {
         // Return an empty module for the virtual module
         if (id === 'virtual:dev-server') {
           return 'export default {}';
