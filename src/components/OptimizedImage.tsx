@@ -1,4 +1,3 @@
-
 import { memo, useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageProps } from "./image/types";

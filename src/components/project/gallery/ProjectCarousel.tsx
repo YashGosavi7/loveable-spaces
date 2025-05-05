@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Project } from "@/data/projectsData";
 import {
   Carousel,
@@ -26,6 +26,26 @@ const ProjectCarousel = ({
 }: ProjectCarouselProps) => {
   // Auto-advance slides with a pause when user interacts
   const [autoAdvance, setAutoAdvance] = useState(true);
+  // Track which slides are loaded/visible for performance
+  const [loadedSlides, setLoadedSlides] = useState<number[]>([currentSlide]);
+  
+  // Handle image loading completion
+  const handleImageLoaded = useCallback((index: number) => {
+    if (!loadedSlides.includes(index)) {
+      setLoadedSlides(prev => [...prev, index]);
+    }
+  }, [loadedSlides]);
+  
+  // Determine which slides should be loaded (current + neighbors)
+  const shouldLoadSlide = useCallback((index: number) => {
+    // Always load the current slide and adjacent ones
+    if (index === currentSlide) return true;
+    if (index === (currentSlide + 1) % project.images.length) return true;
+    if (index === (currentSlide - 1 + project.images.length) % project.images.length) return true;
+    // Also load slides that were previously loaded
+    if (loadedSlides.includes(index)) return true;
+    return false;
+  }, [currentSlide, loadedSlides, project.images.length]);
   
   useEffect(() => {
     if (!autoAdvance) return;
@@ -46,6 +66,21 @@ const ProjectCarousel = ({
     // Resume auto-advance after 30 seconds of inactivity
     setTimeout(() => setAutoAdvance(true), 30000);
   };
+  
+  // Preload next slides when current slide changes
+  useEffect(() => {
+    // Preload the next slide
+    const nextSlideIndex = (currentSlide + 1) % project.images.length;
+    const prevSlideIndex = (currentSlide - 1 + project.images.length) % project.images.length;
+    
+    setLoadedSlides(prev => {
+      const newLoaded = [...prev];
+      if (!newLoaded.includes(currentSlide)) newLoaded.push(currentSlide);
+      if (!newLoaded.includes(nextSlideIndex)) newLoaded.push(nextSlideIndex);
+      if (!newLoaded.includes(prevSlideIndex)) newLoaded.push(prevSlideIndex);
+      return newLoaded;
+    });
+  }, [currentSlide, project.images.length]);
   
   return (
     <div className="relative">
@@ -73,15 +108,23 @@ const ProjectCarousel = ({
             <CarouselItem key={`slide-${index}`} className="relative">
               <div className="relative overflow-hidden">
                 <AspectRatio ratio={16 / 9} className="bg-gray-100">
-                  <OptimizedImage
-                    src={image}
-                    alt={`${project.title} - ${project.category} project in ${project.location} - image ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    width={1920}
-                    height={1080}
-                    priority={index === currentSlide}
-                    quality={index === currentSlide ? "high" : "medium"}
-                  />
+                  {shouldLoadSlide(index) ? (
+                    <OptimizedImage
+                      src={image}
+                      alt={`${project.title} - ${project.category} project in ${project.location} - image ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      width={1920}
+                      height={1080}
+                      priority={index === currentSlide}
+                      quality={index === currentSlide ? "high" : "medium"}
+                      onLoad={() => handleImageLoaded(index)}
+                      skipLazyLoading={index === currentSlide}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-200/20">
+                      <div className="w-10 h-10 rounded-full border-4 border-roseGold/30 border-t-transparent animate-spin"></div>
+                    </div>
+                  )}
                 </AspectRatio>
                 
                 {/* Text overlay with gradient for readability */}

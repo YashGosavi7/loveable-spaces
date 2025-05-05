@@ -2,21 +2,17 @@
 export interface ImageProps {
   src: string;
   alt: string;
-  priority?: boolean;
   className?: string;
   width?: number;
   height?: number;
+  priority?: boolean;
   sizes?: string;
-  preload?: boolean;
+  srcSet?: string;
   quality?: "low" | "medium" | "high";
-  blurHash?: string;
+  preload?: boolean;
+  format?: "auto" | "webp" | "avif" | "jpeg";
+  fetchPriority?: "high" | "low" | "auto";
+  placeholderColor?: string;
   skipLazyLoading?: boolean;
   onLoad?: () => void;
-  placeholderColor?: string;
-  format?: "auto" | "webp" | "avif" | "jpeg";
-  srcSet?: string;
-  loading?: "eager" | "lazy";
-  autoUpscale?: boolean;
-  renderAtBreakpoints?: boolean;
-  fetchPriority?: "high" | "low" | "auto";
 }
