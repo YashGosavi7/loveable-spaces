@@ -23,7 +23,8 @@ const PictureElement = memo(({
   fetchPriority,
   format = "auto",
   placeholderColor,
-  loading
+  loading,
+  decoding = "async"
 }: PictureElementProps) => {
   // Get or generate placeholder color
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
@@ -45,19 +46,13 @@ const PictureElement = memo(({
   const getSrcSet = () => {
     if (srcSet) return srcSet;
     
-    // In production, this would use a real image API
-    // For smaller images, provide fewer variations
-    if (width <= 300) {
-      return `${src} 150w, ${src} 300w`;
+    // For hero images (larger dimensions)
+    if (width >= 1000) {
+      return `${src} 600w, ${src} 1200w, ${src} 1800w`;
     }
     
-    // For medium-sized images
-    if (width <= 600) {
-      return `${src} 150w, ${src} 300w, ${src} 600w`;
-    }
-    
-    // For larger images
-    return `${src} 150w, ${src} 300w, ${src} 600w, ${src} 900w, ${src} 1200w`;
+    // For thumbnails (smaller dimensions)
+    return `${src} 300w, ${src} 600w, ${src} 900w`;
   };
   
   // Define optimal sizes attribute based on image context
@@ -66,11 +61,11 @@ const PictureElement = memo(({
     
     // Hero images get full width
     if (width >= 1000) {
-      return "100vw";
+      return "(max-width: 768px) 600px, 1200px";
     }
     
     // Gallery or thumbnail images use responsive sizing
-    return "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+    return "(max-width: 768px) 300px, 600px";
   };
 
   // Determine fetch priority for browser optimization
@@ -121,6 +116,7 @@ const PictureElement = memo(({
         fetchPriority={actualFetchPriority}
         loading={actualLoading}
         quality={quality}
+        decoding={decoding}
       />
     </picture>
   );

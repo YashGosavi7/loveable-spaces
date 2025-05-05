@@ -20,13 +20,17 @@ const ImageSource = memo(({
 }: ImageSourceProps) => {
   // Calculate quality parameter based on format, quality setting and user location
   const getQualityParam = () => {
+    // Use more aggressive compression to achieve sub-2-second load time
+    // For WebP: 65-75% quality is the sweet spot for interior design images
+    // For AVIF: 55-65% quality works well due to better compression
+    
     // In production, this would be used with a real image API
     // For India (typically slower connections), reduce quality slightly
     const indiaAdjustment = isIndia ? -5 : 0;
     
     const qualityMap = {
-      avif: { low: 60, medium: 75, high: 85 },
-      webp: { low: 65, medium: 80, high: 90 }
+      avif: { low: 55, medium: 65, high: 75 },
+      webp: { low: 60, medium: 70, high: 80 }
     };
     
     return Math.max(qualityMap[type]?.[quality] + indiaAdjustment, 50) || 75;
@@ -53,18 +57,19 @@ const ImageSource = memo(({
 
 // Generate optimal srcSet with varied sizes for responsive images
 const generateOptimalSrcSet = (src: string, format: 'webp' | 'avif'): string => {
-  // Small size for mobile (150x113px)
-  // Medium size for tablets (300x225px)
-  // Large size for desktop (600x450px)
-  // Based on 4:3 aspect ratio
+  // For hero images (larger width)
+  if (src.includes('hero') || src.includes('main')) {
+    return `${src} 600w, ${src} 1200w, ${src} 1800w`;
+  }
   
-  // For AVIF, we need fewer variations since it's already very efficient
+  // For thumbnail images (smaller width)
   if (format === 'avif') {
+    // AVIF has better compression, so fewer variants needed
     return `${src} 300w, ${src} 600w`;
   }
   
-  // For WebP, provide more options for browsers to choose from
-  return `${src} 150w, ${src} 300w, ${src} 600w, ${src} 900w`;
+  // For WebP thumbnails, provide more options
+  return `${src} 300w, ${src} 600w, ${src} 900w`;
 };
 
 ImageSource.displayName = "ImageSource";

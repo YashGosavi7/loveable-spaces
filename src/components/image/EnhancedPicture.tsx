@@ -21,7 +21,9 @@ const EnhancedPicture = memo(({
   sizes,
   fetchPriority,
   format = "auto",
-  placeholderColor
+  placeholderColor,
+  loading,
+  decoding = "async"
 }: EnhancedPictureProps) => {
   const [hasWebP, setHasWebP] = useState<boolean | null>(null);
   const [hasAVIF, setHasAVIF] = useState<boolean | null>(null);
@@ -39,10 +41,11 @@ const EnhancedPicture = memo(({
   
   // Convert quality string to number
   const getQualityNumber = (qualityStr: "low" | "medium" | "high"): number => {
+    // Use more aggressive compression for WebP and AVIF
     const qualityMap = {
-      low: 70,
-      medium: 80,
-      high: 90
+      low: 65,
+      medium: 75,
+      high: 85
     };
     return qualityMap[qualityStr];
   };
@@ -54,8 +57,8 @@ const EnhancedPicture = memo(({
   
   // Determine optimal srcSet if not provided
   const optimalSrcSet = srcSet || (width >= 1200 
-    ? `${src} 640w, ${src} 1280w, ${src} 1920w` 
-    : `${src} 320w, ${src} 640w, ${src} 960w`);
+    ? `${src} 600w, ${src} 1200w, ${src} 1800w` 
+    : `${src} 300w, ${src} 600w, ${src} 900w`);
 
   return (
     <picture>
@@ -97,8 +100,9 @@ const EnhancedPicture = memo(({
         onLoad={onLoad}
         placeholderColor={placeholderColor || '#f5f2ed'}
         fetchPriority={priority ? "high" : "auto"}
-        loading={priority ? "eager" : "lazy"}
+        loading={loading || (priority ? "eager" : "lazy")}
         quality={quality}
+        decoding={decoding}
       />
     </picture>
   );

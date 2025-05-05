@@ -13,6 +13,7 @@ interface ResponsiveImageProps {
   fetchPriority?: "high" | "low" | "auto";
   loading?: "eager" | "lazy";
   quality?: "low" | "medium" | "high";
+  decoding?: "sync" | "async" | "auto";
 }
 
 const ResponsiveImage = memo(({ 
@@ -26,12 +27,13 @@ const ResponsiveImage = memo(({
   placeholderColor,
   fetchPriority = "auto",
   loading = "lazy",
-  quality = "medium"
+  quality = "medium",
+  decoding = "async"
 }: ResponsiveImageProps) => {
   // Add performance attributes and hints
   const optimizeImage = () => {
     return {
-      decoding: priority ? "sync" as const : "async" as const,
+      decoding: decoding,
       loading: loading,
       style: {
         backgroundColor: placeholderColor,
@@ -46,10 +48,13 @@ const ResponsiveImage = memo(({
       },
       // Explicit image dimensions to prevent layout shifts
       width: width,
-      height: height
+      height: height,
     };
   };
 
+  // Determine if this is likely a hero image based on dimensions or filename
+  const isHeroImage = width >= 1000 || src.includes('hero') || src.includes('main');
+  
   return (
     <img 
       src={src} 
@@ -57,6 +62,10 @@ const ResponsiveImage = memo(({
       className={className}
       onLoad={onLoad}
       data-fetchpriority={fetchPriority}
+      // Add crossorigin attribute to improve CDN caching and CORS support
+      crossOrigin="anonymous"
+      // Set content importance for browser resource prioritization
+      importance={isHeroImage ? "high" : "auto"}
       {...optimizeImage()}
     />
   );

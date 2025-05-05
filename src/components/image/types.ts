@@ -16,4 +16,7 @@ export interface ImageProps {
   skipLazyLoading?: boolean;
   onLoad?: () => void;
   loading?: "eager" | "lazy";
+  decoding?: "sync" | "async" | "auto";
+  blur?: boolean;
+  lowQualityPlaceholder?: string;
 }

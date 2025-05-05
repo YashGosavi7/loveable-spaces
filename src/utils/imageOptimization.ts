@@ -93,14 +93,14 @@ export const getOptimalQuality = (
   
   switch (format) {
     case 'webp':
-      quality = 80;
+      quality = 70; // Lower default quality for WebP (65-75 range)
       break;
     case 'avif':
-      quality = 70;
+      quality = 65; // Even lower for AVIF due to better compression
       break;
     case 'jpeg':
     default:
-      quality = 85;
+      quality = 75; // Higher quality needed for JPEG
       break;
   }
   
@@ -113,7 +113,7 @@ export const getOptimalQuality = (
   
   // Priority images get higher quality
   if (isPriority) {
-    quality = Math.min(quality + 10, 95);
+    quality = Math.min(quality + 10, 90);
   }
   
   // Adjust for network conditions
@@ -122,7 +122,7 @@ export const getOptimalQuality = (
   }
   
   // Ensure quality stays in reasonable bounds
-  return Math.max(Math.min(quality, 95), 60);
+  return Math.max(Math.min(quality, 90), 55);
 };
 
 // Calculate aspect ratio styles to prevent layout shift
@@ -134,52 +134,3 @@ export const calculateAspectRatioStyles = (width: number, height: number) => {
   };
 };
 
-// Get appropriate image dimensions based on device screen size
-export const getResponsiveImageDimensions = (
-  baseWidth: number, 
-  baseHeight: number,
-  deviceType: 'mobile' | 'tablet' | 'desktop' = 'desktop'
-) => {
-  const aspectRatio = baseWidth / baseHeight;
-  
-  switch (deviceType) {
-    case 'mobile':
-      return {
-        width: Math.min(baseWidth, 640),
-        height: Math.min(baseWidth, 640) / aspectRatio
-      };
-    case 'tablet':
-      return {
-        width: Math.min(baseWidth, 1024),
-        height: Math.min(baseWidth, 1024) / aspectRatio
-      };
-    case 'desktop':
-    default:
-      return {
-        width: baseWidth,
-        height: baseHeight
-      };
-  }
-};
-
-// Generate srcset string for responsive images
-export const generateSrcSet = (imageSrc: string, widths: number[] = [640, 960, 1280, 1920]) => {
-  return widths
-    .map(w => `${imageSrc} ${w}w`)
-    .join(', ');
-};
-
-// Generate sizes string for responsive images
-export const generateSizes = (
-  defaultSize: string = '100vw',
-  breakpoints: Array<{ minWidth: number, size: string }> = []
-) => {
-  if (breakpoints.length === 0) {
-    return defaultSize;
-  }
-  
-  return breakpoints
-    .map(bp => `(min-width: ${bp.minWidth}px) ${bp.size}`)
-    .concat([defaultSize])
-    .join(', ');
-};

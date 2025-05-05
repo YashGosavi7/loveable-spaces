@@ -2,6 +2,7 @@
 import { useOptimizedImage } from "@/hooks/useOptimizedImage";
 import OptimizedImage from "../OptimizedImage";
 import { ImageLoader } from "../image/ImageLoader";
+import { useEffect } from "react";
 
 interface ProjectHeroImageProps {
   src: string;
@@ -17,6 +18,31 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
     preload: true
   });
 
+  // Preload the hero image using link preload in the document head
+  useEffect(() => {
+    if (!document.querySelector(`link[rel="preload"][href="${src}"]`) && typeof window !== 'undefined') {
+      // Create preload link for WebP format
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'preload';
+      preloadLink.as = 'image';
+      preloadLink.href = src;
+      preloadLink.type = 'image/webp'; // Prefer WebP for modern browsers
+      preloadLink.setAttribute('fetchpriority', 'high');
+      document.head.appendChild(preloadLink);
+
+      // Add cache control hints
+      preloadLink.setAttribute('data-cache-control', 'public, max-age=31536000');
+      
+      return () => {
+        try {
+          document.head.removeChild(preloadLink);
+        } catch (e) {
+          // Ignore errors if element is already removed
+        }
+      };
+    }
+  }, [src]);
+
   return (
     <div className="absolute inset-0 w-full h-full">
       <div 
@@ -30,7 +56,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       
       {/* Use ImageLoader component to show loading state */}
       {!isLoaded && (
-        <ImageLoader color={placeholderColor} />
+        <ImageLoader color={placeholderColor} showSpinner size="large" />
       )}
       
       <OptimizedImage
@@ -45,6 +71,9 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
         format="auto" // Auto-selects optimal format (WebP/AVIF with JPEG fallback)
         sizes="100vw" // Hero image takes full viewport width
         quality="high" // Use high quality for hero images
+        loading="eager"
+        fetchPriority="high"
+        decoding="sync"
       />
     </div>
   );

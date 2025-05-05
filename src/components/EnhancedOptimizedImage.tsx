@@ -22,6 +22,9 @@ const EnhancedOptimizedImage = memo(({
   skipLazyLoading = false,
   placeholderColor,
   format = "auto",
+  loading,
+  decoding = "async",
+  blur = false,
   onLoad
 }: ImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,7 +32,7 @@ const EnhancedOptimizedImage = memo(({
   const { isInView, elementRef } = useImageIntersection({ 
     priority, 
     skipLazyLoading,
-    rootMargin: "1200px 0px" // Increased threshold for much earlier loading
+    rootMargin: "1600px 0px" // Significantly increased threshold for much earlier loading
   });
   
   // Track if component is mounted
@@ -44,10 +47,13 @@ const EnhancedOptimizedImage = memo(({
   
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
   
+  // Determine if this is a hero image based on dimensions or filename
+  const isHeroImage = width >= 1000 || src.includes('hero') || src.includes('main');
+  
   // Optimize quality based on network conditions
   const optimizeQuality = () => {
     // Don't reduce quality for priority images
-    if (priority) return quality;
+    if (priority || isHeroImage) return quality;
     
     // Check for slow connection
     if (isLowBandwidth()) {
@@ -60,9 +66,10 @@ const EnhancedOptimizedImage = memo(({
   // Preload image if needed
   useImagePreload(src, { 
     priority, 
-    preload, 
+    preload: preload || isHeroImage, 
     width, 
-    quality: optimizeQuality() 
+    quality: optimizeQuality(),
+    format: format || "webp"
   });
 
   const handleImageLoad = () => {
@@ -107,8 +114,8 @@ const EnhancedOptimizedImage = memo(({
           />
           <ImageLoader 
             color={derivedPlaceholderColor} 
-            showSpinner={priority} 
-            size="medium"
+            showSpinner={priority || isHeroImage} 
+            size={isHeroImage ? "large" : "medium"}
           />
         </div>
       )}
@@ -119,21 +126,23 @@ const EnhancedOptimizedImage = memo(({
         </div>
       )}
       
-      {(isInView || priority || skipLazyLoading) && !imageError && (
+      {(isInView || priority || skipLazyLoading || isHeroImage) && !imageError && (
         <EnhancedPicture
           src={src}
           alt={alt}
           width={width}
           height={height}
-          priority={priority}
+          priority={priority || isHeroImage}
           quality={optimizeQuality()}
           className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 w-full h-full object-cover`}
           onLoad={handleImageLoad}
           srcSet={undefined} // Let EnhancedPicture generate optimal srcSet
           sizes={sizes || undefined}
-          fetchPriority={priority ? "high" : "auto"}
+          fetchPriority={priority || isHeroImage ? "high" : "auto"}
           format={format}
           placeholderColor={derivedPlaceholderColor}
+          loading={loading || (isHeroImage || priority ? "eager" : "lazy")}
+          decoding={decoding || (isHeroImage ? "sync" : "async")}
         />
       )}
     </div>

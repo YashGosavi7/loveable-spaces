@@ -31,6 +31,26 @@ export default defineConfig(({ mode }) => ({
         }
         return null;
       },
+    },
+    {
+      name: 'html-transform',
+      transformIndexHtml(html) {
+        // Add preconnect and dns-prefetch hints
+        return html.replace(
+          /<head>/,
+          `<head>
+    <!-- DNS prefetch for fast lookups -->
+    <link rel="dns-prefetch" href="//${window.location.hostname}" />
+    <link rel="preconnect" href="//${window.location.hostname}" crossorigin />
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/fonts/your-main-font.woff2" as="font" type="font/woff2" crossorigin />
+    
+    <!-- Cache control hints -->
+    <meta http-equiv="Cache-Control" content="max-age=86400" />
+`
+        );
+      },
     }
   ].filter(Boolean),
   resolve: {
@@ -42,5 +62,19 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     exclude: ['dev-server']
+  },
+  build: {
+    // Configure build options for better image optimization
+    assetsInlineLimit: 0, // Don't inline assets
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        // Break down chunks for better caching
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['/components/ui/'],
+        },
+      },
+    },
   },
 }));
