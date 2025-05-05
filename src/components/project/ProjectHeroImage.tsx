@@ -18,7 +18,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
     preload: true
   });
 
-  // Preload the hero image using link preload in the document head
+  // Enhanced preloading strategy for hero image with multiple formats and responsive sizes
   useEffect(() => {
     if (!document.querySelector(`link[rel="preload"][href="${src}"]`) && typeof window !== 'undefined') {
       // Create preload link for WebP format
@@ -35,7 +35,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
         preloadLink.setAttribute('media', '(max-width: 768px)');
       }
 
-      // Add cache control hints
+      // Add cache control hints for CDN optimization
       preloadLink.setAttribute('data-cache-control', 'public, max-age=31536000, immutable');
       
       return () => {

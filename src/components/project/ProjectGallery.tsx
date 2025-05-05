@@ -1,10 +1,11 @@
 
 import { Project } from "@/data/projectsData";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./gallery/ProjectCarousel";
 import ProjectThumbnailGrid from "./gallery/ProjectThumbnailGrid";
 import ProjectSummary from "./gallery/ProjectSummary";
 import ImagePreloader from "./gallery/ImagePreloader";
+import ImageLightbox from "./gallery/ImageLightbox";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -13,6 +14,8 @@ interface ProjectGalleryProps {
 const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [preloadedSlides, setPreloadedSlides] = useState<number[]>([0, 1]);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   
   // Determine connection speed for adaptive preloading
   const detectConnectionSpeed = useCallback(() => {
@@ -31,7 +34,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
     return 'normal';
   }, []);
   
-  // Preload critical project images on initial load
+  // Preload critical project images on initial load with more aggressive strategy
   useEffect(() => {
     const connectionSpeed = detectConnectionSpeed();
     
@@ -50,23 +53,39 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
         preloadLink.setAttribute('fetchpriority', 'high');
         document.head.appendChild(preloadLink);
         
-        // For faster connections, preload the next image too
-        if (connectionSpeed !== 'slow' && project.images.length > 1) {
-          const nextImage = project.images[1];
-          const nextImageLink = document.createElement('link');
-          nextImageLink.rel = 'preload';
-          nextImageLink.as = 'image';
-          nextImageLink.href = nextImage;
-          nextImageLink.type = 'image/webp';
-          document.head.appendChild(nextImageLink);
+        // Preload more thumbnails based on connection speed
+        const thumbnailsToPreload = connectionSpeed === 'slow' ? 3 : 
+                                     connectionSpeed === 'medium' ? 6 : 9;
+        
+        // Preload first N thumbnails for gallery
+        const preloadLinks = [];
+        for (let i = 0; i < Math.min(thumbnailsToPreload, project.images.length); i++) {
+          if (i === 0) continue; // Skip the first image as it's already preloaded as hero
+          
+          const thumbnailLink = document.createElement('link');
+          thumbnailLink.rel = connectionSpeed === 'slow' ? 'prefetch' : 'preload';
+          thumbnailLink.as = 'image';
+          thumbnailLink.href = project.images[i];
+          thumbnailLink.type = 'image/webp';
+          thumbnailLink.setAttribute('fetchpriority', i < 3 ? 'high' : 'auto');
+          
+          // Add media attribute for responsive preloading
+          thumbnailLink.setAttribute('media', '(max-width: 768px)');
+          
+          document.head.appendChild(thumbnailLink);
+          preloadLinks.push(thumbnailLink);
         }
         
         // Clean up on unmount
         return () => {
           document.head.removeChild(preloadLink);
-          if (connectionSpeed !== 'slow' && project.images.length > 1) {
-            document.head.removeChild(document.querySelector(`link[href="${project.images[1]}"]`)!);
-          }
+          preloadLinks.forEach(link => {
+            try {
+              document.head.removeChild(link);
+            } catch (e) {
+              // Ignore errors if element is already removed
+            }
+          });
         };
       }
     };
@@ -87,8 +106,8 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
     
     // Determine how many slides to preload based on connection speed
     const connectionSpeed = detectConnectionSpeed();
-    const preloadCount = connectionSpeed === 'slow' ? 1 : 
-                         connectionSpeed === 'medium' ? 2 : 3;
+    const preloadCount = connectionSpeed === 'slow' ? 2 : 
+                         connectionSpeed === 'medium' ? 4 : 6;
     
     // Preload next slides
     for (let i = 1; i <= preloadCount; i++) {
@@ -102,6 +121,25 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
       setPreloadedSlides(prev => [...prev, ...nextSlidesToPreload]);
     }
   }, [project.images.length, preloadedSlides, detectConnectionSpeed]);
+
+  // Handle lightbox open
+  const openLightbox = useCallback((index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+    
+    // Preload adjacent images for smoother lightbox experience
+    const adjacentIndices = [];
+    for (let i = -2; i <= 2; i++) {
+      const idx = index + i;
+      if (idx >= 0 && idx < project.images.length && !preloadedSlides.includes(idx)) {
+        adjacentIndices.push(idx);
+      }
+    }
+    
+    if (adjacentIndices.length > 0) {
+      setPreloadedSlides(prev => [...prev, ...adjacentIndices]);
+    }
+  }, [project.images.length, preloadedSlides]);
 
   // Custom styles for specific projects
   const getProjectSpecificStyles = () => {
@@ -138,14 +176,29 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
           preloadedIndices={preloadedSlides}
         />
         
-        {/* Thumbnail Grid below gallery */}
+        {/* Thumbnail Grid with improved loading and lightbox support */}
         <ProjectThumbnailGrid 
           project={project}
-          onThumbnailClick={handleSlideChange}
+          onThumbnailClick={(index) => openLightbox(index)}
+          preloadedSlides={preloadedSlides}
         />
         
         {/* Project Summary */}
         <ProjectSummary project={project} />
+
+        {/* Image Lightbox */}
+        {lightboxOpen && (
+          <ImageLightbox
+            images={project.images}
+            initialIndex={lightboxIndex}
+            onClose={() => setLightboxOpen(false)}
+            onIndexChange={(index) => {
+              setLightboxIndex(index);
+              // Preload adjacent images
+              handleSlideChange(index);
+            }}
+          />
+        )}
       </div>
     </section>
   );
