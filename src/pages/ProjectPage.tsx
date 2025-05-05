@@ -85,7 +85,7 @@ const ProjectPage = () => {
         scrollContainerRef={scrollContainerRef}
       />
       
-      {/* Project Gallery */}
+      {/* Project Gallery - No "Residential" header anymore */}
       <ProjectGallery project={project} />
       
       {/* Project Details */}

@@ -21,12 +21,12 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
   // Memoize the thumbnail dimensions to prevent recreation on each render
   const thumbnailDimensions = useMemo(() => {
     return {
-      width: 350,
-      height: 263
+      width: 350, // Increased from 300px for better visibility
+      height: 263  // Maintain 4:3 aspect ratio
     };
   }, []);
 
-  // Super aggressive IntersectionObserver implementation for thumbnails
+  // Super aggressive IntersectionObserver implementation with increased root margin
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') {
       // If IntersectionObserver not supported, load all thumbnails
@@ -41,7 +41,7 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
     
     const observerOptions = {
       root: null, // Use viewport as root
-      rootMargin: '1200px 0px', // Much more aggressive - load images 1200px before they come into view
+      rootMargin: '1800px 0px', // Much more aggressive - load images 1800px before they come into view
       threshold: 0.01 // Trigger when just 1% of the element is visible
     };
     
@@ -53,8 +53,8 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
           if (!isNaN(index) && !visibleThumbnails.includes(index)) {
             setVisibleThumbnails(prev => [...prev, index]);
             
-            // Also load the next 3 thumbnails for smoother experience
-            const nextIndices = [index + 1, index + 2, index + 3]
+            // Also preload the next 6 thumbnails for smoother experience (increased from 3)
+            const nextIndices = [index + 1, index + 2, index + 3, index + 4, index + 5, index + 6]
               .filter(i => i < project.images.length && !visibleThumbnails.includes(i));
             
             if (nextIndices.length > 0) {
@@ -87,7 +87,7 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
   // Function to determine if a thumbnail is visible or will be soon
   const shouldRenderThumbnail = (index: number) => {
     // Always render the first thumbnails
-    if (index < 6) return true;
+    if (index < 9) return true;
     
     // If "View All" is clicked, show all thumbnails
     if (showAllThumbnails) return true;
@@ -115,7 +115,7 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
         Explore all angles of this beautiful {project.category.toLowerCase()} design project located in {project.location}.
       </p>
       
-      {/* Enhanced Grid Layout for Thumbnails - 3 columns on desktop */}
+      {/* Enhanced Grid Layout for Thumbnails - 3 columns on desktop with smoother animations */}
       <div 
         ref={gridRef}
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
@@ -140,12 +140,13 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"
                     width={thumbnailDimensions.width}
                     height={thumbnailDimensions.height}
-                    loading={index < 6 ? "eager" : "lazy"}
-                    priority={index < 3} // Only prioritize first 3 thumbnails
-                    preload={index < 9} // Preload first 9 thumbnails
-                    quality={index < 6 ? "medium" : "low"} // Better quality for visible thumbnails
+                    loading={index < 9 ? "eager" : "lazy"} // Eagerly load first 9 thumbnails
+                    priority={index < 6} // Prioritize first 6 thumbnails
+                    preload={index < 12} // Preload first 12 thumbnails
+                    quality={index < 9 ? "medium" : "low"} // Better quality for visible thumbnails
                     decoding="async"
-                    fetchPriority={index < 3 ? "high" : "auto"}
+                    fetchPriority={index < 6 ? "high" : "auto"}
+                    skipLazyLoading={index < 9} // Skip lazy loading for first 9 thumbnails
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-lightGray/5">
@@ -154,21 +155,31 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
                 )}
               </AspectRatio>
               
-              {/* Project name overlay that appears on hover */}
+              {/* Improved hover overlay with zoom indicator */}
               <div className="absolute inset-0 bg-darkGray/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
-                <span className="text-white text-center font-playfair text-lg">{project.title}</span>
+                <div className="text-white text-center">
+                  <span className="block text-lg mb-2">Click to zoom</span>
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </span>
+                </div>
               </div>
             </button>
           </div>
         ))}
       </div>
       
-      {/* View More Button */}
+      {/* Improved View More Button */}
       {hasMoreThumbnails && !showAllThumbnails && (
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setShowAllThumbnails(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-roseGold/10 hover:bg-roseGold/20 text-darkGray rounded-md transition-colors duration-300"
+            className="flex items-center gap-2 px-6 py-3 bg-darkGray/80 hover:bg-darkGray text-white rounded-md transition-colors duration-300"
           >
             View All {project.images.length} Images <ChevronDown size={18} />
           </button>

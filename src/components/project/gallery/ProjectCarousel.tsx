@@ -4,7 +4,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Project } from "@/data/projectsData";
 import { motion, AnimatePresence } from "framer-motion";
 import OptimizedImage from "../../OptimizedImage";
-import { getOptimalImageDimensions } from "@/utils/imageUtils";
 
 interface ProjectCarouselProps {
   project: Project;
@@ -23,22 +22,48 @@ const ProjectCarousel = ({
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const autoplayRef = useRef<number | null>(null);
-  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Determine optimal dimensions
+  // Determine optimal dimensions for responsive loading
   const getImageDimensions = () => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
     
-    // 600px, 1200px, 1800px for hero images with 16:9 aspect
+    // Optimized dimensions with exact aspect ratio
     if (isMobile) {
-      return { width: 600, height: 338 };
+      return { width: 600, height: 338 }; // 16:9 aspect for mobile
     } else if (isTablet) {
-      return { width: 1200, height: 675 };
+      return { width: 1200, height: 675 }; // 16:9 aspect for tablet
     }
-    return { width: 1800, height: 1013 };
+    return { width: 1800, height: 1013 }; // 16:9 aspect for desktop
   };
+
+  // Add image preloading for smoother carousel experience
+  useEffect(() => {
+    // Add preload link for the current slide
+    if (typeof document !== 'undefined' && project.images[currentSlide]) {
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'preload';
+      preloadLink.as = 'image';
+      preloadLink.href = project.images[currentSlide];
+      preloadLink.type = 'image/webp';
+      preloadLink.fetchPriority = 'high';
+      document.head.appendChild(preloadLink);
+      
+      // Preload next image
+      const nextSlide = (currentSlide + 1) % project.images.length;
+      const nextPreloadLink = document.createElement('link');
+      nextPreloadLink.rel = 'prefetch';
+      nextPreloadLink.as = 'image';
+      nextPreloadLink.href = project.images[nextSlide];
+      nextPreloadLink.type = 'image/webp';
+      document.head.appendChild(nextPreloadLink);
+      
+      return () => {
+        document.head.removeChild(preloadLink);
+        document.head.removeChild(nextPreloadLink);
+      };
+    }
+  }, [currentSlide, project.images]);
 
   const prevSlide = () => {
     const newIndex = currentSlide === 0 ? project.images.length - 1 : currentSlide - 1;
@@ -54,7 +79,7 @@ const ProjectCarousel = ({
     setImagesLoaded(prev => ({ ...prev, [index]: true }));
   };
 
-  // Mobile touch handlers
+  // Enhanced mobile touch handlers with smoother swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
@@ -89,7 +114,7 @@ const ProjectCarousel = ({
     return !!imagesLoaded[index];
   };
 
-  // Get appropriate sizing
+  // Get appropriate sizing for different devices
   const { width, height } = getImageDimensions();
 
   return (
@@ -117,7 +142,7 @@ const ProjectCarousel = ({
         <ChevronRight size={24} />
       </button>
       
-      {/* Slides */}
+      {/* Slides with smooth transitions */}
       <div className="relative w-full h-full">
         <AnimatePresence initial={false} mode="wait">
           <motion.div 
@@ -128,7 +153,7 @@ const ProjectCarousel = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            {/* Main image */}
+            {/* Main image - optimized for fast loading */}
             <OptimizedImage
               src={project.images[currentSlide]} 
               alt={`Interior design view ${currentSlide + 1} of ${project.images.length}`}
@@ -141,12 +166,14 @@ const ProjectCarousel = ({
               loading="eager"
               fetchPriority="high"
               decoding="sync"
+              blur={false}
+              skipLazyLoading={true}
             />
           </motion.div>
         </AnimatePresence>
       </div>
       
-      {/* Dots navigation */}
+      {/* Improved dots navigation with current indicator */}
       <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
         {project.images.map((_, index) => (
           <button

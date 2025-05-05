@@ -1,207 +1,194 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from 'lucide-react';
-import OptimizedImage from '@/components/OptimizedImage';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useOptimizedImage } from '@/hooks/useOptimizedImage';
-import { useSwipeable } from '@/hooks/useSwipe';
+
+import { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ImageLightboxProps {
   images: string[];
   initialIndex: number;
   onClose: () => void;
-  onIndexChange?: (index: number) => void;
+  onIndexChange: (index: number) => void;
 }
 
-const ImageLightbox = ({ images, initialIndex = 0, onClose, onIndexChange }: ImageLightboxProps) => {
+const ImageLightbox = ({ images, initialIndex, onClose, onIndexChange }: ImageLightboxProps) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isLoading, setIsLoading] = useState(true);
   const [isZoomed, setIsZoomed] = useState(false);
-  const { placeholderColor } = useOptimizedImage({ src: images[currentIndex] });
-  
-  // Preload adjacent images
+
+  // Preload surrounding images for faster navigation
   useEffect(() => {
-    const preloadImages = (indexesToLoad: number[]) => {
-      indexesToLoad.forEach(index => {
-        if (index >= 0 && index < images.length) {
-          const img = new Image();
-          img.src = images[index];
-        }
-      });
+    const preloadNextAndPrev = () => {
+      const prevIndex = (currentIndex - 1 + images.length) % images.length;
+      const nextIndex = (currentIndex + 1) % images.length;
+      
+      const preloadImage = (index: number) => {
+        const img = new Image();
+        img.src = images[index];
+        img.fetchPriority = "high";
+        img.decoding = "async";
+      };
+      
+      preloadImage(prevIndex);
+      preloadImage(nextIndex);
     };
     
-    // Preload adjacent images - current, next and previous
-    const preloadIndices = [currentIndex, currentIndex + 1, currentIndex - 1];
-    preloadImages(preloadIndices);
-    
-    return () => {
-      // Nothing to clean up
-    };
+    preloadNextAndPrev();
   }, [currentIndex, images]);
-  
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      else if (e.key === 'ArrowLeft') handlePrevious();
-      else if (e.key === 'ArrowRight') handleNext();
+      if (e.key === "Escape") {
+        onClose();
+      } else if (e.key === "ArrowLeft") {
+        navigatePrev();
+      } else if (e.key === "ArrowRight") {
+        navigateNext();
+      } else if (e.key === " " || e.key === "Enter") {
+        setIsZoomed(!isZoomed);
+        e.preventDefault();
+      }
     };
     
-    document.addEventListener('keydown', handleKeyDown);
-    
-    // Prevent body scrolling when lightbox is open
-    document.body.style.overflow = 'hidden';
+    window.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden"; // Prevent scrolling when lightbox is open
     
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = ""; // Restore scrolling
     };
-  }, [currentIndex, images.length]);
-  
-  // Handle navigation
-  const handleNext = useCallback(() => {
-    const newIndex = (currentIndex + 1) % images.length;
-    setCurrentIndex(newIndex);
-    if (onIndexChange) onIndexChange(newIndex);
+  }, [isZoomed, onClose]);
+
+  const navigateNext = useCallback(() => {
     setIsLoading(true);
-    setIsZoomed(false);
+    const nextIndex = (currentIndex + 1) % images.length;
+    setCurrentIndex(nextIndex);
+    onIndexChange(nextIndex);
   }, [currentIndex, images.length, onIndexChange]);
-  
-  const handlePrevious = useCallback(() => {
-    const newIndex = (currentIndex - 1 + images.length) % images.length;
-    setCurrentIndex(newIndex);
-    if (onIndexChange) onIndexChange(newIndex);
+
+  const navigatePrev = useCallback(() => {
     setIsLoading(true);
-    setIsZoomed(false);
+    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+    setCurrentIndex(prevIndex);
+    onIndexChange(prevIndex);
   }, [currentIndex, images.length, onIndexChange]);
+
+  const toggleZoom = () => {
+    setIsZoomed(!isZoomed);
+  };
+
+  // Handle image load completion
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  // Handle touch/swipe gestures
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   
-  // Handle swipe gestures
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrevious,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: false
-  });
-  
-  // Get optimal dimensions for the displayed image
-  const getImageDimensions = () => {
-    let width = 1600;
-    let height = 1200;
-    
-    if (typeof window !== 'undefined') {
-      // Adjust based on screen size
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      
-      // Keep within 80% of viewport
-      width = Math.min(width, viewportWidth * 0.8);
-      height = Math.min(height, viewportHeight * 0.8);
-    }
-    
-    return { width, height };
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
   };
   
-  const { width, height } = getImageDimensions();
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.touches[0].clientX);
+  };
   
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 100) {
+      // Swipe left - go to next
+      navigateNext();
+    } else if (touchStart - touchEnd < -100) {
+      // Swipe right - go to previous
+      navigatePrev();
+    }
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+    <div 
+      className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
       onClick={onClose}
     >
       {/* Close button */}
       <button 
-        className="absolute top-4 right-4 z-50 text-white hover:text-roseGold transition-colors p-2 rounded-full bg-black/40 hover:bg-black/60"
+        className="absolute top-4 right-4 text-white/90 hover:text-white z-10 p-2"
         onClick={onClose}
+        aria-label="Close lightbox"
       >
-        <X size={32} />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
       </button>
       
-      {/* Zoom controls */}
-      <div className="absolute top-4 left-4 z-50 flex gap-2">
-        <button 
-          className={`text-white hover:text-roseGold transition-colors p-2 rounded-full bg-black/40 hover:bg-black/60 ${isZoomed ? 'opacity-50' : 'opacity-100'}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsZoomed(!isZoomed);
-          }}
-        >
-          {isZoomed ? <ZoomOut size={24} /> : <ZoomIn size={24} />}
-        </button>
+      {/* Image counter */}
+      <div className="absolute top-4 left-4 text-white/90 text-sm">
+        {currentIndex + 1} / {images.length}
       </div>
       
       {/* Previous button */}
-      <button 
-        className="absolute left-4 z-50 text-white hover:text-roseGold transition-colors p-2 rounded-full bg-black/40 hover:bg-black/60"
+      <button
+        className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 md:p-3 rounded-full z-10"
         onClick={(e) => {
           e.stopPropagation();
-          handlePrevious();
+          navigatePrev();
         }}
+        aria-label="Previous image"
       >
-        <ChevronLeft size={32} />
+        <ChevronLeft size={24} />
       </button>
       
       {/* Next button */}
-      <button 
-        className="absolute right-4 z-50 text-white hover:text-roseGold transition-colors p-2 rounded-full bg-black/40 hover:bg-black/60"
+      <button
+        className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 md:p-3 rounded-full z-10"
         onClick={(e) => {
           e.stopPropagation();
-          handleNext();
+          navigateNext();
         }}
+        aria-label="Next image"
       >
-        <ChevronRight size={32} />
+        <ChevronRight size={24} />
       </button>
       
-      {/* Main image container */}
+      {/* Image container */}
       <div 
-        className="w-full h-full flex items-center justify-center"
-        onClick={(e) => e.stopPropagation()}
-        {...swipeHandlers}
+        className="relative w-full h-full flex items-center justify-center"
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleZoom();
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className={`relative ${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
-            onClick={() => setIsZoomed(!isZoomed)}
-          >
-            <div 
-              className={`transition-transform duration-300 ${
-                isZoomed ? 'scale-150 md:scale-175' : 'scale-100'
-              }`}
-            >
-              {isLoading && (
-                <div 
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{ backgroundColor: placeholderColor }}
-                >
-                  <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-                </div>
-              )}
-              <OptimizedImage
-                src={images[currentIndex]}
-                alt={`Project image ${currentIndex + 1}`}
-                width={width}
-                height={height}
-                className="max-w-[80vw] max-h-[80vh] object-contain"
-                priority={true}
-                quality="high"
-                onLoad={() => setIsLoading(false)}
-              />
-            </div>
-          </motion.div>
-        </AnimatePresence>
+        {/* Loading indicator */}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-12 h-12 border-4 border-roseGold/30 border-t-roseGold rounded-full animate-spin"></div>
+          </div>
+        )}
+        
+        {/* The image */}
+        <img 
+          src={images[currentIndex]} 
+          alt={`Full-size image ${currentIndex + 1}`}
+          className={`max-w-full max-h-full object-contain transition-transform duration-300 ${
+            isZoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'
+          }`}
+          style={{ transform: isZoomed ? 'scale(1.5)' : 'none' }}
+          onLoad={handleImageLoad}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleZoom();
+          }}
+          decoding="async"
+        />
+        
+        {/* Zoom instructions */}
+        <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm 
+                        transition-opacity duration-300 ${isZoomed ? 'opacity-0' : 'opacity-100'}`}>
+          Click image to zoom
+        </div>
       </div>
-      
-      {/* Image counter */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/40 px-4 py-2 rounded-full text-white">
-        {currentIndex + 1} / {images.length}
-      </div>
-    </motion.div>
+    </div>
   );
 };
 
