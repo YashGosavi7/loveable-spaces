@@ -1,3 +1,4 @@
+
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -20,6 +21,8 @@ export default defineConfig(({ command, mode }) => {
       }),
     ],
     server: {
+      host: "::",
+      port: 8080,
       open: true,
     },
     build: {
@@ -48,32 +51,27 @@ export default defineConfig(({ command, mode }) => {
         // Ensure components/ui can be resolved directly
         "components": path.resolve(__dirname, "./src/components"),
         "@components": path.resolve(__dirname, "./src/components"),
-        // Use proper path for UI components, not a directory
+        // Use proper path for UI components
         "@ui": path.resolve(__dirname, "./src/components/ui"),
         // Add an alias for dev-server to point to a mock
         "dev-server": path.resolve(__dirname, "./src/mock-dev-server"),
       },
     },
     
-    
     build: {
-      
-      
       rollupOptions: {
-        
-        
         output: {
-          
-          
           // Break down chunks for better caching
           manualChunks: {
             vendor: ['react', 'react-dom'],
-            ui: ['@/components/ui/button', '@/components/ui/card'] // Fix: specify actual files, not directory
+            ui: ['@/components/ui/button', '@/components/ui/card'] // Specify individual files instead of directory
           },
         },
       },
     },
     
-    
+    optimizeDeps: {
+      exclude: ['dev-server']
+    },
   };
 });
