@@ -1,8 +1,0 @@
-
-{
-  "name": "dev-server-mock",
-  "version": "1.0.0",
-  "main": "index.js",
-  "description": "Mock dev-server module to prevent build errors",
-  "private": true
-}

@@ -1,5 +1,3 @@
-import { Project } from "@/data/projectsData";
-
 export interface Project {
   id: string;
   title: string;

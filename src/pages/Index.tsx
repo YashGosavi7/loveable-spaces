@@ -1,24 +1,11 @@
-
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+// Update this page (the content is just a fallback if you fail to update the page)
 
 const Index = () => {
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    // Redirect to home page immediately
-    navigate('/', { replace: true });
-  }, [navigate]);
-  
   return (
-    <div>
-      <Helmet>
-        <title>Loveable Interior Design - Premium Services from 15k</title>
-        <meta name="description" content="Premium interior design services by Loveable, founded in 2012. Over 600 projects across Tier 1 cities, starting at 15k." />
-      </Helmet>
-      <div className="flex items-center justify-center h-screen">
-        <p>Redirecting...</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
+        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
       </div>
     </div>
   );

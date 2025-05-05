@@ -14,12 +14,6 @@ const ProjectPage = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // Log available project IDs for debugging
-  useEffect(() => {
-    console.log("Available projects:", projectsData.map(p => p.id));
-    console.log("Current projectId from URL:", projectId);
-  }, [projectId]);
-  
   const project = projectsData.find(p => p.id === projectId);
   
   useEffect(() => {
@@ -41,15 +35,6 @@ const ProjectPage = () => {
       }
     }
   }, [activeImageIndex]);
-
-  // Add debug logging for project
-  useEffect(() => {
-    if (project) {
-      console.log("Found project:", project.title, project.images.length);
-    } else {
-      console.error("Project not found for ID:", projectId);
-    }
-  }, [project, projectId]);
 
   if (!project) {
     return (
