@@ -58,6 +58,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
       // Ensure components/ui can be resolved directly
       "components": path.resolve(__dirname, "./src/components"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@ui": path.resolve(__dirname, "./src/components/ui"),
       // Add an alias for dev-server to point to a mock
       "dev-server": path.resolve(__dirname, "./src/mock-dev-server"),
     },
@@ -74,7 +76,7 @@ export default defineConfig(({ mode }) => ({
         // Break down chunks for better caching
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          ui: ['/components/ui/'],
+          ui: ['@/components/ui'],
         },
       },
     },
