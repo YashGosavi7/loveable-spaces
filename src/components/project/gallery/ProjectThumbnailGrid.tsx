@@ -20,7 +20,6 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
   
   // Memoize the thumbnail dimensions to prevent recreation on each render
   const thumbnailDimensions = useMemo(() => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     return {
       width: 350,
       height: 263
@@ -130,7 +129,7 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
           >
             <button 
               onClick={() => onThumbnailClick(index)}
-              className="w-full h-full"
+              className="w-full h-full relative group"
               aria-label={`View image ${index + 1} in lightbox gallery`}
             >
               <AspectRatio ratio={4/3} className="bg-lightGray/10">
@@ -138,7 +137,7 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
                   <OptimizedImage
                     src={image}
                     alt={`Design thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"
                     width={thumbnailDimensions.width}
                     height={thumbnailDimensions.height}
                     loading={index < 6 ? "eager" : "lazy"}
@@ -154,6 +153,11 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
                   </div>
                 )}
               </AspectRatio>
+              
+              {/* Project name overlay that appears on hover */}
+              <div className="absolute inset-0 bg-darkGray/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
+                <span className="text-white text-center font-playfair text-lg">{project.title}</span>
+              </div>
             </button>
           </div>
         ))}
