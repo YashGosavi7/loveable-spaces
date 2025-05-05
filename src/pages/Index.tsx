@@ -36,7 +36,7 @@ const Index = () => {
     
     // Optimally select featured projects
     const selected = projectsData
-      .filter(p => p.featured || p.category === "Residential")
+      .filter(p => p.isFeatured || p.category === "Residential")
       .slice(0, 3);
       
     setFeaturedProjects(selected);
