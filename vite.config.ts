@@ -56,6 +56,8 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Ensure components/ui can be resolved directly
+      "components": path.resolve(__dirname, "./src/components"),
       // Add an alias for dev-server to point to a mock
       "dev-server": path.resolve(__dirname, "./src/mock-dev-server"),
     },
