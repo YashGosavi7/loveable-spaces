@@ -9,12 +9,12 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   return (
     <section className="py-16 bg-lightGray/5">
       <div className="container mx-auto px-4">
-        <h2 className="font-playfair text-3xl mb-10 text-center">About This Project</h2>
+        <h2 className="font-playfair text-3xl mb-10 text-center">{project.title}</h2>
         
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg mx-auto text-darkGray/90">
             <p className="lead text-xl mb-8">
-              {project.description || `${project.title} is a beautiful ${project.category.toLowerCase()} project located in ${project.location}.`}
+              {project.description || `A beautiful ${project.category.toLowerCase()} project located in ${project.location}.`}
             </p>
             
             {project.features && project.features.length > 0 && (
