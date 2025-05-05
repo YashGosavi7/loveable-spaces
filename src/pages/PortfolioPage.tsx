@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -113,10 +114,10 @@ const PortfolioPage = () => {
   return (
     <div className="min-h-screen pt-32 md:pt-40 pb-16">
       <Helmet>
-        <title>Loveable - Fast-loading Portfolio: Residential, Commercial, and Hospitality Projects</title>
+        <title>Interior Design Portfolio: Residential, Commercial, and Hospitality Projects</title>
         <meta 
           name="description" 
-          content="Loveable's portfolio loads instantly with top interiors in Residential, Commercial, and Hospitality, starting at 15k."
+          content="Explore our portfolio of interior design projects across Residential, Commercial, and Hospitality sectors, starting at 15k."
         />
         
         <link rel="dns-prefetch" href={window.location.origin} />
@@ -132,7 +133,7 @@ const PortfolioPage = () => {
           />
         )}
         
-        <meta httpEquiv="Cache-Control" content="max-age=86400" />
+        <meta httpEquiv="Cache-Control" content="max-age=31536000" />
       </Helmet>
       
       <div className="container mx-auto px-4 md:px-8">
@@ -143,7 +144,7 @@ const PortfolioPage = () => {
         
         <div className="mb-8 py-4">
           <h2 className="font-playfair text-[20px] text-darkGray font-normal text-center mb-4">
-            Explore Our Portfolio: Fast-Loading Spaces Designed with Love
+            Explore Our Portfolio: Spaces Designed with Attention to Detail
           </h2>
           
           <p className="text-center text-darkGray/80 font-lato text-sm">
@@ -165,9 +166,9 @@ const PortfolioPage = () => {
         
         <div className="mt-16 text-center">
           <p className="text-darkGray font-lato text-[13px] md:text-base">
-            Our images load lightning-fast – Contact Dalpat Suthar via WhatsApp!{" "}
+            Contact via WhatsApp!{" "}
             <span className="text-roseGold/90 ml-1">
-              Founded in 2012 by Dalaram Suthar with over 600 projects across Tier 1 cities, pricing from 15k total.
+              Founded in 2012 with over 600 projects across Tier 1 cities, pricing from 15k total.
             </span>
           </p>
         </div>

@@ -15,9 +15,6 @@ const ProjectHeroInfo = ({ project }: ProjectHeroInfoProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white mb-4">
-            {project.title}
-          </h1>
           <p className="text-white/90 text-xl md:text-2xl">
             {project.category} | {project.location}
             {project.designer && ` | Designed by ${project.designer}`}

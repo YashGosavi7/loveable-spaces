@@ -19,8 +19,8 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick }: ProjectThumbnailGri
   const thumbnailDimensions = useMemo(() => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     return {
-      width: isMobile ? 300 : 400,
-      height: isMobile ? 225 : 300
+      width: isMobile ? 350 : 350,
+      height: isMobile ? 263 : 263
     };
   }, []);
 
@@ -106,7 +106,7 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick }: ProjectThumbnailGri
         {project.images.map((image, index) => (
           <div 
             key={`thumb-${index}`} 
-            className="thumbnail-container overflow-hidden border border-roseGold/10 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="thumbnail-container overflow-hidden border border-roseGold/10 rounded-md shadow-sm hover:shadow-lg transition-shadow duration-300"
             data-index={index}
           >
             <button 
@@ -118,8 +118,8 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick }: ProjectThumbnailGri
                 {shouldRenderThumbnail(index) ? (
                   <OptimizedImage
                     src={image}
-                    alt={`${project.title} thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    alt={`Design thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 ease-out"
                     width={thumbnailDimensions.width}
                     height={thumbnailDimensions.height}
                     loading="lazy"

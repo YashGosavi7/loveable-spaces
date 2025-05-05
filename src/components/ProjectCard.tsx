@@ -48,10 +48,10 @@ const ProjectCard = memo(({
             )}
             <OptimizedImage
               src={image}
-              alt={`${title} interior by Loveable in ${location}`}
+              alt={`Interior design in ${location}`}
               className="w-full h-full"
-              width={300}
-              height={225}
+              width={350}
+              height={263}
               priority={index < 3}
               preload={index < 6}
               quality={index < 3 ? "high" : "medium"}
@@ -63,9 +63,6 @@ const ProjectCard = memo(({
         <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 
                       transition-opacity duration-300 flex flex-col items-center 
                       justify-center text-center p-4 md:p-6">
-          <h3 className="font-playfair text-white text-xl md:text-2xl mb-2 md:mb-3">
-            {title}
-          </h3>
           <p className="text-white/90 mb-3 md:mb-4 text-sm md:text-base">
             {category} | {location}
             {designer && ` | Designed by ${designer}`}
@@ -81,9 +78,6 @@ const ProjectCard = memo(({
         </div>
         
         <div className="mt-4 px-1">
-          <h3 className="font-playfair text-lg md:text-xl text-darkGray">
-            {title}
-          </h3>
           <p className="text-darkGray/80 text-sm md:text-base">
             {category} | {location}
             {designer && ` | Designed by ${designer}`}

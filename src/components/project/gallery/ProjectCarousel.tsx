@@ -1,15 +1,10 @@
 
-import { useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Project } from "@/data/projectsData";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import OptimizedImage from "@/components/OptimizedImage";
+import { motion, AnimatePresence } from "framer-motion";
+import OptimizedImage from "../../OptimizedImage";
+import { getOptimalImageDimensions } from "@/utils/imageUtils";
 
 interface ProjectCarouselProps {
   project: Project;
@@ -21,140 +16,149 @@ interface ProjectCarouselProps {
 const ProjectCarousel = ({ 
   project, 
   onSlideChange, 
-  currentSlide,
-  navButtonClass = "bg-roseGold/90 hover:bg-roseGold text-white"
+  currentSlide, 
+  navButtonClass = "bg-roseGold/90 hover:bg-roseGold text-white" 
 }: ProjectCarouselProps) => {
-  // Auto-advance slides with a pause when user interacts
-  const [autoAdvance, setAutoAdvance] = useState(true);
-  // Track which slides are loaded/visible for performance
-  const [loadedSlides, setLoadedSlides] = useState<number[]>([currentSlide]);
+  const [imagesLoaded, setImagesLoaded] = useState<{[key: number]: boolean}>({});
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const autoplayRef = useRef<number | null>(null);
+  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Handle image loading completion
-  const handleImageLoaded = useCallback((index: number) => {
-    if (!loadedSlides.includes(index)) {
-      setLoadedSlides(prev => [...prev, index]);
+  // Determine optimal dimensions
+  const getImageDimensions = () => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
+    
+    // 600px, 1200px, 1800px for hero images with 16:9 aspect
+    if (isMobile) {
+      return { width: 600, height: 338 };
+    } else if (isTablet) {
+      return { width: 1200, height: 675 };
     }
-  }, [loadedSlides]);
-  
-  // Determine which slides should be loaded (current + neighbors)
-  const shouldLoadSlide = useCallback((index: number) => {
-    // Always load the current slide and adjacent ones
-    if (index === currentSlide) return true;
-    if (index === (currentSlide + 1) % project.images.length) return true;
-    if (index === (currentSlide - 1 + project.images.length) % project.images.length) return true;
-    // Also load slides that were previously loaded
-    if (loadedSlides.includes(index)) return true;
-    return false;
-  }, [currentSlide, loadedSlides, project.images.length]);
-  
-  useEffect(() => {
-    if (!autoAdvance) return;
-    
-    const timer = setTimeout(() => {
-      const nextSlide = (currentSlide + 1) % project.images.length;
-      onSlideChange(nextSlide);
-    }, 6000); // Change slide every 6 seconds
-    
-    return () => clearTimeout(timer);
-  }, [currentSlide, project.images.length, onSlideChange, autoAdvance]);
-  
-  // Pause auto-advance when user interacts with carousel
-  const handleManualNavigation = (index: number) => {
-    setAutoAdvance(false);
-    onSlideChange(index);
-    
-    // Resume auto-advance after 30 seconds of inactivity
-    setTimeout(() => setAutoAdvance(true), 30000);
+    return { width: 1800, height: 1013 };
+  };
+
+  const prevSlide = () => {
+    const newIndex = currentSlide === 0 ? project.images.length - 1 : currentSlide - 1;
+    onSlideChange(newIndex);
+  };
+
+  const nextSlide = () => {
+    const newIndex = currentSlide === project.images.length - 1 ? 0 : currentSlide + 1;
+    onSlideChange(newIndex);
+  };
+
+  const handleImageLoad = (index: number) => {
+    setImagesLoaded(prev => ({ ...prev, [index]: true }));
+  };
+
+  // Mobile touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
   };
   
-  // Preload next slides when current slide changes
-  useEffect(() => {
-    // Preload the next slide
-    const nextSlideIndex = (currentSlide + 1) % project.images.length;
-    const prevSlideIndex = (currentSlide - 1 + project.images.length) % project.images.length;
-    
-    setLoadedSlides(prev => {
-      const newLoaded = [...prev];
-      if (!newLoaded.includes(currentSlide)) newLoaded.push(currentSlide);
-      if (!newLoaded.includes(nextSlideIndex)) newLoaded.push(nextSlideIndex);
-      if (!newLoaded.includes(prevSlideIndex)) newLoaded.push(prevSlideIndex);
-      return newLoaded;
-    });
-  }, [currentSlide, project.images.length]);
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
   
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isSignificantMove = Math.abs(distance) > 50; // Min distance for swipe
+    
+    if (isSignificantMove) {
+      if (distance > 0) {
+        // Swipe left, show next slide
+        nextSlide();
+      } else {
+        // Swipe right, show previous slide
+        prevSlide();
+      }
+    }
+    
+    // Reset touch positions
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // Check if image has loaded
+  const isImageLoaded = (index: number) => {
+    return !!imagesLoaded[index];
+  };
+
+  // Get appropriate sizing
+  const { width, height } = getImageDimensions();
+
   return (
-    <div className="relative">
-      {/* Full-width hero image carousel */}
-      <Carousel
-        className="w-full"
-        setApi={(api) => {
-          if (api) {
-            api.on("select", () => {
-              const selectedIndex = api.selectedScrollSnap();
-              if (selectedIndex !== currentSlide) {
-                handleManualNavigation(selectedIndex);
-              }
-            });
-          }
-        }}
-        opts={{
-          loop: true,
-          align: "start",
-          startIndex: currentSlide,
-        }}
+    <div 
+      ref={carouselRef}
+      className="relative overflow-hidden rounded-lg shadow-md bg-lightGray/10 aspect-[16/9] w-full"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Navigation buttons */}
+      <button 
+        onClick={prevSlide}
+        className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full p-2 md:p-3 ${navButtonClass} opacity-80 hover:opacity-100 transition-opacity`}
+        aria-label="Previous image"
       >
-        <CarouselContent>
-          {project.images.map((image, index) => (
-            <CarouselItem key={`slide-${index}`} className="relative">
-              <div className="relative overflow-hidden">
-                <AspectRatio ratio={16 / 9} className="bg-gray-100">
-                  {shouldLoadSlide(index) ? (
-                    <OptimizedImage
-                      src={image}
-                      alt={`${project.title} - ${project.category} project in ${project.location} - image ${index + 1}`}
-                      className="w-full h-full object-cover"
-                      width={1920}
-                      height={1080}
-                      priority={index === currentSlide}
-                      quality={index === currentSlide ? "high" : "medium"}
-                      onLoad={() => handleImageLoaded(index)}
-                      skipLazyLoading={index === currentSlide}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-200/20">
-                      <div className="w-10 h-10 rounded-full border-4 border-roseGold/30 border-t-transparent animate-spin"></div>
-                    </div>
-                  )}
-                </AspectRatio>
-                
-                {/* Text overlay with gradient for readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6 md:p-10">
-                  <h3 className="text-white text-2xl md:text-4xl font-bold mb-2 font-sans">
-                    {project.title}
-                  </h3>
-                  <p className="text-white/90 text-base md:text-lg font-light">
-                    {project.category} | {project.location}
-                  </p>
-                </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        
-        <CarouselPrevious className={`${navButtonClass} left-4 lg:left-8`} />
-        <CarouselNext className={`${navButtonClass} right-4 lg:right-8`} />
-      </Carousel>
+        <ChevronLeft size={24} />
+      </button>
       
-      {/* Slide indicators */}
-      <div className="flex justify-center mt-4">
+      <button 
+        onClick={nextSlide}
+        className={`absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full p-2 md:p-3 ${navButtonClass} opacity-80 hover:opacity-100 transition-opacity`}
+        aria-label="Next image"
+      >
+        <ChevronRight size={24} />
+      </button>
+      
+      {/* Slides */}
+      <div className="relative w-full h-full">
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div 
+            key={currentSlide} 
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            {/* Main image */}
+            <OptimizedImage
+              src={project.images[currentSlide]} 
+              alt={`Interior design view ${currentSlide + 1} of ${project.images.length}`}
+              className="w-full h-full object-contain"
+              width={width}
+              height={height}
+              onLoad={() => handleImageLoad(currentSlide)}
+              priority={true}
+              quality="high"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      
+      {/* Dots navigation */}
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
         {project.images.map((_, index) => (
           <button
-            key={`dot-${index}`}
-            className={`mx-1 h-2 rounded-full transition-all duration-300 ${
-              index === currentSlide ? "w-6 bg-roseGold" : "w-2 bg-roseGold/30"
+            key={index} 
+            onClick={() => onSlideChange(index)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              index === currentSlide 
+                ? 'bg-roseGold w-6' 
+                : 'bg-white/40 w-2 hover:bg-white/60'
             }`}
-            onClick={() => handleManualNavigation(index)}
             aria-label={`Go to slide ${index + 1}`}
+            aria-current={index === currentSlide ? 'true' : 'false'}
           />
         ))}
       </div>

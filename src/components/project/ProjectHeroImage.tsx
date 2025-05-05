@@ -30,8 +30,13 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       preloadLink.setAttribute('fetchpriority', 'high');
       document.head.appendChild(preloadLink);
 
+      // Add media attribute for responsive preloading
+      if (width <= 768) {
+        preloadLink.setAttribute('media', '(max-width: 768px)');
+      }
+
       // Add cache control hints
-      preloadLink.setAttribute('data-cache-control', 'public, max-age=31536000');
+      preloadLink.setAttribute('data-cache-control', 'public, max-age=31536000, immutable');
       
       return () => {
         try {
@@ -41,7 +46,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
         }
       };
     }
-  }, [src]);
+  }, [src, width]);
 
   return (
     <div className="absolute inset-0 w-full h-full">

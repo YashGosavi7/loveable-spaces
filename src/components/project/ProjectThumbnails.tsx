@@ -25,8 +25,10 @@ const ProjectThumbnails = ({
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
     
-    const viewport = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
-    return getOptimalImageDimensions('thumbnail', viewport);
+    return {
+      width: 350,
+      height: 263
+    };
   }, []);
   
   const { width, height } = getThumbnailDimensions();
@@ -49,7 +51,7 @@ const ProjectThumbnails = ({
         const scrollLeft = scrollContainerRef.current.scrollLeft;
         
         // Calculate which thumbnails should be in the visible range (with larger buffer)
-        const thumbnailWidth = 28; // Approximate width in pixels
+        const thumbnailWidth = 36; // Approximate width in pixels (increased)
         const gap = 3; // Gap between thumbnails
         const startIndex = Math.max(0, Math.floor(scrollLeft / (thumbnailWidth + gap)) - 4); // Larger buffer
         const visibleCount = Math.ceil(containerWidth / (thumbnailWidth + gap)) + 8; // Larger buffer
@@ -149,7 +151,7 @@ const ProjectThumbnails = ({
           {project.images.map((image, index) => (
             <button
               key={index}
-              className={`flex-shrink-0 w-28 md:w-36 h-20 overflow-hidden thumbnail ${
+              className={`flex-shrink-0 w-36 md:w-40 h-[90px] md:h-[100px] overflow-hidden thumbnail ${
                 index === activeImageIndex ? activeBorderClass : "ring-1 ring-white/20"
               }`}
               onClick={() => setActiveImageIndex(index)}
@@ -162,10 +164,10 @@ const ProjectThumbnails = ({
               {shouldRenderThumbnail(index) ? (
                 <OptimizedImage 
                   src={image} 
-                  alt={`Fast-loading uncropped ${project.title} thumbnail ${index + 1}`}
-                  className="w-full h-full object-contain"
-                  width={width}
-                  height={height}
+                  alt={`Interior design thumbnail ${index + 1}`}
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                  width={350}
+                  height={263}
                   // Higher priority for active and nearby thumbnails
                   priority={index === activeImageIndex}
                   preload={Math.abs(index - activeImageIndex) < 3}
