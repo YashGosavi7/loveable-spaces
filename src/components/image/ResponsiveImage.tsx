@@ -16,6 +16,13 @@ interface ResponsiveImageProps {
   decoding?: "sync" | "async" | "auto";
 }
 
+// Declare "importance" as a valid attribute for img elements
+declare module 'react' {
+  interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
+    importance?: string;
+  }
+}
+
 const ResponsiveImage = memo(({ 
   src, 
   alt, 

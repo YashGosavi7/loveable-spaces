@@ -34,14 +34,14 @@ export default defineConfig(({ mode }) => ({
     },
     {
       name: 'html-transform',
-      transformIndexHtml(html) {
-        // Add preconnect and dns-prefetch hints
+      transformIndexHtml(html: string) {
+        // Add preconnect and dns-prefetch hints - without using window
         return html.replace(
           /<head>/,
           `<head>
     <!-- DNS prefetch for fast lookups -->
-    <link rel="dns-prefetch" href="//${window.location.hostname}" />
-    <link rel="preconnect" href="//${window.location.hostname}" crossorigin />
+    <link rel="dns-prefetch" href="//self" />
+    <link rel="preconnect" href="//self" crossorigin />
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="/fonts/your-main-font.woff2" as="font" type="font/woff2" crossorigin />
