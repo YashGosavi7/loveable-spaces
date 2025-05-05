@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { visualizer } from "rollup-plugin-visualizer";
+import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -19,7 +20,8 @@ export default defineConfig(({ command, mode }) => {
           // svgr options
         },
       }),
-    ],
+      mode === 'development' && componentTagger(),
+    ].filter(Boolean),
     server: {
       host: "::",
       port: 8080,
