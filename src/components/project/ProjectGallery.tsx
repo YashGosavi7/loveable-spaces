@@ -1,4 +1,3 @@
-
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import OptimizedImage from "../OptimizedImage";
 import { Project } from "@/data/projectsData";

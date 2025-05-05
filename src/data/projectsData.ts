@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -12,6 +13,19 @@ export interface Project {
   designer?: string;
   tagline?: string;
   style?: string;
+  // Add missing properties
+  challenges?: string;
+  solutions?: string;
+  materials?: string[];
+  testimonial?: {
+    content: string;
+    author: string;
+  };
+  websiteUrl?: string;
+  area?: string;
+  completionDate?: string;
+  budget?: string;
+  client?: string;
 }
 
 const projectsData: Project[] = [
