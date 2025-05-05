@@ -8,7 +8,6 @@ interface ProjectSummaryProps {
 const ProjectSummary = ({ project }: ProjectSummaryProps) => {
   return (
     <div className="mt-12 p-6 bg-lightGray/5 border border-roseGold/5 rounded-md">
-      <h4 className="font-playfair text-xl mb-3">{project.title} - Project Details</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <p className="text-darkGray/80">
