@@ -60,6 +60,7 @@ const FeaturedProject = ({ project, isLoaded, onLoad }: FeaturedProjectProps) =>
           </picture>
         </div>
         <div className="absolute inset-0 bg-darkGray/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-6">
+          {/* Project Title - Displayed prominently on hover */}
           <h3 className="font-playfair text-white text-2xl md:text-3xl mb-3">{project.title}</h3>
           <p className="text-white/90 mb-4">
             {project.category} | {project.location}

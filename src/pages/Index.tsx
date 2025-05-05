@@ -147,7 +147,10 @@ const Index = () => {
                       preload={index < 2}
                       quality={index === 0 ? "high" : "medium"}
                     />
-                    <div className="absolute inset-0 bg-darkGray/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-darkGray/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center flex-col">
+                      {/* Project title prominently displayed on hover */}
+                      <h3 className="text-white font-playfair text-xl mb-2">{project.title}</h3>
+                      <p className="text-white/90 text-sm mb-3">{project.category} | {project.location}</p>
                       <span className="text-white font-medium px-4 py-2 border border-white/50 rounded-sm">
                         View Project
                       </span>
