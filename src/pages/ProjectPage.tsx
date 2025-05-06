@@ -81,32 +81,18 @@ const ProjectPage = () => {
         nextImage={nextImage}
       />
       
-      {/* Project Gallery Section with Side Thumbnails */}
-      <div className="bg-warmWhite py-16">
+      {/* Project Gallery Section */}
+      <div className="bg-warmWhite py-12">
         <div className="container mx-auto px-4">
           <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
           
-          {/* Flex container for gallery and thumbnails side by side */}
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Left side: Vertical thumbnails on larger screens */}
-            <div className="hidden md:block md:w-[120px] lg:w-[140px] flex-shrink-0">
-              <ProjectThumbnails
-                project={project}
-                activeImageIndex={activeImageIndex}
-                setActiveImageIndex={setActiveImageIndex}
-                scrollContainerRef={scrollContainerRef}
-                orientation="vertical"
-              />
-            </div>
-            
-            {/* Main content: Project Gallery */}
-            <div className="flex-1">
-              <ProjectGallery project={project} />
-            </div>
+          {/* Main Project Gallery */}
+          <div className="w-full">
+            <ProjectGallery project={project} />
           </div>
           
-          {/* Bottom horizontal thumbnails for mobile */}
-          <div className="md:hidden mt-6">
+          {/* Horizontal thumbnails row below gallery */}
+          <div className="mt-8 w-full">
             <ProjectThumbnails
               project={project}
               activeImageIndex={activeImageIndex}
