@@ -1,13 +1,72 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import OptimizedImage from '@/components/OptimizedImage';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import SectionTitle from '@/components/SectionTitle';
+import { preloadTeamMemberImages } from '@/utils/imagePreloader';
+import { cacheImage } from '@/utils/imageUtils';
+
+// Team member data
+const teamMembers = [
+  {
+    name: "Sophia Williams",
+    role: "Principal Designer",
+    image: "/lovable-uploads/25d0624e-4f4a-4e2d-a084-f7bf8671b099.png",
+    bio: "With over a decade of experience, Sophia brings a unique blend of creativity and technical expertise to every project."
+  },
+  {
+    name: "Daniel Chen",
+    role: "Interior Architect",
+    image: "/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png",
+    bio: "Daniel specializes in transforming challenging spaces into functional and beautiful environments."
+  },
+  {
+    name: "Emma Rodriguez",
+    role: "Project Manager",
+    image: "/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png",
+    bio: "Emma ensures that every project runs smoothly from concept through to completion."
+  }
+];
 
 const AboutPage = () => {
   // Increased from 15 to 18 years
   const yearsOfExperience = 18;
+  
+  // Preload all team member images when component mounts
+  useEffect(() => {
+    // Scroll to top
+    window.scrollTo(0, 0);
+    
+    // Preload team member images
+    preloadTeamMemberImages();
+    
+    // Add explicit image preloading via link tags
+    const addPreloadLinks = () => {
+      teamMembers.forEach((member, index) => {
+        const imageUrl = member.image;
+        
+        // Skip if link already exists
+        if (document.querySelector(`link[rel="preload"][href="${imageUrl}"]`)) {
+          return;
+        }
+        
+        // Create preload link
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = imageUrl;
+        link.fetchPriority = index === 0 ? 'high' : 'auto';
+        document.head.appendChild(link);
+        
+        // Also cache via service worker
+        cacheImage(imageUrl);
+      });
+    };
+    
+    // Add preload links with slight delay to not block initial render
+    setTimeout(addPreloadLinks, 100);
+  }, []);
   
   return (
     <div className="min-h-screen bg-warmWhite">
@@ -157,26 +216,7 @@ const AboutPage = () => {
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-            {[
-              {
-                name: "Sophia Williams",
-                role: "Principal Designer",
-                image: "/lovable-uploads/25d0624e-4f4a-4e2d-a084-f7bf8671b099.png",
-                bio: "With over a decade of experience, Sophia brings a unique blend of creativity and technical expertise to every project."
-              },
-              {
-                name: "Daniel Chen",
-                role: "Interior Architect",
-                image: "/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png",
-                bio: "Daniel specializes in transforming challenging spaces into functional and beautiful environments."
-              },
-              {
-                name: "Emma Rodriguez",
-                role: "Project Manager",
-                image: "/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png",
-                bio: "Emma ensures that every project runs smoothly from concept through to completion."
-              }
-            ].map((member, index) => (
+            {teamMembers.map((member, index) => (
               <motion.div
                 key={index}
                 className="bg-white overflow-hidden rounded-sm"
@@ -191,6 +231,9 @@ const AboutPage = () => {
                     className="w-full h-full object-cover"
                     width={400}
                     height={533}
+                    priority={index === 0} // First image gets priority loading
+                    preload={true} // Force preload for all team members
+                    quality={index === 0 ? "high" : "medium"} // First image gets high quality
                   />
                 </div>
                 <div className="p-6">

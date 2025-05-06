@@ -18,7 +18,7 @@ export const generatePlaceholderColor = (url: string): string => {
 };
 
 // Get optimal image dimensions based on context
-export const getOptimalImageDimensions = (context: 'hero' | 'gallery' | 'thumbnail' | 'slider') => {
+export const getOptimalImageDimensions = (context: 'hero' | 'gallery' | 'thumbnail' | 'slider' | 'team') => {
   // Base dimensions
   let width = 800;
   let height = 600;
@@ -45,6 +45,11 @@ export const getOptimalImageDimensions = (context: 'hero' | 'gallery' | 'thumbna
       case 'slider':
         width = isMobile ? 640 : isTablet ? 1024 : 1400;
         height = Math.floor(width * 0.6); // 16:9 for slider
+        break;
+      case 'team':
+        // Optimized team member image dimensions
+        width = isMobile ? 300 : isTablet ? 400 : 500;
+        height = Math.floor(width * 1.33); // 3:4 aspect ratio for team members
         break;
     }
   }
@@ -127,10 +132,28 @@ export const createProgressiveLoader = (
   };
 };
 
-// Add aggressive preloading function
+// Add aggressive preloading function for images
 export const preloadNextImages = (urls: string[], startIndex: number, count: number = 3) => {
   if (typeof window === 'undefined') return;
   
+  // Use service worker for preloading if available
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    const urlsToPreload = [];
+    for (let i = 0; i < count; i++) {
+      const index = (startIndex + i) % urls.length;
+      if (!urls[index]) continue;
+      urlsToPreload.push(urls[index]);
+    }
+    
+    navigator.serviceWorker.controller.postMessage({
+      type: 'PRELOAD_IMAGES',
+      urls: urlsToPreload
+    });
+    
+    return;
+  }
+  
+  // Fallback to traditional preloading
   const urlsToPreload = [];
   for (let i = 0; i < count; i++) {
     const index = (startIndex + i) % urls.length;
@@ -162,9 +185,9 @@ export const initImageCacheStrategy = () => {
   // Check if the browser supports service workers and caches
   if ('serviceWorker' in navigator && 'caches' in window) {
     // Create a specific cache for images
-    caches.open('image-cache-v1').then(cache => {
+    caches.open('image-cache-v3').then(cache => {
       // Cache will be managed by service worker
-      console.log('Image cache initialized');
+      console.log('Image cache initialized with version v3');
     });
   }
 };
@@ -174,7 +197,14 @@ if (typeof window !== 'undefined') {
   initImageCacheStrategy();
 }
 
-// Add the missing cacheImage function that's being imported in PictureElement.tsx
+// Add team member image priority list
+export const TEAM_MEMBER_IMAGES = [
+  '/lovable-uploads/25d0624e-4f4a-4e2d-a084-f7bf8671b099.png',
+  '/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png',
+  '/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png',
+];
+
+// Enhanced cacheImage function for better service worker integration
 export const cacheImage = (url: string) => {
   // Use service worker to cache images when available
   if (typeof window !== 'undefined' && 'serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -185,11 +215,46 @@ export const cacheImage = (url: string) => {
     
     // Also add to browser cache if Cache API is supported
     if ('caches' in window) {
-      caches.open('image-cache-v2').then(cache => {
+      caches.open('image-cache-v3').then(cache => {
         cache.add(url).catch(err => {
           console.warn('Failed to cache image:', err);
         });
       });
+    }
+    
+    // Also add explicit image preloading via link tags
+    const addPreloadLink = () => {
+      // Skip if link already exists
+      if (document.querySelector(`link[rel="preload"][href="${url}"]`)) {
+        return;
+      }
+      
+      // Special handling for team member images
+      const isTeamMember = TEAM_MEMBER_IMAGES.includes(url);
+      
+      // Create preload link
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = url;
+      link.crossOrigin = 'anonymous';
+      link.fetchPriority = isTeamMember ? 'high' : 'auto';
+      document.head.appendChild(link);
+    };
+    
+    // Add preload link if not already present
+    if (!document.querySelector(`link[rel="preload"][href="${url}"]`)) {
+      // For team member images, add immediately
+      if (TEAM_MEMBER_IMAGES.includes(url)) {
+        addPreloadLink();
+      } else {
+        // For other images, add during idle time
+        if ('requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(addPreloadLink, { timeout: 2000 });
+        } else {
+          setTimeout(addPreloadLink, 300);
+        }
+      }
     }
   }
 };
