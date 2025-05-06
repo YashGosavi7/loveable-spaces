@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
@@ -62,7 +62,7 @@ const ProjectPage = () => {
         nextImage={nextImage}
       />
       
-      {/* Project Gallery Section - removed duplicate heading */}
+      {/* Project Gallery Section */}
       <div className="bg-warmWhite py-12">
         <div className="container mx-auto px-4">
           {/* Main Project Gallery */}

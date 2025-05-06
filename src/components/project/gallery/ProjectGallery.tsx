@@ -6,7 +6,7 @@ import ProjectThumbnailGrid from "./ProjectThumbnailGrid";
 import ProjectSummary from "./ProjectSummary";
 import ImagePreloader from "./ImagePreloader";
 import ImageLightbox from "./ImageLightbox";
-import OptimizedImage from "@/components/OptimizedImage";
+import ProjectThumbnails from "@/components/project/ProjectThumbnails";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -18,6 +18,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [preloadedSlides, setPreloadedSlides] = useState<number[]>([0, 1, 2, 3, 4, 5]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   // Determine connection speed for adaptive preloading
   const detectConnectionSpeed = useCallback(() => {
@@ -188,45 +189,60 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const { navButtonClass } = getProjectSpecificStyles();
   
   return (
-    <div>
-      {/* Main Carousel - optimized for fast loading */}
-      <ProjectCarousel 
-        project={project}
-        onSlideChange={handleSlideChange}
-        currentSlide={currentSlide}
-        navButtonClass={navButtonClass}
-      />
-      
-      {/* Hidden preloads for even smoother carousel navigation */}
-      <ImagePreloader 
-        imagePaths={project.images}
-        preloadedIndices={preloadedSlides}
-      />
-      
-      {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
-      <ProjectThumbnailGrid 
-        project={project}
-        onThumbnailClick={(index) => openLightbox(index)}
-        preloadedSlides={preloadedSlides}
-      />
-      
-      {/* Project Summary */}
-      <ProjectSummary project={project} />
-
-      {/* Image Lightbox with enhanced performance */}
-      {lightboxOpen && (
-        <ImageLightbox
-          images={project.images}
-          initialIndex={lightboxIndex}
-          onClose={() => setLightboxOpen(false)}
-          onIndexChange={(index) => {
-            setLightboxIndex(index);
-            // Preload adjacent images
-            handleSlideChange(index);
-          }}
+    <section className="bg-warmWhite py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
+        
+        {/* Main Carousel - optimized for fast loading */}
+        <ProjectCarousel 
+          project={project}
+          onSlideChange={handleSlideChange}
+          currentSlide={currentSlide}
+          navButtonClass={navButtonClass}
         />
-      )}
-    </div>
+        
+        {/* Dark gray horizontal thumbnails bar - added below the carousel */}
+        <div className="mt-2 w-full">
+          <ProjectThumbnails
+            project={project}
+            activeImageIndex={currentSlide}
+            setActiveImageIndex={setCurrentSlide}
+            scrollContainerRef={scrollContainerRef}
+            orientation="horizontal"
+          />
+        </div>
+        
+        {/* Hidden preloads for even smoother carousel navigation */}
+        <ImagePreloader 
+          imagePaths={project.images}
+          preloadedIndices={preloadedSlides}
+        />
+        
+        {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
+        <ProjectThumbnailGrid 
+          project={project}
+          onThumbnailClick={(index) => openLightbox(index)}
+          preloadedSlides={preloadedSlides}
+        />
+        
+        {/* Project Summary */}
+        <ProjectSummary project={project} />
+
+        {/* Image Lightbox with enhanced performance */}
+        {lightboxOpen && (
+          <ImageLightbox
+            images={project.images}
+            initialIndex={lightboxIndex}
+            onClose={() => setLightboxOpen(false)}
+            onIndexChange={(index) => {
+              setLightboxIndex(index);
+              // Preload adjacent images
+              handleSlideChange(index);
+            }}
+          />
+        )}
+      </div>
+    </section>
   );
 };
 
