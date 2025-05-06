@@ -142,11 +142,6 @@ const ProjectThumbnails = ({
   return (
     <section className="bg-darkGray/95 py-6">
       <div className="container mx-auto">
-        <h3 className="text-white font-lato text-base md:text-lg text-center mb-4 relative">
-          <span className="relative after:content-[''] after:absolute after:bottom-[-4px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-24 after:h-[1px] after:bg-roseGold">
-            Navigate Project Images
-          </span>
-        </h3>
         <div 
           className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar scroll-smooth" 
           ref={scrollContainerRef}

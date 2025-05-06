@@ -110,7 +110,6 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
   
   return (
     <div className="mt-16 scroll-mt-16" id="project-thumbnails">
-      <h3 className="font-playfair text-2xl mb-6 text-center">Navigate Project Images</h3>
       <p className="text-center text-darkGray/80 mb-8 max-w-2xl mx-auto">
         Click on any image to view in full size
       </p>
