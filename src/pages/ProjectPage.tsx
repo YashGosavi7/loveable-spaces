@@ -6,6 +6,7 @@ import projectsData from "../data/projectsData";
 import ProjectHero from "@/components/project/ProjectHero";
 import ProjectThumbnails from "@/components/project/ProjectThumbnails";
 import ProjectDetails from "@/components/project/ProjectDetails";
+import ProjectGallery from "@/components/project/ProjectGallery";
 import BackToPortfolio from "@/components/project/BackToPortfolio";
 
 const ProjectPage = () => {
@@ -88,8 +89,11 @@ const ProjectPage = () => {
         scrollContainerRef={scrollContainerRef}
       />
       
-      {/* Project Details - Moved up, before Back to Portfolio */}
+      {/* Project Details - Moved up, before Project Gallery */}
       <ProjectDetails project={project} />
+      
+      {/* Project Gallery */}
+      <ProjectGallery project={project} />
       
       {/* Back to Portfolio */}
       <BackToPortfolio />
