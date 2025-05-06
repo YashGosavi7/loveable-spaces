@@ -6,6 +6,8 @@ import ProjectThumbnailGrid from "./gallery/ProjectThumbnailGrid";
 import ProjectSummary from "./gallery/ProjectSummary";
 import ImagePreloader from "./gallery/ImagePreloader";
 import ImageLightbox from "./gallery/ImageLightbox";
+import ProjectThumbnails from "../project/ProjectThumbnails";
+import { Separator } from "@/components/ui/separator";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -17,6 +19,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [preloadedSlides, setPreloadedSlides] = useState<number[]>([0, 1, 2, 3, 4, 5]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   // Determine connection speed for adaptive preloading
   const detectConnectionSpeed = useCallback(() => {
@@ -199,11 +202,28 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
           navButtonClass={navButtonClass}
         />
         
+        {/* Dark gray horizontal thumbnails bar - directly below carousel */}
+        <div className="mt-2 w-full bg-darkGray rounded-md overflow-hidden">
+          <ProjectThumbnails
+            project={project}
+            activeImageIndex={currentSlide}
+            setActiveImageIndex={index => {
+              setCurrentSlide(index);
+              handleSlideChange(index);
+            }}
+            scrollContainerRef={scrollContainerRef}
+            orientation="horizontal"
+          />
+        </div>
+        
         {/* Hidden preloads for even smoother carousel navigation */}
         <ImagePreloader 
           imagePaths={project.images}
           preloadedIndices={preloadedSlides}
         />
+        
+        {/* Separator to create visual distinction */}
+        <Separator className="my-16 bg-darkGray/10" />
         
         {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
         <ProjectThumbnailGrid 

@@ -62,15 +62,8 @@ const ProjectPage = () => {
         nextImage={nextImage}
       />
       
-      {/* Project Gallery Section */}
-      <div className="bg-warmWhite py-12">
-        <div className="container mx-auto px-4">
-          {/* Main Project Gallery */}
-          <div className="w-full">
-            <ProjectGallery project={project} />
-          </div>
-        </div>
-      </div>
+      {/* Project Gallery without heading (heading is inside the component) */}
+      <ProjectGallery project={project} />
       
       {/* Project Details */}
       <ProjectDetails project={project} />
