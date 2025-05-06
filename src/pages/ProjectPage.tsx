@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
 import ProjectHero from "@/components/project/ProjectHero";
 import ProjectThumbnails from "@/components/project/ProjectThumbnails";
-import ProjectGallery from "@/components/project/ProjectGallery";
 import ProjectDetails from "@/components/project/ProjectDetails";
 import BackToPortfolio from "@/components/project/BackToPortfolio";
 
@@ -89,10 +88,7 @@ const ProjectPage = () => {
         scrollContainerRef={scrollContainerRef}
       />
       
-      {/* Project Gallery - No category headers anymore */}
-      <ProjectGallery project={project} />
-      
-      {/* Project Details */}
+      {/* Project Details - Moved up, before Back to Portfolio */}
       <ProjectDetails project={project} />
       
       {/* Back to Portfolio */}
