@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -81,7 +80,10 @@ const ProjectPage = () => {
         nextImage={nextImage}
       />
       
-      {/* Thumbnail Navigation */}
+      {/* Project Gallery - Keep before thumbnails */}
+      <ProjectGallery project={project} />
+      
+      {/* Thumbnail Navigation - Moved after Project Gallery */}
       <ProjectThumbnails
         project={project}
         activeImageIndex={activeImageIndex}
@@ -89,10 +91,7 @@ const ProjectPage = () => {
         scrollContainerRef={scrollContainerRef}
       />
       
-      {/* Project Gallery - Moved before Project Details */}
-      <ProjectGallery project={project} />
-      
-      {/* Project Details - Moved down, after Project Gallery */}
+      {/* Project Details */}
       <ProjectDetails project={project} />
       
       {/* Back to Portfolio */}
