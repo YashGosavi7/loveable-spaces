@@ -2,21 +2,28 @@
 export interface ImageProps {
   src: string;
   alt: string;
-  className?: string;
   width?: number;
   height?: number;
   priority?: boolean;
+  className?: string;
   sizes?: string;
-  srcSet?: string;
-  quality?: "low" | "medium" | "high";
   preload?: boolean;
-  format?: "auto" | "webp" | "avif" | "jpeg";
-  fetchPriority?: "high" | "low" | "auto";
-  placeholderColor?: string;
+  quality?: "low" | "medium" | "high";
   skipLazyLoading?: boolean;
-  onLoad?: () => void;
+  placeholderColor?: string;
+  format?: "auto" | "webp" | "avif" | "jpeg";
   loading?: "eager" | "lazy";
   decoding?: "sync" | "async" | "auto";
+  fetchPriority?: "high" | "low" | "auto";
   blur?: boolean;
-  lowQualityPlaceholder?: string;
+  onLoad?: () => void;
+}
+
+export interface PictureSourceProps {
+  src: string;
+  format: "webp" | "avif" | "jpeg";
+  sizes?: string;
+  media?: string;
+  width?: number;
+  height?: number;
 }

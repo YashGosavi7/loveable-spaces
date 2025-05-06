@@ -1,16 +1,15 @@
 
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { ImageOptimizationProvider } from './components/ImageOptimizationProvider'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import * as serviceWorker from './serviceWorker';
 
-// Prevent potential dev-server imports from causing issues
-if (process.env.NODE_ENV === 'development') {
-  console.log('Running in development mode');
-}
-
-createRoot(document.getElementById("root")!).render(
-  <ImageOptimizationProvider preloadStrategy="eager">
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
     <App />
-  </ImageOptimizationProvider>
+  </React.StrictMode>
 );
+
+// Register service worker for image caching
+serviceWorker.register();
