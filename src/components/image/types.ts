@@ -17,6 +17,7 @@ export interface ImageProps {
   fetchPriority?: "high" | "low" | "auto";
   blur?: boolean;
   onLoad?: () => void;
+  srcSet?: string;
 }
 
 export interface PictureSourceProps {
