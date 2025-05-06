@@ -6,6 +6,7 @@ import ProjectThumbnailGrid from "./ProjectThumbnailGrid";
 import ProjectSummary from "./ProjectSummary";
 import ImagePreloader from "./ImagePreloader";
 import ImageLightbox from "./ImageLightbox";
+import OptimizedImage from "@/components/OptimizedImage";
 
 interface ProjectGalleryProps {
   project: Project;

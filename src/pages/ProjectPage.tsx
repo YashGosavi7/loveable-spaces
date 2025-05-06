@@ -4,7 +4,6 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
 import ProjectHero from "@/components/project/ProjectHero";
-import ProjectThumbnails from "@/components/project/ProjectThumbnails";
 import ProjectDetails from "@/components/project/ProjectDetails";
 import ProjectGallery from "@/components/project/ProjectGallery";
 import BackToPortfolio from "@/components/project/BackToPortfolio";
@@ -12,7 +11,6 @@ import BackToPortfolio from "@/components/project/BackToPortfolio";
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const project = projectsData.find(p => p.id === projectId);
   
@@ -20,23 +18,6 @@ const ProjectPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [projectId]);
-
-  // Scroll to active thumbnail
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      const thumbnails = scrollContainerRef.current.querySelectorAll(".thumbnail");
-      if (thumbnails[activeImageIndex]) {
-        const thumbnail = thumbnails[activeImageIndex] as HTMLElement;
-        const container = scrollContainerRef.current;
-        const scrollLeft = thumbnail.offsetLeft - (container.clientWidth - thumbnail.clientWidth) / 2;
-        
-        container.scrollTo({
-          left: scrollLeft,
-          behavior: "smooth"
-        });
-      }
-    }
-  }, [activeImageIndex]);
 
   // Project not found handling
   if (!project) {
@@ -81,25 +62,12 @@ const ProjectPage = () => {
         nextImage={nextImage}
       />
       
-      {/* Project Gallery Section */}
+      {/* Project Gallery Section - removed duplicate heading */}
       <div className="bg-warmWhite py-12">
         <div className="container mx-auto px-4">
-          <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
-          
           {/* Main Project Gallery */}
           <div className="w-full">
             <ProjectGallery project={project} />
-          </div>
-          
-          {/* Horizontal thumbnails row below gallery */}
-          <div className="mt-8 w-full">
-            <ProjectThumbnails
-              project={project}
-              activeImageIndex={activeImageIndex}
-              setActiveImageIndex={setActiveImageIndex}
-              scrollContainerRef={scrollContainerRef}
-              orientation="horizontal"
-            />
           </div>
         </div>
       </div>
