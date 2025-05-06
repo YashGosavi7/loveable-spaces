@@ -30,7 +30,8 @@ const ProjectCarousel = ({
 }: ProjectCarouselProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [current, setCurrent] = useState(0);
-  const { width, height } = getOptimalImageDimensions();
+  // Fix for error #1: Pass an empty object to getOptimalImageDimensions()
+  const { width, height } = getOptimalImageDimensions({});
   
   // Sync with external current slide state
   useEffect(() => {
@@ -80,12 +81,11 @@ const ProjectCarousel = ({
           ))}
         </CarouselContent>
         
+        {/* Fix for errors #2 and #3: Remove 'variant="custom"' and use className for styling */}
         <CarouselPrevious 
-          variant="custom" 
           className={`${navButtonClass} left-4`}
         />
         <CarouselNext 
-          variant="custom" 
           className={`${navButtonClass} right-4`}
         />
       </Carousel>
