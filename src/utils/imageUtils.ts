@@ -173,3 +173,23 @@ export const initImageCacheStrategy = () => {
 if (typeof window !== 'undefined') {
   initImageCacheStrategy();
 }
+
+// Add the missing cacheImage function that's being imported in PictureElement.tsx
+export const cacheImage = (url: string) => {
+  // Use service worker to cache images when available
+  if (typeof window !== 'undefined' && 'serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({
+      type: 'CACHE_NEW_IMAGE',
+      url
+    });
+    
+    // Also add to browser cache if Cache API is supported
+    if ('caches' in window) {
+      caches.open('image-cache-v2').then(cache => {
+        cache.add(url).catch(err => {
+          console.warn('Failed to cache image:', err);
+        });
+      });
+    }
+  }
+};
