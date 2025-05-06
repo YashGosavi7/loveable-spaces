@@ -89,11 +89,11 @@ const ProjectPage = () => {
         scrollContainerRef={scrollContainerRef}
       />
       
-      {/* Project Details - Moved up, before Project Gallery */}
-      <ProjectDetails project={project} />
-      
-      {/* Project Gallery */}
+      {/* Project Gallery - Moved before Project Details */}
       <ProjectGallery project={project} />
+      
+      {/* Project Details - Moved down, after Project Gallery */}
+      <ProjectDetails project={project} />
       
       {/* Back to Portfolio */}
       <BackToPortfolio />

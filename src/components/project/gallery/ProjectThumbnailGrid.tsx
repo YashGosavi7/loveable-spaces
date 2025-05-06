@@ -110,9 +110,9 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
   
   return (
     <div className="mt-16 scroll-mt-16" id="project-thumbnails">
-      <h3 className="font-playfair text-2xl mb-6 text-center">Project Overview</h3>
+      <h3 className="font-playfair text-2xl mb-6 text-center">Navigate Project Images</h3>
       <p className="text-center text-darkGray/80 mb-8 max-w-2xl mx-auto">
-        Explore all angles of this beautiful {project.category.toLowerCase()} design project located in {project.location}.
+        Click on any image to view in full size
       </p>
       
       {/* Enhanced Grid Layout for Thumbnails - 3 columns on desktop with smoother animations */}
@@ -131,12 +131,13 @@ const ProjectThumbnailGrid = ({ project, onThumbnailClick, preloadedSlides = [0,
               onClick={() => onThumbnailClick(index)}
               className="w-full h-full relative group"
               aria-label={`View image ${index + 1} in lightbox gallery`}
+              tabIndex={0}
             >
               <AspectRatio ratio={4/3} className="bg-lightGray/10">
                 {shouldRenderThumbnail(index) ? (
                   <OptimizedImage
                     src={image}
-                    alt={`Design thumbnail ${index + 1}`}
+                    alt={`Interior design thumbnail ${index + 1}`}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 ease-out"
                     width={thumbnailDimensions.width}
                     height={thumbnailDimensions.height}
