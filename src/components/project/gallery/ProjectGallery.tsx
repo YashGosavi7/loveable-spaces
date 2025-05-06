@@ -1,8 +1,9 @@
 
 import { Project } from "@/data/projectsData";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./ProjectCarousel";
 import ProjectThumbnailGrid from "./ProjectThumbnailGrid";
+import ProjectSummary from "./ProjectSummary";
 import ImagePreloader from "./ImagePreloader";
 import ImageLightbox from "./ImageLightbox";
 
@@ -186,46 +187,45 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const { navButtonClass } = getProjectSpecificStyles();
   
   return (
-    <section className="bg-warmWhite py-16">
-      <div className="container mx-auto px-4">
-        <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
-        
-        {/* Main Carousel - optimized for fast loading */}
-        <ProjectCarousel 
-          project={project}
-          onSlideChange={handleSlideChange}
-          currentSlide={currentSlide}
-          navButtonClass={navButtonClass}
-        />
-        
-        {/* Hidden preloads for even smoother carousel navigation */}
-        <ImagePreloader 
-          imagePaths={project.images}
-          preloadedIndices={preloadedSlides}
-        />
-        
-        {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
-        <ProjectThumbnailGrid 
-          project={project}
-          onThumbnailClick={(index) => openLightbox(index)}
-          preloadedSlides={preloadedSlides}
-        />
+    <div>
+      {/* Main Carousel - optimized for fast loading */}
+      <ProjectCarousel 
+        project={project}
+        onSlideChange={handleSlideChange}
+        currentSlide={currentSlide}
+        navButtonClass={navButtonClass}
+      />
+      
+      {/* Hidden preloads for even smoother carousel navigation */}
+      <ImagePreloader 
+        imagePaths={project.images}
+        preloadedIndices={preloadedSlides}
+      />
+      
+      {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
+      <ProjectThumbnailGrid 
+        project={project}
+        onThumbnailClick={(index) => openLightbox(index)}
+        preloadedSlides={preloadedSlides}
+      />
+      
+      {/* Project Summary */}
+      <ProjectSummary project={project} />
 
-        {/* Image Lightbox with enhanced performance */}
-        {lightboxOpen && (
-          <ImageLightbox
-            images={project.images}
-            initialIndex={lightboxIndex}
-            onClose={() => setLightboxOpen(false)}
-            onIndexChange={(index) => {
-              setLightboxIndex(index);
-              // Preload adjacent images
-              handleSlideChange(index);
-            }}
-          />
-        )}
-      </div>
-    </section>
+      {/* Image Lightbox with enhanced performance */}
+      {lightboxOpen && (
+        <ImageLightbox
+          images={project.images}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+          onIndexChange={(index) => {
+            setLightboxIndex(index);
+            // Preload adjacent images
+            handleSlideChange(index);
+          }}
+        />
+      )}
+    </div>
   );
 };
 

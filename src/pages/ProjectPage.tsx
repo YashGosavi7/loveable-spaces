@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -80,16 +81,42 @@ const ProjectPage = () => {
         nextImage={nextImage}
       />
       
-      {/* Project Gallery - Keep before thumbnails */}
-      <ProjectGallery project={project} />
-      
-      {/* Thumbnail Navigation - Moved after Project Gallery */}
-      <ProjectThumbnails
-        project={project}
-        activeImageIndex={activeImageIndex}
-        setActiveImageIndex={setActiveImageIndex}
-        scrollContainerRef={scrollContainerRef}
-      />
+      {/* Project Gallery Section with Side Thumbnails */}
+      <div className="bg-warmWhite py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
+          
+          {/* Flex container for gallery and thumbnails side by side */}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Left side: Vertical thumbnails on larger screens */}
+            <div className="hidden md:block md:w-[120px] lg:w-[140px] flex-shrink-0">
+              <ProjectThumbnails
+                project={project}
+                activeImageIndex={activeImageIndex}
+                setActiveImageIndex={setActiveImageIndex}
+                scrollContainerRef={scrollContainerRef}
+                orientation="vertical"
+              />
+            </div>
+            
+            {/* Main content: Project Gallery */}
+            <div className="flex-1">
+              <ProjectGallery project={project} />
+            </div>
+          </div>
+          
+          {/* Bottom horizontal thumbnails for mobile */}
+          <div className="md:hidden mt-6">
+            <ProjectThumbnails
+              project={project}
+              activeImageIndex={activeImageIndex}
+              setActiveImageIndex={setActiveImageIndex}
+              scrollContainerRef={scrollContainerRef}
+              orientation="horizontal"
+            />
+          </div>
+        </div>
+      </div>
       
       {/* Project Details */}
       <ProjectDetails project={project} />
