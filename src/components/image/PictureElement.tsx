@@ -1,7 +1,7 @@
 
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { ImageProps } from './types';
-import { generatePlaceholderColor } from '@/utils/imageUtils';
+import { generatePlaceholderColor, cacheImage } from '@/utils/imageUtils';
 import ImageSource from './ImageSource';
 import ResponsiveImage from './ResponsiveImage';
 
@@ -73,6 +73,16 @@ const PictureElement = memo(({
   
   // Determine loading attribute
   const actualLoading = loading || (priority ? "eager" : "lazy");
+
+  // Use service worker to cache the image
+  useEffect(() => {
+    if (priority && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      // Call the cacheImage function to notify service worker
+      if (src) {
+        cacheImage(src);
+      }
+    }
+  }, [src, priority]);
 
   return (
     <picture className="w-full h-full">
