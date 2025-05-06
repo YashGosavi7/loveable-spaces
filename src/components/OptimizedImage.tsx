@@ -111,7 +111,8 @@ const OptimizedImage = memo(({
   };
 
   // Calculate content-visibility based on image position for better rendering performance
-  const contentVisibility = isTeamMember ? 'auto' : (isInView ? 'auto' : 'hidden');
+  // Fix: Use a proper CSS value for contentVisibility (auto | hidden)
+  const contentVisibility = isTeamMember ? 'auto' as const : (isInView ? 'auto' as const : 'hidden' as const);
   
   // Add aggressive caching hints via data attributes (picked up by service workers)
   const cachingAttrs = {
@@ -119,7 +120,7 @@ const OptimizedImage = memo(({
   };
   
   // For team member images, we'll use content-visibility: auto to ensure they're always rendered
-  const teamMemberStyle = isTeamMember ? { contentVisibility: 'auto', willChange: 'transform' } : {};
+  const teamMemberStyle = isTeamMember ? { contentVisibility: 'auto' as const, willChange: 'transform' } : {};
 
   return (
     <div 
