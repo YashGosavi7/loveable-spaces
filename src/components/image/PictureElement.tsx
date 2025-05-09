@@ -1,4 +1,3 @@
-
 import { memo, useEffect } from 'react';
 import { ImageProps } from './types';
 import { generatePlaceholderColor, cacheImage } from '@/utils/imageUtils';

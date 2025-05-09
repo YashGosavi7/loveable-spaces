@@ -142,12 +142,8 @@ export function unregister() {
   }
 }
 
-// Add helper function to manually cache images
-export const cacheImage = (url: string) => {
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'CACHE_NEW_IMAGE',
-      url
-    });
-  }
-};
+// This export has been moved to imageUtils.ts to avoid duplication
+// and maintain clean module boundaries
+// import { cacheImage } from './utils/imageUtils';
+// export { cacheImage };
+
