@@ -169,6 +169,16 @@ export const initImageCacheStrategy = () => {
   }
 };
 
+// Add helper function to manually cache images - exported from serviceWorker.ts
+export const cacheImage = (url: string) => {
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({
+      type: 'CACHE_NEW_IMAGE',
+      url
+    });
+  }
+};
+
 // Initialize the cache strategy immediately
 if (typeof window !== 'undefined') {
   initImageCacheStrategy();
