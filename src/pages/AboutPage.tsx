@@ -1,4 +1,3 @@
-
 import React from 'react';
 import OptimizedImage from '@/components/OptimizedImage';
 import WhatsAppCTA from '@/components/portfolio/WhatsAppCTA';
