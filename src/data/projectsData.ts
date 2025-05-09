@@ -29,6 +29,60 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "dada-rao-danve-project",
+    title: "Patil Bada - Dada Rao Danve Project",
+    category: "Hospitality",
+    location: "Pune",
+    size: "15,000 sq ft",
+    completionYear: "2025",
+    description: "Patil Bada is a traditional-style hospitality complex designed for Dada Rao Danve that celebrates India's rich cultural heritage. The project features distinctive vernacular architecture with terracotta roofing, decorative wooden elements, and traditional Warli art motifs. The venue includes an open-air dining area, kids' play zone, garden seating, and custom wooden architectural elements that create a warm, authentic atmosphere. The thoughtfully designed spaces combine modern amenities with traditional aesthetics, offering visitors an immersive cultural experience set against a serene natural backdrop.",
+    features: [
+      "Traditional vernacular architecture with terracotta tiled roofs",
+      "Ornate wooden cart wheel wall displays and decorative elements",
+      "Custom wooden archway with greenery and traditional signage",
+      "Outdoor dining area with panoramic views",
+      "Indoor dining hall with traditional Warli art mural wall",
+      "Children's play area with colorful play equipment",
+      "Decorative jaali screens and lattice work",
+      "Traditional wooden doors and windows with arched details",
+      "Landscaped gardens with indigenous plants and flowers",
+      "Decorative water features and zen elements",
+      "Ample parking space with designated areas",
+      "Traditional 'palkhi' style entrance with wooden detailing"
+    ],
+    images: [
+      "/lovable-uploads/15500acb-82c4-4b93-ae30-ac0cd08c8c62.png",
+      "/lovable-uploads/a3531e4d-26b9-4b54-a2aa-d7fa49047634.png",
+      "/lovable-uploads/78ff940c-ca6d-473d-bf90-e12ec4a7defa.png",
+      "/lovable-uploads/c5d5dd11-5bfb-4796-9afc-a42c876a908a.png",
+      "/lovable-uploads/0d499c04-ffd7-4472-bdf5-db0f05414ec1.png",
+      "/lovable-uploads/3a6d2a02-fb4e-4349-9a2c-83ffe9bb944a.png",
+      "/lovable-uploads/996a51e7-d737-42de-8455-9632bc75acd5.png",
+      "/lovable-uploads/2cf384df-fc36-4e44-ac0e-e0a6ccbf4a1b.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Traditional Elegance Meets Modern Hospitality",
+    style: "Indo-Vernacular",
+    challenges: "The project required balancing authentic traditional aesthetics with modern hospitality requirements while working with limited local resources for specialized craftsmanship.",
+    solutions: "We collaborated with local artisans to create authentic vernacular elements, utilized sustainable materials, and designed modular components that could be crafted by local carpenters while maintaining traditional aesthetics.",
+    materials: [
+      "Terracotta roof tiles",
+      "Hand-carved wooden elements",
+      "Natural stone flooring",
+      "Traditional jaali work",
+      "Custom wooden furniture",
+      "Reclaimed wooden wheels and artifacts",
+      "Indigenous plants for landscaping",
+      "Handcrafted Warli art murals"
+    ],
+    testimonial: {
+      content: "Balaji Design Studio captured the essence of our vision for a traditional yet functional hospitality space. The attention to cultural details while ensuring modern comfort has resulted in a venue that truly represents our heritage.",
+      author: "Dada Rao Danve, Project Owner"
+    },
+    area: "15,000 sq ft"
+  },
+  {
     id: "utture-3bhk-apartment",
     title: "Mr. Utture's Modern 3BHK",
     category: "Residential",
