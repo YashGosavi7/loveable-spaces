@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import OptimizedImage from '@/components/OptimizedImage';
 import { motion } from 'framer-motion';
