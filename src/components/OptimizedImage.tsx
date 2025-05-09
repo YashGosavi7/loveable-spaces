@@ -1,11 +1,11 @@
 
-import { memo, useState, useEffect, useRef } from "react";
+import { memo, useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageProps } from "./image/types";
 import PictureElement from "./image/PictureElement";
 import { useImagePreload } from "@/hooks/useImagePreload";
 import { useImageIntersection } from "@/hooks/useImageIntersection";
-import { generatePlaceholderColor, cacheImage } from "@/utils/imageUtils";
+import { generatePlaceholderColor } from "@/utils/imageUtils";
 import { ImageLoader } from "./image/ImageLoader";
 
 const OptimizedImage = memo(({ 
@@ -30,34 +30,13 @@ const OptimizedImage = memo(({
   const { isInView, elementRef } = useImageIntersection({ 
     priority, 
     skipLazyLoading,
-    rootMargin: "2000px 0px" // Significantly increased threshold for much earlier loading
+    rootMargin: "1600px 0px" // Significantly increased threshold for much earlier loading
   });
-  
-  const mounted = useRef(true);
-  
-  useEffect(() => {
-    return () => {
-      mounted.current = false;
-    };
-  }, []);
   
   const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
   
-  // Determine if this is a hero image or team member image
+  // Determine if this is a hero image based on dimensions or filename
   const isHeroImage = width >= 1000 || src.includes('hero') || src.includes('main');
-  const isTeamMember = src.includes('25d0624e-4f4a-4e2d-a084-f7bf8671b099') || 
-                       src.includes('f99d8834-eeec-4f35-b430-48d82f605f55') || 
-                       src.includes('d655dd68-cb8a-43fd-8aaa-38db6cd905c1');
-  
-  // If team member image, always treat as priority
-  const isEffectivePriority = priority || isTeamMember;
-  
-  // Cache the image via service worker when it's a team member or priority image
-  useEffect(() => {
-    if ((isEffectivePriority || preload || isTeamMember) && typeof window !== 'undefined') {
-      cacheImage(src);
-    }
-  }, [src, isEffectivePriority, preload, isTeamMember]);
   
   // Optimize image loading based on connection speed
   const getConnectionSpeed = () => {
@@ -79,11 +58,10 @@ const OptimizedImage = memo(({
     return 'unknown';
   };
   
-  // Adjust quality based on connection speed and image importance
+  // Adjust quality based on connection speed
   const getOptimalQuality = () => {
     const speed = getConnectionSpeed();
     
-    if (isTeamMember) return quality; // Never reduce team member image quality
     if (isHeroImage) return quality; // Never reduce hero image quality
     
     if (speed === 'slow') return 'low';
@@ -92,35 +70,90 @@ const OptimizedImage = memo(({
     return quality;
   };
   
-  // Use preloading hook for priority images
+  // Calculate optimal srcSet based on whether it's a hero or thumbnail
+  const getSrcSet = () => {
+    const speed = getConnectionSpeed();
+    
+    if (isHeroImage) {
+      return speed === 'slow' 
+        ? `${src} 600w, ${src} 1200w` 
+        : `${src} 600w, ${src} 1200w, ${src} 1800w`;
+    }
+    
+    // For thumbnails
+    if (speed === 'slow' && !priority) {
+      return `${src} 300w, ${src} 600w`;
+    }
+    
+    return `${src} 300w, ${src} 600w, ${src} 900w`;
+  };
+  
+  // Define optimal sizes attribute for responsive images
+  const getSizes = () => {
+    if (sizes) return sizes;
+    
+    if (isHeroImage) {
+      return "(max-width: 768px) 600px, 1200px";
+    }
+    
+    return "(max-width: 768px) 300px, 600px";
+  };
+  
+  useEffect(() => {
+    // Add DNS prefetch for image domains to improve lookup times
+    if ((priority || preload || isHeroImage) && typeof window !== 'undefined') {
+      try {
+        const domain = new URL(src, window.location.origin).hostname;
+        if (!document.querySelector(`link[rel="dns-prefetch"][href="${domain}"]`)) {
+          const dnsLink = document.createElement('link');
+          dnsLink.rel = 'dns-prefetch';
+          dnsLink.href = `//${domain}`;
+          document.head.appendChild(dnsLink);
+          
+          const preconnectLink = document.createElement('link');
+          preconnectLink.rel = 'preconnect';
+          preconnectLink.href = `//${domain}`;
+          preconnectLink.crossOrigin = 'anonymous';
+          document.head.appendChild(preconnectLink);
+        }
+        
+        // Add preload link for hero images
+        if (isHeroImage && priority) {
+          const preloadLink = document.createElement('link');
+          preloadLink.rel = 'preload';
+          preloadLink.as = 'image';
+          preloadLink.href = src;
+          preloadLink.type = 'image/webp'; // Assume WebP is supported for modern browsers
+          document.head.appendChild(preloadLink);
+        }
+      } catch (e) {
+        // Fail silently if URL parsing fails
+      }
+    }
+  }, [src, priority, preload, isHeroImage]);
+  
   useImagePreload(src, { 
-    priority: isEffectivePriority, 
-    preload: preload || isHeroImage || isTeamMember, 
+    priority, 
+    preload: preload || isHeroImage, 
     width, 
     quality: getOptimalQuality(),
     format: format || "webp"
   });
 
   const handleImageLoad = () => {
-    if (mounted.current) {
-      setIsLoaded(true);
-      if (onLoad) {
-        onLoad();
-      }
+    setIsLoaded(true);
+    if (onLoad) {
+      onLoad();
     }
   };
 
   // Calculate content-visibility based on image position for better rendering performance
-  // Fix: Use a proper CSS value for contentVisibility (auto | hidden)
-  const contentVisibility = isTeamMember ? 'auto' as const : (isInView ? 'auto' as const : 'hidden' as const);
+  const contentVisibility = isInView ? 'auto' : 'hidden';
   
   // Add aggressive caching hints via data attributes (picked up by service workers)
   const cachingAttrs = {
-    'data-cache-control': isTeamMember || isHeroImage ? 'public, max-age=31536000' : 'public, max-age=31536000, immutable',
+    'data-cache-control': isHeroImage ? 'public, max-age=31536000' : 'public, max-age=31536000, immutable',
   };
-  
-  // For team member images, we'll use content-visibility: auto to ensure they're always rendered
-  const teamMemberStyle = isTeamMember ? { contentVisibility: 'auto' as const, willChange: 'transform' } : {};
 
   return (
     <div 
@@ -132,8 +165,7 @@ const OptimizedImage = memo(({
         aspectRatio: `${width}/${height}`,
         // Apply blur effect if requested and not loaded
         filter: blur && !isLoaded ? 'blur(20px)' : 'none',
-        transition: 'filter 0.3s ease-out',
-        ...teamMemberStyle
+        transition: 'filter 0.3s ease-out'
       }}
       {...cachingAttrs}
     >
@@ -148,27 +180,29 @@ const OptimizedImage = memo(({
           />
           <ImageLoader 
             color={derivedPlaceholderColor} 
-            showSpinner={isEffectivePriority || isHeroImage || isTeamMember} 
+            showSpinner={priority || isHeroImage} 
             size={isHeroImage ? "large" : "medium"}
           />
         </div>
       )}
       
-      {(isInView || isEffectivePriority || skipLazyLoading || isHeroImage || isTeamMember) && (
+      {(isInView || priority || skipLazyLoading || isHeroImage) && (
         <PictureElement
           src={src}
           alt={alt}
           width={width}
           height={height}
-          priority={isEffectivePriority || isHeroImage || isTeamMember}
+          priority={priority || isHeroImage}
           quality={getOptimalQuality()}
           className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 w-full h-full object-cover`}
           onLoad={handleImageLoad}
-          fetchPriority={isEffectivePriority || isHeroImage || isTeamMember ? "high" : "auto"}
+          srcSet={getSrcSet()}
+          sizes={getSizes()}
+          fetchPriority={priority || isHeroImage ? "high" : "auto"}
           format={format}
           placeholderColor={derivedPlaceholderColor}
-          loading={isEffectivePriority || isHeroImage || isTeamMember ? "eager" : "lazy"}
-          decoding={isEffectivePriority || isHeroImage ? "sync" : "async"}
+          loading={loading || (isHeroImage || priority ? "eager" : "lazy")}
+          decoding={decoding || (isHeroImage ? "sync" : "async")}
         />
       )}
     </div>

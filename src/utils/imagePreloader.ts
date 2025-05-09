@@ -1,22 +1,17 @@
+
 /**
- * Advanced image preloading utility with improved performance
+ * Advanced image preloading utility
  */
 
-// List of critical images to preload on app start - specifically including team members
+// List of critical images to preload on app start
 const CRITICAL_IMAGES = [
-  // Team member images from AboutPage (in the dark gray horizontal box)
-  '/lovable-uploads/25d0624e-4f4a-4e2d-a084-f7bf8671b099.png',
-  '/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png',
-  '/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png',
-  // Other critical images
-  '/lovable-uploads/8929c4d3-15f0-44b4-be01-131f3cbfc072.png'
+  // Example paths - these would be actual paths in your application
+  '/lovable-uploads/8929c4d3-15f0-44b4-be01-131f3cbfc072.png',
+  '/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png'
 ];
 
 // Preload priority levels
 type PreloadPriority = 'critical' | 'high' | 'medium' | 'low';
-
-// Progress tracking for preloads
-let preloadProgress: Record<string, boolean> = {};
 
 // Image preloading function with connection awareness
 export const preloadImages = (
@@ -35,31 +30,19 @@ export const preloadImages = (
     return;
   }
   
-  // Use Service Worker for preloading when possible (more efficient)
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'PRELOAD_IMAGES',
-      urls: images
-    });
-    return;
-  }
-  
   // Convert priority to delay timing
   const getDelay = (): number => {
     switch (priority) {
       case 'critical': return 0;
-      case 'high': return 100;
-      case 'medium': return 500;
-      case 'low': return 1000;
+      case 'high': return 200;
+      case 'medium': return 1000;
+      case 'low': return 2000;
     }
   };
   
   // Use requestIdleCallback for non-critical images
   const preloadFunction = () => {
     images.forEach((src, index) => {
-      // Skip already preloaded images
-      if (preloadProgress[src]) return;
-      
       // For each image, optionally load multiple sizes
       if (sizes && sizes.length > 0) {
         // Load each size with staggered timing
@@ -76,13 +59,8 @@ export const preloadImages = (
             }
             
             img.decoding = 'async';
-            if ('loading' in img) {
-              img.loading = priority === 'critical' ? 'eager' : 'lazy';
-            }
-            
-            img.onload = () => { preloadProgress[src] = true; };
             img.src = sizedSrc;
-          }, (index * 50) + (sizeIndex * 50)); // Stagger size loading
+          }, sizeIndex * 100); // Stagger size loading
         });
       } else {
         // Just load the original image
@@ -95,11 +73,6 @@ export const preloadImages = (
           }
           
           img.decoding = 'async';
-          if ('loading' in img) {
-            img.loading = priority === 'critical' ? 'eager' : 'lazy';
-          }
-          
-          img.onload = () => { preloadProgress[src] = true; };
           img.src = src;
         }, index * 50); // Stagger loading slightly
       }
@@ -112,7 +85,7 @@ export const preloadImages = (
     preloadFunction();
   } else if ('requestIdleCallback' in window) {
     // Schedule non-critical images during idle time
-    (window as any).requestIdleCallback(preloadFunction, { timeout: 3000 });
+    (window as any).requestIdleCallback(preloadFunction, { timeout: 5000 });
   } else {
     // Fallback to setTimeout for browsers without requestIdleCallback
     setTimeout(preloadFunction, getDelay());
@@ -149,8 +122,8 @@ const checkSlowConnection = (): boolean => {
 
 // Function to initialize preloading on app start
 export const initImagePreloading = () => {
-  // Preload critical images immediately with prioritized loading
-  preloadImages(CRITICAL_IMAGES, 'critical', [300, 600]);
+  // Preload critical images immediately
+  preloadImages(CRITICAL_IMAGES, 'critical', [400, 800, 1200]);
   
   // Add listeners for connection changes to adjust strategy
   if (typeof navigator !== 'undefined' && 'connection' in navigator) {
@@ -161,28 +134,20 @@ export const initImagePreloading = () => {
         // Re-evaluate preloading strategy when connection changes
         const isSlowConnection = checkSlowConnection();
         console.log(`Connection changed. Slow connection: ${isSlowConnection}`);
-        
-        // If connection improved, preload more images
-        if (!isSlowConnection) {
-          preloadImages(CRITICAL_IMAGES, 'high');
-        }
       });
     }
   }
   
-  // Preload team member images when app loads
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    // Immediately tell service worker to cache team member images
-    const teamMemberImages = CRITICAL_IMAGES.slice(0, 3);
-    navigator.serviceWorker.controller.postMessage({
-      type: 'PRELOAD_IMAGES',
-      urls: teamMemberImages
-    });
-  }
-  
   // Return cleanup function
   return () => {
-    // No cleanup needed for preloading
+    // Remove event listeners if needed
+    if (typeof navigator !== 'undefined' && 'connection' in navigator) {
+      const conn = (navigator as any).connection;
+      
+      if (conn) {
+        // No need to remove listeners as this would only run on app shutdown
+      }
+    }
   };
 };
 
@@ -190,24 +155,3 @@ export const initImagePreloading = () => {
 if (typeof window !== 'undefined') {
   initImagePreloading();
 }
-
-// Add path-specific preloading for AboutPage
-export const preloadTeamMemberImages = () => {
-  // These are the team member images in the dark gray horizontal box
-  const teamMemberImages = [
-    '/lovable-uploads/25d0624e-4f4a-4e2d-a084-f7bf8671b099.png',
-    '/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png',
-    '/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png',
-  ];
-  
-  // Use critical priority for these images
-  preloadImages(teamMemberImages, 'critical');
-  
-  // Also notify service worker
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'PRELOAD_IMAGES',
-      urls: teamMemberImages
-    });
-  }
-};
