@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import { useQueryClient } from "./hooks/useQueryClient";
 
 const App = () => {
+  // Get the singleton QueryClient instance
   const queryClient = useQueryClient();
   
   return (
