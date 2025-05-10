@@ -1,20 +1,12 @@
 
 import React from 'react';
 import OptimizedImage from '@/components/OptimizedImage';
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const AboutPage = () => {
   return (
     <div className="container mx-auto px-4 py-12 mt-24">
       <div className="flex flex-col items-center justify-center">
         <div className="w-full max-w-4xl bg-warmWhite rounded-lg border border-lightGray/10 p-8 mandala-pattern-bg">
-          {/* About Us Content */}
-          <div className="text-center mb-10">
-            <h1 className="font-playfair font-semibold text-[clamp(18px,5vw,28px)] text-roseGold mb-4">
-              About Us
-            </h1>
-          </div>
-
           {/* Founder Image */}
           <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
             <div className="md:w-1/2">
@@ -40,17 +32,6 @@ const AboutPage = () => {
               <p className="text-darkGray leading-relaxed">
                 From Mumbai to Delhi, Bangalore to Chennai, our designs reflect the diverse influences and unique character of each region, while maintaining our signature warmth and attention to detail.
               </p>
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="inline-flex items-center gap-2 bg-roseGold/10 px-3 py-1 rounded-full text-sm text-roseGold">
-                    <span className="font-medium">600+</span> Projects Completed
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Delivering excellence since 2012</p>
-                </TooltipContent>
-              </Tooltip>
             </div>
           </div>
         </div>
