@@ -1,7 +1,7 @@
 
 import React from 'react';
 import OptimizedImage from '@/components/OptimizedImage';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const AboutPage = () => {
   return (
@@ -56,18 +56,16 @@ const AboutPage = () => {
                 From Mumbai to Delhi, Bangalore to Chennai, our designs reflect the diverse influences and unique character of each region, while maintaining our signature warmth and attention to detail.
               </p>
               
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="inline-flex items-center gap-2 bg-roseGold/10 px-3 py-1 rounded-full text-sm text-roseGold">
-                      <span className="font-medium">600+</span> Projects Completed
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Delivering excellence since 2012</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="inline-flex items-center gap-2 bg-roseGold/10 px-3 py-1 rounded-full text-sm text-roseGold">
+                    <span className="font-medium">600+</span> Projects Completed
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Delivering excellence since 2012</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
         </div>
