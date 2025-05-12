@@ -6,6 +6,7 @@ import Footer from "./Footer";
 
 const Layout = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -24,11 +25,25 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
+    // Show loading state when route changes
+    setIsLoading(true);
+    
+    // Scroll back to top
     window.scrollTo(0, 0);
-  }, [location]);
+    
+    // Hide loading after a short delay or when page content loads
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col">
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 z-50 h-1">
+          <div className="h-full bg-roseGold animate-progress-indeterminate" />
+        </div>
+      )}
       <Header isScrolled={isScrolled} />
       <main className="flex-grow">
         <Outlet />
@@ -39,3 +54,4 @@ const Layout = () => {
 };
 
 export default Layout;
+

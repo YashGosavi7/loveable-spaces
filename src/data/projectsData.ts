@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -65,7 +66,12 @@ const projectsData: Project[] = [
       "/lovable-uploads/c0b0d2c3-1f43-49c9-8354-be4fa9015bbc.png",
       "/lovable-uploads/bfa4ce42-67ea-4f67-a422-0bb9eb57a2fd.png",
       "/lovable-uploads/66bd673b-156d-444e-b98a-76271e18c9d1.png",
-      "/lovable-uploads/0c17c063-dfc9-4a95-a5f1-ac51650b4f99.png"
+      "/lovable-uploads/0c17c063-dfc9-4a95-a5f1-ac51650b4f99.png",
+      "/lovable-uploads/c8c2ad5a-7cd2-4081-8a06-c7a18cdb3bb0.png",
+      "/lovable-uploads/657a2c9f-a671-4b45-9873-021b1a5a2300.png",
+      "/lovable-uploads/63a6fe0e-c241-4719-a82a-787468b9e64c.png",
+      "/lovable-uploads/c2ee36f4-95d6-45f5-b648-5dfd7dca1bf2.png",
+      "/lovable-uploads/8ebe48f7-8af4-4587-bbd8-05d88aad6508.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
@@ -441,3 +447,4 @@ const projectsData: Project[] = [
 ];
 
 export default projectsData;
+
