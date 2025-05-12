@@ -39,13 +39,19 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       // Add cache control hints for CDN optimization
       preloadLink.setAttribute('data-cache-control', 'public, max-age=31536000, immutable');
       
-      return () => {
+      // Enhanced error handling for cleanup
+      const cleanupPreloadLink = () => {
         try {
-          document.head.removeChild(preloadLink);
+          if (preloadLink && preloadLink.parentNode) {
+            document.head.removeChild(preloadLink);
+          }
         } catch (e) {
           // Ignore errors if element is already removed
+          console.debug('Preload link already removed');
         }
       };
+      
+      return cleanupPreloadLink;
     }
   }, [src, width]);
 
