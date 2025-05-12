@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -52,6 +51,7 @@ const projectsData: Project[] = [
       "Traditional 'palkhi' style entrance with wooden detailing"
     ],
     images: [
+      "/lovable-uploads/53359efc-5e84-4fcd-b0c8-0ec45a0a7565.png",
       "/lovable-uploads/15500acb-82c4-4b93-ae30-ac0cd08c8c62.png",
       "/lovable-uploads/a3531e4d-26b9-4b54-a2aa-d7fa49047634.png",
       "/lovable-uploads/78ff940c-ca6d-473d-bf90-e12ec4a7defa.png",
@@ -447,4 +447,3 @@ const projectsData: Project[] = [
 ];
 
 export default projectsData;
-
