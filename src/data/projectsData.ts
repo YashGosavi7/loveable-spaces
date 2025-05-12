@@ -29,6 +29,61 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "kale-office",
+    title: "The Kale Office",
+    category: "Commercial",
+    location: "Mumbai",
+    size: "1,200 sq ft",
+    completionYear: "2025",
+    description: "The Kale Office exemplifies a perfect balance between professionalism and creativity with its minimalist approach to workspace design. The interior features a clean white color palette accented by warm wooden elements and creative lighting. Notable design elements include a distinctive recessed ceiling with LED lighting, suspended Edison bulb pendants with amber accents, and inspirational wall graphics. The space incorporates private meeting areas with glass partitions, dedicated workstations with ergonomic seating, and comfortable lounge areas for casual collaboration, all unified by premium marble flooring.",
+    features: [
+      "Modern reception area with creative wall graphics",
+      "Recessed ceiling with LED perimeter lighting",
+      "Suspended Edison bulb pendants in amber color",
+      "Textured 3D panel wall features",
+      "Designated workstations with dual monitors",
+      "Private meeting spaces with glass partitions",
+      "Comfortable contemporary lounge seating",
+      "Premium marble flooring throughout",
+      "Custom wooden door frames and accents",
+      "Ergonomic mesh office chairs",
+      "Indoor plants for biophilic elements",
+      "Motivational wall graphics and branding"
+    ],
+    images: [
+      // Hero image first
+      "/lovable-uploads/45b23eab-6119-4e32-99c1-1e0c9e67d5b5.png",
+      
+      // Reception and lounge areas
+      "/lovable-uploads/27260886-2e4d-46c4-a8cc-e108b5244372.png",
+      "/lovable-uploads/44dcd1f4-6fc1-4400-ae49-adbf6ced3a32.png",
+      
+      // Office spaces and workstations
+      "/lovable-uploads/0bc9b47d-5a19-4771-b0ea-c7181b438c0e.png",
+      "/lovable-uploads/aa3f8e6e-63fa-4fe7-b783-384f00b79ac2.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Where Creativity Meets Productivity",
+    style: "Contemporary Minimalist",
+    challenges: "Creating a workspace that balances professionalism with creative energy while maximizing natural light in a limited floor area.",
+    solutions: "We implemented a strategic open plan layout with multifunctional zones, using glass partitions to maintain visual connectivity while providing acoustic privacy. The lighting scheme combines functional and decorative elements to create visual interest and compensate for limited natural light.",
+    materials: [
+      "Premium white marble flooring",
+      "3D textured wall panels",
+      "Glass partitions with minimal framing",
+      "Custom wooden door frames",
+      "White lacquered cabinetry",
+      "Matte black hardware accents"
+    ],
+    testimonial: {
+      content: "Dalpat and his team transformed our office into a space that truly inspires creativity while maintaining the professional atmosphere we needed. The thoughtful design has improved team collaboration and client impressions.",
+      author: "Kale Group, Office Manager"
+    },
+    area: "1,200 sq ft",
+    budget: "₹18 lakhs"
+  },
+  {
     id: "dada-rao-danve-project",
     title: "Patil Bada - Dada Rao Danve Project",
     category: "Hospitality",

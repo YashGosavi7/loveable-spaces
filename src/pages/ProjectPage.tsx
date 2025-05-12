@@ -58,6 +58,7 @@ const ProjectPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
+      key={projectId} // Add key to force re-render on project change
     >
       {/* Hero Section */}
       <ProjectHero 
