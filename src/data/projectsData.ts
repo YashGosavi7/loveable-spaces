@@ -60,7 +60,14 @@ const projectsData: Project[] = [
       
       // Office spaces and workstations
       "/lovable-uploads/0bc9b47d-5a19-4771-b0ea-c7181b438c0e.png",
-      "/lovable-uploads/aa3f8e6e-63fa-4fe7-b783-384f00b79ac2.png"
+      "/lovable-uploads/aa3f8e6e-63fa-4fe7-b783-384f00b79ac2.png",
+      
+      // Adding newly uploaded images
+      "/lovable-uploads/eea53347-13c4-4190-a5e7-2884b1eeba4c.png",
+      "/lovable-uploads/18ae3aa6-c2eb-494a-b249-9c39020ebe2b.png",
+      "/lovable-uploads/76be1317-69fb-4e4c-9403-acfd0f29aaa7.png",
+      "/lovable-uploads/ca4507e9-02dd-4fcd-9e2b-77405883fa9f.png",
+      "/lovable-uploads/40a33995-6522-4218-80ca-423333a06e58.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
