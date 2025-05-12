@@ -14,6 +14,11 @@ const ProjectPage = () => {
   
   const project = projectsData.find(p => p.id === projectId);
   
+  // Reset active image index when project changes
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [projectId]);
+  
   // Scroll to top when project changes
   useEffect(() => {
     window.scrollTo(0, 0);

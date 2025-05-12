@@ -51,8 +51,10 @@ const projectsData: Project[] = [
       "Traditional 'palkhi' style entrance with wooden detailing"
     ],
     images: [
+      // Keep hero image first
       "/lovable-uploads/53359efc-5e84-4fcd-b0c8-0ec45a0a7565.png",
-      "/lovable-uploads/15500acb-82c4-4b93-ae30-ac0cd08c8c62.png",
+      
+      // Exterior images first
       "/lovable-uploads/a3531e4d-26b9-4b54-a2aa-d7fa49047634.png",
       "/lovable-uploads/78ff940c-ca6d-473d-bf90-e12ec4a7defa.png",
       "/lovable-uploads/c5d5dd11-5bfb-4796-9afc-a42c876a908a.png",
@@ -62,6 +64,9 @@ const projectsData: Project[] = [
       "/lovable-uploads/2cf384df-fc36-4e44-ac0e-e0a6ccbf4a1b.png",
       "/lovable-uploads/6a09ab7f-9de6-46ca-a247-336b902ae150.png",
       "/lovable-uploads/389d75dc-36ab-4371-96ed-fdf00531f2d9.png",
+      "/lovable-uploads/15500acb-82c4-4b93-ae30-ac0cd08c8c62.png",
+      
+      // Interior images
       "/lovable-uploads/11b2bc77-c973-440f-b596-7b8ca8ebe242.png",
       "/lovable-uploads/c0b0d2c3-1f43-49c9-8354-be4fa9015bbc.png",
       "/lovable-uploads/bfa4ce42-67ea-4f67-a422-0bb9eb57a2fd.png",
