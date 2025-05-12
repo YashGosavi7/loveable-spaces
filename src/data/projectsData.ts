@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -59,20 +58,7 @@ const projectsData: Project[] = [
       "/lovable-uploads/0d499c04-ffd7-4472-bdf5-db0f05414ec1.png",
       "/lovable-uploads/3a6d2a02-fb4e-4349-9a2c-83ffe9bb944a.png",
       "/lovable-uploads/996a51e7-d737-42de-8455-9632bc75acd5.png",
-      "/lovable-uploads/2cf384df-fc36-4e44-ac0e-e0a6ccbf4a1b.png",
-      "/lovable-uploads/07142895-0e0d-4747-948e-89457336cb63.png",
-      "/lovable-uploads/09506ceb-06f0-4edc-8df9-52cfc11d86f9.png",
-      "/lovable-uploads/0ca6700f-3aa4-4261-9d5b-93b736f2dacb.png",
-      "/lovable-uploads/0e55735d-cbc9-4ed5-ac63-d289a0bdc8eb.png",
-      "/lovable-uploads/0f2238c2-c189-4802-b37c-101c3d888ca2.png",
-      "/lovable-uploads/1124b796-e6a5-498f-8368-cdb8e4b98e10.png",
-      "/lovable-uploads/14e55209-7a66-41cb-9186-2e7b5a4bbd03.png",
-      "/lovable-uploads/162c3976-5536-4565-94e3-63a6ae016de9.png",
-      "/lovable-uploads/16784a42-ae99-4107-9a18-a8595cbdf738.png",
-      "/lovable-uploads/1a6ded74-dadb-43df-84c3-f5b6f0ea21ac.png",
-      "/lovable-uploads/23b4cdbc-a69f-4030-bd29-ee82901c67a4.png",
-      "/lovable-uploads/24c6ec06-e41e-4621-9565-85f1d857a4c5.png",
-      "/lovable-uploads/26ed1595-2e33-41d5-b4ab-916bea72d522.png"
+      "/lovable-uploads/2cf384df-fc36-4e44-ac0e-e0a6ccbf4a1b.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",

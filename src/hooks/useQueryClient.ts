@@ -2,7 +2,7 @@
 import { QueryClient } from "@tanstack/react-query";
 
 // Create a QueryClient instance outside React's rendering cycle
-// This ensures it's a singleton without relying on React hooks
+// This avoids the useState issue while still maintaining a singleton instance
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -12,7 +12,7 @@ const queryClient = new QueryClient({
   },
 });
 
-// Export the QueryClient instance directly
+// Export the QueryClient instance directly, no need for a hook
 export function useQueryClient() {
   return queryClient;
 }
