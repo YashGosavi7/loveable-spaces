@@ -28,63 +28,6 @@ export interface Project {
 }
 
 const projectsData: Project[] = [
-  // Add the new Nikhil Nikam project at the top
-  {
-    id: "nikhil-nikam-apartment",
-    title: "Nikhil Nikam's Modern Apartment",
-    category: "Residential",
-    location: "Mumbai",
-    size: "1,500 sq ft",
-    completionYear: "2025",
-    description: "A sophisticated urban apartment designed for Nikhil Nikam that exemplifies contemporary minimalism with thoughtful spatial planning. The design features a harmonious blend of clean lines, neutral tones, and statement lighting fixtures that create a serene yet stylish living environment. The living spaces showcase custom-designed storage solutions, integrated technology, and carefully curated furniture pieces that maximize both functionality and aesthetic appeal.",
-    features: [
-      "Open concept living and dining area with seamless flow",
-      "Custom wall paneling with integrated ambient lighting",
-      "Contemporary kitchen with premium appliances",
-      "Minimalist master bedroom with custom headboard design",
-      "Bespoke office space with built-in storage solutions",
-      "Statement pendant lighting throughout",
-      "Premium vinyl flooring in wood-look finish",
-      "Custom cabinetry with handleless design",
-      "Floor-to-ceiling windows for maximum natural light",
-      "Space-saving sliding door solutions",
-      "Integrated home automation system",
-      "Designer furniture pieces with clean silhouettes"
-    ],
-    images: [
-      // Add the uploaded images
-      "/lovable-uploads/e4027a7f-9ad3-4f5e-a14c-26cf9eae2773.png", 
-      "/lovable-uploads/68e33d0f-e0cf-4196-9aad-5bb04fdf01c6.png",
-      "/lovable-uploads/557d3029-cba4-4a57-8717-7b01a344c6da.png",
-      "/lovable-uploads/5d855bc6-0810-4476-b016-60a4db35a6dd.png",
-      "/lovable-uploads/069c2aa1-1539-412a-aaf3-7e11fa3c46e4.png",
-      "/lovable-uploads/ff6e92d8-28c0-41ff-a879-c10c0e502dfa.png",
-      "/lovable-uploads/0a29edae-1d8d-43e0-9c52-82fb3086d5aa.png",
-      "/lovable-uploads/68fd11c7-e7c7-4fa2-9334-0945ffe32d31.png",
-      "/lovable-uploads/f2eb395a-0e93-4994-9c38-f25e72abf2c4.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Urban Elegance Meets Functional Design",
-    style: "Contemporary Minimalist",
-    challenges: "Creating an open, spacious feel in a compact urban apartment while incorporating dedicated zones for work, relaxation, and entertainment.",
-    solutions: "We implemented a strategic open floor plan with multifunctional furniture pieces and custom storage solutions. Glass partitions and sliding doors were used to maintain visual connectivity while providing acoustic privacy when needed.",
-    materials: [
-      "Premium vinyl flooring with wood texture",
-      "Lacquered MDF cabinetry",
-      "Ceramic tile backsplash",
-      "Smoked glass dividers",
-      "Engineered quartz countertops",
-      "Textured wall finishes",
-      "Brushed brass hardware accents"
-    ],
-    testimonial: {
-      content: "The team transformed my apartment into exactly what I had envisioned - a modern, functional space that feels both sophisticated and comfortable. The attention to detail and clever use of space have completely changed how I live.",
-      author: "Nikhil Nikam, Homeowner"
-    },
-    area: "1,500 sq ft",
-    budget: "₹22 lakhs"
-  },
   {
     id: "kale-office",
     title: "The Kale Office",
