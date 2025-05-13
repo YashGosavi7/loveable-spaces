@@ -1,0 +1,8 @@
+
+{
+  "name": "dev-server",
+  "version": "1.0.0",
+  "description": "Fallback package for dev-server",
+  "main": "./index.js",
+  "private": true
+}

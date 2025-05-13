@@ -13,6 +13,9 @@ export default defineConfig(({ command, mode }) => {
   
   // Get the project root directory
   const root = process.cwd();
+  
+  // Define relative path to mock-dev-server to ensure it works correctly
+  const mockDevServerPath = path.join(root, 'src', 'mock-dev-server');
 
   // Define the base configuration
   const config = {
@@ -32,7 +35,7 @@ export default defineConfig(({ command, mode }) => {
       open: true,
       fs: {
         // Allow serving files from one level up to the project root
-        allow: ['..', '.']
+        allow: ['..', '.', path.resolve(root)]
       }
     },
     build: {
@@ -64,8 +67,8 @@ export default defineConfig(({ command, mode }) => {
         "@components": path.resolve(root, "./src/components"),
         // Use proper path for UI components
         "@ui": path.resolve(root, "./src/components/ui"),
-        // Add an alias for dev-server to point to a mock
-        "dev-server": path.resolve(root, "./src/mock-dev-server"),
+        // Fix the dev-server alias to explicitly point to the mock-dev-server directory with full path
+        "dev-server": mockDevServerPath,
       },
     },
     
@@ -82,7 +85,23 @@ export default defineConfig(({ command, mode }) => {
     },
     
     optimizeDeps: {
-      exclude: ['dev-server']
+      // Properly exclude the dev-server from optimization
+      exclude: ['dev-server'],
+      // Add a fallback to handle potential missing modules
+      esbuildOptions: {
+        // Add a fallback for packages that might not be found
+        plugins: [
+          {
+            name: 'mock-missing-modules',
+            setup(build) {
+              // Create empty module for missing dependencies
+              build.onResolve({ filter: /^dev-server$/ }, args => {
+                return { path: mockDevServerPath };
+              });
+            }
+          }
+        ]
+      }
     },
   };
 });
