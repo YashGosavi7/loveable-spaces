@@ -76,7 +76,8 @@ export default defineConfig(({ command, mode }) => {
     },
     
     optimizeDeps: {
-      exclude: ['dev-server']
+      exclude: [] // Removed 'dev-server' to allow pre-bundling
     },
   };
 });
+
