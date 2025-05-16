@@ -29,6 +29,15 @@ export default defineConfig(({ command, mode }) => {
     },
     build: {
       sourcemap: !isProduction, // Enable sourcemaps in non-production environments
+      rollupOptions: {
+        output: {
+          // Break down chunks for better caching
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            ui: ['@/components/ui/button', '@/components/ui/card'] // Specify individual files instead of directory
+          },
+        },
+      },
     },
   };
 
@@ -60,20 +69,11 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     
-    build: {
-      rollupOptions: {
-        output: {
-          // Break down chunks for better caching
-          manualChunks: {
-            vendor: ['react', 'react-dom'],
-            ui: ['@/components/ui/button', '@/components/ui/card'] // Specify individual files instead of directory
-          },
-        },
-      },
-    },
+    // The 'build' configuration is now consolidated within the 'config' object above.
     
     optimizeDeps: {
-      exclude: ['dev-server']
+      exclude: [] // Removed 'dev-server'
     },
   };
 });
+
