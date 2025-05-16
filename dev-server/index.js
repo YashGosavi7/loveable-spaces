@@ -1,7 +1,17 @@
 
-// This is a placeholder file for the root-level 'dev-server' directory.
-// It helps resolve build issues related to Vite's dependency optimization
-// when an aliased module (like 'dev-server' pointing to 'src/mock-dev-server')
-// is excluded from optimizeDeps.
-// The actual mock server logic is located in 'src/mock-dev-server/index.js'.
-export default {};
+/**
+ * This file serves as a placeholder module for the 'dev-server' alias.
+ * It's used to satisfy Vite's dependency resolution during build time.
+ * 
+ * The actual implementation is resolved from src/mock-dev-server via the alias
+ * configuration in vite.config.ts.
+ */
+
+// Export a placeholder object that won't cause issues if imported
+const placeholderModule = {
+  name: 'dev-server-placeholder',
+  version: '1.0.0',
+  isPlaceholder: true
+};
+
+export default placeholderModule;
