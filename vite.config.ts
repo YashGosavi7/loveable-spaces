@@ -45,7 +45,7 @@ export default defineConfig(({ command, mode }) => {
   }
 
   // Get absolute path to the dev-server directory
-  const devServerPath = path.resolve(__dirname, './src/mock-dev-server');
+  const mockDevServerPath = path.resolve(__dirname, './src/mock-dev-server');
 
   return {
     ...config,
@@ -59,7 +59,7 @@ export default defineConfig(({ command, mode }) => {
         // Use proper path for UI components
         "@ui": path.resolve(__dirname, "./src/components/ui"),
         // Use the direct path to mock-dev-server
-        "dev-server": devServerPath,
+        "dev-server": mockDevServerPath,
       },
     },
     
@@ -76,8 +76,7 @@ export default defineConfig(({ command, mode }) => {
     },
     
     optimizeDeps: {
-      exclude: [] // Removed 'dev-server' to allow pre-bundling
+      include: ['dev-server'], // Explicitly include dev-server in pre-bundling
     },
   };
 });
-
