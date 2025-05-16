@@ -1,8 +1,8 @@
 
 {
-  "name": "mock-dev-server-placeholder",
+  "name": "dev-server",
   "version": "1.0.0",
-  "description": "Placeholder package.json to satisfy Vite's dependency checks for aliased modules excluded from optimizeDeps. The actual mock server code is resolved via alias from src/mock-dev-server.",
+  "description": "Placeholder package.json to satisfy Vite's dependency checks for aliased modules (like 'dev-server') excluded from optimizeDeps. The actual mock server code is resolved via alias from src/mock-dev-server.",
   "main": "index.js",
   "private": true
 }
