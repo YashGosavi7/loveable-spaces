@@ -1,8 +1,8 @@
 
 {
-  "name": "mock-dev-server",
+  "name": "dev-server",
   "version": "1.0.0",
-  "description": "Mock implementation for dev-server module",
+  "description": "Mock implementation for dev-server module (aliased as 'dev-server')",
   "main": "index.js",
   "private": true
 }
