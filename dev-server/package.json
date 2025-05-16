@@ -1,7 +1,8 @@
 
 {
-  "name": "dev-server-placeholder",
+  "name": "dev-server",
   "version": "1.0.0",
-  "description": "Placeholder to satisfy npm/vite path resolution for /dev-server/package.json. The actual mock is at src/mock-dev-server.",
-  "main": "index.js"
+  "description": "Fallback package for dev-server",
+  "main": "./index.js",
+  "private": true
 }
