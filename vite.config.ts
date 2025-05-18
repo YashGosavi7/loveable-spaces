@@ -73,8 +73,8 @@ export default defineConfig(({ command, mode }) => {
     },
     
     optimizeDeps: {
-      include: ['dev-server'], // Explicitly include 'dev-server'
-      exclude: [] // Ensure 'dev-server' is NOT in exclude
+      include: [], // Removed 'dev-server' from here
+      exclude: [] 
     },
   };
 });
