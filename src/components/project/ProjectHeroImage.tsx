@@ -28,6 +28,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       preloadLink.href = src;
       preloadLink.type = 'image/webp'; // Prefer WebP for modern browsers
       preloadLink.setAttribute('fetchpriority', 'high');
+      preloadLink.setAttribute('crossorigin', 'anonymous');
       document.head.appendChild(preloadLink);
 
       // Add media attribute for responsive preloading
@@ -38,18 +39,24 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       // Add cache control hints for CDN optimization
       preloadLink.setAttribute('data-cache-control', 'public, max-age=31536000, immutable');
       
-      return () => {
+      // Enhanced error handling for cleanup
+      const cleanupPreloadLink = () => {
         try {
-          document.head.removeChild(preloadLink);
+          if (preloadLink && preloadLink.parentNode) {
+            document.head.removeChild(preloadLink);
+          }
         } catch (e) {
           // Ignore errors if element is already removed
+          console.debug('Preload link already removed');
         }
       };
+      
+      return cleanupPreloadLink;
     }
   }, [src, width]);
 
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       <div 
         className="absolute inset-0 transition-opacity duration-300"
         style={{ 

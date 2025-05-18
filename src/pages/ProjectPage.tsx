@@ -14,6 +14,11 @@ const ProjectPage = () => {
   
   const project = projectsData.find(p => p.id === projectId);
   
+  // Reset active image index when project changes
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [projectId]);
+  
   // Scroll to top when project changes
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -53,6 +58,7 @@ const ProjectPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
+      key={projectId} // Add key to force re-render on project change
     >
       {/* Hero Section */}
       <ProjectHero 
