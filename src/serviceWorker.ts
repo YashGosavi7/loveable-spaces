@@ -1,3 +1,4 @@
+
 // This optional code is used to register a service worker.
 // Register your service worker. By default a service worker is
 // only used in production.
@@ -20,9 +21,9 @@ type Config = {
 export function register(config?: Config) {
   if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
-    // Using import.meta.env.BASE_URL instead of process.env.PUBLIC_URL for Vite compatibility
+    // Fix for "process is not defined" error - replace process.env.PUBLIC_URL with empty string or window origin
     const publicUrl = new URL(
-      import.meta.env.BASE_URL || '',
+      window.location.origin,
       window.location.href
     );
     if (publicUrl.origin !== window.location.origin) {
@@ -91,7 +92,8 @@ function registerValidSW(swUrl: string, config?: Config) {
       };
       
       // Manually update service worker immediately in development
-      if (process.env.NODE_ENV === 'development') {
+      // Fix for "process is not defined" error - replace with environment check
+      if (window.location.hostname === 'localhost') {
         registration.update();
       }
     })
@@ -142,7 +144,12 @@ export function unregister() {
   }
 }
 
-// This export has been moved to imageUtils.ts to avoid duplication
-// and maintain clean module boundaries
-// import { cacheImage } from './utils/imageUtils';
-// export { cacheImage };
+// Add helper function to manually cache images
+export const cacheImage = (url: string) => {
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({
+      type: 'CACHE_NEW_IMAGE',
+      url
+    });
+  }
+};

@@ -1,8 +1,8 @@
 
 // Image Optimizer Service Worker
-const CACHE_NAME = 'image-cache-v2';
-const IMAGE_CACHE_NAME = 'optimized-images-v2';
-const STATIC_CACHE_NAME = 'static-assets-v2';
+const CACHE_NAME = 'image-cache-v3';
+const IMAGE_CACHE_NAME = 'optimized-images-v3';
+const STATIC_CACHE_NAME = 'static-assets-v3';
 
 // Assets to precache
 const PRECACHE_ASSETS = [
@@ -12,11 +12,22 @@ const PRECACHE_ASSETS = [
   '/favicon.ico'
 ];
 
+// Critical image paths to precache
+const CRITICAL_IMAGES = [
+  // Team member images from AboutPage that are in the horizontal dark gray box
+  '/lovable-uploads/25d0624e-4f4a-4e2d-a084-f7bf8671b099.png',
+  '/lovable-uploads/f99d8834-eeec-4f35-b430-48d82f605f55.png',
+  '/lovable-uploads/d655dd68-cb8a-43fd-8aaa-38db6cd905c1.png'
+];
+
 // Installation event
 self.addEventListener('install', (event) => {
-  console.log('[ServiceWorker] Installing Optimized Image Service Worker');
+  console.log('[ServiceWorker] Installing Optimized Image Service Worker v3');
   
-  // Precaching critical assets
+  // Skip waiting to activate immediately
+  self.skipWaiting();
+  
+  // Precaching critical assets and images
   event.waitUntil(
     Promise.all([
       // Cache static assets
@@ -25,14 +36,12 @@ self.addEventListener('install', (event) => {
         return cache.addAll(PRECACHE_ASSETS);
       }),
       
-      // Create image cache
+      // Create image cache and precache critical images
       caches.open(IMAGE_CACHE_NAME).then((cache) => {
-        console.log('[ServiceWorker] Image cache created');
-        return cache;
+        console.log('[ServiceWorker] Pre-caching critical images');
+        return cache.addAll(CRITICAL_IMAGES);
       })
-    ]).then(() => {
-      return self.skipWaiting();
-    })
+    ])
   );
 });
 
@@ -80,6 +89,7 @@ const optimizeImageRequest = (request) => {
   
   // Add optimization parameters
   optimizedUrl.searchParams.set('optimized', 'true');
+  optimizedUrl.searchParams.set('cache', Date.now().toString().slice(0, -3)); // Cache for 1000 seconds
   
   // Create a new request with the same options but optimized URL
   return new Request(optimizedUrl, {
@@ -89,11 +99,11 @@ const optimizeImageRequest = (request) => {
     credentials: request.credentials,
     redirect: request.redirect,
     integrity: request.integrity,
-    cache: 'force-cache' // Encourage aggressive caching
+    cache: 'force-cache' // Enforce aggressive caching
   });
 };
 
-// Fetch event
+// Fetch event with network-first strategy for images
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   
@@ -102,43 +112,29 @@ self.addEventListener('fetch', (event) => {
   
   // Handle image requests with special caching strategy
   if (isImageRequest(request)) {
+    // Use network-first strategy for better performance after initial load
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        // Return cached response if available
-        if (cachedResponse) {
-          // Clone the response before returning it
-          return cachedResponse.clone();
-        }
-        
-        // Optimize the request before fetching
-        const optimizedRequest = optimizeImageRequest(request);
-        
-        return fetch(optimizedRequest)
-          .then((response) => {
-            // Don't cache bad responses
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
+      fetch(optimizeImageRequest(request))
+        .then((networkResponse) => {
+          // Clone the response before caching
+          const responseToCache = networkResponse.clone();
+          
+          // Cache the fresh response
+          caches.open(IMAGE_CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
+          
+          return networkResponse;
+        })
+        .catch(() => {
+          // Fall back to cache if network fails
+          return caches.match(request).then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
             }
             
-            // Clone the response since it's a stream and can only be consumed once
-            const responseToCache = response.clone();
-            
-            // Cache the fetched image
-            caches.open(IMAGE_CACHE_NAME)
-              .then((cache) => {
-                // Cache both the original and optimized request
-                cache.put(request, responseToCache.clone());
-                if (request.url !== optimizedRequest.url) {
-                  cache.put(optimizedRequest, responseToCache);
-                }
-              });
-            
-            return response;
-          })
-          .catch(() => {
-            // Return a fallback for images or pass along the network error
+            // If nothing in cache either, return empty transparent image
             if (request.url.includes('/lovable-uploads/')) {
-              // Return an empty transparent image as fallback
               return new Response('', {
                 status: 200,
                 statusText: 'OK'
@@ -148,31 +144,33 @@ self.addEventListener('fetch', (event) => {
             // For other errors, let them propagate
             throw new Error(`Failed to fetch: ${request.url}`);
           });
-      })
+        })
     );
   } else {
-    // For non-image requests, use a standard stale-while-revalidate strategy
+    // For non-image requests, use standard cache-first strategy
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
-        const fetchPromise = fetch(request).then((networkResponse) => {
-          // Cache any successful responses
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        
+        return fetch(request).then((networkResponse) => {
+          // Cache successful responses
           if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
             const responseToCache = networkResponse.clone();
             caches.open(STATIC_CACHE_NAME).then((cache) => {
               cache.put(request, responseToCache);
             });
           }
+          
           return networkResponse;
         });
-        
-        // Return the cached response immediately if we have one, otherwise wait for the network
-        return cachedResponse || fetchPromise;
       })
     );
   }
 });
 
-// Listen for messages from clients
+// Listen for messages to preload images
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'CACHE_NEW_IMAGE') {
     // Manually cache a specific image when requested
@@ -186,6 +184,43 @@ self.addEventListener('message', (event) => {
       }).catch(err => {
         console.error('[ServiceWorker] Failed to cache image:', err);
       });
+    });
+  }
+  
+  // Handle batch image preloading
+  if (event.data && event.data.type === 'PRELOAD_IMAGES') {
+    const urls = event.data.urls;
+    
+    if (!urls || !Array.isArray(urls) || urls.length === 0) return;
+    
+    caches.open(IMAGE_CACHE_NAME).then((cache) => {
+      // Process in batches to avoid overwhelming the browser
+      const batchSize = 3;
+      const preloadBatch = (startIndex) => {
+        const batch = urls.slice(startIndex, startIndex + batchSize);
+        
+        if (batch.length === 0) return;
+        
+        Promise.all(batch.map(url => {
+          return fetch(url, { mode: 'no-cors', cache: 'force-cache' })
+            .then(response => {
+              if (response) {
+                return cache.put(url, response);
+              }
+            })
+            .catch(err => {
+              console.warn('[ServiceWorker] Failed to preload image:', url, err);
+            });
+        })).then(() => {
+          // Process next batch
+          if (startIndex + batchSize < urls.length) {
+            setTimeout(() => preloadBatch(startIndex + batchSize), 300);
+          }
+        });
+      };
+      
+      // Start batch processing
+      preloadBatch(0);
     });
   }
 });

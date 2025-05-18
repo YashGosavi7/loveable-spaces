@@ -1,3 +1,4 @@
+
 export interface Project {
   id: string;
   title: string;
@@ -28,209 +29,6 @@ export interface Project {
 }
 
 const projectsData: Project[] = [
-  // Add the new Nikhil Nikam project at the top
-  {
-    id: "nikhil-nikam-apartment",
-    title: "Nikhil Nikam's Modern Apartment",
-    category: "Residential",
-    location: "Mumbai",
-    size: "1,500 sq ft",
-    completionYear: "2025",
-    description: "A sophisticated urban apartment designed for Nikhil Nikam that exemplifies contemporary minimalism with thoughtful spatial planning. The design features a harmonious blend of clean lines, neutral tones, and statement lighting fixtures that create a serene yet stylish living environment. The living spaces showcase custom-designed storage solutions, integrated technology, and carefully curated furniture pieces that maximize both functionality and aesthetic appeal.",
-    features: [
-      "Open concept living and dining area with seamless flow",
-      "Custom wall paneling with integrated ambient lighting",
-      "Contemporary kitchen with premium appliances",
-      "Minimalist master bedroom with custom headboard design",
-      "Bespoke office space with built-in storage solutions",
-      "Statement pendant lighting throughout",
-      "Premium vinyl flooring in wood-look finish",
-      "Custom cabinetry with handleless design",
-      "Floor-to-ceiling windows for maximum natural light",
-      "Space-saving sliding door solutions",
-      "Integrated home automation system",
-      "Designer furniture pieces with clean silhouettes"
-    ],
-    images: [
-      // Add the uploaded images
-      "/lovable-uploads/e4027a7f-9ad3-4f5e-a14c-26cf9eae2773.png", 
-      "/lovable-uploads/68e33d0f-e0cf-4196-9aad-5bb04fdf01c6.png",
-      "/lovable-uploads/557d3029-cba4-4a57-8717-7b01a344c6da.png",
-      "/lovable-uploads/5d855bc6-0810-4476-b016-60a4db35a6dd.png",
-      "/lovable-uploads/069c2aa1-1539-412a-aaf3-7e11fa3c46e4.png",
-      "/lovable-uploads/ff6e92d8-28c0-41ff-a879-c10c0e502dfa.png",
-      "/lovable-uploads/0a29edae-1d8d-43e0-9c52-82fb3086d5aa.png",
-      "/lovable-uploads/68fd11c7-e7c7-4fa2-9334-0945ffe32d31.png",
-      "/lovable-uploads/f2eb395a-0e93-4994-9c38-f25e72abf2c4.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Urban Elegance Meets Functional Design",
-    style: "Contemporary Minimalist",
-    challenges: "Creating an open, spacious feel in a compact urban apartment while incorporating dedicated zones for work, relaxation, and entertainment.",
-    solutions: "We implemented a strategic open floor plan with multifunctional furniture pieces and custom storage solutions. Glass partitions and sliding doors were used to maintain visual connectivity while providing acoustic privacy when needed.",
-    materials: [
-      "Premium vinyl flooring with wood texture",
-      "Lacquered MDF cabinetry",
-      "Ceramic tile backsplash",
-      "Smoked glass dividers",
-      "Engineered quartz countertops",
-      "Textured wall finishes",
-      "Brushed brass hardware accents"
-    ],
-    testimonial: {
-      content: "The team transformed my apartment into exactly what I had envisioned - a modern, functional space that feels both sophisticated and comfortable. The attention to detail and clever use of space have completely changed how I live.",
-      author: "Nikhil Nikam, Homeowner"
-    },
-    area: "1,500 sq ft",
-    budget: "₹22 lakhs"
-  },
-  {
-    id: "kale-office",
-    title: "The Kale Office",
-    category: "Commercial",
-    location: "Mumbai",
-    size: "1,200 sq ft",
-    completionYear: "2025",
-    description: "The Kale Office exemplifies a perfect balance between professionalism and creativity with its minimalist approach to workspace design. The interior features a clean white color palette accented by warm wooden elements and creative lighting. Notable design elements include a distinctive recessed ceiling with LED lighting, suspended Edison bulb pendants with amber accents, and inspirational wall graphics. The space incorporates private meeting areas with glass partitions, dedicated workstations with ergonomic seating, and comfortable lounge areas for casual collaboration, all unified by premium marble flooring.",
-    features: [
-      "Modern reception area with creative wall graphics",
-      "Recessed ceiling with LED perimeter lighting",
-      "Suspended Edison bulb pendants in amber color",
-      "Textured 3D panel wall features",
-      "Designated workstations with dual monitors",
-      "Private meeting spaces with glass partitions",
-      "Comfortable contemporary lounge seating",
-      "Premium marble flooring throughout",
-      "Custom wooden door frames and accents",
-      "Ergonomic mesh office chairs",
-      "Indoor plants for biophilic elements",
-      "Motivational wall graphics and branding"
-    ],
-    images: [
-      // Hero image first
-      "/lovable-uploads/45b23eab-6119-4e32-99c1-1e0c9e67d5b5.png",
-      
-      // Reception and lounge areas
-      "/lovable-uploads/27260886-2e4d-46c4-a8cc-e108b5244372.png",
-      "/lovable-uploads/44dcd1f4-6fc1-4400-ae49-adbf6ced3a32.png",
-      
-      // Office spaces and workstations
-      "/lovable-uploads/0bc9b47d-5a19-4771-b0ea-c7181b438c0e.png",
-      "/lovable-uploads/aa3f8e6e-63fa-4fe7-b783-384f00b79ac2.png",
-      
-      // New images added
-      "/lovable-uploads/8818815a-2bd2-4467-bbd0-860ba8d18d72.png",
-      "/lovable-uploads/e0758294-5908-4bd2-9ff3-3b815517a41f.png",
-      "/lovable-uploads/2a27799d-2cb9-407f-954e-7f7fe33e6a89.png",
-      "/lovable-uploads/fac0157e-9d91-4d72-a64c-1bc56bb9f818.png",
-      "/lovable-uploads/8d5251ff-1fe8-4cbc-9ee9-db6ea77e300f.png",
-      
-      // Previously added images
-      "/lovable-uploads/9fe957b5-dcc5-4e49-8064-48228b2db53f.png",
-      "/lovable-uploads/644ae251-6e8e-4e85-b1eb-9c1271726fe4.png",
-      "/lovable-uploads/acd6beeb-dc78-46b1-997c-d63378853428.png",
-      "/lovable-uploads/6ab9be7f-5cab-4b53-98aa-78689eda7616.png",
-      "/lovable-uploads/386f2e4c-3f50-42ae-b4ec-ca258103389e.png",
-      
-      // New uploads added in this request
-      "/lovable-uploads/7cb99a23-6d74-4bd1-9c5e-06dcd9c5e877.png",
-      "/lovable-uploads/996d593d-ddf3-4c4c-8024-d25a29c56a51.png",
-      "/lovable-uploads/cd569ba7-04a7-4272-b1db-fdb602aa3731.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Where Creativity Meets Productivity",
-    style: "Contemporary Minimalist",
-    challenges: "Creating a workspace that balances professionalism with creative energy while maximizing natural light in a limited floor area.",
-    solutions: "We implemented a strategic open plan layout with multifunctional zones, using glass partitions to maintain visual connectivity while providing acoustic privacy. The lighting scheme combines functional and decorative elements to create visual interest and compensate for limited natural light.",
-    materials: [
-      "Premium white marble flooring",
-      "3D textured wall panels",
-      "Glass partitions with minimal framing",
-      "Custom wooden door frames",
-      "White lacquered cabinetry",
-      "Matte black hardware accents"
-    ],
-    testimonial: {
-      content: "Dalpat and his team transformed our office into a space that truly inspires creativity while maintaining the professional atmosphere we needed. The thoughtful design has improved team collaboration and client impressions.",
-      author: "Kale Group, Office Manager"
-    },
-    area: "1,200 sq ft",
-    budget: "₹18 lakhs"
-  },
-  {
-    id: "dada-rao-danve-project",
-    title: "Patil Bada - Dada Rao Danve Project",
-    category: "Hospitality",
-    location: "Pune",
-    size: "15,000 sq ft",
-    completionYear: "2025",
-    description: "Patil Bada is a traditional-style hospitality complex designed for Dada Rao Danve that celebrates India's rich cultural heritage. The project features distinctive vernacular architecture with terracotta roofing, decorative wooden elements, and traditional Warli art motifs. The venue includes an open-air dining area, kids' play zone, garden seating, and custom wooden architectural elements that create a warm, authentic atmosphere. The thoughtfully designed spaces combine modern amenities with traditional aesthetics, offering visitors an immersive cultural experience set against a serene natural backdrop.",
-    features: [
-      "Traditional vernacular architecture with terracotta tiled roofs",
-      "Ornate wooden cart wheel wall displays and decorative elements",
-      "Custom wooden archway with greenery and traditional signage",
-      "Outdoor dining area with panoramic views",
-      "Indoor dining hall with traditional Warli art mural wall",
-      "Children's play area with colorful play equipment",
-      "Decorative jaali screens and lattice work",
-      "Traditional wooden doors and windows with arched details",
-      "Landscaped gardens with indigenous plants and flowers",
-      "Decorative water features and zen elements",
-      "Ample parking space with designated areas",
-      "Traditional 'palkhi' style entrance with wooden detailing"
-    ],
-    images: [
-      // Keep hero image first
-      "/lovable-uploads/53359efc-5e84-4fcd-b0c8-0ec45a0a7565.png",
-      
-      // Exterior images first
-      "/lovable-uploads/a3531e4d-26b9-4b54-a2aa-d7fa49047634.png",
-      "/lovable-uploads/78ff940c-ca6d-473d-bf90-e12ec4a7defa.png",
-      "/lovable-uploads/c5d5dd11-5bfb-4796-9afc-a42c876a908a.png",
-      "/lovable-uploads/0d499c04-ffd7-4472-bdf5-db0f05414ec1.png",
-      "/lovable-uploads/3a6d2a02-fb4e-4349-9a2c-83ffe9bb944a.png",
-      "/lovable-uploads/996a51e7-d737-42de-8455-9632bc75acd5.png",
-      "/lovable-uploads/2cf384df-fc36-4e44-ac0e-e0a6ccbf4a1b.png",
-      "/lovable-uploads/6a09ab7f-9de6-46ca-a247-336b902ae150.png",
-      "/lovable-uploads/389d75dc-36ab-4371-96ed-fdf00531f2d9.png",
-      "/lovable-uploads/15500acb-82c4-4b93-ae30-ac0cd08c8c62.png",
-      
-      // Interior images
-      "/lovable-uploads/11b2bc77-c973-440f-b596-7b8ca8ebe242.png",
-      "/lovable-uploads/c0b0d2c3-1f43-49c9-8354-be4fa9015bbc.png",
-      "/lovable-uploads/bfa4ce42-67ea-4f67-a422-0bb9eb57a2fd.png",
-      "/lovable-uploads/66bd673b-156d-444e-b98a-76271e18c9d1.png",
-      "/lovable-uploads/0c17c063-dfc9-4a95-a5f1-ac51650b4f99.png",
-      "/lovable-uploads/c8c2ad5a-7cd2-4081-8a06-c7a18cdb3bb0.png",
-      "/lovable-uploads/657a2c9f-a671-4b45-9873-021b1a5a2300.png",
-      "/lovable-uploads/63a6fe0e-c241-4719-a82a-787468b9e64c.png",
-      "/lovable-uploads/c2ee36f4-95d6-45f5-b648-5dfd7dca1bf2.png",
-      "/lovable-uploads/8ebe48f7-8af4-4587-bbd8-05d88aad6508.png"
-    ],
-    isFeatured: true,
-    designer: "Dalpat Suthar",
-    tagline: "Traditional Elegance Meets Modern Hospitality",
-    style: "Indo-Vernacular",
-    challenges: "The project required balancing authentic traditional aesthetics with modern hospitality requirements while working with limited local resources for specialized craftsmanship.",
-    solutions: "We collaborated with local artisans to create authentic vernacular elements, utilized sustainable materials, and designed modular components that could be crafted by local carpenters while maintaining traditional aesthetics.",
-    materials: [
-      "Terracotta roof tiles",
-      "Hand-carved wooden elements",
-      "Natural stone flooring",
-      "Traditional jaali work",
-      "Custom wooden furniture",
-      "Reclaimed wooden wheels and artifacts",
-      "Indigenous plants for landscaping",
-      "Handcrafted Warli art murals"
-    ],
-    testimonial: {
-      content: "Balaji Design Studio captured the essence of our vision for a traditional yet functional hospitality space. The attention to cultural details while ensuring modern comfort has resulted in a venue that truly represents our heritage.",
-      author: "Dada Rao Danve, Project Owner"
-    },
-    area: "15,000 sq ft"
-  },
   {
     id: "utture-3bhk-apartment",
     title: "Mr. Utture's Modern 3BHK",
@@ -272,7 +70,7 @@ const projectsData: Project[] = [
   {
     id: "golden-leaf-banquet-hall",
     title: "The Golden Leaf Banquet Hall",
-    category: "Hospitality",
+    category: "Commercial",
     location: "Kunjirwadi, Pune",
     size: "10,000 sq ft",
     completionYear: "2025",
@@ -554,7 +352,7 @@ const projectsData: Project[] = [
   {
     id: "park-infinia",
     title: "Park Infinia Temple",
-    category: "Hospitality",
+    category: "Commercial",
     location: "Pune",
     size: "2,500 sq ft",
     completionYear: "2025",
