@@ -1,8 +1,0 @@
-
-{
-  "name": "dev-server",
-  "version": "1.0.0",
-  "description": "Placeholder package.json to satisfy Vite's dependency checks for 'dev-server' module",
-  "main": "index.js",
-  "private": true
-}
