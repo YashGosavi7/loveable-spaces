@@ -2,12 +2,14 @@
 import { Project } from "@/data/projectsData";
 import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./gallery/ProjectCarousel";
-import ProjectThumbnailGrid from "./gallery/ProjectThumbnailGrid";
 import ProjectSummary from "./gallery/ProjectSummary";
-import ImagePreloader from "./gallery/ImagePreloader";
-import ImageLightbox from "./gallery/ImageLightbox";
+import UltraFastPicture from "@/components/image/UltraFastPicture";
+import UltraFastLightbox from "./gallery/UltraFastLightbox";
 import ProjectThumbnails from "../project/ProjectThumbnails";
 import { Separator } from "@/components/ui/separator";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { ChevronDown } from "lucide-react";
+import { ultraFastPreload, getConnectionSpeed } from "@/utils/ultraFastImageOptimization";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -15,195 +17,84 @@ interface ProjectGalleryProps {
 
 const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  // Increase initial preloaded slides to improve loading performance
-  const [preloadedSlides, setPreloadedSlides] = useState<number[]>([0, 1, 2, 3, 4, 5]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [showAllThumbnails, setShowAllThumbnails] = useState(project.images.length <= 9);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // Determine connection speed for adaptive preloading
-  const detectConnectionSpeed = useCallback(() => {
-    if (typeof navigator !== 'undefined' && 'connection' in navigator) {
-      const conn = (navigator as any).connection;
-      
-      if (conn) {
-        if (conn.saveData) return 'slow';
-        if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') return 'slow';
-        if (conn.effectiveType === '3g') return 'medium';
-        if (conn.downlink < 1) return 'slow';
-        if (conn.downlink >= 5) return 'fast';
-        return 'normal';
-      }
-    }
-    return 'normal';
-  }, []);
-  
-  // More aggressive image preloading strategy for ALL thumbnails
+  // Ultra-aggressive preloading on component mount
   useEffect(() => {
-    const connectionSpeed = detectConnectionSpeed();
+    if (project.images.length === 0) return;
     
-    // Add preload hints for optimal image loading
-    const addImagePreloadHints = () => {
-      if (project.images.length === 0) return;
-      
-      // Always preload the hero image with high priority
-      const heroImage = project.images[0];
-      
-      // Add preload for the hero image
-      const preloadLink = document.createElement('link');
-      preloadLink.rel = 'preload';
-      preloadLink.as = 'image';
-      preloadLink.href = heroImage;
-      preloadLink.type = 'image/webp'; 
-      preloadLink.setAttribute('fetchpriority', 'high');
-      preloadLink.setAttribute('crossorigin', 'anonymous');
-      document.head.appendChild(preloadLink);
-      
-      // Determine how many thumbnails to preload based on connection speed
-      const thumbnailsToPreload = connectionSpeed === 'slow' ? 6 : 
-                                   connectionSpeed === 'medium' ? 9 : 12;
-      
-      // Preload first N thumbnails for gallery with appropriate responsive sizes
-      const preloadLinks = [];
-      for (let i = 0; i < Math.min(thumbnailsToPreload, project.images.length); i++) {
-        if (i === 0) continue; // Skip the first image as it's already preloaded as hero
-        
-        const thumbnailLink = document.createElement('link');
-        thumbnailLink.rel = connectionSpeed === 'slow' ? 'prefetch' : 'preload';
-        thumbnailLink.as = 'image';
-        thumbnailLink.href = project.images[i];
-        thumbnailLink.type = 'image/webp';
-        thumbnailLink.setAttribute('fetchpriority', i < 6 ? 'high' : 'auto');
-        thumbnailLink.setAttribute('crossorigin', 'anonymous');
-        
-        // Add responsive loading with media queries
-        if (i < 3) {
-          // First row of thumbnails - load on all devices
-          thumbnailLink.setAttribute('media', '(min-width: 1px)');
-        } else if (i < 6) {
-          // Second row - load on tablets and desktops
-          thumbnailLink.setAttribute('media', '(min-width: 640px)');
-        } else {
-          // Further rows - load primarily on desktops
-          thumbnailLink.setAttribute('media', '(min-width: 1024px)');
-        }
-        
-        // Add cache control hints
-        thumbnailLink.setAttribute('data-cache-control', 'public, max-age=31536000, immutable');
-        
-        document.head.appendChild(thumbnailLink);
-        preloadLinks.push(thumbnailLink);
-      }
-      
-      // Clean up on unmount
-      return () => {
-        document.head.removeChild(preloadLink);
-        preloadLinks.forEach(link => {
-          try {
-            document.head.removeChild(link);
-          } catch (e) {
-            // Ignore errors if element is already removed
-          }
-        });
-      };
-    };
+    const connectionSpeed = getConnectionSpeed();
     
-    // Run the preload function
-    const cleanup = addImagePreloadHints();
+    // Immediately preload hero image and first row of thumbnails
+    const criticalImages = project.images.slice(0, 4); // Hero + first 3 thumbnails
+    ultraFastPreload([project.images[0]], 'hero', 'critical');
+    ultraFastPreload(criticalImages.slice(1), 'thumbnail', 'critical');
     
-    // Return cleanup function
-    return cleanup;
-  }, [project.images, detectConnectionSpeed]);
+    // Preload more images based on connection speed
+    const preloadCount = connectionSpeed === 'fast' ? 12 : connectionSpeed === 'medium' ? 9 : 6;
+    const additionalImages = project.images.slice(4, preloadCount);
+    
+    if (additionalImages.length > 0) {
+      setTimeout(() => {
+        ultraFastPreload(additionalImages, 'thumbnail', 'high');
+      }, 50);
+    }
+    
+    // Preload all remaining images in background
+    if (connectionSpeed !== 'slow' && project.images.length > preloadCount) {
+      setTimeout(() => {
+        const remainingImages = project.images.slice(preloadCount);
+        ultraFastPreload(remainingImages, 'thumbnail', 'medium');
+      }, 200);
+    }
+  }, [project.images]);
   
-  // More aggressive slide preloading strategy
   const handleSlideChange = useCallback((index: number) => {
     setCurrentSlide(index);
     
-    // Preload ALL slides when slide changes, with priority to adjacent ones
-    const nextSlidesToPreload = [];
-    const totalSlides = project.images.length;
-    
-    // First prioritize immediate next/previous slides
-    for (let i = -2; i <= 2; i++) {
-      if (i === 0) continue; // Skip current slide
-      const nextIndex = (index + i + totalSlides) % totalSlides;
-      if (!preloadedSlides.includes(nextIndex)) {
-        nextSlidesToPreload.push(nextIndex);
-      }
-    }
-    
-    // Then add all other slides
-    for (let i = 0; i < totalSlides; i++) {
-      if (i !== index && !preloadedSlides.includes(i) && !nextSlidesToPreload.includes(i)) {
-        nextSlidesToPreload.push(i);
-      }
-    }
-    
-    if (nextSlidesToPreload.length > 0) {
-      setPreloadedSlides(prev => [...prev, ...nextSlidesToPreload]);
-    }
-  }, [project.images.length, preloadedSlides]);
-
-  // Enhanced lightbox open functionality
+    // Preload adjacent images for smooth navigation
+    const adjacentIndices = [index - 1, index + 1].filter(i => i >= 0 && i < project.images.length);
+    const adjacentImages = adjacentIndices.map(i => project.images[i]);
+    ultraFastPreload(adjacentImages, 'hero', 'high');
+  }, [project.images]);
+  
   const openLightbox = useCallback((index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
-    
-    // Preload ALL images for smoother lightbox experience
-    const allIndices = Array.from({ length: project.images.length }, (_, i) => i);
-    const notYetPreloaded = allIndices.filter(idx => !preloadedSlides.includes(idx));
-    
-    if (notYetPreloaded.length > 0) {
-      // Prioritize adjacent images first
-      notYetPreloaded.sort((a, b) => {
-        const distA = Math.min(
-          Math.abs(a - index),
-          Math.abs(a - index + project.images.length),
-          Math.abs(a - index - project.images.length)
-        );
-        const distB = Math.min(
-          Math.abs(b - index),
-          Math.abs(b - index + project.images.length),
-          Math.abs(b - index - project.images.length)
-        );
-        return distA - distB;
-      });
-      
-      setPreloadedSlides(prev => [...prev, ...notYetPreloaded]);
-    }
-  }, [project.images.length, preloadedSlides]);
-
-  // Custom styles for specific projects
-  const getProjectSpecificStyles = () => {
-    if (project.id === "bhushan-naikwadi-elegant-abode") {
-      return {
-        navButtonClass: "bg-roseGold/90 hover:bg-roseGold text-white",
-        dotClass: "bg-roseGold w-4"
-      };
-    }
-    return {
-      navButtonClass: "bg-roseGold/90 hover:bg-roseGold text-white",
-      dotClass: "bg-roseGold w-4"
-    };
-  };
+  }, []);
   
-  const { navButtonClass } = getProjectSpecificStyles();
+  const visibleThumbnailsCount = 9;
+  const hasMoreThumbnails = project.images.length > visibleThumbnailsCount;
+  
+  const getVisibleImages = () => {
+    return showAllThumbnails ? project.images : project.images.slice(0, visibleThumbnailsCount);
+  };
   
   return (
     <section className="bg-warmWhite py-16">
       <div className="container mx-auto px-4">
-        <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
+        {/* Hero Image - Ultra-fast loading */}
+        <div className="mb-8">
+          <AspectRatio ratio={16/9} className="bg-lightGray/10 rounded-lg overflow-hidden">
+            <UltraFastPicture
+              src={project.images[currentSlide]}
+              alt={`${project.title} - Main view`}
+              type="hero"
+              className="w-full h-full cursor-pointer hover:scale-105 transition-transform duration-300"
+              width={1200}
+              height={675}
+              priority
+              loading="eager"
+              onClick={() => openLightbox(currentSlide)}
+            />
+          </AspectRatio>
+        </div>
         
-        {/* Main Carousel - optimized for fast loading */}
-        <ProjectCarousel 
-          project={project}
-          onSlideChange={handleSlideChange}
-          currentSlide={currentSlide}
-          navButtonClass={navButtonClass}
-        />
-        
-        {/* Dark gray horizontal thumbnails bar - directly below carousel */}
-        <div className="mt-2 w-full bg-darkGray rounded-md overflow-hidden">
+        {/* Horizontal thumbnails bar */}
+        <div className="mt-2 mb-8 w-full bg-darkGray rounded-md overflow-hidden">
           <ProjectThumbnails
             project={project}
             activeImageIndex={currentSlide}
@@ -216,38 +107,84 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
           />
         </div>
         
-        {/* Hidden preloads for even smoother carousel navigation */}
-        <ImagePreloader 
-          imagePaths={project.images}
-          preloadedIndices={preloadedSlides}
-        />
-        
-        {/* Separator to create visual distinction */}
         <Separator className="my-16 bg-darkGray/10" />
         
-        {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
-        <ProjectThumbnailGrid 
-          project={project}
-          onThumbnailClick={(index) => openLightbox(index)}
-          preloadedSlides={preloadedSlides}
-        />
+        {/* Ultra-fast thumbnail grid */}
+        <div className="mt-16 scroll-mt-16" id="project-thumbnails">
+          <p className="text-center text-darkGray/80 mb-8 max-w-2xl mx-auto">
+            Click on any image to view in full size
+          </p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {getVisibleImages().map((image, index) => (
+              <div 
+                key={`thumb-${index}`} 
+                className="overflow-hidden border border-roseGold/10 rounded-md shadow-sm hover:shadow-xl transition-all duration-200"
+              >
+                <button 
+                  onClick={() => openLightbox(index)}
+                  className="w-full h-full relative group"
+                  aria-label={`View image ${index + 1} in lightbox gallery`}
+                >
+                  <AspectRatio ratio={4/3} className="bg-lightGray/10">
+                    <UltraFastPicture
+                      src={image}
+                      alt={`Interior design thumbnail ${index + 1}`}
+                      type="thumbnail"
+                      className="w-full h-full group-hover:scale-110 transition-transform duration-300 ease-out"
+                      width={350}
+                      height={263}
+                      priority={index < 6}
+                      loading={index < 9 ? "eager" : "lazy"}
+                    />
+                  </AspectRatio>
+                  
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-darkGray/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
+                    <div className="text-white text-center">
+                      <span className="block text-lg mb-2">Click to zoom</span>
+                      <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-roseGold/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                          <line x1="11" y1="8" x2="11" y2="14"></line>
+                          <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
+          
+          {/* View More Button */}
+          {hasMoreThumbnails && !showAllThumbnails && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={() => setShowAllThumbnails(true)}
+                className="flex items-center gap-2 px-6 py-3 bg-darkGray/80 hover:bg-darkGray text-white rounded-md transition-colors duration-300"
+              >
+                View All {project.images.length} Images <ChevronDown size={18} />
+              </button>
+            </div>
+          )}
+        </div>
         
         {/* Project Summary */}
         <ProjectSummary project={project} />
 
-        {/* Image Lightbox with enhanced performance */}
-        {lightboxOpen && (
-          <ImageLightbox
-            images={project.images}
-            initialIndex={lightboxIndex}
-            onClose={() => setLightboxOpen(false)}
-            onIndexChange={(index) => {
-              setLightboxIndex(index);
-              // Preload adjacent images
-              handleSlideChange(index);
-            }}
-          />
-        )}
+        {/* Ultra-fast Lightbox */}
+        <UltraFastLightbox
+          images={project.images}
+          initialIndex={lightboxIndex}
+          isOpen={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+          onIndexChange={(index) => {
+            setLightboxIndex(index);
+            handleSlideChange(index);
+          }}
+        />
       </div>
     </section>
   );

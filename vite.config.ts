@@ -8,10 +8,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  // Check if we're in production mode
   const isProduction = mode === 'production';
 
-  // Define the base configuration
   const config = {
     plugins: [
       react(),
@@ -28,7 +26,54 @@ export default defineConfig(({ command, mode }) => {
       open: true,
     },
     build: {
-      sourcemap: !isProduction, // Enable sourcemaps in non-production environments
+      sourcemap: !isProduction,
+      // Ultra-fast loading optimizations
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            ui: ['@/components/ui/button', '@/components/ui/card'],
+            images: ['@/components/image/UltraFastPicture', '@/utils/ultraFastImageOptimization']
+          },
+          // Optimize chunk loading for images
+          chunkFileNames: (chunkInfo) => {
+            if (chunkInfo.name === 'images') {
+              return 'assets/images-[hash].js';
+            }
+            return 'assets/[name]-[hash].js';
+          },
+        },
+        // Optimize bundle size
+        treeshake: {
+          moduleSideEffects: false,
+          propertyReadSideEffects: false,
+          tryCatchDeoptimization: false,
+        },
+      },
+      // Enable build optimizations for faster loading
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: isProduction,
+          drop_debugger: isProduction,
+          pure_funcs: isProduction ? ['console.log', 'console.info'] : [],
+        },
+      },
+      // Optimize chunk size for better caching
+      chunkSizeWarningLimit: 1000,
+    },
+    // Ultra-fast image loading optimizations
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        '@/utils/ultraFastImageOptimization',
+      ],
+      exclude: ['@vite/client', '@vite/env'],
+    },
+    // Enable faster HMR for development
+    esbuild: {
+      logOverride: { 'this-is-undefined-in-esm': 'silent' }
     },
   };
 
@@ -36,8 +81,8 @@ export default defineConfig(({ command, mode }) => {
   if (isProduction) {
     config.plugins.push(
       visualizer({
-        template: "treemap", // or sunburst
-        open: true,
+        template: "treemap",
+        open: false, // Don't auto-open to speed up build
         gzipSize: true,
         brotliSize: true,
       })
@@ -50,23 +95,9 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
-        // Ensure components/ui can be resolved directly
         "components": path.resolve(__dirname, "./src/components"),
         "@components": path.resolve(__dirname, "./src/components"),
-        // Use proper path for UI components
         "@ui": path.resolve(__dirname, "./src/components/ui"),
-      },
-    },
-    
-    build: {
-      rollupOptions: {
-        output: {
-          // Break down chunks for better caching
-          manualChunks: {
-            vendor: ['react', 'react-dom'],
-            ui: ['@/components/ui/button', '@/components/ui/card'] // Specify individual files instead of directory
-          },
-        },
       },
     },
   };
