@@ -36,7 +36,7 @@ export default defineConfig(({ command, mode }) => {
             images: ['@/components/image/UltraFastPicture', '@/utils/ultraFastImageOptimization']
           },
           // Optimize chunk loading for images
-          chunkFileNames: (chunkInfo) => {
+          chunkFileNames: (chunkInfo: any) => {
             if (chunkInfo.name === 'images') {
               return 'assets/images-[hash].js';
             }
@@ -73,7 +73,7 @@ export default defineConfig(({ command, mode }) => {
     },
     // Enable faster HMR for development
     esbuild: {
-      logOverride: { 'this-is-undefined-in-esm': 'silent' }
+      logOverride: { 'this-is-undefined-in-esm': 'silent' as const }
     },
   };
 
