@@ -1,4 +1,3 @@
-
 /**
  * Image utility functions for optimized loading
  */
@@ -14,7 +13,8 @@ export const generatePlaceholderColor = (url: string): string => {
   
   // Generate a pastel color using the hash
   const hue = Math.abs(hash % 360);
-  return `hsl(${hue}, 70%, 95%)`;
+  return `hsl(${hue}, 70%, 95%)`; // Original pastel color
+  // For a fixed light gray placeholder like #E0E0E0, this function would be overridden or bypassed.
 };
 
 // Get optimal image dimensions based on context
@@ -61,8 +61,9 @@ export const isLikelySlowConnection = (): boolean => {
     const conn = (navigator as any).connection;
     if (conn) {
       if (conn.saveData) return true;
-      if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g') return true;
-      if (conn.effectiveType === '3g' && conn.downlink < 1) return true;
+      // Consider 3G as slow for the purpose of aggressive optimization
+      if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g' || conn.effectiveType === '3g') return true;
+      if (conn.downlink < 1.5 && conn.effectiveType !== '4g') return true; // Threshold for downlink on non-4G
     }
   }
   
@@ -76,21 +77,34 @@ export const isLikelySlowConnection = (): boolean => {
 };
 
 // Create an image URL with size parameters
-export const getOptimizedImageUrl = (url: string, width: number, quality = 80): string => {
+export const getOptimizedImageUrl = (
+  url: string, 
+  width: number, 
+  quality: number, // quality is now a number 0-100
+  format: "webp" | "avif" | "jpeg" | "auto" = "auto"
+): string => {
+  if (!url) return ""; // Handle cases where URL might be empty
   try {
     // Create a URL object to manipulate the URL
-    const imageUrl = new URL(url, window.location.origin);
+    const imageUrl = new URL(url, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
     
     // Add cache-busting parameter with fixed value to improve CDN caching
-    imageUrl.searchParams.set('version', 'v1');
+    imageUrl.searchParams.set('version', 'v2'); // Updated version
     
-    // Force WebP format for better compression when possible
-    if (!url.includes('.svg') && !url.includes('.gif')) {
+    // Force WebP or AVIF format for better compression when possible
+    // If auto, CDN might handle best format. Forcing helps ensure.
+    if (format === "webp" && !url.includes('.svg') && !url.includes('.gif')) {
+      imageUrl.searchParams.set('format', 'webp');
+    } else if (format === "avif" && !url.includes('.svg') && !url.includes('.gif')) {
+      imageUrl.searchParams.set('format', 'avif');
+    } else if (format === "auto" && !url.includes('.svg') && !url.includes('.gif')) {
+      // Prefer WebP if auto and not SVG/GIF
       imageUrl.searchParams.set('format', 'webp');
     }
     
-    // Apply basic compression
-    imageUrl.searchParams.set('q', quality.toString());
+    // Apply compression quality (ensure it's within a reasonable range, e.g., 10-90)
+    const clampedQuality = Math.max(10, Math.min(quality, 90));
+    imageUrl.searchParams.set('q', clampedQuality.toString());
     
     // Apply width parameter
     imageUrl.searchParams.set('w', width.toString());
@@ -98,6 +112,7 @@ export const getOptimizedImageUrl = (url: string, width: number, quality = 80): 
     return imageUrl.toString();
   } catch (e) {
     // If URL parsing fails, return original URL
+    // console.warn("Failed to parse image URL for optimization:", url, e);
     return url;
   }
 };

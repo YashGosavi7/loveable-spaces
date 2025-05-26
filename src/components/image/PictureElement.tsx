@@ -1,120 +1,115 @@
+
 import { memo, useEffect } from 'react';
-import { ImageProps } from './types';
-import { generatePlaceholderColor, cacheImage } from '@/utils/imageUtils';
-import ImageSource from './ImageSource';
+import { ImageProps } from './types'; // Ensure ImageProps defines format
+import { generatePlaceholderColor, cacheImage, getOptimizedImageUrl } from '@/utils/imageUtils';
+import ImageSource from './ImageSource'; // This component needs to handle format correctly
 import ResponsiveImage from './ResponsiveImage';
 
 interface PictureElementProps extends ImageProps {
   onLoad: () => void;
 }
 
+// Map quality prop to a numeric value
+const mapQualityToNum = (quality: "low" | "medium" | "high" | number | undefined): number => {
+  if (typeof quality === 'number') return Math.max(10, Math.min(quality, 90));
+  switch (quality) {
+    case "low": return 25;
+    case "medium": return 45;
+    case "high": return 70;
+    default: return 50;
+  }
+};
+
 const PictureElement = memo(({ 
-  src, 
+  src, // This src is already optimized by OptimizedImage.tsx
   alt, 
   className = '',
   width = 800,
   height = 600,
   priority = false,
-  quality = "medium",
+  quality = "medium", // String or number
   onLoad,
-  srcSet,
+  srcSet, // This srcSet is already optimized by OptimizedImage.tsx
   sizes,
   fetchPriority,
-  format = "auto",
+  format = "auto", // Crucial prop: "auto", "webp", "avif", "jpeg"
   placeholderColor,
   loading,
   decoding = "async"
 }: PictureElementProps) => {
-  // Get or generate placeholder color
-  const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src);
-  
-  // Detect if user might be from India based on time zone 
-  // This is a simplified approach; in production, use IP-based geolocation
-  const isPossiblyIndianUser = () => {
-    try {
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      return timeZone.includes('Asia/Kolkata') || timeZone.includes('Asia/Calcutta');
-    } catch (e) {
-      return false;
-    }
-  };
-  
-  const isIndia = isPossiblyIndianUser();
-  
-  // Calculate optimal srcSet based on image dimensions
-  const getSrcSet = () => {
-    if (srcSet) return srcSet;
-    
-    // For hero images (larger dimensions)
-    if (width >= 1000) {
-      return `${src} 600w, ${src} 1200w, ${src} 1800w`;
-    }
-    
-    // For thumbnails (smaller dimensions)
-    return `${src} 300w, ${src} 600w, ${src} 900w`;
-  };
-  
-  // Define optimal sizes attribute based on image context
-  const getSizes = () => {
-    if (sizes) return sizes;
-    
-    // Hero images get full width
-    if (width >= 1000) {
-      return "(max-width: 768px) 600px, 1200px";
-    }
-    
-    // Gallery or thumbnail images use responsive sizing
-    return "(max-width: 768px) 300px, 600px";
-  };
+  const derivedPlaceholderColor = placeholderColor || generatePlaceholderColor(src) || "#E0E0E0";
+  const numericQuality = mapQualityToNum(quality);
 
-  // Determine fetch priority for browser optimization
+  // If srcSet is provided, use it directly. Otherwise, generate one.
+  // The srcSet from OptimizedImage should be used.
+  const effectiveSrcSet = srcSet || 
+    [300, 600, 900, 1200, 1800]
+    .map(w => `${getOptimizedImageUrl(src, w, numericQuality, format === "auto" ? "webp" : format)} ${w}w`)
+    .join(', ');
+
   const actualFetchPriority = fetchPriority || (priority ? "high" : "auto");
-  
-  // Determine loading attribute
   const actualLoading = loading || (priority ? "eager" : "lazy");
 
-  // Use service worker to cache the image
   useEffect(() => {
     if (priority && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      // Call the cacheImage function to notify service worker
-      if (src) {
-        cacheImage(src);
-      }
+      if (src) cacheImage(src);
     }
   }, [src, priority]);
 
+  // isIndia check can be removed if not strictly needed or refined
+  // const isPossiblyIndianUser = () => { /* ... */ };
+  // const isIndia = isPossiblyIndianUser();
+
   return (
     <picture className="w-full h-full">
-      {/* AVIF for best compression - highest priority */}
-      <ImageSource 
-        src={src} 
-        type="avif" 
-        srcSet={getSrcSet()}
-        sizes={getSizes()} 
-        quality={quality}
-        isIndia={isIndia}
-      />
+      {/* AVIF source if format is 'auto' or 'avif' */}
+      {(format === "auto" || format === "avif") && (
+        <ImageSource 
+          src={src} // Base src for AVIF generation
+          type="avif" 
+          srcSet={
+            [300, 600, 900, 1200, 1800]
+            .map(w => `${getOptimizedImageUrl(src, w, numericQuality, "avif")} ${w}w`)
+            .join(', ')
+          }
+          sizes={sizes} 
+          quality={quality} // Pass original quality prop
+          // isIndia={isIndia} // Conditional logic if needed
+        />
+      )}
       
-      {/* WebP as primary format with good browser support */}
-      <ImageSource 
-        src={src} 
-        type="webp" 
-        srcSet={getSrcSet()}
-        sizes={getSizes()}
-        quality={quality}
-        isIndia={isIndia}
-      />
+      {/* WebP source if format is 'auto' or 'webp' */}
+      {(format === "auto" || format === "webp") && (
+        <ImageSource 
+          src={src} // Base src for WebP generation
+          type="webp" 
+          srcSet={
+             [300, 600, 900, 1200, 1800]
+            .map(w => `${getOptimizedImageUrl(src, w, numericQuality, "webp")} ${w}w`)
+            .join(', ')
+          }
+          sizes={sizes}
+          quality={quality} // Pass original quality prop
+          // isIndia={isIndia}
+        />
+      )}
       
-      {/* JPEG fallback for legacy browsers */}
-      <source 
-        type="image/jpeg" 
-        srcSet={getSrcSet()}
-        sizes={getSizes()}
-        data-fetchpriority={actualFetchPriority}
-      />
+      {/* JPEG fallback source if format is 'auto' or 'jpeg', or as ultimate fallback */}
+      {(format === "auto" || format === "jpeg") && (
+         <source 
+          type="image/jpeg" 
+          srcSet={
+            [300, 600, 900, 1200, 1800]
+            .map(w => `${getOptimizedImageUrl(src, w, numericQuality, "jpeg")} ${w}w`)
+            .join(', ')
+          }
+          sizes={sizes}
+          data-fetchpriority={actualFetchPriority}
+        />
+      )}
       
       <ResponsiveImage
-        src={src}
+        src={src} // The primary optimized src
         alt={alt}
         className={`${className} w-full h-full`}
         width={width}
@@ -124,7 +119,7 @@ const PictureElement = memo(({
         placeholderColor={derivedPlaceholderColor}
         fetchPriority={actualFetchPriority}
         loading={actualLoading}
-        quality={quality}
+        quality={quality} // Pass original quality prop
         decoding={decoding}
       />
     </picture>
@@ -134,3 +129,4 @@ const PictureElement = memo(({
 PictureElement.displayName = "PictureElement";
 
 export default PictureElement;
+
