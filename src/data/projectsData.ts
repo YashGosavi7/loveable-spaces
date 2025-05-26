@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -70,7 +69,7 @@ const projectsData: Project[] = [
   {
     id: "golden-leaf-banquet-hall",
     title: "The Golden Leaf Banquet Hall",
-    category: "Commercial",
+    category: "Hospitality",
     location: "Kunjirwadi, Pune",
     size: "10,000 sq ft",
     completionYear: "2025",
@@ -352,7 +351,7 @@ const projectsData: Project[] = [
   {
     id: "park-infinia",
     title: "Park Infinia Temple",
-    category: "Commercial",
+    category: "Hospitality",
     location: "Pune",
     size: "2,500 sq ft",
     completionYear: "2025",

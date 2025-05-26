@@ -3,39 +3,20 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import projectsData from "../data/projectsData";
+import ProjectHero from "@/components/project/ProjectHero";
 import ProjectDetails from "@/components/project/ProjectDetails";
 import ProjectGallery from "@/components/project/ProjectGallery";
 import BackToPortfolio from "@/components/project/BackToPortfolio";
 
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   
   const project = projectsData.find(p => p.id === projectId);
   
-  // Scroll to top when project changes and preload critical resources
+  // Scroll to top when project changes
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Add critical CSS for ultra-fast rendering
-    if (typeof document !== 'undefined') {
-      const criticalCSS = `
-        .gallery-hero { contain: layout style paint; }
-        .thumbnail-grid { contain: layout; }
-        img { content-visibility: auto; }
-      `;
-      
-      const style = document.createElement('style');
-      style.textContent = criticalCSS;
-      document.head.appendChild(style);
-      
-      return () => {
-        try {
-          document.head.removeChild(style);
-        } catch (e) {
-          // Ignore if already removed
-        }
-      };
-    }
   }, [projectId]);
 
   // Project not found handling
@@ -53,17 +34,36 @@ const ProjectPage = () => {
     );
   }
   
+  // Image navigation functions
+  const nextImage = () => {
+    setActiveImageIndex((prev) => 
+      prev === project.images.length - 1 ? 0 : prev + 1
+    );
+  };
+  
+  const prevImage = () => {
+    setActiveImageIndex((prev) => 
+      prev === 0 ? project.images.length - 1 : prev - 1
+    );
+  };
+  
   return (
     <motion.div 
       className="min-h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }} // Faster transition for better perceived performance
+      transition={{ duration: 0.6 }}
     >
-      {/* Direct Gallery Display - No 'Residential' header */}
-      <div className="pt-20"> {/* Account for fixed navbar */}
-        <ProjectGallery project={project} />
-      </div>
+      {/* Hero Section */}
+      <ProjectHero 
+        project={project} 
+        activeImageIndex={activeImageIndex}
+        prevImage={prevImage}
+        nextImage={nextImage}
+      />
+      
+      {/* Project Gallery without heading (heading is inside the component) */}
+      <ProjectGallery project={project} />
       
       {/* Project Details */}
       <ProjectDetails project={project} />
