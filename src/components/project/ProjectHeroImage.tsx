@@ -28,7 +28,6 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       preloadLink.href = src;
       preloadLink.type = 'image/webp'; // Prefer WebP for modern browsers
       preloadLink.setAttribute('fetchpriority', 'high');
-      preloadLink.setAttribute('crossorigin', 'anonymous');
       document.head.appendChild(preloadLink);
 
       // Add media attribute for responsive preloading
