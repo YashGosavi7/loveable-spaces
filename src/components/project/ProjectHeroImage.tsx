@@ -28,6 +28,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
       preloadLink.href = src;
       preloadLink.type = 'image/webp'; // Prefer WebP for modern browsers
       preloadLink.setAttribute('fetchpriority', 'high');
+      preloadLink.setAttribute('crossorigin', 'anonymous');
       document.head.appendChild(preloadLink);
 
       // Add media attribute for responsive preloading
@@ -49,7 +50,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
   }, [src, width]);
 
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       <div 
         className="absolute inset-0 transition-opacity duration-300"
         style={{ 

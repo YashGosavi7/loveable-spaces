@@ -1,8 +1,8 @@
 
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/Layout";
@@ -13,29 +13,33 @@ import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import { useQueryClient } from "./hooks/useQueryClient";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="portfolio" element={<PortfolioPage />} />
-            <Route path="portfolio/:projectId" element={<ProjectPage />} />
-            <Route path="about" element={<AboutPage />} />
-            <Route path="services" element={<ServicesPage />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </TooltipProvider>
-    </BrowserRouter>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Get the singleton QueryClient instance
+  const queryClient = useQueryClient();
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <TooltipProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="portfolio" element={<PortfolioPage />} />
+              <Route path="portfolio/:projectId" element={<ProjectPage />} />
+              <Route path="about" element={<AboutPage />} />
+              <Route path="services" element={<ServicesPage />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+          <Toaster />
+          <SonnerToaster />
+        </TooltipProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
