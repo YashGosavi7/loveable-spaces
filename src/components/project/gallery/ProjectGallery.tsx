@@ -1,3 +1,4 @@
+
 import { Project } from "@/data/projectsData";
 import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./ProjectCarousel";
@@ -6,6 +7,7 @@ import ProjectSummary from "./ProjectSummary";
 import ImagePreloader from "./ImagePreloader";
 import ImageLightbox from "./ImageLightbox";
 import ProjectThumbnails from "@/components/project/ProjectThumbnails";
+import { getOptimizedImageUrl } from "@/utils/imageUtils"; // Added import
 
 interface ProjectGalleryProps {
   project: Project;

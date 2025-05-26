@@ -1,9 +1,10 @@
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import CategoryFilter from "@/components/portfolio/CategoryFilter";
 import ProjectsGrid from "@/components/portfolio/ProjectsGrid";
-import { isLikelySlowConnection } from "@/utils/imageUtils";
+import { isLikelySlowConnection, getOptimizedImageUrl } from "@/utils/imageUtils"; // Added getOptimizedImageUrl import
 import projectsData from "../data/projectsData";
 import WhatsAppCTA from "@/components/portfolio/WhatsAppCTA";
 
