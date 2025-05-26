@@ -49,7 +49,7 @@ const ProjectHeroImage = ({ src, alt, width, height }: ProjectHeroImageProps) =>
   }, [src, width]);
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden">
+    <div className="absolute inset-0 w-full h-full">
       <div 
         className="absolute inset-0 transition-opacity duration-300"
         style={{ 
