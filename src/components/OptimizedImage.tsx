@@ -57,7 +57,7 @@ const OptimizedImage = memo(({
   const isHeroImage = priority || width >= 1000 || src.includes('hero') || src.includes('main');
   
   // Adjust quality for preloading based on connection speed (useImagePreload might do this internally)
-  const preloadQuality = kwaliteit: "low" | "medium" | "high" = typeof quality === 'string' ? quality : "medium";
+  const preloadQuality: "low" | "medium" | "high" = typeof quality === 'string' ? quality : "medium";
   
   useImagePreload(src, { // Preload original src, CDN will handle optimization based on params
     priority: priority || isHeroImage, 
