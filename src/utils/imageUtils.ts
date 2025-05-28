@@ -1,25 +1,17 @@
+
 /**
  * Image utility functions for optimized loading
  */
 
 // Generate placeholder color based on image URL to provide consistent colors
 export const generatePlaceholderColor = (url: string): string => {
-  // Simple hash function to convert url to a consistent color
-  let hash = 0;
-  for (let i = 0; i < url.length; i++) {
-    hash = ((hash << 5) - hash) + url.charCodeAt(i);
-    hash |= 0; // Convert to 32bit integer
-  }
-  
-  // Generate a pastel color using the hash
-  const hue = Math.abs(hash % 360);
-  return `hsl(${hue}, 70%, 95%)`; // Original pastel color
-  // For a fixed light gray placeholder like #E0E0E0, this function would be overridden or bypassed.
+  // Return fixed light gray for consistent, fast rendering
+  return "#E0E0E0";
 };
 
 // Get optimal image dimensions based on context
 export const getOptimalImageDimensions = (context: 'hero' | 'gallery' | 'thumbnail' | 'slider') => {
-  // Base dimensions
+  // Base dimensions optimized for speed
   let width = 800;
   let height = 600;
   
@@ -28,23 +20,23 @@ export const getOptimalImageDimensions = (context: 'hero' | 'gallery' | 'thumbna
     const isMobile = window.innerWidth < 640;
     const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
     
-    // Optimize based on context and device
+    // Optimize based on context and device - more aggressive sizing
     switch (context) {
       case 'hero':
-        width = isMobile ? 640 : isTablet ? 1024 : 1600;
-        height = Math.floor(width * 0.75); // 4:3 aspect ratio
+        width = isMobile ? 480 : isTablet ? 768 : 1200; // Reduced sizes
+        height = Math.floor(width * 0.6); // 16:10 aspect ratio
         break;
       case 'gallery':
-        width = isMobile ? 350 : isTablet ? 500 : 650;
+        width = isMobile ? 280 : isTablet ? 350 : 450; // Smaller gallery images
         height = Math.floor(width * 0.75);
         break;
       case 'thumbnail':
-        width = isMobile ? 120 : 150;
+        width = isMobile ? 80 : 100; // Smaller thumbnails
         height = Math.floor(width * 0.75);
         break;
       case 'slider':
-        width = isMobile ? 640 : isTablet ? 1024 : 1400;
-        height = Math.floor(width * 0.6); // 16:9 for slider
+        width = isMobile ? 480 : isTablet ? 768 : 1000; // Reduced slider size
+        height = Math.floor(width * 0.6);
         break;
     }
   }
@@ -61,78 +53,77 @@ export const isLikelySlowConnection = (): boolean => {
     const conn = (navigator as any).connection;
     if (conn) {
       if (conn.saveData) return true;
-      // Consider 3G as slow for the purpose of aggressive optimization
+      // More aggressive detection - consider 3G and below as slow
       if (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g' || conn.effectiveType === '3g') return true;
-      if (conn.downlink < 1.5 && conn.effectiveType !== '4g') return true; // Threshold for downlink on non-4G
+      if (conn.downlink < 2 && conn.effectiveType !== '4g') return true; // Increased threshold
     }
   }
   
   // Use memory as a proxy for device capability
   if ('deviceMemory' in navigator) {
     const memory = (navigator as any).deviceMemory;
-    if (memory && memory < 2) return true;
+    if (memory && memory < 4) return true; // Increased threshold
   }
   
   return false;
 };
 
-// Create an image URL with size parameters
+// Create an image URL with aggressive optimization parameters
 export const getOptimizedImageUrl = (
   url: string, 
   width: number, 
   quality: number, // quality is now a number 0-100
   format: "webp" | "avif" | "jpeg" | "auto" = "auto"
 ): string => {
-  if (!url) return ""; // Handle cases where URL might be empty
+  if (!url) return "";
   try {
-    // Create a URL object to manipulate the URL
     const imageUrl = new URL(url, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
     
-    // Add cache-busting parameter with fixed value to improve CDN caching
-    imageUrl.searchParams.set('version', 'v2'); // Updated version
+    // Add cache-busting parameter with fixed value
+    imageUrl.searchParams.set('v', 'opt3'); // Updated version for new optimizations
     
-    // Force WebP or AVIF format for better compression when possible
-    // If auto, CDN might handle best format. Forcing helps ensure.
-    if (format === "webp" && !url.includes('.svg') && !url.includes('.gif')) {
+    // Force WebP for better compression - more aggressive format selection
+    if (format === "auto" && !url.includes('.svg') && !url.includes('.gif')) {
+      imageUrl.searchParams.set('format', 'webp');
+    } else if (format === "webp" && !url.includes('.svg') && !url.includes('.gif')) {
       imageUrl.searchParams.set('format', 'webp');
     } else if (format === "avif" && !url.includes('.svg') && !url.includes('.gif')) {
       imageUrl.searchParams.set('format', 'avif');
-    } else if (format === "auto" && !url.includes('.svg') && !url.includes('.gif')) {
-      // Prefer WebP if auto and not SVG/GIF
-      imageUrl.searchParams.set('format', 'webp');
     }
     
-    // Apply compression quality (ensure it's within a reasonable range, e.g., 10-90)
-    const clampedQuality = Math.max(10, Math.min(quality, 90));
-    imageUrl.searchParams.set('q', clampedQuality.toString());
+    // Apply more aggressive compression quality (reduced by 15 points)
+    const aggressiveQuality = Math.max(10, Math.min(quality - 15, 75));
+    imageUrl.searchParams.set('q', aggressiveQuality.toString());
     
     // Apply width parameter
     imageUrl.searchParams.set('w', width.toString());
     
+    // Add additional optimization parameters
+    imageUrl.searchParams.set('optimize', 'true');
+    imageUrl.searchParams.set('strip', 'true'); // Remove metadata
+    
     return imageUrl.toString();
   } catch (e) {
-    // If URL parsing fails, return original URL
-    // console.warn("Failed to parse image URL for optimization:", url, e);
     return url;
   }
 };
 
-// Create a high-speed loading mechanism with progressive enhancement
+// Enhanced progressive loader for ultra-fast loading
 export const createProgressiveLoader = (
   imageUrl: string,
   containerWidth: number,
   priority: boolean = false
 ) => {
-  // First load a tiny thumbnail (10% of final size) for instant display
-  const thumbnailWidth = Math.max(Math.round(containerWidth * 0.1), 20);
-  const thumbnailUrl = getOptimizedImageUrl(imageUrl, thumbnailWidth, 60);
+  // Even more aggressive size reduction
+  const thumbnailWidth = Math.max(Math.round(containerWidth * 0.05), 15); // 5% instead of 10%
+  const thumbnailUrl = getOptimizedImageUrl(imageUrl, thumbnailWidth, 20); // Lower quality
   
-  // Then load a medium quality version (50% of final size)
-  const mediumWidth = Math.max(Math.round(containerWidth * 0.5), 100);
-  const mediumUrl = getOptimizedImageUrl(imageUrl, mediumWidth, 75);
+  // Smaller medium size
+  const mediumWidth = Math.max(Math.round(containerWidth * 0.3), 60); // 30% instead of 50%
+  const mediumUrl = getOptimizedImageUrl(imageUrl, mediumWidth, 40); // Lower quality
   
-  // Finally load the full-quality version
-  const finalUrl = getOptimizedImageUrl(imageUrl, containerWidth, 85);
+  // Final with aggressive compression
+  const finalUrl = getOptimizedImageUrl(imageUrl, containerWidth, 55); // Reduced from 85
   
   return {
     thumbnailUrl,
@@ -142,59 +133,56 @@ export const createProgressiveLoader = (
   };
 };
 
-// Add aggressive preloading function
-export const preloadNextImages = (urls: string[], startIndex: number, count: number = 3) => {
+// Ultra-aggressive preloading function
+export const preloadNextImages = (urls: string[], startIndex: number, count: number = 2) => {
   if (typeof window === 'undefined') return;
   
   const urlsToPreload = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i++) { // Reduced from 3 to 2
     const index = (startIndex + i) % urls.length;
     if (!urls[index]) continue;
     urlsToPreload.push(urls[index]);
   }
   
-  // Use requestIdleCallback for non-blocking preloading
+  // Immediate preloading for critical images
   if ('requestIdleCallback' in window) {
     (window as any).requestIdleCallback(() => {
       urlsToPreload.forEach(url => {
         const img = new Image();
-        img.src = url;
+        img.src = getOptimizedImageUrl(url, 400, 30); // Smaller, lower quality preload
       });
-    });
+    }, { timeout: 1000 }); // Reduced timeout
   } else {
-    // Fallback for browsers without requestIdleCallback
     setTimeout(() => {
       urlsToPreload.forEach(url => {
         const img = new Image();
-        img.src = url;
+        img.src = getOptimizedImageUrl(url, 400, 30);
       });
-    }, 300);
+    }, 100); // Much faster fallback
   }
 };
 
-// Advanced image caching strategy
+// Simplified cache strategy for speed
 export const initImageCacheStrategy = () => {
-  // Check if the browser supports service workers and caches
   if ('serviceWorker' in navigator && 'caches' in window) {
-    // Create a specific cache for images
-    caches.open('image-cache-v1').then(cache => {
-      // Cache will be managed by service worker
-      console.log('Image cache initialized');
+    caches.open('image-cache-v2').then(cache => {
+      console.log('Fast image cache initialized');
     });
   }
 };
 
-// Add helper function to manually cache images - exported from serviceWorker.ts
+// Cache image with priority
 export const cacheImage = (url: string) => {
   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
     navigator.serviceWorker.controller.postMessage({
       type: 'CACHE_NEW_IMAGE',
-      url
+      url,
+      priority: 'high'
     });
   }
 };
 
-// Initialize the cache strategy immediately
+// Initialize immediately
 if (typeof window !== 'undefined') {
   initImageCacheStrategy();
 }

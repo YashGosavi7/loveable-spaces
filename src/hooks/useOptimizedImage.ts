@@ -6,23 +6,23 @@ interface UseOptimizedImageProps {
   src: string;
   priority?: boolean;
   preload?: boolean;
-  quality?: "low" | "medium" | "high" | number; // Allow numeric quality
+  quality?: "low" | "medium" | "high" | number;
   width?: number;
   height?: number;
-  lowQualityPreview?: boolean; // For LQIP if used
+  lowQualityPreview?: boolean;
   targetFormat?: "webp" | "avif" | "jpeg" | "auto";
 }
 
-// Map string quality to numeric values for getOptimizedImageUrl
+// More aggressive quality mapping
 const mapQualityToNumeric = (quality: "low" | "medium" | "high" | number): number => {
   if (typeof quality === 'number') {
-    return Math.max(10, Math.min(quality, 100));
+    return Math.max(10, Math.min(quality, 70)); // Capped at 70 for speed
   }
   switch (quality) {
-    case "low": return 30; // Aggressive compression for "low"
-    case "medium": return 50; // Target for main images
-    case "high": return 75;
-    default: return 60;
+    case "low": return 15; // Very aggressive
+    case "medium": return 35; // Aggressive
+    case "high": return 50; // Moderate
+    default: return 30;
   }
 };
 
@@ -33,12 +33,12 @@ export const useOptimizedImage = ({
   quality = "medium",
   width,
   height,
-  lowQualityPreview = true, // Defaulting to true if we want to show LQIP
+  lowQualityPreview = true,
   targetFormat = "auto"
 }: UseOptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [lqipLoaded, setLqipLoaded] = useState(false); // For LQIP state
-  const basePlaceholderColor = generatePlaceholderColor(src); // Original dynamic color
+  const [lqipLoaded, setLqipLoaded] = useState(false);
+  const basePlaceholderColor = "#E0E0E0"; // Fixed color for speed
 
   const numericQuality = mapQualityToNumeric(quality);
   
@@ -46,13 +46,10 @@ export const useOptimizedImage = ({
     ? getOptimizedImageUrl(src, width, numericQuality, targetFormat)
     : src;
 
-  // LQIP URL would be a very low quality, small version of the image
-  // For a 500-byte LQIP, this would typically be a base64 encoded tiny image.
-  // Here, we generate a URL for a very small version.
+  // Ultra-small LQIP for instant loading
   const lqipUrl = width && lowQualityPreview
-    ? getOptimizedImageUrl(src, Math.min(width, 50), 10, targetFormat) // 10 quality, max 50px wide for LQIP
+    ? getOptimizedImageUrl(src, Math.min(width, 30), 5, targetFormat) // Tiny 30px max, 5% quality
     : "";
-
 
   const aggressiveOptimizations = isLikelySlowConnection();
   
@@ -78,7 +75,6 @@ export const useOptimizedImage = ({
       lqipImage.src = lqipUrl;
       lqipImage.onload = () => setLqipLoaded(true);
     } else if (!lowQualityPreview) {
-      // If not using LQIP, consider lqipLoaded as true to not block main image
       setLqipLoaded(true);
     }
   }, [lqipUrl, lowQualityPreview]);
@@ -89,11 +85,11 @@ export const useOptimizedImage = ({
 
   return {
     isLoaded,
-    lqipLoaded, // Indicates if the Low Quality Image Placeholder is loaded
+    lqipLoaded,
     handleImageLoad,
-    placeholderColor: basePlaceholderColor, // The dynamic one, can be overridden in component
+    placeholderColor: basePlaceholderColor,
     isSlowConnection: aggressiveOptimizations,
-    optimizedSrcUrl, // The main optimized image URL
-    lqipUrl // The URL for the Low Quality Image Placeholder
+    optimizedSrcUrl,
+    lqipUrl
   };
 };
