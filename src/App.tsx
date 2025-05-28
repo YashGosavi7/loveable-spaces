@@ -2,7 +2,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/Layout";
@@ -13,11 +13,18 @@ import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
-import { useQueryClient } from "./hooks/useQueryClient";
+
+// Create QueryClient directly in the component
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
-  const queryClient = useQueryClient();
-  
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
