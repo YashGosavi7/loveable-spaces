@@ -2,12 +2,11 @@
 import { Project } from "@/data/projectsData";
 import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./ProjectCarousel";
-import ProjectThumbnailGrid from "./ProjectThumbnailGrid";
 import ProjectSummary from "./ProjectSummary";
 import ImagePreloader from "./ImagePreloader";
 import ImageLightbox from "./ImageLightbox";
 import ProjectThumbnails from "@/components/project/ProjectThumbnails";
-import { getOptimizedImageUrl } from "@/utils/imageUtils"; // Added import
+import { getOptimizedImageUrl } from "@/utils/imageUtils";
 
 interface ProjectGalleryProps {
   project: Project;
@@ -15,7 +14,6 @@ interface ProjectGalleryProps {
 
 const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  // Preload first few slides for carousel; adjust based on typical number of images
   const [preloadedSlides, setPreloadedSlides] = useState<number[]>(
     Array.from({ length: Math.min(project.images.length, 3) }, (_, i) => i)
   );
@@ -54,7 +52,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
         const mainImageLink = document.createElement('link');
         mainImageLink.rel = 'preload';
         mainImageLink.as = 'image';
-        mainImageLink.href = getOptimizedImageUrl(project.images[0], 1200, 50, "webp"); // Example main image size/quality
+        mainImageLink.href = getOptimizedImageUrl(project.images[0], 1200, 50, "webp");
         mainImageLink.type = 'image/webp'; 
         mainImageLink.setAttribute('fetchpriority', 'high');
         mainImageLink.setAttribute('crossorigin', 'anonymous');
@@ -68,9 +66,8 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
         const thumbLink = document.createElement('link');
         thumbLink.rel = connectionSpeed === 'slow' ? 'prefetch' : 'preload';
         thumbLink.as = 'image';
-        thumbLink.href = getOptimizedImageUrl(project.images[i], 100, 25, "webp"); // Thumbnail size/quality
+        thumbLink.href = getOptimizedImageUrl(project.images[i], 100, 25, "webp");
         thumbLink.type = 'image/webp';
-        // Fetch priority high for first few, auto for others if preloading more
         thumbLink.setAttribute('fetchpriority', i < 2 ? 'high' : 'auto');
         thumbLink.setAttribute('crossorigin', 'anonymous');
         document.head.appendChild(thumbLink);
@@ -90,16 +87,16 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
     return cleanup;
   }, [project.images, detectConnectionSpeed]);
   
-  // More aggressive slide preloading strategy
+  // Slide preloading strategy
   const handleSlideChange = useCallback((index: number) => {
     setCurrentSlide(index);
     
-    // Preload ALL slides when slide changes, with priority to adjacent ones
+    // Preload adjacent slides
     const nextSlidesToPreload = [];
     const totalSlides = project.images.length;
     
     // Prioritize immediate next/previous slides for carousel
-    for (let i = -1; i <= 1; i++) { // Reduced from -2 to 2 for less aggressive preloading
+    for (let i = -1; i <= 1; i++) {
       if (i === 0) continue;
       const nextIndex = (index + i + totalSlides) % totalSlides;
       if (!preloadedSlides.includes(nextIndex)) {
@@ -166,41 +163,43 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
         <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
         
         {/* Main Carousel - optimized for fast loading */}
-        <ProjectCarousel 
-          project={project}
-          onSlideChange={handleSlideChange}
-          currentSlide={currentSlide}
-          navButtonClass={navButtonClass}
-        />
+        <div 
+          className="cursor-pointer" 
+          onClick={() => openLightbox(currentSlide)}
+          title="Click to view in fullscreen"
+        >
+          <ProjectCarousel 
+            project={project}
+            onSlideChange={handleSlideChange}
+            currentSlide={currentSlide}
+            navButtonClass={navButtonClass}
+          />
+        </div>
         
-        {/* Dark gray horizontal thumbnails bar - added below the carousel */}
-        <div className="mt-2 w-full">
+        {/* Horizontal thumbnails bar for navigation */}
+        <div className="mt-2 w-full bg-darkGray rounded-md overflow-hidden">
           <ProjectThumbnails
             project={project}
             activeImageIndex={currentSlide}
-            setActiveImageIndex={setCurrentSlide} // This should also trigger handleSlideChange for carousel preloading
+            setActiveImageIndex={index => {
+              setCurrentSlide(index);
+              handleSlideChange(index);
+            }}
             scrollContainerRef={scrollContainerRef}
             orientation="horizontal"
           />
         </div>
         
-        {/* Hidden preloads for even smoother carousel navigation */}
+        {/* Hidden preloads for smoother carousel navigation */}
         <ImagePreloader 
           imagePaths={project.images}
           preloadedIndices={preloadedSlides}
         />
         
-        {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
-        <ProjectThumbnailGrid 
-          project={project}
-          onThumbnailClick={(index) => openLightbox(index)}
-          preloadedSlides={preloadedSlides} // Pass preloaded slides for grid optimization
-        />
-        
         {/* Project Summary */}
         <ProjectSummary project={project} />
 
-        {/* Image Lightbox with enhanced performance */}
+        {/* Image Lightbox */}
         {lightboxOpen && (
           <ImageLightbox
             images={project.images}
@@ -208,7 +207,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
             onClose={() => setLightboxOpen(false)}
             onIndexChange={(index) => {
               setLightboxIndex(index);
-              handleSlideChange(index); // Preload adjacent images for lightbox
+              handleSlideChange(index);
             }}
           />
         )}
