@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import HeroSection from "../components/HeroSection";
+import HeroSectionNew from "../components/HeroSectionNew";
 import SectionTitle from "../components/SectionTitle";
 import ProjectCard from "../components/ProjectCard";
 import projectsData from "../data/projectsData";
@@ -10,25 +10,8 @@ const HomePage = () => {
   
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <HeroSection 
-        backgroundImage="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
-        showCityScroll={true}
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
-            Balaji Design Studio
-          </h1>
-          <p className="text-xl md:text-2xl text-white mb-10">
-            Creative Creation by Creative People
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/portfolio" className="bg-roseGold text-white px-6 py-3 rounded-lg font-medium hover:bg-roseGold/90 transition-colors">
-              Our Projects
-            </Link>
-          </div>
-        </div>
-      </HeroSection>
+      {/* New Hero Section with Dalpat Suthar's Image */}
+      <HeroSectionNew />
       
       {/* Featured Projects */}
       <section className="section-padding bg-lightGray">
@@ -79,7 +62,7 @@ const HomePage = () => {
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
               </div>
-              <h3 className="font-playfair text-xl mb-2">Residential Design</h3>
+              <h3 className="font-playfair text-xl mb-2">Residential</h3>
               <p>Timeless homes, built around you Personalized, elegant, and functional</p>
             </div>
             
@@ -99,7 +82,7 @@ const HomePage = () => {
                   <path d="M8 14h.01"></path>
                 </svg>
               </div>
-              <h3 className="font-playfair text-xl mb-2">Commercial Interiors</h3>
+              <h3 className="font-playfair text-xl mb-2">Commercial</h3>
               <p>Offices that redefine work Smart, modern, and designed for success</p>
             </div>
             
@@ -113,7 +96,7 @@ const HomePage = () => {
                   <path d="M18 2v10"></path>
                 </svg>
               </div>
-              <h3 className="font-playfair text-xl mb-2">Hospitality Design</h3>
+              <h3 className="font-playfair text-xl mb-2">Hospitality</h3>
               <p>Ambience meets appetite Designs that make every meal an experience</p>
             </div>
           </div>
