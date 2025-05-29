@@ -24,7 +24,7 @@ const AboutPage = () => {
             <div className="md:w-1/2 space-y-4">
               <h2 className="font-playfair text-2xl text-roseGold">Our Story</h2>
               <p className="text-darkGray leading-relaxed">
-                Founded in 2012 by Dalpat Suthar, Balaji Design Studio has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India.
+                Founded in 2007 by Dalpat Suthar, Balaji Design Studio has grown from a small studio to a leading interior design firm with over 600 completed projects across all Tier 1 cities in India.
               </p>
               <p className="text-darkGray leading-relaxed">
                 Our approach blends cultural heritage with modern elegance, creating spaces that feel like home no matter the scale or purpose. We believe that thoughtful design has the power to transform not just spaces, but the lives of those who inhabit them.
