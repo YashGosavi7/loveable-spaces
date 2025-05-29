@@ -3,16 +3,13 @@ import { Project } from "@/data/projectsData";
 import ProjectHeroMeta from "./ProjectHeroMeta";
 import ProjectHeroImage from "./ProjectHeroImage";
 import ProjectHeroInfo from "./ProjectHeroInfo";
-import ProjectHeroNavigation from "./ProjectHeroNavigation";
 
 interface ProjectHeroProps {
   project: Project;
   activeImageIndex: number;
-  prevImage: () => void;
-  nextImage: () => void;
 }
 
-const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: ProjectHeroProps) => {
+const ProjectHero = ({ project, activeImageIndex }: ProjectHeroProps) => {
   const getImageDimensions = () => {
     let width = 1200;
     let height = 900;
@@ -39,17 +36,12 @@ const ProjectHero = ({ project, activeImageIndex, prevImage, nextImage }: Projec
       
       <ProjectHeroImage
         src={project.images[activeImageIndex]}
-        alt={`Fast-loading uncropped ${project.title} interior in ${project.location}`}
+        alt={`${project.title} interior in ${project.location}`}
         width={width}
         height={height}
       />
       
       <ProjectHeroInfo project={project} />
-      
-      <ProjectHeroNavigation
-        onPrev={prevImage}
-        onNext={nextImage}
-      />
     </section>
   );
 };

@@ -1,4 +1,3 @@
-
 import { useRef, useEffect, useState, useCallback } from "react";
 import OptimizedImage from "../OptimizedImage";
 import { Project } from "@/data/projectsData";
@@ -9,23 +8,32 @@ interface ProjectThumbnailsProps {
   setActiveImageIndex: (index: number) => void;
   scrollContainerRef: React.RefObject<HTMLDivElement>;
   orientation?: "horizontal" | "vertical";
+  onThumbnailClick?: (index: number) => void;
 }
 
-const BATCH_SIZE = 4; // Increased batch size for better performance
+const BATCH_SIZE = 4;
 
 const ProjectThumbnails = ({ 
   project, 
   activeImageIndex, 
   setActiveImageIndex,
   scrollContainerRef,
-  orientation = "horizontal"
+  orientation = "horizontal",
+  onThumbnailClick
 }: ProjectThumbnailsProps) => {
   const [loadedCount, setLoadedCount] = useState(BATCH_SIZE);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastThumbnailRef = useRef<HTMLButtonElement | null>(null);
 
-  // Smaller thumbnail dimensions for faster loading
-  const { width, height } = { width: 80, height: 60 }; // Reduced from 100x75
+  const { width, height } = { width: 80, height: 60 };
+
+  // Handle thumbnail click - either navigate or open lightbox
+  const handleThumbnailClick = (index: number) => {
+    setActiveImageIndex(index);
+    if (onThumbnailClick) {
+      onThumbnailClick(index);
+    }
+  };
 
   useEffect(() => {
     if (orientation !== "horizontal" || project.images.length <= loadedCount) return;
@@ -40,7 +48,7 @@ const ProjectThumbnails = ({
     observerRef.current = new IntersectionObserver(observerCallback, { 
       root: scrollContainerRef.current,
       threshold: 0.1,
-      rootMargin: "0px 0px 0px 50px" // Reduced margin
+      rootMargin: "0px 0px 0px 50px"
     });
 
     const currentObserver = observerRef.current;
@@ -109,8 +117,8 @@ const ProjectThumbnails = ({
                 : "w-[80px] h-[60px]"
             } overflow-hidden ${
               index === activeImageIndex ? projectStyles.activeBorderClass : "ring-1 ring-white/20"
-            } rounded-md transition-all duration-150 ease-out`} // Faster transition
-            onClick={() => setActiveImageIndex(index)}
+            } rounded-md transition-all duration-150 ease-out`}
+            onClick={() => handleThumbnailClick(index)}
             aria-label={`View image ${index + 1} of ${project.images.length}`}
             aria-current={index === activeImageIndex ? "true" : "false"}
             tabIndex={0}
@@ -118,13 +126,13 @@ const ProjectThumbnails = ({
             <OptimizedImage 
               src={image} 
               alt={`Balaji Design Studio project gallery image ${index + 1}`}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-200" // Reduced scale and faster transition
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
               width={width}
               height={height}
               priority={index < BATCH_SIZE}
               preload={index < BATCH_SIZE * 2}
               skipLazyLoading={index < BATCH_SIZE}
-              quality="low" // Ultra-aggressive quality for thumbnails
+              quality="low"
               format="webp"
             />
           </button>

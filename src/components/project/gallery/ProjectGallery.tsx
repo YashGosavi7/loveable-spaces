@@ -162,7 +162,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
       <div className="container mx-auto px-4">
         <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
         
-        {/* Main Carousel - optimized for fast loading */}
+        {/* Main Carousel - clickable to open lightbox directly */}
         <div 
           className="cursor-pointer" 
           onClick={() => openLightbox(currentSlide)}
@@ -187,6 +187,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
             }}
             scrollContainerRef={scrollContainerRef}
             orientation="horizontal"
+            onThumbnailClick={(index) => openLightbox(index)}
           />
         </div>
         

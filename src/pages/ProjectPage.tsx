@@ -10,7 +10,6 @@ import BackToPortfolio from "@/components/project/BackToPortfolio";
 
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string }>();
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
   
   const project = projectsData.find(p => p.id === projectId);
   
@@ -34,19 +33,6 @@ const ProjectPage = () => {
     );
   }
   
-  // Image navigation functions
-  const nextImage = () => {
-    setActiveImageIndex((prev) => 
-      prev === project.images.length - 1 ? 0 : prev + 1
-    );
-  };
-  
-  const prevImage = () => {
-    setActiveImageIndex((prev) => 
-      prev === 0 ? project.images.length - 1 : prev - 1
-    );
-  };
-  
   return (
     <motion.div 
       className="min-h-screen"
@@ -54,15 +40,13 @@ const ProjectPage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      {/* Hero Section */}
+      {/* Hero Section - stable hero image without navigation */}
       <ProjectHero 
         project={project} 
-        activeImageIndex={activeImageIndex}
-        prevImage={prevImage}
-        nextImage={nextImage}
+        activeImageIndex={0}
       />
       
-      {/* Project Gallery without heading (heading is inside the component) */}
+      {/* Project Gallery with direct lightbox functionality */}
       <ProjectGallery project={project} />
       
       {/* Project Details */}
