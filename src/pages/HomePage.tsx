@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import HeroSectionNew from "../components/HeroSectionNew";
+import HeroSection from "../components/HeroSection";
 import SectionTitle from "../components/SectionTitle";
 import ProjectCard from "../components/ProjectCard";
 import projectsData from "../data/projectsData";
@@ -10,8 +10,27 @@ const HomePage = () => {
   
   return (
     <div className="min-h-screen">
-      {/* New Hero Section with Dalpat Suthar's Image */}
-      <HeroSectionNew />
+      {/* Original Hero Section */}
+      <HeroSection 
+        backgroundImage="/lovable-uploads/167975c7-1d34-40c1-b4f2-eecc946b18d6.png"
+        showCityScroll={true}
+        credibilityStatement="600+ Projects Across India's Leading Cities"
+      >
+        <div className="text-center max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-6xl text-white font-playfair mb-6 leading-tight">
+            Balaji Design Studio
+          </h1>
+          <p className="text-xl md:text-2xl text-lightGray mb-8 max-w-2xl mx-auto">
+            Crafting Timeless Interiors Since 2012
+          </p>
+          <Link 
+            to="/portfolio" 
+            className="bg-roseGold text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-roseGold/90 transition-colors inline-block"
+          >
+            Explore Our Work
+          </Link>
+        </div>
+      </HeroSection>
       
       {/* Featured Projects */}
       <section className="section-padding bg-lightGray">
