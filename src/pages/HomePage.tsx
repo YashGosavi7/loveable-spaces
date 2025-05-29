@@ -21,7 +21,7 @@ const HomePage = () => {
             Balaji Design Studio
           </h1>
           <p className="text-xl md:text-2xl text-lightGray mb-8 max-w-2xl mx-auto">
-            Crafting Timeless Interiors Since 2007
+            Crafting Timeless Interiors Since 2012
           </p>
           <Link 
             to="/portfolio" 

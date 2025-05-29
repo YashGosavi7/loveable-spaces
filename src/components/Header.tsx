@@ -1,117 +1,125 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { useIsMobile } from "../hooks/use-mobile";
 
 interface HeaderProps {
   isScrolled: boolean;
 }
 
 const Header = ({ isScrolled }: HeaderProps) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-
-  const headerClass = isScrolled 
-    ? "bg-lightGray shadow-md" 
-    : "bg-transparent";
-
-  const isActive = (path: string) => location.pathname === path;
+  const isMobile = useIsMobile();
+  
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ${headerClass}`}>
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link to="/" className="font-playfair text-xl md:text-2xl font-semibold text-darkGray">
-            Balaji Design Studio
+    <header 
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled 
+          ? "bg-lightGray shadow-md py-2" 
+          : "bg-transparent py-3 md:py-4"
+      }`}
+    >
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+        {/* Logo with increased z-index to prevent overlap */}
+        <Link to="/" className="flex items-center justify-start relative z-[1100]">
+          <img 
+            src="/lovable-uploads/53764224-0c8e-4dd4-9e9e-908c69e2d74a.png" 
+            alt="Balaji Design Studio Logo" 
+            className="h-20 sm:h-24 md:h-28 lg:h-32 object-contain" 
+            loading="eager" 
+          />
+        </Link>
+        
+        {/* Desktop Navigation - Improved Typography */}
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link to="/" className={`nav-link text-base lg:text-lg ${isActive("/") ? "nav-link-active" : ""}`}>
+            Home
           </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
-              className={`nav-link ${isActive('/') ? 'nav-link-active' : ''}`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/portfolio" 
-              className={`nav-link ${isActive('/portfolio') ? 'nav-link-active' : ''}`}
-            >
-              Portfolio
-            </Link>
-            <Link 
-              to="/services" 
-              className={`nav-link ${isActive('/services') ? 'nav-link-active' : ''}`}
-            >
-              Services
-            </Link>
-            <Link 
-              to="/about" 
-              className={`nav-link ${isActive('/about') ? 'nav-link-active' : ''}`}
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`nav-link ${isActive('/contact') ? 'nav-link-active' : ''}`}
-            >
-              Contact
-            </Link>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden flex flex-col justify-center items-center w-6 h-6"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle mobile menu"
-          >
-            <span className={`block w-6 h-0.5 bg-darkGray transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-darkGray mt-1 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-darkGray mt-1 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className={`md:hidden transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <nav className="py-4 space-y-3 bg-lightGray rounded-lg mt-2 px-4">
-            <Link 
-              to="/" 
-              className={`block py-2 px-3 rounded text-darkGray hover:bg-roseGold/10 transition-colors ${isActive('/') ? 'bg-roseGold/20 font-medium' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/portfolio" 
-              className={`block py-2 px-3 rounded text-darkGray hover:bg-roseGold/10 transition-colors ${isActive('/portfolio') ? 'bg-roseGold/20 font-medium' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Portfolio
-            </Link>
-            <Link 
-              to="/services" 
-              className={`block py-2 px-3 rounded text-darkGray hover:bg-roseGold/10 transition-colors ${isActive('/services') ? 'bg-roseGold/20 font-medium' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Services
-            </Link>
-            <Link 
-              to="/about" 
-              className={`block py-2 px-3 rounded text-darkGray hover:bg-roseGold/10 transition-colors ${isActive('/about') ? 'bg-roseGold/20 font-medium' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`block py-2 px-3 rounded text-darkGray hover:bg-roseGold/10 transition-colors ${isActive('/contact') ? 'bg-roseGold/20 font-medium' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-          </nav>
-        </div>
+          <Link to="/portfolio" className={`nav-link text-base lg:text-lg ${isActive("/portfolio") ? "nav-link-active" : ""}`}>
+            Portfolio
+          </Link>
+          <Link to="/about" className={`nav-link text-base lg:text-lg ${isActive("/about") ? "nav-link-active" : ""}`}>
+            About
+          </Link>
+          <Link to="/services" className={`nav-link text-base lg:text-lg ${isActive("/services") ? "nav-link-active" : ""}`}>
+            Services
+          </Link>
+          <Link to="/contact" className={`nav-link text-base lg:text-lg ${isActive("/contact") ? "nav-link-active" : ""}`}>
+            Contact
+          </Link>
+        </nav>
+        
+        {/* Mobile Menu Button */}
+        <button 
+          className="md:hidden flex items-center justify-center p-2 focus:outline-none"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? (
+            <X size={24} className="text-roseGold" />
+          ) : (
+            <Menu size={24} className="text-roseGold" />
+          )}
+        </button>
       </div>
+      
+      {/* Mobile Navigation - Brighter Overlay */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-lightGray/95 backdrop-blur-sm z-50 animate-fade-in">
+          <div className="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
+            <button 
+              className="absolute top-6 right-6 p-2"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={24} className="text-roseGold" />
+            </button>
+            
+            <Link 
+              to="/" 
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/") ? "text-roseGold" : ""}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/portfolio" 
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/portfolio") ? "text-roseGold" : ""}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Portfolio
+            </Link>
+            <Link 
+              to="/about" 
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/about") ? "text-roseGold" : ""}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link 
+              to="/services" 
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/services") ? "text-roseGold" : ""}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Services
+            </Link>
+            <Link 
+              to="/contact" 
+              className={`nav-link text-xl mb-8 text-darkGray hover:text-roseGold ${isActive("/contact") ? "text-roseGold" : ""}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
