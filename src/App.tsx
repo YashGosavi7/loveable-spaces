@@ -15,7 +15,7 @@ import ServicesPage from "./pages/ServicesPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 
-// Create QueryClient outside component to ensure stability
+// Create a single QueryClient instance outside the component
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
