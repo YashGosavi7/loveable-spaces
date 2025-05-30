@@ -1,7 +1,6 @@
 import { Project } from "@/data/projectsData";
 import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./gallery/ProjectCarousel";
-import ProjectThumbnailGrid from "./gallery/ProjectThumbnailGrid";
 import ProjectSummary from "./gallery/ProjectSummary";
 import ImagePreloader from "./gallery/ImagePreloader";
 import ImageLightbox from "./gallery/ImageLightbox";
@@ -224,13 +223,6 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
         
         {/* Separator to create visual distinction */}
         <Separator className="my-16 bg-darkGray/10" />
-        
-        {/* Optimized Thumbnail Grid with improved loading and lightbox support */}
-        <ProjectThumbnailGrid 
-          project={project}
-          onThumbnailClick={(index) => openLightbox(index)}
-          preloadedSlides={preloadedSlides}
-        />
         
         {/* Project Summary */}
         <ProjectSummary project={project} />
