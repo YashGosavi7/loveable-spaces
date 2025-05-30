@@ -19,6 +19,7 @@ interface ProjectCarouselProps {
   currentSlide?: number;
   navButtonClass?: string;
   showDots?: boolean;
+  onImageClick?: (index: number) => void;
 }
 
 const ProjectCarousel = ({ 
@@ -26,7 +27,8 @@ const ProjectCarousel = ({
   onSlideChange,
   currentSlide = 0,
   navButtonClass = "bg-black/50 hover:bg-black/70 text-white",
-  showDots = false 
+  showDots = false,
+  onImageClick
 }: ProjectCarouselProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [current, setCurrent] = useState(0);
@@ -67,11 +69,15 @@ const ProjectCarousel = ({
         <CarouselContent>
           {project.images.map((image, index) => (
             <CarouselItem key={index} className="overflow-hidden">
-              <div className="relative aspect-video md:aspect-[16/9] w-full h-full overflow-hidden rounded-lg">
+              <div 
+                className="relative aspect-video md:aspect-[16/9] w-full h-full overflow-hidden rounded-lg cursor-pointer"
+                onClick={() => onImageClick?.(index)}
+                title="Click to view in fullscreen"
+              >
                 <OptimizedImage
                   src={image}
                   alt={`${project.title} - Image ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   width={width}
                   height={height}
                   priority={index === 0 || Math.abs(index - current) <= 1}

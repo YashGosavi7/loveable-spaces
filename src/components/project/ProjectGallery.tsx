@@ -1,4 +1,3 @@
-
 import { Project } from "@/data/projectsData";
 import { useState, useCallback, useEffect, useRef } from "react";
 import ProjectCarousel from "./gallery/ProjectCarousel";
@@ -194,12 +193,13 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
       <div className="container mx-auto px-4">
         <h2 className="font-playfair text-3xl mb-10 text-center">Project Gallery</h2>
         
-        {/* Main Carousel - optimized for fast loading */}
+        {/* Main Carousel - now clickable to open lightbox */}
         <ProjectCarousel 
           project={project}
           onSlideChange={handleSlideChange}
           currentSlide={currentSlide}
           navButtonClass={navButtonClass}
+          onImageClick={(index) => openLightbox(index)}
         />
         
         {/* Dark gray horizontal thumbnails bar - directly below carousel */}
