@@ -13,15 +13,26 @@ interface UseOptimizedImageProps {
   targetFormat?: "webp" | "avif" | "jpeg" | "auto";
 }
 
-// More aggressive quality mapping
-const mapQualityToNumeric = (quality: "low" | "medium" | "high" | number): number => {
+// Ultra-aggressive quality mapping for mobile
+const mapQualityToNumeric = (quality: "low" | "medium" | "high" | number, isMobile: boolean): number => {
   if (typeof quality === 'number') {
-    return Math.max(10, Math.min(quality, 70)); // Capped at 70 for speed
+    const mobileReduction = isMobile ? 30 : 0; // Reduce by 30 points for mobile
+    return Math.max(5, Math.min(quality - mobileReduction, 40)); // Cap at 40 for mobile
   }
+  
+  if (isMobile) {
+    switch (quality) {
+      case "low": return 5; // Extremely aggressive
+      case "medium": return 12; // Very aggressive  
+      case "high": return 20; // Still aggressive
+      default: return 8;
+    }
+  }
+  
   switch (quality) {
-    case "low": return 15; // Very aggressive
-    case "medium": return 35; // Aggressive
-    case "high": return 50; // Moderate
+    case "low": return 15;
+    case "medium": return 35;
+    case "high": return 50;
     default: return 30;
   }
 };
@@ -38,17 +49,21 @@ export const useOptimizedImage = ({
 }: UseOptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [lqipLoaded, setLqipLoaded] = useState(false);
-  const basePlaceholderColor = "#E0E0E0"; // Fixed color for speed
+  const basePlaceholderColor = "#E0E0E0";
 
-  const numericQuality = mapQualityToNumeric(quality);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+  const numericQuality = mapQualityToNumeric(quality, isMobile);
   
-  const optimizedSrcUrl = width 
-    ? getOptimizedImageUrl(src, width, numericQuality, targetFormat)
+  // Mobile-specific width optimization
+  const optimizedWidth = isMobile && width ? Math.floor(width * 0.6) : width; // 40% smaller on mobile
+  
+  const optimizedSrcUrl = optimizedWidth 
+    ? getOptimizedImageUrl(src, optimizedWidth, numericQuality, targetFormat)
     : src;
 
-  // Ultra-small LQIP for instant loading
-  const lqipUrl = width && lowQualityPreview
-    ? getOptimizedImageUrl(src, Math.min(width, 30), 5, targetFormat) // Tiny 30px max, 5% quality
+  // Ultra-tiny LQIP for mobile
+  const lqipUrl = optimizedWidth && lowQualityPreview
+    ? getOptimizedImageUrl(src, isMobile ? 15 : 30, 3, targetFormat) // Extremely tiny for mobile
     : "";
 
   const aggressiveOptimizations = isLikelySlowConnection();
@@ -62,22 +77,37 @@ export const useOptimizedImage = ({
       if ('loading' in image) {
         image.loading = priority ? 'eager' : 'lazy';
       }
+      
+      // Mobile-specific optimizations
+      if (isMobile) {
+        image.decoding = 'sync'; // Faster decoding on mobile
+        if ('importance' in image) {
+          (image as any).importance = priority ? 'high' : 'auto';
+        }
+      }
+      
       image.src = optimizedSrcUrl;
       image.onload = () => setIsLoaded(true);
-      if (width) image.width = width;
-      if (height) image.height = height;
+      if (optimizedWidth) image.width = optimizedWidth;
+      if (height) image.height = isMobile ? Math.floor(height * 0.6) : height;
     }
-  }, [optimizedSrcUrl, priority, preload, width, height, aggressiveOptimizations]);
+  }, [optimizedSrcUrl, priority, preload, optimizedWidth, height, aggressiveOptimizations, isMobile]);
   
   useEffect(() => {
     if (lowQualityPreview && lqipUrl) {
       const lqipImage = new Image();
       lqipImage.src = lqipUrl;
       lqipImage.onload = () => setLqipLoaded(true);
+      
+      // Mobile-specific LQIP optimization
+      if (isMobile) {
+        lqipImage.decoding = 'sync';
+        lqipImage.loading = 'eager';
+      }
     } else if (!lowQualityPreview) {
       setLqipLoaded(true);
     }
-  }, [lqipUrl, lowQualityPreview]);
+  }, [lqipUrl, lowQualityPreview, isMobile]);
 
   const handleImageLoad = () => {
     setIsLoaded(true);
@@ -90,6 +120,7 @@ export const useOptimizedImage = ({
     placeholderColor: basePlaceholderColor,
     isSlowConnection: aggressiveOptimizations,
     optimizedSrcUrl,
-    lqipUrl
+    lqipUrl,
+    isMobile
   };
 };

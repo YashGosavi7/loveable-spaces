@@ -1,3 +1,4 @@
+
 import { useRef, useEffect, useState, useCallback } from "react";
 import OptimizedImage from "../OptimizedImage";
 import { Project } from "@/data/projectsData";
@@ -25,7 +26,12 @@ const ProjectThumbnails = ({
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastThumbnailRef = useRef<HTMLButtonElement | null>(null);
 
-  const { width, height } = { width: 80, height: 60 };
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+  
+  // Ultra-small thumbnails for mobile
+  const { width, height } = isMobile 
+    ? { width: 60, height: 45 } // Much smaller for mobile
+    : { width: 80, height: 60 };
 
   // Handle thumbnail click - either navigate or open lightbox
   const handleThumbnailClick = (index: number) => {
@@ -41,14 +47,15 @@ const ProjectThumbnails = ({
     const observerCallback: IntersectionObserverCallback = (entries) => {
       const entry = entries[0];
       if (entry.isIntersecting && loadedCount < project.images.length) {
-        setLoadedCount(prevCount => Math.min(prevCount + BATCH_SIZE, project.images.length));
+        const nextBatch = isMobile ? 2 : BATCH_SIZE; // Smaller batches on mobile
+        setLoadedCount(prevCount => Math.min(prevCount + nextBatch, project.images.length));
       }
     };
 
     observerRef.current = new IntersectionObserver(observerCallback, { 
       root: scrollContainerRef.current,
       threshold: 0.1,
-      rootMargin: "0px 0px 0px 50px"
+      rootMargin: isMobile ? "0px 0px 0px 20px" : "0px 0px 0px 50px" // Smaller margin for mobile
     });
 
     const currentObserver = observerRef.current;
@@ -64,7 +71,7 @@ const ProjectThumbnails = ({
       }
       currentObserver.disconnect();
     };
-  }, [loadedCount, project.images.length, scrollContainerRef, orientation]);
+  }, [loadedCount, project.images.length, scrollContainerRef, orientation, isMobile]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -74,7 +81,7 @@ const ProjectThumbnails = ({
         const container = scrollContainerRef.current;
         
         let scrollPosition;
-        const scrollOptions: ScrollToOptions = { behavior: "smooth" };
+        const scrollOptions: ScrollToOptions = { behavior: isMobile ? "auto" : "smooth" }; // Instant scroll on mobile
 
         if (orientation === "vertical") {
           scrollPosition = thumbnail.offsetTop - (container.clientHeight - thumbnail.clientHeight) / 2;
@@ -85,7 +92,7 @@ const ProjectThumbnails = ({
         }
       }
     }
-  }, [activeImageIndex, scrollContainerRef, orientation, loadedCount]);
+  }, [activeImageIndex, scrollContainerRef, orientation, loadedCount, isMobile]);
 
   const projectStyles = {
     activeBorderClass: "ring-2 ring-roseGold"
@@ -113,11 +120,11 @@ const ProjectThumbnails = ({
             ref={index === imagesToDisplay.length - 1 ? lastThumbnailRef : null}
             className={`flex-shrink-0 thumbnail ${
               orientation === "vertical" 
-                ? "w-[80px] h-[60px] mb-2" 
-                : "w-[80px] h-[60px]"
+                ? `w-[${width}px] h-[${height}px] mb-2` 
+                : `w-[${width}px] h-[${height}px]`
             } overflow-hidden ${
               index === activeImageIndex ? projectStyles.activeBorderClass : "ring-1 ring-white/20"
-            } rounded-md transition-all duration-150 ease-out`}
+            } rounded-md transition-all ${isMobile ? 'duration-75' : 'duration-150'} ease-out`} // Faster transitions on mobile
             onClick={() => handleThumbnailClick(index)}
             aria-label={`View image ${index + 1} of ${project.images.length}`}
             aria-current={index === activeImageIndex ? "true" : "false"}
@@ -126,13 +133,13 @@ const ProjectThumbnails = ({
             <OptimizedImage 
               src={image} 
               alt={`Balaji Design Studio project gallery image ${index + 1}`}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+              className={`w-full h-full object-cover ${isMobile ? 'hover:scale-102' : 'hover:scale-105'} transition-transform ${isMobile ? 'duration-100' : 'duration-200'}`} // Less hover effect on mobile
               width={width}
               height={height}
-              priority={index < BATCH_SIZE}
-              preload={index < BATCH_SIZE * 2}
-              skipLazyLoading={index < BATCH_SIZE}
-              quality="low"
+              priority={index < (isMobile ? 2 : BATCH_SIZE)} // Fewer priority images on mobile
+              preload={index < (isMobile ? 3 : BATCH_SIZE * 2)} // Less preloading on mobile
+              skipLazyLoading={index < (isMobile ? 2 : BATCH_SIZE)} // Fewer eager loads on mobile
+              quality={isMobile ? "low" : "low"} // Always low quality for thumbnails
               format="webp"
             />
           </button>
