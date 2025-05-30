@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -48,7 +49,7 @@ const HomePage = () => {
               </p>
               <Link 
                 to="/portfolio" 
-                className="inline-block bg-roseGold/90 text-white px-6 py-3 rounded-lg hover:bg-roseGold transition-all duration-300 font-medium text-base focus:outline-none focus:ring-2 focus:ring-roseGold/50"
+                className="inline-block bg-roseGold/90 text-white px-5 py-2.5 rounded-md hover:bg-roseGold transition-all duration-300 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-roseGold/50"
               >
                 Explore Our Work
               </Link>
@@ -66,7 +67,12 @@ const HomePage = () => {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {servicesData.map((service, index) => (
-              <ServiceCard key={index} service={service} />
+              <ServiceCard 
+                key={index} 
+                icon={service.icon as any}
+                title={service.title}
+                description={service.description}
+              />
             ))}
           </div>
         </div>
@@ -80,8 +86,18 @@ const HomePage = () => {
             subtitle="A showcase of our finest interior design work"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projectsData.slice(0, 6).map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {projectsData.slice(0, 6).map((project, index) => (
+              <ProjectCard 
+                key={project.id} 
+                id={project.id}
+                title={project.title}
+                category={project.category}
+                location={project.location}
+                image={project.images[0]}
+                designer={project.designer}
+                tagline={project.tagline}
+                index={index}
+              />
             ))}
           </div>
           <div className="text-center mt-12">
