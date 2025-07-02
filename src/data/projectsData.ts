@@ -50,7 +50,12 @@ const projectsData: Project[] = [
       "Professional beverage refrigeration systems",
       "Custom-designed bar counter with blue accent lighting",
       "Atmospheric mood lighting for evening ambiance",
-      "Contemporary furniture with warm color palette"
+      "Contemporary furniture with warm color palette",
+      "Bicycle wheel ceiling installation for artistic flair",
+      "Decorative Hindi script wall elements",
+      "Multi-level seating with glass balcony railings",
+      "Custom wooden display shelving and storage",
+      "Vintage-inspired pendant lighting fixtures"
     ],
     images: [
       "/lovable-uploads/3e7a2912-4391-41d3-bb62-dc9bffe91097.png",
@@ -62,7 +67,17 @@ const projectsData: Project[] = [
       "/lovable-uploads/be463abd-3882-441b-aceb-fb881635ad00.png",
       "/lovable-uploads/9d7bfe23-0735-4f48-8c6b-f4bfb0bc5f7d.png",
       "/lovable-uploads/99eda4a6-9e1b-4000-a931-99225664ceef.png",
-      "/lovable-uploads/c23ea679-df2c-4755-b365-ec8e02967e59.png"
+      "/lovable-uploads/c23ea679-df2c-4755-b365-ec8e02967e59.png",
+      "/lovable-uploads/c8cb382e-2b7b-4745-9f09-b33c15d8d00c.png",
+      "/lovable-uploads/4bc8160c-d40c-47bd-a7d1-affcd9b3f81a.png",
+      "/lovable-uploads/65346590-a55a-459d-99c9-6bf66bf01761.png",
+      "/lovable-uploads/c712af3a-f428-41ad-b669-0c3e4da56d77.png",
+      "/lovable-uploads/3e7c00fb-6b4a-4d21-ba9d-1bbd8ddf071f.png",
+      "/lovable-uploads/ce6d2b13-8cfe-4d42-b85e-c9a1b766589e.png",
+      "/lovable-uploads/b7a1f627-7aab-4595-a6a6-ed61335ce457.png",
+      "/lovable-uploads/20eacbfb-5ef2-444d-8edc-7833c9657e91.png",
+      "/lovable-uploads/94ed0969-3354-48a8-a79e-2f6c69193d7e.png",
+      "/lovable-uploads/77f909aa-b2b0-488c-b3a5-059589fe6011.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
