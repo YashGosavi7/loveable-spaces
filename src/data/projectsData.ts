@@ -29,6 +29,64 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
+    id: "7-treats-hotel",
+    title: "7 Treats Hotel & Restaurant",
+    category: "Hospitality",
+    location: "Pune",
+    size: "8,000 sq ft",
+    completionYear: "2025",
+    description: "7 Treats Hotel & Restaurant is a contemporary hospitality project that seamlessly blends modern design with warm, inviting atmospheres. The space features distinctive green wall branding, innovative rope lighting installations, geometric mirror patterns, and a sophisticated bar area with premium bottle displays. The interior showcases a multi-level dining experience with unique ceiling installations including suspended umbrellas, custom lighting fixtures, and luxurious booth seating arrangements that create intimate dining spaces.",
+    features: [
+      "Signature green moss wall with illuminated branding",
+      "Innovative rope chandelier lighting installation",
+      "Premium bar area with extensive bottle display shelving",
+      "Multi-level dining areas with staircase access",
+      "Suspended umbrella ceiling art installation",
+      "Geometric mirror pattern entrance doors",
+      "Luxurious booth seating with tufted leather upholstery",
+      "Custom wooden slat partitions for privacy",
+      "Modern pendant lighting throughout dining areas",
+      "Industrial-style exposed brick and concrete elements",
+      "Professional beverage refrigeration systems",
+      "Custom-designed bar counter with blue accent lighting",
+      "Atmospheric mood lighting for evening ambiance",
+      "Contemporary furniture with warm color palette"
+    ],
+    images: [
+      "/lovable-uploads/3e7a2912-4391-41d3-bb62-dc9bffe91097.png",
+      "/lovable-uploads/0c54242c-0951-4aca-8dc9-211f62ff3743.png",
+      "/lovable-uploads/75a49130-e865-4608-a92f-653b27501a0e.png",
+      "/lovable-uploads/8324a4c4-da7a-4d06-a451-a2cc011b524c.png",
+      "/lovable-uploads/da6cb2df-c536-48c7-aad4-ab35930b2ef6.png",
+      "/lovable-uploads/b0e57557-724d-403d-b8f4-8694603e3685.png",
+      "/lovable-uploads/be463abd-3882-441b-aceb-fb881635ad00.png",
+      "/lovable-uploads/9d7bfe23-0735-4f48-8c6b-f4bfb0bc5f7d.png",
+      "/lovable-uploads/99eda4a6-9e1b-4000-a931-99225664ceef.png",
+      "/lovable-uploads/c23ea679-df2c-4755-b365-ec8e02967e59.png"
+    ],
+    isFeatured: true,
+    designer: "Dalpat Suthar",
+    tagline: "Contemporary Hospitality with Distinctive Character",
+    style: "Modern Industrial Hospitality",
+    challenges: "Creating a cohesive design across multiple levels while maintaining the restaurant's unique branding and ensuring optimal flow for both casual dining and premium experiences.",
+    solutions: "We integrated signature design elements throughout all levels, used consistent lighting themes, and created distinct zones that maintain visual connectivity while offering varied dining experiences.",
+    materials: [
+      "Artificial green moss wall coverings",
+      "Rope and industrial lighting fixtures",
+      "Tufted leather booth seating",
+      "Geometric mirror panels",
+      "Premium wood slat partitions",
+      "Industrial exposed brick and concrete",
+      "Custom metalwork for bar fixtures",
+      "Professional-grade bar equipment"
+    ],
+    testimonial: {
+      content: "Balaji Design Studio transformed our vision into a remarkable dining destination. The multi-level design and unique lighting installations have made 7 Treats a standout venue that perfectly balances modern aesthetics with functional hospitality design.",
+      author: "7 Treats Management Team"
+    },
+    area: "8,000 sq ft"
+  },
+  {
     id: "dada-rao-danve-project",
     title: "Patil Bada - Dada Rao Danve Project",
     category: "Hospitality",
