@@ -15,7 +15,7 @@ interface ProjectGalleryProps {
 const ProjectGallery = ({ project }: ProjectGalleryProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [preloadedSlides, setPreloadedSlides] = useState<number[]>(
-    Array.from({ length: Math.min(project.images.length, 6) }, (_, i) => i)
+    Array.from({ length: Math.min(project.images.length, 3) }, (_, i) => i)
   );
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -60,15 +60,15 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
         linksToCleanup.push(mainImageLink);
       }
       
-      // Preload more thumbnails for projects with many images
-      const thumbnailsToPreloadCount = Math.min(8, project.images.length);
-      for (let i = 0; i < thumbnailsToPreloadCount; i++) {
+      // Preload the first 3 thumbnails
+      const thumbnailsToPreloadCount = 3;
+      for (let i = 0; i < Math.min(thumbnailsToPreloadCount, project.images.length); i++) {
         const thumbLink = document.createElement('link');
         thumbLink.rel = connectionSpeed === 'slow' ? 'prefetch' : 'preload';
         thumbLink.as = 'image';
         thumbLink.href = getOptimizedImageUrl(project.images[i], 100, 25, "webp");
         thumbLink.type = 'image/webp';
-        thumbLink.setAttribute('fetchpriority', i < 3 ? 'high' : 'auto');
+        thumbLink.setAttribute('fetchpriority', i < 2 ? 'high' : 'auto');
         thumbLink.setAttribute('crossorigin', 'anonymous');
         document.head.appendChild(thumbLink);
         linksToCleanup.push(thumbLink);
@@ -96,7 +96,7 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
     const totalSlides = project.images.length;
     
     // Prioritize immediate next/previous slides for carousel
-    for (let i = -2; i <= 2; i++) {
+    for (let i = -1; i <= 1; i++) {
       if (i === 0) continue;
       const nextIndex = (index + i + totalSlides) % totalSlides;
       if (!preloadedSlides.includes(nextIndex)) {
@@ -143,12 +143,6 @@ const ProjectGallery = ({ project }: ProjectGalleryProps) => {
 
   // Custom styles for specific projects
   const getProjectSpecificStyles = () => {
-    if (project.id === "7-treats-hotel") {
-      return {
-        navButtonClass: "bg-roseGold/90 hover:bg-roseGold text-white",
-        dotClass: "bg-roseGold w-4"
-      };
-    }
     if (project.id === "bhushan-naikwadi-elegant-abode") {
       return {
         navButtonClass: "bg-roseGold/90 hover:bg-roseGold text-white",
