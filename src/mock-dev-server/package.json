@@ -2,10 +2,6 @@
 {
   "name": "mock-dev-server",
   "version": "1.0.0",
-  "description": "Mock package to prevent dev-server import errors",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "description": "Mock package to prevent errors",
+  "main": "index.js"
 }

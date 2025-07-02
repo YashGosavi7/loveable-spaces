@@ -1,4 +1,3 @@
 
-// Mock dev-server module to prevent import errors
+// This is a mock file to prevent errors related to missing dev-server
 export default {};
-export const mockFunction = () => {};
