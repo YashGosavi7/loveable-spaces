@@ -68,7 +68,7 @@ const Index = () => {
         
         {/* Main hero image with highest optimization priority */}
         <div className="absolute inset-0 w-full h-full">
-          {featuredProjects[0] && (
+          {featuredProjects.length > 0 && featuredProjects[0] && (
             <OptimizedImage
               src={getBestProjectImage(featuredProjects[0])}
               alt={`${featuredProjects[0].title} interior design by Loveable`}
@@ -188,19 +188,19 @@ const Index = () => {
               {
                 title: "Residential Design",
                 description: "Transform your home into a beautiful, functional space that reflects your personal style.",
-                image: featuredProjects[0]?.images[0] || ""
+                image: featuredProjects[0]?.images?.[0] || "/placeholder.svg"
               },
               {
                 title: "Commercial Spaces",
                 description: "Create impactful commercial interiors that enhance brand identity and user experience.",
-                image: featuredProjects[1]?.images[0] || ""
+                image: featuredProjects[1]?.images?.[0] || "/placeholder.svg"
               },
               {
                 title: "Hospitality Design",
                 description: "Design memorable hospitality experiences that delight guests and drive business success.",
-                image: featuredProjects[2]?.images[0] || ""
+                image: featuredProjects[2]?.images?.[0] || "/placeholder.svg"
               }
-            ].map((service, index) => (
+            ].filter(service => service.image !== "/placeholder.svg").map((service, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}

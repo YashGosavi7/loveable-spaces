@@ -10,21 +10,25 @@ const Layout = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (typeof window !== 'undefined' && window.scrollY > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
   }, [location]);
 
   return (
