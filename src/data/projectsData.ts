@@ -1,4 +1,5 @@
 
+
 export interface Project {
   id: string;
   title: string;
@@ -72,7 +73,16 @@ const projectsData: Project[] = [
       "/lovable-uploads/8ac0794f-dbe8-47cd-a73b-7963cd1833da.png",
       "/lovable-uploads/8d602f62-ab6a-440e-b859-9a656e913b5e.png",
       "/lovable-uploads/4958375c-b2d7-4673-ab92-264801eed3b2.png",
-      "/lovable-uploads/f1e74533-1563-4433-9753-c3ab1f79bd7d.png"
+      "/lovable-uploads/f1e74533-1563-4433-9753-c3ab1f79bd7d.png",
+      "/lovable-uploads/b2120be6-3cbc-46e7-bb9f-a67a0643c56f.png",
+      "/lovable-uploads/443a83a0-5135-4aee-b701-2cc8e9a80081.png",
+      "/lovable-uploads/d7664f0c-167c-49ef-beb1-96ebf5a57964.png",
+      "/lovable-uploads/109de074-752e-4895-86a7-843037ba787d.png",
+      "/lovable-uploads/498493dc-bfd1-420f-a922-9a22efcb69d1.png",
+      "/lovable-uploads/ce957a7f-8ed1-40eb-9561-735f1cb5d598.png",
+      "/lovable-uploads/6f6d22e5-46be-4377-92d7-ff57e9408f15.png",
+      "/lovable-uploads/84a3f9db-4081-4c84-9950-8efd2bffbe12.png",
+      "/lovable-uploads/1b2428f8-3cbe-4e28-b02a-e5c4cd833239.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
@@ -502,3 +512,4 @@ const projectsData: Project[] = [
 ];
 
 export default projectsData;
+
