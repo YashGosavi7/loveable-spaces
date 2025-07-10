@@ -66,12 +66,10 @@ const ProjectThumbnails = ({
     }
 
     return () => {
-      if (currentLastThumbnail && currentObserver) {
+      if (currentLastThumbnail) {
         currentObserver.unobserve(currentLastThumbnail);
       }
-      if (currentObserver) {
-        currentObserver.disconnect();
-      }
+      currentObserver.disconnect();
     };
   }, [loadedCount, project.images.length, scrollContainerRef, orientation, isMobile]);
 

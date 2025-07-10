@@ -51,21 +51,7 @@ const OptimizedImage = memo(({
   onLoad
 }: ImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Safe mobile detection with useEffect
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(typeof window !== 'undefined' && window.innerWidth < 640);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
   
   // Ultra-aggressive intersection observer for mobile
   const { isInView, elementRef } = useImageIntersection({ 
