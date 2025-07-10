@@ -5,9 +5,11 @@ import App from "./App";
 import "./index.css";
 import * as serviceWorker from './serviceWorker';
 import { initImagePreloading } from './utils/imagePreloader';
+import { initImageCacheStrategy } from './utils/imageUtils';
 
-// Initialize image preloading system
+// Initialize ultra-fast image loading system
 initImagePreloading();
+initImageCacheStrategy();
 
 // Add meta tags for performance
 const addMetaTags = () => {

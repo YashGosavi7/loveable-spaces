@@ -2,6 +2,7 @@
 import { memo, useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageProps } from "./image/types";
+import TurboImage from "./image/TurboImage";
 import PictureElement from "./image/PictureElement";
 import { useImagePreload } from "@/hooks/useImagePreload";
 import { useImageIntersection } from "@/hooks/useImageIntersection";
@@ -53,19 +54,37 @@ const OptimizedImage = memo(({
   const [isLoaded, setIsLoaded] = useState(false);
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
   
+  // For ultra-fast loading, use TurboImage for priority/hero images
+  if (priority || width >= 1000 || src.includes('hero') || src.includes('main')) {
+    return (
+      <TurboImage
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        priority={priority}
+        quality={quality}
+        blur={blur}
+        onLoad={onLoad}
+        placeholderColor={customPlaceholderColor || "#E0E0E0"}
+      />
+    );
+  }
+
   // Ultra-aggressive intersection observer for mobile
   const { isInView, elementRef } = useImageIntersection({ 
     priority, 
     skipLazyLoading,
-    rootMargin: isMobile ? "20px" : "50px" // Much smaller margin for mobile
+    rootMargin: isMobile ? "10px" : "30px" // Even smaller margin for mobile
   });
   
   const fixedPlaceholderColor = "#E0E0E0";
   const numericQuality = mapQualityToNumericVal(quality, isMobile);
   
-  // Mobile-specific optimizations
-  const mobileWidth = isMobile ? Math.floor(width * 0.6) : width; // 40% smaller on mobile
-  const mobileHeight = isMobile ? Math.floor(height * 0.6) : height;
+  // Ultra-aggressive mobile optimizations
+  const mobileWidth = isMobile ? Math.floor(width * 0.5) : width; // 50% smaller on mobile
+  const mobileHeight = isMobile ? Math.floor(height * 0.5) : height;
   
   const optimizedSrc = getOptimizedImageUrl(src, mobileWidth, numericQuality, format === "auto" ? "webp" : format);
   const isHeroImage = priority || width >= 1000 || src.includes('hero') || src.includes('main');
@@ -86,10 +105,10 @@ const OptimizedImage = memo(({
     }
   };
   
-  // Ultra-aggressive srcSet with tiny sizes for mobile
+  // Ultra-aggressive srcSet with extremely tiny sizes for mobile
   const getSrcSet = () => {
-    const baseSizes = isMobile ? [120, 240, 360] : [240, 480, 720, 960]; // Much smaller for mobile
-    const qualityForSrcSet = numericQuality;
+    const baseSizes = isMobile ? [60, 120, 240] : [240, 480, 720]; // Even smaller for mobile
+    const qualityForSrcSet = Math.max(5, numericQuality - 10); // Further reduce quality for srcSet
     
     return baseSizes
       .map(w => `${getOptimizedImageUrl(src, w, qualityForSrcSet, format === "auto" ? "webp" : format)} ${w}w`)
@@ -98,10 +117,10 @@ const OptimizedImage = memo(({
   
   const getSizesAttribute = () => {
     if (sizes) return sizes;
-    // Mobile-first sizes
+    // Ultra-aggressive mobile-first sizes
     return isMobile ? 
-      "(max-width: 640px) 100vw" : 
-      "(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw";
+      "(max-width: 640px) 50vw" : // Even smaller assumption for mobile
+      "(max-width: 480px) 80vw, (max-width: 768px) 40vw, 25vw";
   };
   
   useEffect(() => {
