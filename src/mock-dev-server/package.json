@@ -1,7 +1,0 @@
-
-{
-  "name": "mock-dev-server",
-  "version": "1.0.0",
-  "description": "Mock package to prevent errors",
-  "main": "index.js"
-}
