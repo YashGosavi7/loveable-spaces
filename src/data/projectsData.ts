@@ -37,7 +37,7 @@ const projectsData: Project[] = [
     location: "Pune",
     size: "8,000 sq ft",
     completionYear: "2025",
-    description: "7 Treats Hotel & Restaurant is a contemporary hospitality project that seamlessly blends modern design with warm, inviting atmospheres. The space features distinctive green wall branding, innovative rope lighting installations, geometric mirror patterns, and a sophisticated bar area with premium bottle displays. The interior showcases a multi-level dining experience with unique ceiling installations including suspended umbrellas, custom lighting fixtures, and luxurious booth seating arrangements that create intimate dining spaces.",
+    description: "7 Treats Hotel & Restaurant is a contemporary hospitality project that seamlessly blends modern design with warm, inviting atmospheres. The space features distinctive green wall branding, innovative rope lighting installations, geometric mirror patterns, and a sophisticated bar area with premium bottle displays. The interior showcases a multi-level dining experience with unique ceiling installations including suspended umbrellas, custom lighting fixtures, and luxurious booth seating arrangements that create intimate dining spaces. The venue also includes an entertainment gaming zone with LED branding, themed washroom facilities with playing card designs, dedicated makeup room areas, and coffee-themed seating areas with inspirational wall art.",
     features: [
       "Signature green moss wall with illuminated branding",
       "Innovative rope chandelier lighting installation",
@@ -52,7 +52,12 @@ const projectsData: Project[] = [
       "Professional beverage refrigeration systems",
       "Custom-designed bar counter with blue accent lighting",
       "Atmospheric mood lighting for evening ambiance",
-      "Contemporary furniture with warm color palette"
+      "Contemporary furniture with warm color palette",
+      "Gaming and entertainment zone with LED branding displays",
+      "Themed washroom doors with playing card motifs",
+      "Dedicated makeup room facilities",
+      "Coffee-themed seating areas with inspirational wall art",
+      "Multi-level architectural design with decorative screening"
     ],
     images: [
       "/lovable-uploads/3e7a2912-4391-41d3-bb62-dc9bffe91097.png",
@@ -82,7 +87,16 @@ const projectsData: Project[] = [
       "/lovable-uploads/ce957a7f-8ed1-40eb-9561-735f1cb5d598.png",
       "/lovable-uploads/6f6d22e5-46be-4377-92d7-ff57e9408f15.png",
       "/lovable-uploads/84a3f9db-4081-4c84-9950-8efd2bffbe12.png",
-      "/lovable-uploads/1b2428f8-3cbe-4e28-b02a-e5c4cd833239.png"
+      "/lovable-uploads/1b2428f8-3cbe-4e28-b02a-e5c4cd833239.png",
+      "/lovable-uploads/07423b70-34e4-41e8-b825-468e7e761b4f.png",
+      "/lovable-uploads/63d0ad99-a5df-49bb-be2e-2bf17a0c7ae8.png",
+      "/lovable-uploads/92cac07b-e9cd-497f-888a-43ad4f9c7cb9.png",
+      "/lovable-uploads/a18bf96e-2a7e-4f1e-8f8b-a15c73abb6eb.png",
+      "/lovable-uploads/b61ff7b6-a717-4b30-9e39-13062db4f5b5.png",
+      "/lovable-uploads/c17fe3b5-fe31-49e8-8b5b-f01efb2aee17.png",
+      "/lovable-uploads/db73e2fd-2a62-427d-8399-cd6b4b44b2c5.png",
+      "/lovable-uploads/f20ad6b8-55e1-4c5c-8fc9-9a82e593a825.png",
+      "/lovable-uploads/81de5c7e-23b0-4243-95fa-5ce827417d57.png"
     ],
     isFeatured: true,
     designer: "Dalpat Suthar",
