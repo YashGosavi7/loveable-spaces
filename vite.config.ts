@@ -50,30 +50,20 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
-        // Ensure components/ui can be resolved directly
         "components": path.resolve(__dirname, "./src/components"),
         "@components": path.resolve(__dirname, "./src/components"),
-        // Use proper path for UI components
         "@ui": path.resolve(__dirname, "./src/components/ui"),
-        // Add an alias for dev-server to point to a mock
-        "dev-server": path.resolve(__dirname, "./src/mock-dev-server"),
       },
     },
     
     build: {
       rollupOptions: {
         output: {
-          // Break down chunks for better caching
           manualChunks: {
             vendor: ['react', 'react-dom'],
-            ui: ['@/components/ui/button', '@/components/ui/card'] // Specify individual files instead of directory
           },
         },
       },
-    },
-    
-    optimizeDeps: {
-      exclude: ['dev-server']
     },
   };
 });

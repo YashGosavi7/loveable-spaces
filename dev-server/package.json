@@ -1,7 +1,5 @@
 {
-  "name": "dev-server",
+  "name": "project-root",
   "version": "1.0.0",
-  "description": "Development server placeholder",
-  "main": "index.js",
   "private": true
 }
