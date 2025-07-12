@@ -1,0 +1,11 @@
+{
+  "name": "dev-server-placeholder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Placeholder to resolve npm ENOENT error",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {}
+}
