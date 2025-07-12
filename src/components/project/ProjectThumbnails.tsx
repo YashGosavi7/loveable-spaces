@@ -12,7 +12,7 @@ interface ProjectThumbnailsProps {
   onThumbnailClick?: (index: number) => void;
 }
 
-const BATCH_SIZE = 4;
+const BATCH_SIZE = 6;
 
 const ProjectThumbnails = ({ 
   project, 
@@ -22,7 +22,8 @@ const ProjectThumbnails = ({
   orientation = "horizontal",
   onThumbnailClick
 }: ProjectThumbnailsProps) => {
-  const [loadedCount, setLoadedCount] = useState(BATCH_SIZE);
+  // Load all images initially for better user experience
+  const [loadedCount, setLoadedCount] = useState(project.images.length);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastThumbnailRef = useRef<HTMLButtonElement | null>(null);
 
