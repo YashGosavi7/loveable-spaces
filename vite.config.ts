@@ -46,6 +46,7 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     ...config,
+    root: process.cwd(),
     
     resolve: {
       alias: {
@@ -59,6 +60,7 @@ export default defineConfig(({ command, mode }) => {
     },
     
     build: {
+      ...config.build,
       rollupOptions: {
         output: {
           // Break down chunks for better caching
