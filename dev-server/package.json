@@ -1,0 +1,9 @@
+{
+  "name": "dev-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Development server configuration",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {}
+}

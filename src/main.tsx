@@ -49,4 +49,4 @@ root.render(
 );
 
 // Register service worker for advanced image caching
-// serviceWorker.register(); // Temporarily disabled to clear cache
+serviceWorker.register();

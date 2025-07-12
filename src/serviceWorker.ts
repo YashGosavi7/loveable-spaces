@@ -18,9 +18,40 @@ type Config = {
 };
 
 export function register(config?: Config) {
-  // Temporarily disable service worker to clear any cached references
-  console.log('Service worker registration temporarily disabled for cache clearing');
-  return;
+  if ('serviceWorker' in navigator) {
+    // The URL constructor is available in all browsers that support SW.
+    // Using import.meta.env.BASE_URL instead of process.env.PUBLIC_URL for Vite compatibility
+    const publicUrl = new URL(
+      import.meta.env.BASE_URL || '',
+      window.location.href
+    );
+    if (publicUrl.origin !== window.location.origin) {
+      // Our service worker won't work if PUBLIC_URL is on a different origin
+      // from what our page is served on. This might happen if a CDN is used to
+      // serve assets; see https://github.com/facebook/create-react-app/issues/2374
+      return;
+    }
+
+    window.addEventListener('load', () => {
+      const swUrl = '/service-worker.js';
+
+      if (isLocalhost) {
+        // This is running on localhost. Check if a service worker still exists or not.
+        checkValidServiceWorker(swUrl, config);
+
+        // Add some additional logging for localhost.
+        navigator.serviceWorker.ready.then(() => {
+          console.log(
+            'This web app is being served by a service ' +
+              'worker for optimal image loading. To learn more, visit https://bit.ly/CRA-PWA'
+          );
+        });
+      } else {
+        // Is not localhost. Just register service worker
+        registerValidSW(swUrl, config);
+      }
+    });
+  }
 }
 
 function registerValidSW(swUrl: string, config?: Config) {
