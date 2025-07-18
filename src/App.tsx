@@ -13,6 +13,7 @@ import ProjectPage from "./pages/ProjectPage";
 import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
 import ContactPage from "./pages/ContactPage";
+import ImageUploadPage from "./pages/ImageUploadPage";
 import NotFound from "./pages/NotFound";
 
 // Create a single QueryClient instance outside the component
@@ -38,6 +39,7 @@ const App: React.FC = () => {
               <Route path="about" element={<AboutPage />} />
               <Route path="services" element={<ServicesPage />} />
               <Route path="contact" element={<ContactPage />} />
+              <Route path="upload" element={<ImageUploadPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
