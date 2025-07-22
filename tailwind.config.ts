@@ -53,12 +53,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Custom colors
-				warmWhite: "#F8F8F8", // Changed from #FFFFF0 (ivory) to #F8F8F8 (off-white)
-				lightGray: "#E0E0E0",
-				darkGray: "#333333",
-				roseGold: "#C9A86A", // Champagne gold
-				darkBrown: "#663300",
+				// Custom colors (HSL format for consistency)
+				warmWhite: "0 0% 97%", // #F8F8F8 converted to HSL
+				lightGray: "0 0% 88%", // #E0E0E0 converted to HSL
+				darkGray: "0 0% 20%",  // #333333 converted to HSL
+				roseGold: "43 36% 60%", // #C9A86A converted to HSL
+				darkBrown: "30 100% 20%", // #663300 converted to HSL
 			},
 			fontFamily: {
 				'playfair': ['Playfair Display', 'serif'],
